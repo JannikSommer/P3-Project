@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:WPF_PC"
         mc:Ignorable="d" FontSize="16" FontFamily="Segoe UI Light"
         Title="Centralized Controller" Height="550" Width="960" 
-        WindowStartupLocation="CenterScreen">
+        WindowStartupLocation="CenterScreen" MinWidth="960" MinHeight="550" Closing="Window_Closing">
     <Grid>
 
         <!--Grid Definition-->
@@ -31,17 +31,23 @@
 
         <!--Buttons-->
 
-        <Button x:Name="createCycleCount" Content="Opret Optællings Cyklus" Width="249.6" Height="35.2"
+        <Button x:Name="createCycleCount" Content="Opret Optællings Cyklus" Width="250" Height="35"
                 Grid.Column="1" Grid.Row="1" FontSize="16" Margin="10" HorizontalAlignment="Center" Click="createCycleCount_Click" />
 
-        <Button x:Name="showLog" Content="Vis Log" Width="100" Height="35.2"
+        <Button x:Name="showLog" Content="Vis Log" Width="100" Height="35"
                 Grid.Column="4" Grid.Row="1" FontSize="16" Margin="10" HorizontalAlignment="Right" Click="showLog_Click" />
 
-        <Button x:Name="updateServer" Content="Færdiggør Cyklus" Width="178.4" Height="35.2"
-                Grid.Column="2" Grid.Row="1" FontSize="16" Margin="10" HorizontalAlignment="Center" Click="updateServer_Click" />
+        <Button x:Name="editCycle" Content="Rediger Cyklus" Width="150" Height="35"
+                Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="2" FontSize="16" Margin="10" HorizontalAlignment="Left" VerticalAlignment="Center" Click="editCycle_Click" />
 
-        <Button x:Name="showChosenType" Content="Vis" Width="35"
-                Grid.Column="2" Grid.Row="3" FontSize="16"  Margin="0,10,10,10" HorizontalAlignment="Left" Click="showChosenType_Click" />
+        <Button x:Name="finishCycle" Content="Færdiggør Cyklus" Width="160" Height="35"
+                Grid.Column="2" Grid.Row="1" FontSize="16" Margin="180,10,10,10" HorizontalAlignment="Left" Click="finishCycle_Click" VerticalAlignment="Center" />
+
+        <Button x:Name="showChosenType" Content="Vis" Width="60"
+                Grid.Column="2" Grid.Row="3" FontSize="16"  Margin="10,10,10,10" HorizontalAlignment="Left" Click="showChosenType_Click" />
+
+        <Button x:Name="changeLanguage" Content="Dansk" Width="100" Height="35"
+                Grid.Column="4" Grid.Row="1" FontSize="16" Margin="10,10,130,10" HorizontalAlignment="Right" Click="changeLanguage_Click" />
 
         <!--Combobox-->
 
@@ -62,27 +68,27 @@
 
         <!--Overview Numbers and their text labels.-->
 
-        <Label Content="Aktive clienter:" Grid.Column="2" Grid.Row="2" Grid.RowSpan="2"
-               HorizontalAlignment="Left" VerticalAlignment="Top" Margin="40,10,10,10" />
+        <Label x:Name="activeClients" Content="Aktive klienter:" Grid.Column="2" Grid.Row="2" Grid.RowSpan="2"
+               HorizontalAlignment="Left" VerticalAlignment="Top" Margin="80,10,10,10" />
 
-        <Label Content="Optalte (ialt):" Grid.Column="2" Grid.Row="2" Grid.RowSpan="2"
-               HorizontalAlignment="Left" VerticalAlignment="Top" Margin="40,30,10,10" />
+        <Label x:Name="totalCount" Content="Totalt Optalte:" Grid.Column="2" Grid.Row="2" Grid.RowSpan="2"
+               HorizontalAlignment="Left" VerticalAlignment="Top" Margin="80,30,10,10" />
 
-        <Label Content="Optalte med varians:" Grid.Column="2" Grid.Row="2" Grid.RowSpan="2"
-               HorizontalAlignment="Left" VerticalAlignment="Top" Margin="40,50,10,5" />
+        <Label x:Name="totalCountDifference" Content="Optalte med difference:" Grid.Column="2" Grid.Row="2" Grid.RowSpan="2"
+               HorizontalAlignment="Left" VerticalAlignment="Top" Margin="80,50,10,5" />
 
-        <Label x:Name="acticeClients" Content="1 Aktiv" Grid.Column="2" Grid.Row="2" Grid.RowSpan="2"
-               Grid.ColumnSpan="3" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="200,10,10,10" Width="160" />
+        <Label x:Name="acticeClients" Content="0" Grid.Column="2" Grid.Row="2" Grid.RowSpan="2"
+               Grid.ColumnSpan="3" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="260,10,10,10" Width="160" />
 
-        <Label x:Name="overviewTotalCounted" Content="19843 / 80000 (24,8%)" Grid.Column="2" Grid.Row="2" Grid.RowSpan="2"
-               Grid.ColumnSpan="3" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="200,30,10,10" Width="160" />
+        <Label x:Name="overviewTotalCounted" Content="0 / 0 (0%)" Grid.Column="2" Grid.Row="2" Grid.RowSpan="2"
+               Grid.ColumnSpan="3" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="260,30,10,10" Width="180" />
 
-        <Label x:Name="overviewTotalCountedWithVarians" Content="340 / 80000 (0,4%)" Grid.Column="2" Grid.Row="2" Grid.RowSpan="2"
-               Grid.ColumnSpan="3" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="200,50,10,5" Width="160" />
+        <Label x:Name="overviewTotalCountedWithDifference" Content="0 / 0 (0%)" Grid.Column="2" Grid.Row="2" Grid.RowSpan="2"
+               Grid.ColumnSpan="3" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="260,50,10,5" Width="180" />
 
         <!--Datagrid, Where items is shown-->
 
-        <DataGrid x:Name="dataGridMain" Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="4" Margin="10,0,10,0" FontSize="14" >
+        <DataGrid x:Name="dataGridMain" Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="4" Margin="10,0,10,0" FontSize="14" FrozenColumnCount="1" CanUserReorderColumns="False" CanUserResizeColumns="False" >
 
             <!--Datagrid, Header Color and style-->
 
@@ -98,13 +104,13 @@
 
             <DataGrid.Columns>
 
-                <DataGridTextColumn Header=" ID" Binding="{Binding itemID}" Width="90" />
-                <DataGridTextColumn Header=" Navn" Binding="{Binding itemName}" Width="130" />
-                <DataGridTextColumn Header=" Lokationer" Binding="{Binding itemLocation}" Width="270" />
-                <DataGridTextColumn Header=" Optalt?" Binding="{Binding itemHasBeenCounted}" Width="50" />
-                <DataGridTextColumn Header=" Optalt Fra Lageret" Binding="{Binding itemInStorageCount}" Width="120" />
-                <DataGridTextColumn Header=" Antal Fra Serveren" Binding="{Binding itemServerCount}" Width="120" />
-                <DataGridTextColumn Header=" Variations Antal" Binding="{Binding itemCountVariation}" Width="*" />
+                <DataGridTextColumn Header=" ID" Binding="{Binding itemID}" Width="90" CanUserResize="False" />
+                <DataGridTextColumn Header=" Navn" Binding="{Binding itemName}" Width="130" CanUserResize="False" />
+                <DataGridTextColumn Header=" Lokationer" Binding="{Binding itemLocation}" Width="*" CanUserResize="False" />
+                <DataGridTextColumn Header=" Optalt" Binding="{Binding itemHasBeenCounted}" Width="70" CanUserResize="False" />
+                <DataGridTextColumn Header=" Optalt Fra Lageret" Binding="{Binding itemInStorageCount}" Width="130" CanUserResize="False" />
+                <DataGridTextColumn Header=" Antal Fra Serveren" Binding="{Binding itemServerCount}" Width="120" CanUserResize="False" />
+                <DataGridTextColumn Header=" Difference" Binding="{Binding itemCountVariation}" Width="80" CanUserResize="False" />
 
             </DataGrid.Columns>
 
