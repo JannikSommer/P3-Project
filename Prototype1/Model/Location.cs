@@ -13,7 +13,6 @@ namespace Model
         public string Posistion { get; private set; }
         public List<Item> Items { get; private set; }
 
-        public Location() { } // Used for JSON Deserialization.
         public Location(string _ID)
         {
             IsEmpty = true;
