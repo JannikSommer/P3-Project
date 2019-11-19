@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:WPF_PC"
         mc:Ignorable="d" FontFamily="Segoe UI Light"
         FontSize="16" WindowStartupLocation="CenterScreen"
-        Title="EditCycle" Height="630" Width="680" MinWidth="680" MinHeight="630">
+        Title="EditCycle" Height="660" Width="680" MinWidth="680" MinHeight="660">
     <Grid>
 
         <!--Grid Definition-->
@@ -48,6 +48,9 @@
 
         <Button x:Name="CancelEdit" Content="Annuller" Width="110" Height="35"
                 Grid.Column="2" Grid.Row="4" Margin="80,10,10,10" HorizontalAlignment="Right" VerticalAlignment="Bottom" Click="CancelEdit_Click" />
+
+        <Button x:Name="ConfirmEdit" Content="OK" Width="110" Height="35"
+                Grid.Column="2" Grid.Row="4" Margin="10,10,140,10" HorizontalAlignment="Right" VerticalAlignment="Bottom" Click="ConfirmEdit_Click" />
 
         <Button x:Name="DeleteUserButton" Content="Slet brugers arbejde" Width="160" Height="35"
                 Grid.Column="1" Grid.Row="3" Margin="10,0,10,10" HorizontalAlignment="Left" VerticalAlignment="Bottom" Click="DeleteUserButton_Click" />

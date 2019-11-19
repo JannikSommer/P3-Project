@@ -85,11 +85,6 @@ namespace WPF_PC
             //where to?
         }
 
-        private void CancelEdit_Click(object sender, RoutedEventArgs e)
-        {
-            this.Close();
-        }
-
         private void DeleteUserButton_Click(object sender, RoutedEventArgs e)
         {
             if (comboBoxChooseEdit.SelectedIndex == -1)
@@ -120,6 +115,16 @@ namespace WPF_PC
             }
 
 
+        }
+
+        private void CancelEdit_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
+        private void ConfirmEdit_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
     }
 }

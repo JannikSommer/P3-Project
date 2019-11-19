@@ -191,7 +191,7 @@ namespace WPF_PC
             {
                 //Buttons
 
-                changeLanguage.Content = ("Dansk");
+                changeLanguage.Content = ("English");
                 createCycleCount.Content = ("Opret Optællings Cyklus");
                 editCycle.Content = ("Rediger Cyklus");
                 showChosenType.Content = ("Vis");
@@ -210,7 +210,7 @@ namespace WPF_PC
                 dataGridMain.Columns[0].Header = " ID";
                 dataGridMain.Columns[1].Header = " Navn";
                 dataGridMain.Columns[2].Header = " Lokationer";
-                dataGridMain.Columns[3].Header = " Optalt?";
+                dataGridMain.Columns[3].Header = " Optalt";
                 dataGridMain.Columns[4].Header = " Optalt Fra Lageret";
                 dataGridMain.Columns[5].Header = " Antal Fra Serveren";
                 dataGridMain.Columns[6].Header = " Difference";
@@ -228,7 +228,7 @@ namespace WPF_PC
             {
                 //Buttons
 
-                changeLanguage.Content = ("English");
+                changeLanguage.Content = ("Dansk");
                 createCycleCount.Content = ("Create Cycle Count");
                 editCycle.Content = ("Edit Cycle");
                 showChosenType.Content = ("Show");
@@ -247,7 +247,7 @@ namespace WPF_PC
                 dataGridMain.Columns[0].Header = " ID";
                 dataGridMain.Columns[1].Header = " Name";
                 dataGridMain.Columns[2].Header = " Locations";
-                dataGridMain.Columns[3].Header = " Counted?";
+                dataGridMain.Columns[3].Header = " Counted";
                 dataGridMain.Columns[4].Header = " Counted from storage";
                 dataGridMain.Columns[5].Header = " Count from server";
                 dataGridMain.Columns[6].Header = " Difference";
