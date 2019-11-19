@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prototype1", "Prototype1\Pr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPF PC", "WPF PC\WPF PC.csproj", "{2E37ADA4-7348-48E4-B8E1-D4C72492C4DF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Model", "Model\Model.csproj", "{486DFBC0-2B7D-4C56-940C-150E673F643A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Model", "Model\Model.csproj", "{486DFBC0-2B7D-4C56-940C-150E673F643A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Networking", "Networking\Networking.csproj", "{26CBC6B3-3005-40D1-9D2A-3A31129578EA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,6 +39,10 @@ Global
 		{486DFBC0-2B7D-4C56-940C-150E673F643A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{486DFBC0-2B7D-4C56-940C-150E673F643A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{486DFBC0-2B7D-4C56-940C-150E673F643A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{26CBC6B3-3005-40D1-9D2A-3A31129578EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{26CBC6B3-3005-40D1-9D2A-3A31129578EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{26CBC6B3-3005-40D1-9D2A-3A31129578EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{26CBC6B3-3005-40D1-9D2A-3A31129578EA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -26,6 +26,5 @@ namespace Model
             Items.Add(item);
             TotalNrOFItems++;
         }
-
     }
 }
