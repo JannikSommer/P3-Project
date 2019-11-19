@@ -48,28 +48,5 @@ namespace WPF_PC
                 this.Close();
             }
         }
-
-        public static void changeLanguageCreateCycle(int languageIndex)
-        {
-            //Danish:
-
-            if (languageIndex == 0)
-            {
-                //Label
-
-                //chooseCycle.Content = ("Choose how the cycle is created");
-
-
-            }
-
-            //English:
-
-            else if (languageIndex == 1)
-            {
-              
-
-
-            }
-        }
     }
 }
