@@ -50,14 +50,9 @@ namespace Prototype1 {
         {
             Client client = new Client();
             CommunicationHandler handler;
-            //(Partition, handler) = client.DownloadPartition();
-            Partition = client.DownloadPartitionAsync().Result;
-            if (Partition == null)
-            {
-                Connect.Text = "NO OK";
-            }
-            else
-                Connect.Text = "OK";
+            (Partition, handler) = client.DownloadPartition();
+            (Partition, handler) = client.DownloadPartitionAsync().Result;
+            Connect.Text = handler.ToString();
         }
     }
 }

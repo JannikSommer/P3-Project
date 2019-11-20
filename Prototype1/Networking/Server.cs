@@ -35,7 +35,6 @@ namespace Networking
                     Handler = Listener.Accept();
                     HandleConnection();
                 }
-               
             }
             catch (Exception e)
             {
@@ -70,12 +69,13 @@ namespace Networking
             // Send permision to upload
             Handler.Send(Encoding.UTF8.GetBytes(CommunicationHandler.Accept.ToString()));
             Partition uploadedPartition = new Partition();
-            byte[] incommingBytes = new byte[1024];
+            byte[] bytes = new byte[1024];
 
             // Accept data from client
-            int bytesRec = Handler.Receive(incommingBytes);
-            string data = Encoding.UTF8.GetString(incommingBytes, 0, bytesRec);
+            int bytesRec = Handler.Receive(bytes);
+            string data = Encoding.UTF8.GetString(bytes, 0, bytesRec);
             uploadedPartition = JsonSerializer.Deserialize<Partition>(data);
+            // call method to handle data from uploadedPartition
 
             // Signal OK to client and shutdown socket
             Handler.Send(Encoding.UTF8.GetBytes(CommunicationFlag.ConversationCompleted.ToString()));

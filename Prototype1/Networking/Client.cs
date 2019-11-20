@@ -14,7 +14,7 @@ namespace Networking
         private Socket Sender { get; set; }
         private CommunicationHandler CommunicationHandler { get; set; }
 
-        private byte[] FlagMesasge = new byte[1024]; // TODO: Make size fit 
+        private byte[] FlagMessasge = new byte[25]; // Fits longest CommunicationFlag with some change 
 
         #region async methods
         public async Task<CommunicationHandler> UploadPartitionAsync(Partition partition)
@@ -26,34 +26,40 @@ namespace Networking
                 ClientShutdown();
                 return socketHandler;
             }
-            FlagMesasge = Encoding.UTF8.GetBytes(CommunicationFlag.UploadRequest.ToString());
+            FlagMessasge = Encoding.UTF8.GetBytes(CommunicationFlag.UploadRequest.ToString());
             // Send signal to upload
-            int bytesSent = Sender.Send(FlagMesasge);
+            int bytesSent = Sender.Send(FlagMessasge);
 
             // Receive confirmation to upload
-            byte[] bytes = new byte[64]; // TODO: Make size fit 
-            string serverFlag = null;
+            byte[] bytes = new byte[15]; // Fits longest CommunicationHandler with some change
             int bytesRec = Sender.Receive(bytes);
-            serverFlag += Encoding.UTF8.GetString(bytes, 0, bytesRec);
+            string serverFlag = Encoding.UTF8.GetString(bytes, 0, bytesRec);
             if (serverFlag == CommunicationHandler.Accept.ToString())
+            {
                 Sender.Send(SerializeDataForTransfer(partition));
+            }
             else
+            {
                 return CommunicationHandler.Error;
+            }
 
             // Receive signal to dispose data and close socket
             bytesRec = Sender.Receive(bytes);
-            serverFlag += Encoding.UTF8.GetString(bytes, 0, bytesRec);
+            serverFlag = Encoding.UTF8.GetString(bytes, 0, bytesRec);
             if (serverFlag == CommunicationFlag.ConversationCompleted.ToString())
+            {
                 ClientShutdown();
+            }
             else
+            {
                 return CommunicationHandler.Error;
-
+            }
             return CommunicationHandler.Success;
         }
 
-        public async Task<Partition> DownloadPartitionAsync()
+        public async Task<Tuple<Partition, CommunicationHandler>> DownloadPartitionAsync()
         {
-            FlagMesasge = Encoding.UTF8.GetBytes(CommunicationFlag.PartitionRequest.ToString());
+            FlagMessasge = Encoding.UTF8.GetBytes(CommunicationFlag.PartitionRequest.ToString());
             CommunicationHandler handler;
             CommunicationHandler socketHandler = await StartClientAsync();
             if (socketHandler != CommunicationHandler.Success)
@@ -62,10 +68,10 @@ namespace Networking
                 handler = socketHandler;
                 ClientShutdown();
                 Partition emptyPartition = null;
-                return null;
+                return Tuple.Create(emptyPartition, handler);
             }
             // Send signal to get partition
-            int bytesSent = Sender.Send(FlagMesasge);
+            int bytesSent = Sender.Send(FlagMessasge);
 
             // Incoming data from server
             byte[] bytes = new byte[2048]; // TODO: Make size fit
@@ -77,7 +83,7 @@ namespace Networking
                 handler = CommunicationHandler.Error;
                 ClientShutdown();
                 Partition emptyPartition = null;
-                return null;
+                return Tuple.Create(emptyPartition, handler);
             }
             else handler = CommunicationHandler.Success;
 
@@ -87,7 +93,7 @@ namespace Networking
             Sender.Send(Encoding.UTF8.GetBytes(CommunicationFlag.ConversationCompleted.ToString()));
 
             ClientShutdown();
-            return partition;
+            return Tuple.Create(partition, handler);
         }
 
         private async Task<CommunicationHandler> StartClientAsync()
@@ -139,34 +145,42 @@ namespace Networking
                 ClientShutdown();
                 return socketHandler;
             }
-            FlagMesasge = Encoding.UTF8.GetBytes(CommunicationFlag.UploadRequest.ToString());
+            FlagMessasge = Encoding.UTF8.GetBytes(CommunicationFlag.UploadRequest.ToString());
             // Send signal to upload
-            int bytesSent = Sender.Send(FlagMesasge);
+            int bytesSent = Sender.Send(FlagMessasge);
 
             // Receive confirmation to upload
-            byte[] bytes = new byte[64]; // TODO: Make size fit 
+            byte[] bytes = new byte[15]; // Fits longest CommunicationHandler with some change
             string serverFlag = null;
             int bytesRec = Sender.Receive(bytes);
             serverFlag += Encoding.UTF8.GetString(bytes, 0, bytesRec);
             if (serverFlag == CommunicationHandler.Accept.ToString())
+            {
                 Sender.Send(SerializeDataForTransfer(partition));
+            }
             else
+            {
                 return CommunicationHandler.Error;
+            }
 
             // Receive signal to dispose data and close socket
             bytesRec = Sender.Receive(bytes);
             serverFlag += Encoding.UTF8.GetString(bytes, 0, bytesRec);
             if (serverFlag == CommunicationFlag.ConversationCompleted.ToString())
+            {
                 ClientShutdown();
+            }
             else
+            {
                 return CommunicationHandler.Error;
+            }
 
             return CommunicationHandler.Success;
         }
 
         public Tuple<Partition, CommunicationHandler> DownloadPartition()
         {
-            FlagMesasge = Encoding.UTF8.GetBytes(CommunicationFlag.PartitionRequest.ToString());
+            FlagMessasge = Encoding.UTF8.GetBytes(CommunicationFlag.PartitionRequest.ToString());
             CommunicationHandler handler;
             CommunicationHandler socketHandler = StartClient();
             if (socketHandler != CommunicationHandler.Success)
@@ -178,7 +192,7 @@ namespace Networking
                 return Tuple.Create(emptyPartition, handler);
             }
             // Send signal to get partition
-            int bytesSent = Sender.Send(FlagMesasge);
+            int bytesSent = Sender.Send(FlagMessasge);
 
             // Incoming data from server
             byte[] bytes = new byte[2048]; // TODO: Make size fit
