@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Model.Log;
 
 namespace WPF_PC
 {
@@ -124,7 +125,16 @@ namespace WPF_PC
 
         private void showLog_Click(object sender, RoutedEventArgs e)
         {
+            List<LogMessage> list = new List<LogMessage> {
+                new VerificationLogMessage(new DateTime(2019, 11, 12, 10, 21, 9), "Polle", "5709216007104", true),
+                new LocationLogMessage(new DateTime(2019, 11, 12, 10, 21, 9), "Ole", "001C27", new List<(string itemId, string countedQuantity)>{("5709216007104", "5"), ("5849225908104", "2")}),
+                new TextLogMessage(DateTime.Now, "Hello Bob!")
+            };
 
+            LogFile logFile = new LogFile("TestLog", DateTime.Now, list);
+
+            LogWindow logWindow = new LogWindow(logFile);
+            logWindow.Show();
         }
 
         private void finishCycle_Click(object sender, RoutedEventArgs e)

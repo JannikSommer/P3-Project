@@ -13,6 +13,8 @@ namespace Model
         public string Color { get; private set; }
         public string Size { get; private set; }
         public bool HasMultiLocation { get; private set; }
+        public int ServerQuantity { get; set; }
+        public int CountedQuantity { get; set; }
         public List<Location> Locations { get; private set; }
 
         public Item() { } // Used for JSON Deserialization.
