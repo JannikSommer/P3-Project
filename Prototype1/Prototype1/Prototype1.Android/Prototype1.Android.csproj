@@ -105,6 +105,14 @@
     <Folder Include="Resources\drawable\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Model\Model.csproj">
+      <Project>{486dfbc0-2b7d-4c56-940c-150e673f643a}</Project>
+      <Name>Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Networking\Networking.csproj">
+      <Project>{26cbc6b3-3005-40d1-9d2a-3a31129578ea}</Project>
+      <Name>Networking</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Prototype1\Prototype1.csproj">
       <Project>{F882F8CC-01D5-4B45-A3B9-492C6433B78F}</Project>
       <Name>Prototype1</Name>

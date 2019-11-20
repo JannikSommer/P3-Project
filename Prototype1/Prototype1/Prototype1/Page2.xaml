@@ -23,6 +23,7 @@
                                         WidthRequest="225" HeightRequest="300" />
                 <BoxView Grid.Row="2" BackgroundColor="Blue" />
             </Grid>
+            <Button x:Name="Connect" Text="Click me to connect" Clicked="Connect_Clicked" />
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

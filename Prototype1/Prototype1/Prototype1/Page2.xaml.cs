@@ -9,10 +9,15 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using ZXing;
 using ZXing.Net.Mobile.Forms;
+using Networking;
+using Model;
 
 namespace Prototype1 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class Page2 : ContentPage {
+
+        private Partition Partition { get; set; }
+
         public Page2() {
             InitializeComponent();
             ScanView.Options.TryHarder = true;
@@ -39,6 +44,20 @@ namespace Prototype1 {
                 ScanView.Options.PossibleFormats.Add(BarcodeFormat.UPC_A);
             }
 
+        }
+
+        private void Connect_Clicked(object sender, EventArgs e)
+        {
+            Client client = new Client();
+            CommunicationHandler handler;
+            (Partition, handler) = client.DownloadPartition();
+            //Partition = client.DownloadPartitionAsync().Result;
+            if (Partition != null)
+            {
+                Connect.Text = "NO OK";
+            }
+            else
+                Connect.Text = "OK";
         }
     }
 }

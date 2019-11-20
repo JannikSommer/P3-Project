@@ -51,7 +51,7 @@ namespace Networking
             return CommunicationHandler.Success;
         }
 
-        public async Task<Tuple<Partition, CommunicationHandler>> DownloadPartitionAsync()
+        public async Task<Partition> DownloadPartitionAsync()
         {
             FlagMesasge = Encoding.UTF8.GetBytes(CommunicationFlag.PartitionRequest.ToString());
             CommunicationHandler handler;
@@ -62,7 +62,7 @@ namespace Networking
                 handler = socketHandler;
                 ClientShutdown();
                 Partition emptyPartition = null;
-                return Tuple.Create(emptyPartition, handler);
+                return null;
             }
             // Send signal to get partition
             int bytesSent = Sender.Send(FlagMesasge);
@@ -77,7 +77,7 @@ namespace Networking
                 handler = CommunicationHandler.Error;
                 ClientShutdown();
                 Partition emptyPartition = null;
-                return Tuple.Create(emptyPartition, handler);
+                return null;
             }
             else handler = CommunicationHandler.Success;
 
@@ -87,7 +87,7 @@ namespace Networking
             Sender.Send(Encoding.UTF8.GetBytes(CommunicationFlag.ConversationCompleted.ToString()));
 
             ClientShutdown();
-            return Tuple.Create(partition, handler);
+            return partition;
         }
 
         private async Task<CommunicationHandler> StartClientAsync()
@@ -98,7 +98,7 @@ namespace Networking
                 // Get Host IP Address that is used to establish a connection  
                 // In this case, we get one IP address of localhost that is IP : 127.0.0.1  
                 // If a host has multiple addresses, you will get a list of addresses  
-                IPHostEntry host = Dns.GetHostEntry("localhost");
+                IPHostEntry host = Dns.GetHostEntry("192.168.0.23");
                 IPAddress ipAddress = host.AddressList[0];
                 IPEndPoint remoteEP = new IPEndPoint(ipAddress, 8080);
 
@@ -211,7 +211,7 @@ namespace Networking
                 // Get Host IP Address that is used to establish a connection  
                 // In this case, we get one IP address of localhost that is IP : 127.0.0.1  
                 // If a host has multiple addresses, you will get a list of addresses  
-                IPHostEntry host = Dns.GetHostEntry("localhost");
+                IPHostEntry host = Dns.GetHostEntry("192.168.0.23");
                 IPAddress ipAddress = host.AddressList[0];
                 IPEndPoint remoteEP = new IPEndPoint(ipAddress, 8080);
 
