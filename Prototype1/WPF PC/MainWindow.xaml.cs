@@ -41,6 +41,9 @@ namespace WPF_PC
 
             updateMainWindow();
 
+            Loading load = new Loading();
+            load.Show();
+
             loadIntoDataGrid();
             loadIntoChooseBox();
         }
