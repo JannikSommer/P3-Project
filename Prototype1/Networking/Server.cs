@@ -17,8 +17,8 @@ namespace Networking
             // In this case, we get one IP address of localhost that is IP : 127.0.0.1
             // If a host has multiple addresses, you will get a list of addresses  
             // Get IP-Address from cmd -> ipconfig IPv4 address from Ethernet adapter. 
-            IPHostEntry host = Dns.GetHostEntry("192.168.0.23");
-            IPAddress ipAddress = host.AddressList[0];
+            IPHostEntry host = Dns.GetHostEntry(Dns.GetHostName());
+            IPAddress ipAddress = IPAddress.Parse("192.168.0.23");
             IPEndPoint localEndPoint = new IPEndPoint(ipAddress, 8080);
 
             try
@@ -30,11 +30,12 @@ namespace Networking
 
                 // Specify how many requests a Socket can listen before it gives Server busy response
                 Listener.Listen(10);
-                while (true) // Accepts connections untill the method ShutdownServer() is called
+                while (true)
                 {
                     Handler = Listener.Accept();
                     HandleConnection();
                 }
+               
             }
             catch (Exception e)
             {
