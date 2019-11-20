@@ -51,16 +51,18 @@ namespace Networking
             return CommunicationHandler.Success;
         }
 
-        public async Task<Partition> DownloadPartitionAsync()
+        public async Task<Tuple<Partition, CommunicationHandler>> DownloadPartitionAsync()
         {
             FlagMesasge = Encoding.UTF8.GetBytes(CommunicationFlag.PartitionRequest.ToString());
+            CommunicationHandler handler;
             CommunicationHandler socketHandler = await StartClientAsync();
             if (socketHandler != CommunicationHandler.Success)
             {
                 // A socket error has eccoured
-                CommunicationHandler = socketHandler;
+                handler = socketHandler;
                 ClientShutdown();
-                return null;
+                Partition emptyPartition = null;
+                return Tuple.Create(emptyPartition, handler);
             }
             // Send signal to get partition
             int bytesSent = Sender.Send(FlagMesasge);
@@ -72,11 +74,12 @@ namespace Networking
             if (data == CommunicationHandler.Error.ToString())
             {
                 // Checks if the request has been received and understood by server. 
-                CommunicationHandler = CommunicationHandler.Error;
+                handler = CommunicationHandler.Error;
                 ClientShutdown();
-                return null;
+                Partition emptyPartition = null;
+                return Tuple.Create(emptyPartition, handler);
             }
-            else CommunicationHandler = CommunicationHandler.Success;
+            else handler = CommunicationHandler.Success;
 
             Partition partition = DeserializeDataFromTransfer(bytes, bytesRec);
 
@@ -84,7 +87,7 @@ namespace Networking
             Sender.Send(Encoding.UTF8.GetBytes(CommunicationFlag.ConversationCompleted.ToString()));
 
             ClientShutdown();
-            return partition;
+            return Tuple.Create(partition, handler);
         }
 
         private async Task<CommunicationHandler> StartClientAsync()
@@ -99,7 +102,7 @@ namespace Networking
                 IPAddress ipAddress = host.AddressList[0];
                 IPEndPoint remoteEP = new IPEndPoint(ipAddress, 8080);
 
-                // Create a TCP/IP  socket.    
+                // Create a TCP/IP  socket
                 Sender = new Socket(ipAddress.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
 
                 // Connect the socket to the remote endpoint. Catch any errors.    
@@ -161,16 +164,18 @@ namespace Networking
             return CommunicationHandler.Success;
         }
 
-        public Partition DownloadPartition(out CommunicationHandler handler)
+        public Tuple<Partition, CommunicationHandler> DownloadPartition()
         {
             FlagMesasge = Encoding.UTF8.GetBytes(CommunicationFlag.PartitionRequest.ToString());
+            CommunicationHandler handler;
             CommunicationHandler socketHandler = StartClient();
             if (socketHandler != CommunicationHandler.Success)
             {
                 // A socket error has eccoured
                 handler = socketHandler;
                 ClientShutdown();
-                return null;
+                Partition emptyPartition = null;
+                return Tuple.Create(emptyPartition, handler);
             }
             // Send signal to get partition
             int bytesSent = Sender.Send(FlagMesasge);
@@ -184,7 +189,8 @@ namespace Networking
                 // Checks if the request has been received and understood by server. 
                 handler = CommunicationHandler.Error;
                 ClientShutdown();
-                return null;
+                Partition emptyPartition = null;
+                return Tuple.Create(emptyPartition, handler);
             }
             else handler = CommunicationHandler.Success;
 
@@ -194,7 +200,7 @@ namespace Networking
             Sender.Send(Encoding.UTF8.GetBytes(CommunicationFlag.ConversationCompleted.ToString()));
 
             ClientShutdown();
-            return partition;
+            return Tuple.Create(partition, handler);
         }
 
         private CommunicationHandler StartClient()

@@ -33,7 +33,7 @@ namespace WPF_PC
             public int itemCountVariation { get; set; }
         }
 
-        private Thread Networkinghread; // Used to keep socket connection open for clients. 
+        private Thread NetworkingThread; // Used to keep socket connection open for clients. 
 
         public List<string> settings = new List<string>();
 
@@ -57,8 +57,8 @@ namespace WPF_PC
         private void StartServer()
         {
             Server server = new Server();
-            Networkinghread = new Thread(new ThreadStart(server.StartServer));
-            Networkinghread.Start();            
+            NetworkingThread = new Thread(new ThreadStart(server.StartServer));
+            NetworkingThread.Start();
         }
 
         public void LoadIntoDataGrid()

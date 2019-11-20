@@ -7,16 +7,6 @@ using Model;
 
 namespace Networking
 {
-    public enum CommunicationFlag
-    {
-        PartitionRequest, UploadRequest, ConversationCompleted
-    }
-    public enum CommunicationHandler
-    {
-        Accept, Decline, Error, Success, SocketError, UnknownError
-    }
-    
-
     public class Server
     {
         private Socket Handler { get; set; }
