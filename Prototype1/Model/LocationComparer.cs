@@ -11,12 +11,12 @@ namespace Model
 
         public LocationComparer(int highestShelfNumber)
         {
-            ShelfHierakyi = new int[highestShelfNumber];
+            ShelfHierakyi = new int[highestShelfNumber + 1];
             HighestValueShelf = highestShelfNumber;
 
-            for(int x = 0; x <= highestShelfNumber + 1; x++)
+            for(int x = 0; x <= highestShelfNumber; x++)
             {
-                ShelfHierakyi[x - 1] = x;
+                ShelfHierakyi[x] = x;
             }
         }
 
@@ -36,23 +36,23 @@ namespace Model
             }
             else
             {
-                x = a.Row.CompareTo(b.Row);
+                x = a.Posistion.CompareTo(b.Posistion);
 
                 if (x == 0)
                 {
-                    return a.Posistion.CompareTo(b.Posistion);
+                    return a.Row.CompareTo(b.Row);
                 }
 
                 return x;
             }
         }
 
-        public void IncreasePriority(int PosistionOfElement)
+        public void IncreasePriority(int ShelfIndex)
         {
             int temp;
 
-            if (ShelfHierakyi[PosistionOfElement] < HighestValueShelf)
-                temp = ++ShelfHierakyi[PosistionOfElement];
+            if (ShelfHierakyi[ShelfIndex] < HighestValueShelf)
+                temp = ++ShelfHierakyi[ShelfIndex];
             else
                 throw new Exception("Can't increase priority further");
 
@@ -60,7 +60,7 @@ namespace Model
             {
                 if (ShelfHierakyi[x] == temp)
                 {
-                    if (x == PosistionOfElement) { }
+                    if (x == ShelfIndex) { }
                     else
                     {
                         ShelfHierakyi[x]--;
