@@ -10,7 +10,7 @@ namespace Model
         public bool IsEmpty { get; private set; }
         public int Shelf { get; private set; }
         public string Row { get; private set; }
-        public string Posistion { get; private set; }
+        public string Position { get; private set; }
         public List<Item> Items { get; private set; }
 
         public Location() { } // Used for JSON Deserialization.
@@ -58,7 +58,7 @@ namespace Model
         {
             Shelf = Convert.ToInt32(ID.Substring(0, 3));
             Row = ID.Substring(3, 1);
-            Posistion = ID.Substring(4, 2);
+            Position = ID.Substring(4, 2);
         }
 
         public void AddItem(Item _Item)

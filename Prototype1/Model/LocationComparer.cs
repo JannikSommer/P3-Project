@@ -40,7 +40,7 @@ namespace Model
 
                 if (x == 0)
                 {
-                    return a.Posistion.CompareTo(b.Posistion);
+                    return a.Position.CompareTo(b.Position);
                 }
 
                 return x;

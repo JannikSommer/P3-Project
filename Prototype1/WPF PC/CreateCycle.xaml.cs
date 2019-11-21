@@ -19,18 +19,40 @@ namespace WPF_PC
     /// </summary>
     public partial class Window1 : Window
     {
-        public List<string> createCycleTypes = new List<string>();
-        public Window1()
+        private new Language Language;
+        public Window1(Language language)
         {
             InitializeComponent();
 
-            createCycleTypes.Add("HELE LAGERET");
-            createCycleTypes.Add("T-shirts");
-            createCycleTypes.Add("Bukser");
-            createCycleTypes.Add("Skateboards");
-            createCycleTypes.Add("Sko");
-            createCycleTypes.Add("Hoodies");
+            CreateCycleWindowLanguage(language);
+            LoadIntoChooseBox(language);
+        }
 
+        public void LoadIntoChooseBox(Language language)
+        {
+            List<string> createCycleTypes = new List<string>();
+
+            //Danish:
+            if (Language.Danish == language)
+            {
+                createCycleTypes.Add("Hele lageret");
+                createCycleTypes.Add("T-shirts");
+                createCycleTypes.Add("Bukser");
+                createCycleTypes.Add("Skateboards");
+                createCycleTypes.Add("Sko");
+                createCycleTypes.Add("Hoodies");
+            }
+
+            //English:
+            else if (Language.English == language)
+            {
+                createCycleTypes.Add("The whole storage");
+                createCycleTypes.Add("T-shirts");
+                createCycleTypes.Add("Pants");
+                createCycleTypes.Add("Skateboards");
+                createCycleTypes.Add("Shoes");
+                createCycleTypes.Add("Hoodies");
+            }
             comboBoxChooseCycleCountTypes.ItemsSource = createCycleTypes;
         }
 
@@ -39,7 +61,6 @@ namespace WPF_PC
             if (comboBoxChooseCycleCountTypes.SelectedIndex == -1)
             {
                 labelWarningTwo.Visibility = Visibility.Visible;
-
             }
             else
             {
@@ -49,26 +70,33 @@ namespace WPF_PC
             }
         }
 
-        public static void changeLanguageCreateCycle(int languageIndex)
+        public void CreateCycleWindowLanguage(Language language)
         {
+
             //Danish:
-
-            if (languageIndex == 0)
+            if (Language.Danish == language)
             {
-                //Label
+                //Window name:
+                CreateCycle.Title = "Opret Optællings Cyklus";
 
-                //chooseCycle.Content = ("Choose how the cycle is created");
+                //Labels:
+                chooseCycle.Content = "Vælg hvordan cyklus'en skal oprettes:";
 
-
+                //Buttons:
+                CreateCycleCountButton.Content = "Opret cyklus";
             }
 
             //English:
-
-            else if (languageIndex == 1)
+            else if (Language.English == language)
             {
+                //Window name:
+                CreateCycle.Title = "Create Cycle Count";
 
+                //Labels:
+                chooseCycle.Content = "Choose how to create the cycle:";
 
-
+                //Buttons:
+                CreateCycleCountButton.Content = "Create cycle";
             }
         }
     }

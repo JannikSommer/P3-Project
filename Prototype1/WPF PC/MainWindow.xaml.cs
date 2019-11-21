@@ -17,6 +17,10 @@ using System.Threading;
 
 namespace WPF_PC
 {
+    public enum Language
+    {
+        Danish, English
+    }
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
@@ -35,7 +39,7 @@ namespace WPF_PC
 
         private Thread NetworkingThread; // Used to keep socket connection open for clients. 
 
-        int numberOfTimesChangeLanguageIsPressed = 0;
+        private new Language Language;
 
         public MainWindow()
         {
@@ -107,7 +111,7 @@ namespace WPF_PC
 
         private void createCycleCount_Click(object sender, RoutedEventArgs e)
         {
-            Window1 CreateCycle = new Window1();
+            Window1 CreateCycle = new Window1(Language);
             CreateCycle.Show();
 
         }
@@ -126,11 +130,10 @@ namespace WPF_PC
 
         private void finishCycle_Click(object sender, RoutedEventArgs e)
         {
-
-            if (MessageBox.Show("ER DU SIKKER?", "Færdiggør Cyklus'en?", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
+            if (MessageBox.Show(((Language.Danish == Language) ? "ER DU SIKKER?" : "ARE YOU SURE?"), ((Language.Danish == Language) ? "Færdiggør cyklus'en?" : "Finish the cycle?"), MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
             {
                 //do no stuff
-
+                
             }
             else
             {
@@ -143,19 +146,28 @@ namespace WPF_PC
         public void LoadIntoChooseBox()
         {
             List<string> settings = new List<string>();
+            //settings = null;
 
-            settings.Add("I dags optalte");
-            settings.Add("Optalte i denne cyklus");
-            settings.Add("Optalte med difference");
+            //Danish:
+            if (Language.Danish == Language)
+            {
+                settings.Add("I dags optalte");
+                settings.Add("Optalte i denne cyklus");
+                settings.Add("Optalte med difference");
+            }
 
+            //English:
+            else if (Language.English == Language)
+            {
+                settings.Add("Counted today");
+                settings.Add("Counted in this cycle");
+                settings.Add("Counted with difference");
+            }
             comboBoxChooseGet.ItemsSource = settings;
-
         }
 
         private void showChosenType_Click(object sender, RoutedEventArgs e)
         {
-            string optionChosen = null;
-
             if (comboBoxChooseGet.SelectedIndex == -1)
             {
                 labelWarning.Visibility = Visibility.Visible;
@@ -164,28 +176,27 @@ namespace WPF_PC
             {
                 labelWarning.Visibility = Visibility.Hidden;
 
-                optionChosen = comboBoxChooseGet.SelectedItem.ToString();
-
-                if (optionChosen == "I dags optalte")
+                //Todays Counted
+                if (comboBoxChooseGet.SelectedIndex == 0)
                 {
 
                 }
-                else if(optionChosen == "Optalte i denne cyklus")
+                //Counted in this cycle
+                else if(comboBoxChooseGet.SelectedIndex == 1)
                 {
 
                 }
-                else if (optionChosen == "Optalte med difference")
+                //Counted with difference
+                else if (comboBoxChooseGet.SelectedIndex == 2)
                 {
 
                 }
             }
-            //Loading load = new Loading();
-            //load.Show();
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-
+            //Load everything to log.
         }
 
         private void comboBoxChooseGet_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -193,21 +204,25 @@ namespace WPF_PC
             //e.AddedItems[0].ToString()
         }
 
-        //Change Language configurations:
-
         private void changeLanguage_Click(object sender, RoutedEventArgs e)
         {
-            numberOfTimesChangeLanguageIsPressed++;
-            int languageIndex = (numberOfTimesChangeLanguageIsPressed % 2);
-
-            // Create Cycle Count Window
-            Window1.changeLanguageCreateCycle(languageIndex);
-
-
+            if (Language == Language.Danish)
+            {
+                Language = Language.English;
+            }
+            else
+            {
+                Language = Language.Danish;
+            }
+            MainWindowLanguage();
+            LoadIntoChooseBox();
+        }  
+        
+        public void MainWindowLanguage()
+        {
 
             //Danish:
-
-            if (languageIndex == 0)
+            if (Language.Danish == Language)
             {
                 //Buttons
 
@@ -234,17 +249,10 @@ namespace WPF_PC
                 dataGridMain.Columns[4].Header = " Optalt Fra Lageret";
                 dataGridMain.Columns[5].Header = " Antal Fra Serveren";
                 dataGridMain.Columns[6].Header = " Difference";
-
-                // Create Cycle Count Window
-
-
-
-
             }
 
             //English:
-
-            else if (languageIndex == 1)
+            else if (Language.English == Language)
             {
                 //Buttons
 
@@ -271,12 +279,6 @@ namespace WPF_PC
                 dataGridMain.Columns[4].Header = " Counted from storage";
                 dataGridMain.Columns[5].Header = " Count from server";
                 dataGridMain.Columns[6].Header = " Difference";
-
-
-
-
-
-
             }
         }
     }
