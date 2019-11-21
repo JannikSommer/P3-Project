@@ -6,10 +6,10 @@ namespace Model
 {
     public class VerificationPartition
     {
-        public PartitionState State { get; private set; }
-        public PartitionRequsitionState RequsitionState { get; private set; }
+        public PartitionState State { get; set; }
         public int TotalNrOFItems { get; private set; }
         public int ItemsCounted { get; private set; }
+        public PartitionRequsitionState RequsitionState { get; private set; }
         public List<Item> Items { get; private set; }
 
         public VerificationPartition()

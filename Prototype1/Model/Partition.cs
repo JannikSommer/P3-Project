@@ -7,12 +7,8 @@ namespace Model
     public enum PartitionState { NotCounted, Counted, Verified}
     public enum PartitionRequsitionState { Requested, Uploaded, Recieved}
 
-    public class Partition
+    public class Partition : PartitionBase
     {
-        public PartitionState State { get; private set; }
-        public int TotalNrOFItems { get; private set; }
-        public int ItemsCounted { get; private set; }
-        public PartitionRequsitionState RequsitionState { get; private set; }
         public List<Location> Locations { get; private set; }
 
         public Partition()

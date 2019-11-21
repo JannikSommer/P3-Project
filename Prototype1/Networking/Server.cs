@@ -10,6 +10,7 @@ namespace Networking
     public class Server
     {
         private Socket Handler;
+        private Cycle Cycle = new Cycle();
 
         public void StartServer()
         {
@@ -51,8 +52,8 @@ namespace Networking
 
             if (data == CommunicationFlag.PartitionRequest.ToString())
             {
-                Partition partition = new Partition(); 
-                SendPartition(partition); // get partition from somewhere else
+                Partition partition = Cycle.GetPartitionForClient();
+                SendPartition(partition); 
             }
             else if (data == CommunicationFlag.PartitionUpload.ToString()) 
             { 
@@ -89,10 +90,10 @@ namespace Networking
             int bytesRec = Handler.Receive(bytes);
             string data = Encoding.UTF8.GetString(bytes, 0, bytesRec);
             Partition uploadedPartition = JsonSerializer.Deserialize<Partition>(data);
-            // call method to handle data from uploadedPartition
 
             // Signal OK to client and shutdown socket
             Handler.Send(Encoding.UTF8.GetBytes(CommunicationFlag.ConversationCompleted.ToString()));
+            Cycle.ReceicePartitionUpload(uploadedPartition);
         }
 
         private void SendPartition(Partition partition)
