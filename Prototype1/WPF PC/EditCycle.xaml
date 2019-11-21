@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPF_PC"
         mc:Ignorable="d" FontFamily="Segoe UI Light"
-        FontSize="16" WindowStartupLocation="CenterScreen"
+        FontSize="16" WindowStartupLocation="CenterScreen" Icon="Assets\count-icon-26.ico.ico"
         Title="EditCycle" Height="660" Width="680" MinWidth="680" MinHeight="660">
     <Grid>
 

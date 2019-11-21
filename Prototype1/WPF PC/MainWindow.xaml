@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPF_PC"
         mc:Ignorable="d" FontSize="16" FontFamily="Segoe UI Light"
-        Title="Centralized Controller" Height="550" Width="960" 
+        Title="Centralized Controller" Height="550" Width="960" Icon="Assets\count-icon-26.ico.ico"
         WindowStartupLocation="CenterScreen" MinWidth="960" MinHeight="550" Closing="Window_Closing">
     <Grid>
 

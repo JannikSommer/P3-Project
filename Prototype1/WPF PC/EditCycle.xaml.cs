@@ -24,6 +24,7 @@ namespace WPF_PC
         {
             InitializeComponent();
 
+            loadAllUsersnamesIntoChooseBox();
             getSortPriority();
         }
 
@@ -73,6 +74,17 @@ namespace WPF_PC
             }
         }
 
+        public void loadAllUsersnamesIntoChooseBox()
+        {
+            List<string> settings = new List<string>();
+
+            settings.Add("Bob");
+            settings.Add("Svend");
+            settings.Add("Jørgen");
+
+            comboBoxChooseEdit.ItemsSource = settings;
+        }
+
         public void getSortPriority()
         {
             List<string> sortPriority = new List<string>();
@@ -95,6 +107,10 @@ namespace WPF_PC
             else
             {
                 labelWarningNoUserSelected.Visibility = Visibility.Hidden;
+
+                string userChosen = comboBoxChooseEdit.SelectedItem.ToString();
+
+                MessageBox.Show(userChosen);
 
 
             }

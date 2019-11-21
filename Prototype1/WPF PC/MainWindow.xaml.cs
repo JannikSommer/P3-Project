@@ -31,7 +31,7 @@ namespace WPF_PC
             public int itemCountVariation { get; set; }
         }
 
-        public List<string> settings = new List<string>();
+        //public List<string> settings = new List<string>();
 
         int numberOfTimesChangeLanguageIsPressed = 0;
 
@@ -40,9 +40,6 @@ namespace WPF_PC
             InitializeComponent();
 
             updateMainWindow();
-
-            Loading load = new Loading();
-            load.Show();
 
             loadIntoDataGrid();
             loadIntoChooseBox();
@@ -71,17 +68,6 @@ namespace WPF_PC
             dataGridMain.Items.Add(itemTwo);
 
             dataGridMain.Items.Add(itemOne);
-
-        }
-
-        public void loadIntoChooseBox()
-        {
-
-            settings.Add("I dags optalte");
-            settings.Add("Optalte i denne cyklus");
-            settings.Add("Optalte med difference");
-
-            comboBoxChooseGet.ItemsSource = settings;
 
         }
 
@@ -124,7 +110,7 @@ namespace WPF_PC
 
         private void showLog_Click(object sender, RoutedEventArgs e)
         {
-
+            
         }
 
         private void finishCycle_Click(object sender, RoutedEventArgs e)
@@ -143,27 +129,47 @@ namespace WPF_PC
 
         }
 
+        public void loadIntoChooseBox()
+        {
+            List<string> settings = new List<string>();
+
+            settings.Add("I dags optalte");
+            settings.Add("Optalte i denne cyklus");
+            settings.Add("Optalte med difference");
+
+            comboBoxChooseGet.ItemsSource = settings;
+
+        }
+
         private void showChosenType_Click(object sender, RoutedEventArgs e)
         {
+            string optionChosen = null;
+
             if (comboBoxChooseGet.SelectedIndex == -1)
             {
                 labelWarning.Visibility = Visibility.Visible;
             }
-            else if (comboBoxChooseGet.SelectedIndex == 0)
+            else
             {
                 labelWarning.Visibility = Visibility.Hidden;
 
-            }
-            else if (comboBoxChooseGet.SelectedIndex == 1)
-            {
-                labelWarning.Visibility = Visibility.Hidden;
+                optionChosen = comboBoxChooseGet.SelectedItem.ToString();
 
-            }
-            else if (comboBoxChooseGet.SelectedIndex == 2)
-            {
-                labelWarning.Visibility = Visibility.Hidden;
+                if (optionChosen == "I dags optalte")
+                {
 
+                }
+                else if(optionChosen == "Optalte i denne cyklus")
+                {
+
+                }
+                else if (optionChosen == "Optalte med difference")
+                {
+
+                }
             }
+            //Loading load = new Loading();
+            //load.Show();
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
