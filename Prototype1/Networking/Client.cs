@@ -11,11 +11,7 @@ namespace Networking
 {
     public class Client
     {
-<<<<<<< Updated upstream
         private Socket Sender;
-=======
-        private Socket Sender { get; set; }
->>>>>>> Stashed changes
 
         private byte[] FlagMessasge = new byte[25]; // Fits longest CommunicationFlag with some change 
 

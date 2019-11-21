@@ -49,17 +49,13 @@ namespace Networking
             int bytesRec = Handler.Receive(bytes);
             string data = Encoding.UTF8.GetString(bytes, 0, bytesRec);
             Partition partition = new Partition();
-            
+
             if (data == CommunicationFlag.PartitionRequest.ToString())
             {
                 SendPartition(partition); // get partition from somewhere else
-<<<<<<< Updated upstream
             }
-            else if (data == CommunicationFlag.UploadRequest.ToString())
-            {
-=======
             else if (data == CommunicationFlag.PartitionUpload.ToString())
->>>>>>> Stashed changes
+            {
                 AcceptPartitionUpload();
             }
             else

@@ -61,9 +61,9 @@
       <Project>{486dfbc0-2b7d-4c56-940c-150e673f643a}</Project>
       <Name>Model</Name>
     </ProjectReference>
-    <ProjectReference Include="..\WPF PC\WPF_PC.csproj">
+    <ProjectReference Include="..\WPF PC\WPF PC.csproj">
       <Project>{2e37ada4-7348-48e4-b8e1-d4c72492c4df}</Project>
-      <Name>WPF_PC</Name>
+      <Name>WPF PC</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
