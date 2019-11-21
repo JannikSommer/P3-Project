@@ -139,7 +139,7 @@ namespace WPF_PC.Central_Controller
             return index;
         }
 
-        public void InitialAddItem(Item item, List<string> Location_IDs) //tester ikke om location allerade eksistere
+        public void InitialAddItem(Item item, List<string> Location_IDs)
         {
             int Index;
             Location NewLocation;
