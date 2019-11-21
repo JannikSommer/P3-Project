@@ -12,8 +12,10 @@ namespace Model
         public string Name { get; private set; }
         public string Color { get; private set; }
         public string Size { get; private set; }
+        public string ImageUrl { get; private set; }
+        public string CheckSum { get; set; }
         public bool HasMultiLocation { get; private set; }
-        public List<Location> Locations { get; private set; }
+        public List<Model.Location> Locations { get; private set; }
 
         public Item() { } // Used for JSON Deserialization.
 
@@ -27,7 +29,7 @@ namespace Model
             Locations = new List<Location>();
         }
 
-        public Item(string _ID, string _Name, string _Color, string _Size, List<Location> _Locations)
+        public Item(string _ID, string _Name, string _Color, string _Size, List<Model.Location> _Locations)
         {
             ID = _ID;
             Name = _Name;

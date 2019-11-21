@@ -11,7 +11,7 @@ namespace Model
         public int Shelf { get; private set; }
         public string Row { get; private set; }
         public string Posistion { get; private set; }
-        public List<Item> Items { get; private set; }
+        public List<Model.Item> Items { get; private set; }
 
         public Location() { } // Used for JSON Deserialization.
 

@@ -1,0 +1,146 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="SAScanApp.BS_LocationSelected">
+    <ContentPage.Content>
+        <StackLayout>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="10*"/>
+                    <RowDefinition Height="35*"/>
+                    <RowDefinition Height="50*"/>
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Top Menu-->
+                <Grid Grid.Row="0"  
+                      VerticalOptions="Center"
+                      RowSpacing="0"
+                      ColumnSpacing="0">
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="20*"/>
+                        <ColumnDefinition Width="20*"/>
+                        <ColumnDefinition Width="20*"/>
+                        <ColumnDefinition Width="20*"/>
+                        <ColumnDefinition Width="20*"/>
+                    </Grid.ColumnDefinitions>
+                    <Button Text="??"
+                            Grid.Column="0"
+                            BackgroundColor="White"
+                            TextColor="Blue"
+                            BorderColor="Blue"
+                            BorderWidth="1"/>
+
+                    <Button Text="LIGHT"
+                            Grid.Column="1"
+                            BackgroundColor="White"
+                            TextColor="Blue"
+                            BorderColor="Blue"
+                            BorderWidth="1"
+                            Clicked="Light_Button_Clicked"/>
+                    
+                    <Button Text="V"
+                            Grid.Column="2"
+                            BackgroundColor="White"
+                            TextColor="Blue"
+                            BorderColor="Blue"
+                            BorderWidth="2"/>
+                    <Button Text="#1"
+                            Grid.Column="3"
+                            BackgroundColor="White"
+                            TextColor="Blue"
+                            BorderColor="Blue"
+                            BorderWidth="2"/>
+                    <Button Text="Menu"
+                            Grid.Column="4"
+                            BackgroundColor="White"
+                            TextColor="Blue"
+                            BorderColor="Blue"
+                            BorderWidth="2"
+                            Clicked="Menu_Button_Clicked"/>
+                </Grid>
+
+                <Grid Grid.Row="1" BackgroundColor="White">
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+
+                    </Grid.RowDefinitions>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="20*"/>
+                        <ColumnDefinition Width="60*"/>
+                        <ColumnDefinition Width="20*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Button x:Name="dec_item_count"
+                            Text="&lt;"
+                            Grid.Column="0"
+                            VerticalOptions="Center"
+                            Margin="20,0,0,0"
+                            Clicked="dec_item_count_Clicked"
+                            TextColor="Blue"
+                            FontSize="70"/>
+
+                    <Label x:Name="quantity"
+                           Text="{Binding value}"
+                           FontSize="150"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"
+                           Grid.Column="1"/>
+
+                    <Button x:Name="inc_item_count"
+                            VerticalOptions="Center"
+                            Text="&gt;"
+                            Grid.Column="2"
+                            Margin="0,0,20,0"
+                            Clicked="inc_item_count_Clicked"
+                            TextColor="Blue"
+                            FontSize="70"/>
+
+
+                </Grid>
+
+                <Grid x:Name="Grid2" Grid.Row="2">
+                    <ListView x:Name="itemDisplayList" BackgroundColor="White"
+                              ItemTapped="itemDisplayList_ItemTapped"
+                              ItemSelected="itemDisplayList_ItemSelected">
+                        
+                        <ListView.ItemTemplate>
+                        
+                        <DataTemplate>
+                                <ViewCell>
+                                    <StackLayout Orientation="Horizontal">
+                                        <StackLayout Orientation="Horizontal">
+                                            <Label Text="{Binding ItemID}" 
+                                                   TextColor="Blue"/>
+                                        </StackLayout>
+                                    </StackLayout>
+                                </ViewCell>
+
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+
+
+                </Grid>
+
+
+
+
+            </Grid>
+
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
