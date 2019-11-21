@@ -28,8 +28,8 @@
 
         <!--Labels-->
 
-        <Label x:Name="chooseCycle" Content="Vælg hvordan Cyklus'en skal oprettes:" Grid.Column="1" Grid.Row="1"
-               HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10" />
+        <Label x:Name="chooseCycle" Content="Vælg hvordan cyklus'en skal oprettes:" Grid.Column="1" Grid.Row="1"
+               HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10" x:FieldModifier="public" />
 
         <!--Error Labels-->
 
