@@ -35,8 +35,6 @@ namespace WPF_PC
 
         private Thread NetworkingThread; // Used to keep socket connection open for clients. 
 
-        public List<string> settings = new List<string>();
-
         int numberOfTimesChangeLanguageIsPressed = 0;
 
         public MainWindow()
@@ -46,9 +44,6 @@ namespace WPF_PC
             StartServer();
 
             UpdateMainWindow();
-
-            Loading load = new Loading();
-            load.Show();
 
             LoadIntoDataGrid();
             LoadIntoChooseBox();
@@ -84,17 +79,6 @@ namespace WPF_PC
             dataGridMain.Items.Add(itemTwo);
 
             dataGridMain.Items.Add(itemOne);
-
-        }
-
-        public void LoadIntoChooseBox()
-        {
-
-            settings.Add("I dags optalte");
-            settings.Add("Optalte i denne cyklus");
-            settings.Add("Optalte med difference");
-
-            comboBoxChooseGet.ItemsSource = settings;
 
         }
 
@@ -156,7 +140,7 @@ namespace WPF_PC
 
         }
 
-        public void loadIntoChooseBox()
+        public void LoadIntoChooseBox()
         {
             List<string> settings = new List<string>();
 
