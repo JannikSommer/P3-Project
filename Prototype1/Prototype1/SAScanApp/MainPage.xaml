@@ -1,0 +1,94 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="SAScanApp.MainPage">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20*"/>
+            <RowDefinition Height="60*"/>
+            <RowDefinition Height="20*"/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid Grid.Row="1"
+              VerticalOptions="Center">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Button Grid.Row="0" 
+                Margin="30, 10, 30, 10"
+                BackgroundColor="White"
+                BorderColor="Blue"
+                BorderWidth="2"
+                Text="Bluetooth Scan"
+                TextColor="Blue"
+                FontSize="20"
+                BorderRadius="40"
+                Clicked="BS_Selected"/>
+            
+            <Button Grid.Row="1"
+                Margin="30,10,30,10"
+                BackgroundColor="White"
+                BorderColor="Blue"
+                BorderWidth="2"
+                Text="Camera Scan"
+                TextColor="Blue"
+                FontSize="20"
+                BorderRadius="40"
+                Clicked="CS_Selected"/>
+
+            <Button Grid.Row="2" 
+                Margin="30, 10, 30, 10"
+                BackgroundColor="White"
+                BorderColor="Blue"
+                BorderWidth="2"
+                Text="Admin Login"
+                TextColor="Blue"
+                FontSize="20"
+                BorderRadius="40"
+                Clicked="Admin_Selected"/>
+        </Grid>
+
+        <Grid Grid.Row="2">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+
+            <Image x:Name="logo"
+                   Grid.Row="0"
+                   Margin="0,0,0,0"/>
+            <Label Text="SCANNER"
+                   Grid.Row="1"
+                   FontSize="10"
+                   HorizontalOptions="Center"
+                   VerticalOptions="Center"/>
+        </Grid>
+
+
+
+
+    </Grid>
+
+</ContentPage>
