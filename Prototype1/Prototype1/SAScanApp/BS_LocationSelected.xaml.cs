@@ -15,7 +15,7 @@ namespace SAScanApp
     public partial class BS_LocationSelected : ContentPage
     {
         private BS_StartPage _bsStartPage { get; set; }
-        private List<Item> _itemList { get; set; }
+        private List<Model.Item> _itemList { get; set; }
 
         public bool _counterEnabled { get; set; }
         bool lightOn = false;
@@ -33,7 +33,7 @@ namespace SAScanApp
             _bsStartPage = startPage;           
         }
 
-        public BS_LocationSelected(BS_StartPage startPage, List<Item> itemList)
+        public BS_LocationSelected(BS_StartPage startPage, List<Model.Item> itemList)
             : this()
         {
             _bsStartPage = startPage;

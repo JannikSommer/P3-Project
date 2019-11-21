@@ -85,7 +85,7 @@ namespace SAScanApp
 
         private async void displayList_ItemTapped(object sender, ItemTappedEventArgs e)
         {
-             await Navigation.PushAsync(new BS_LocationSelected(this, _partition.Locations.Items));
+             await Navigation.PushAsync(new BS_LocationSelected(this, _partition.Locations[1].Items));
         }
     }
 }

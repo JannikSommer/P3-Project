@@ -15,7 +15,7 @@ namespace SAScanApp
         public int TotalNrOFItems { get; set; }
         public int ItemsCounted { get; set; }
         public PartitionRequsitionState RequsitionState { get; set; }
-        public List<Location> Locations { get; set; }
+        public List<Model.Location> Locations { get; set; }
 
         public Partition()
         {
@@ -23,10 +23,10 @@ namespace SAScanApp
             RequsitionState = PartitionRequsitionState.Requested;
             TotalNrOFItems = 0;
             ItemsCounted = 0;
-            Locations = new List<Location>();
+            Locations = new List<Model.Location>();
         }
 
-        public void AddLocation(Location _Location)
+        public void AddLocation(Model.Location _Location)
         {
             Locations.Add(_Location);
             TotalNrOFItems += _Location.Items.Count;
