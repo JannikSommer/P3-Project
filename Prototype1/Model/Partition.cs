@@ -19,7 +19,7 @@ namespace Model
         }
     }
 
-    public class Partition
+    public class Partition : IComparable
     {
         public PartitionState State { get; private set; }
         public int TotalNrOFItems { get; private set; }
@@ -98,6 +98,20 @@ namespace Model
                 TotalNrOFItems += _Location.Items.Count; //this will count MultilocationItems as once per location, rather then just once
             }
             
+        }
+
+        public int CompareTo(object obj)
+        {
+            Partition OtherPartition = (Partition) obj;
+
+            int x = Span.Shelf.CompareTo(OtherPartition.Span.Shelf);
+
+            if(x == 0)
+            {
+                return Span.Posistion.CompareTo(OtherPartition.Span.Posistion);
+            }
+
+            return x;
         }
     }
 }

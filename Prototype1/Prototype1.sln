@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29123.88
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPF_PC", "WPF PC\WPF_PC.csproj", "{2E37ADA4-7348-48E4-B8E1-D4C72492C4DF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPF PC", "WPF PC\WPF PC.csproj", "{2E37ADA4-7348-48E4-B8E1-D4C72492C4DF}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Model", "Model\Model.csproj", "{486DFBC0-2B7D-4C56-940C-150E673F643A}"
 EndProject
