@@ -14,6 +14,7 @@ namespace Model
         public List<Item> Items { get; private set; }
 
         public Location() { } // Used for JSON Deserialization.
+
         public Location(string _ID)
         {
             IsEmpty = true;

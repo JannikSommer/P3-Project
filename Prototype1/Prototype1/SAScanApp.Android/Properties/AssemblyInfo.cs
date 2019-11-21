@@ -6,11 +6,11 @@ using Android.App;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Prototype1.Android")]
+[assembly: AssemblyTitle("SAScanApp.Android")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Prototype1.Android")]
+[assembly: AssemblyProduct("SAScanApp.Android")]
 [assembly: AssemblyCopyright("Copyright ©  2014")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -32,3 +32,7 @@ using Android.App;
 // Add some common permissions, these can be removed if not needed
 [assembly: UsesPermission(Android.Manifest.Permission.Internet)]
 [assembly: UsesPermission(Android.Manifest.Permission.WriteExternalStorage)]
+[assembly: UsesPermission(Android.Manifest.Permission.Flashlight)]
+[assembly: UsesPermission(Android.Manifest.Permission.Camera)]
+[assembly: UsesFeature("android.hardware.camera", Required = false)]
+[assembly: UsesFeature("android.hardware.camera.autofocus", Required = false)]

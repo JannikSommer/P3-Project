@@ -6,7 +6,7 @@ namespace Networking
 {
     public enum CommunicationFlag
     {
-        PartitionRequest, UploadRequest, ConversationCompleted
+        PartitionRequest, PartitionUpload, VerificationRequest, VerificationUpload, ConversationCompleted
     }
 
 }
