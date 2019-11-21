@@ -4,11 +4,11 @@ using System.Text;
 
 namespace Model
 {
-    class Cycle
+    public class Cycle
     {
         bool DataFormatted { get; set; }
-        List<Partition> Partitions { get; set; }
         bool CycleState { get; set; }
+        List<Partition> Partitions { get; set; }
 
         public Cycle()
         {
@@ -17,12 +17,16 @@ namespace Model
 
         void DownloadFromServer()
         {
+            // Download data from the StreetAmmo server
             throw new NotImplementedException();
         }
+
         void UploadToServer()
         {
+            // Uploads data to the StreetAmmo server
             throw new NotImplementedException();
         }
+
         Partition CreatePartition()
         {
             Partition _newPartition = new Partition();
@@ -30,19 +34,13 @@ namespace Model
             //Algoritme som uddeler items.
 
             return _newPartition;
-            //.
         }
+
         VerificationPartition CreateVerificationPartition()
         {
             VerificationPartition output = new VerificationPartition();
 
             return output;
-
-            //.
         }
-
-
-
-
     }
 }
