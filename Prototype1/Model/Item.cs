@@ -12,7 +12,9 @@ namespace Model
         public string Name { get; private set; }
         public string Color { get; private set; }
         public string Size { get; private set; }
-        public bool HasMultiLocation { get; set; }
+        public string ImageUrl { get; private set; }
+        public string CheckSum { get; set; }
+        public bool HasMultiLocation { get; private set; }
         public int ServerQuantity { get; set; }
         public int CountedQuantity { get; set; }
         public List<Location> Locations { get; private set; }
@@ -34,7 +36,7 @@ namespace Model
             Locations = new List<Location>();
         }
 
-        public Item(string _ID, string _Name, string _Color, string _Size, List<Location> _Locations)
+        public Item(string _ID, string _Name, string _Color, string _Size, List<Model.Location> _Locations)
         {
             ID = _ID;
             Name = _Name;

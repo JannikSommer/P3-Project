@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:WPF_PC"
         mc:Ignorable="d"
         Title="Opret Optællings Cyklus" Height="200" Width="525" FontFamily="Segoe UI Light"
-        FontSize="16" WindowStartupLocation="CenterScreen" MinWidth="525" MinHeight="200" >
+        FontSize="16" WindowStartupLocation="CenterScreen" MinWidth="525" MinHeight="200" Icon="Assets\count-icon-26.ico.ico" >
     <Grid HorizontalAlignment="Left">
 
         <!--Grid Definition-->

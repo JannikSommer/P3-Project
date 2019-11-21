@@ -11,12 +11,96 @@ namespace Networking
 {
     public class Client
     {
+<<<<<<< Updated upstream
+        private Socket Sender;
+=======
         private Socket Sender { get; set; }
-        private CommunicationHandler CommunicationHandler { get; set; }
+>>>>>>> Stashed changes
 
         private byte[] FlagMessasge = new byte[25]; // Fits longest CommunicationFlag with some change 
 
+        
         #region async methods
+        
+        public async Task<CommunicationHandler> UploadVerificationPartitionAsync(VerificationPartition verificationPartition)
+        {
+            CommunicationHandler socketHandler = await StartClientAsync();
+            if (socketHandler != CommunicationHandler.Success)
+            {
+                // A socket error has eccoured
+                ClientShutdown();
+                return socketHandler;
+            }
+            FlagMessasge = Encoding.UTF8.GetBytes(CommunicationFlag.VerificationUpload.ToString());
+            // Send signal to upload
+            int bytesSent = Sender.Send(FlagMessasge);
+
+            // Receive confirmation to upload
+            byte[] bytes = new byte[15]; // Fits longest CommunicationHandler with some change
+            int bytesRec = Sender.Receive(bytes);
+            string serverFlag = Encoding.UTF8.GetString(bytes, 0, bytesRec);
+            if (serverFlag == CommunicationHandler.Accept.ToString())
+            {
+                Sender.Send(SerializeDataForTransfer(verificationPartition));
+            }
+            else
+            {
+                return CommunicationHandler.Error;
+            }
+
+            // Receive signal to dispose data and close socket
+            bytesRec = Sender.Receive(bytes);
+            serverFlag = Encoding.UTF8.GetString(bytes, 0, bytesRec);
+            if (serverFlag == CommunicationFlag.ConversationCompleted.ToString())
+            {
+                ClientShutdown();
+            }
+            else
+            {
+                return CommunicationHandler.Error;
+            }
+            return CommunicationHandler.Success;
+        }
+
+        public async Task<Tuple<VerificationPartition, CommunicationHandler>> DownloadVerificationPartitionasync()
+        {
+            FlagMessasge = Encoding.UTF8.GetBytes(CommunicationFlag.VerificationRequest.ToString());
+            CommunicationHandler handler;
+            CommunicationHandler socketHandler = await StartClientAsync();
+            if (socketHandler != CommunicationHandler.Success)
+            {
+                // A socket error has eccoured
+                handler = socketHandler;
+                ClientShutdown();
+                VerificationPartition emptyPartition = null;
+                return Tuple.Create(emptyPartition, handler);
+            }
+            // Send signal to get partition
+            int bytesSent = Sender.Send(FlagMessasge);
+
+            // Incoming data from server
+            byte[] bytes = new byte[1000000]; // TODO: Make size fit. Is 1 MB now
+            int bytesRec = Sender.Receive(bytes);
+            string data = Encoding.UTF8.GetString(bytes, 0, bytesRec);
+            if (data == CommunicationHandler.Error.ToString())
+            {
+                // Checks if the request has been received and understood by server. 
+                handler = CommunicationHandler.Error;
+                ClientShutdown();
+                VerificationPartition emptyPartition = null;
+                return Tuple.Create(emptyPartition, handler);
+            }
+            else handler = CommunicationHandler.Success;
+
+            VerificationPartition partition = DeserializeDataAsVerificationPartition(bytes, bytesRec);
+
+            // Respons to server to close connection
+            Sender.Send(Encoding.UTF8.GetBytes(CommunicationFlag.ConversationCompleted.ToString()));
+
+            ClientShutdown();
+            return Tuple.Create(partition, handler);
+        }
+        
         public async Task<CommunicationHandler> UploadPartitionAsync(Partition partition)
         {
             CommunicationHandler socketHandler = await StartClientAsync();
@@ -26,7 +110,7 @@ namespace Networking
                 ClientShutdown();
                 return socketHandler;
             }
-            FlagMessasge = Encoding.UTF8.GetBytes(CommunicationFlag.UploadRequest.ToString());
+            FlagMessasge = Encoding.UTF8.GetBytes(CommunicationFlag.PartitionUpload.ToString());
             // Send signal to upload
             int bytesSent = Sender.Send(FlagMessasge);
 
@@ -74,7 +158,8 @@ namespace Networking
             int bytesSent = Sender.Send(FlagMessasge);
 
             // Incoming data from server
-            byte[] bytes = new byte[1000000]; // TODO: Make size fit. Is 1 MB now
+
+            byte[] bytes = new byte[1048576]; // TODO: Make size fit. Is 1 MB now
             int bytesRec = Sender.Receive(bytes);
             string data = Encoding.UTF8.GetString(bytes, 0, bytesRec);
             if (data == CommunicationHandler.Error.ToString())
@@ -87,7 +172,7 @@ namespace Networking
             }
             else handler = CommunicationHandler.Success;
 
-            Partition partition = DeserializeDataFromTransfer(bytes, bytesRec);
+            Partition partition = DeserializeDataAsPartition(bytes, bytesRec);
 
             // Respons to server to close connection
             Sender.Send(Encoding.UTF8.GetBytes(CommunicationFlag.ConversationCompleted.ToString()));
@@ -136,6 +221,88 @@ namespace Networking
         #endregion
 
         #region sync methods 
+
+        public CommunicationHandler UploadVerificationPartition(VerificationPartition verificationPartition)
+        {
+            CommunicationHandler socketHandler = StartClient();
+            if (socketHandler != CommunicationHandler.Success)
+            {
+                // A socket error has eccoured
+                ClientShutdown();
+                return socketHandler;
+            }
+            FlagMessasge = Encoding.UTF8.GetBytes(CommunicationFlag.VerificationUpload.ToString());
+            // Send signal to upload
+            int bytesSent = Sender.Send(FlagMessasge);
+
+            // Receive confirmation to upload
+            byte[] bytes = new byte[15]; // Fits longest CommunicationHandler with some change
+            int bytesRec = Sender.Receive(bytes);
+            string serverFlag = Encoding.UTF8.GetString(bytes, 0, bytesRec);
+            if (serverFlag == CommunicationHandler.Accept.ToString())
+            {
+                Sender.Send(SerializeDataForTransfer(verificationPartition));
+            }
+            else
+            {
+                return CommunicationHandler.Error;
+            }
+
+            // Receive signal to dispose data and close socket
+            bytesRec = Sender.Receive(bytes);
+            serverFlag += Encoding.UTF8.GetString(bytes, 0, bytesRec);
+            if (serverFlag == CommunicationFlag.ConversationCompleted.ToString())
+            {
+                ClientShutdown();
+            }
+            else
+            {
+                return CommunicationHandler.Error;
+            }
+
+            return CommunicationHandler.Success;
+        }
+
+        public Tuple<VerificationPartition, CommunicationHandler> DownloadVerificationPartition()
+        {
+            FlagMessasge = Encoding.UTF8.GetBytes(CommunicationFlag.VerificationRequest.ToString());
+            CommunicationHandler handler;
+            CommunicationHandler socketHandler = StartClient();
+            if (socketHandler != CommunicationHandler.Success)
+            {
+                // A socket error has eccoured
+                handler = socketHandler;
+                ClientShutdown();
+                VerificationPartition emptyPartition = null;
+                return Tuple.Create(emptyPartition, handler);
+            }
+            // Send signal to get partition
+            int bytesSent = Sender.Send(FlagMessasge);
+
+            // Incoming data from server
+            byte[] bytes = new byte[1000000]; // TODO: Make size fit
+            int bytesRec = Sender.Receive(bytes);
+            string data = Encoding.UTF8.GetString(bytes, 0, bytesRec);
+            if (data == CommunicationHandler.Error.ToString())
+            {
+                // Checks if the request has been received and understood by server. 
+                handler = CommunicationHandler.Error;
+                ClientShutdown();
+                VerificationPartition emptyPartition = null;
+                return Tuple.Create(emptyPartition, handler);
+            }
+            else handler = CommunicationHandler.Success;
+
+            VerificationPartition partition = DeserializeDataAsVerificationPartition(bytes, bytesRec);
+
+            // Respons to server to close connection
+            Sender.Send(Encoding.UTF8.GetBytes(CommunicationFlag.ConversationCompleted.ToString()));
+
+            ClientShutdown();
+            return Tuple.Create(partition, handler);
+        }
+
+
         public CommunicationHandler UploadPartition(Partition partition)
         {
             CommunicationHandler socketHandler = StartClient();
@@ -145,7 +312,7 @@ namespace Networking
                 ClientShutdown();
                 return socketHandler;
             }
-            FlagMessasge = Encoding.UTF8.GetBytes(CommunicationFlag.UploadRequest.ToString());
+            FlagMessasge = Encoding.UTF8.GetBytes(CommunicationFlag.PartitionUpload.ToString());
             // Send signal to upload
             int bytesSent = Sender.Send(FlagMessasge);
 
@@ -195,7 +362,7 @@ namespace Networking
             int bytesSent = Sender.Send(FlagMessasge);
 
             // Incoming data from server
-            byte[] bytes = new byte[1000000]; // TODO: Make size fit
+            byte[] bytes = new byte[1048576]; // TODO: Make size fit
             int bytesRec = Sender.Receive(bytes);
             string data = Encoding.UTF8.GetString(bytes, 0, bytesRec);
             if (data == CommunicationHandler.Error.ToString())
@@ -208,7 +375,7 @@ namespace Networking
             }
             else handler = CommunicationHandler.Success;
 
-            Partition partition = DeserializeDataFromTransfer(bytes, bytesRec);
+            Partition partition = DeserializeDataAsPartition(bytes, bytesRec);
             
             // Respons to server to close connection
             Sender.Send(Encoding.UTF8.GetBytes(CommunicationFlag.ConversationCompleted.ToString()));
@@ -254,16 +421,22 @@ namespace Networking
             return CommunicationHandler.Success;
         }
 
-        private byte[] SerializeDataForTransfer(Partition partition)
+        private byte[] SerializeDataForTransfer(Object partition)
         {
-            string json = JsonSerializer.Serialize<Partition>(partition);
+            string json = JsonSerializer.Serialize(partition);
             return Encoding.UTF8.GetBytes(json);
         }
 
-        private Partition DeserializeDataFromTransfer(byte[] bytes, int bytesRec)
+        private Partition DeserializeDataAsPartition(byte[] bytes, int bytesRec)
         {
             string data = Encoding.UTF8.GetString(bytes, 0, bytesRec);
             return JsonSerializer.Deserialize<Partition>(data);
+        }
+
+        private VerificationPartition DeserializeDataAsVerificationPartition(byte[] bytes, int bytesRec)
+        {
+            string data = Encoding.UTF8.GetString(bytes, 0, bytesRec);
+            return JsonSerializer.Deserialize<VerificationPartition>(data);
         }
 
         private void ClientShutdown()

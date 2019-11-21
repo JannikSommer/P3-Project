@@ -9,7 +9,7 @@ namespace Networking
 {
     public class Server
     {
-        private Socket Handler { get; set; }
+        private Socket Handler;
 
         public void StartServer()
         {
@@ -27,7 +27,7 @@ namespace Networking
                 Socket Listener = new Socket(ipAddress.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
                 // A Socket must be associated with an endpoint using the Bind method  
                 Listener.Bind(localEndPoint);
-
+                        
                 // Specify how many requests a Socket can listen before it gives Server busy response
                 Listener.Listen(10);
                 while (true)
@@ -38,25 +38,34 @@ namespace Networking
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.ToString());
+                // Handle error
             }
         }
 
         private void HandleConnection() // Handles the connection of the socket. 
         {
             // Incoming data from the client
-            string data = null;
             byte[] bytes = new byte[15];
             int bytesRec = Handler.Receive(bytes);
-            data += Encoding.UTF8.GetString(bytes, 0, bytesRec);
+            string data = Encoding.UTF8.GetString(bytes, 0, bytesRec);
             Partition partition = new Partition();
             
             if (data == CommunicationFlag.PartitionRequest.ToString())
+            {
                 SendPartition(partition); // get partition from somewhere else
+<<<<<<< Updated upstream
+            }
             else if (data == CommunicationFlag.UploadRequest.ToString())
+            {
+=======
+            else if (data == CommunicationFlag.PartitionUpload.ToString())
+>>>>>>> Stashed changes
                 AcceptPartitionUpload();
+            }
             else
+            {
                 CommunicationError();
+            }
         }
 
         private void CommunicationError()
@@ -68,13 +77,12 @@ namespace Networking
         {
             // Send permision to upload
             Handler.Send(Encoding.UTF8.GetBytes(CommunicationHandler.Accept.ToString()));
-            Partition uploadedPartition = new Partition();
-            byte[] bytes = new byte[1000000];
+            byte[] bytes = new byte[1048576];
 
             // Accept data from client
             int bytesRec = Handler.Receive(bytes);
             string data = Encoding.UTF8.GetString(bytes, 0, bytesRec);
-            uploadedPartition = JsonSerializer.Deserialize<Partition>(data);
+            Partition uploadedPartition = JsonSerializer.Deserialize<Partition>(data);
             // call method to handle data from uploadedPartition
 
             // Signal OK to client and shutdown socket
@@ -89,9 +97,7 @@ namespace Networking
 
             // Recieve callback
             string data = null;
-            byte[] bytes = null;
-
-            bytes = new byte[25];
+            byte[] bytes = new byte[25];
             int bytesRec = Handler.Receive(bytes);
             data += Encoding.UTF8.GetString(bytes, 0, bytesRec);
             if (!(data == CommunicationFlag.ConversationCompleted.ToString()))
