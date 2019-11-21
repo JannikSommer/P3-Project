@@ -89,6 +89,14 @@
     <Folder Include="Resources\drawable\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Model\Model.csproj">
+      <Project>{486dfbc0-2b7d-4c56-940c-150e673f643a}</Project>
+      <Name>Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Networking\Networking.csproj">
+      <Project>{26cbc6b3-3005-40d1-9d2a-3a31129578ea}</Project>
+      <Name>Networking</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SAScanApp\SAScanApp.csproj">
       <Project>{358F55BE-29A4-45F9-987E-6FA4BF15708A}</Project>
       <Name>SAScanApp</Name>

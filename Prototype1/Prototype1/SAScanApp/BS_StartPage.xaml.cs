@@ -15,6 +15,7 @@ namespace SAScanApp
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class BS_StartPage : ContentPage
     {
+
         public Model.Partition _partition { get; set; }
         public List<Model.Location> _locationList { get; set; }
         public List<Model.Item> _itemList { get; set; }
@@ -23,7 +24,11 @@ namespace SAScanApp
         
         public BS_StartPage()
         {     
+
             InitializeComponent();       
+
+
+           
         }
 
         public BS_StartPage(Model.Partition partition)
