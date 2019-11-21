@@ -27,7 +27,7 @@ namespace Networking
                 Socket Listener = new Socket(ipAddress.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
                 // A Socket must be associated with an endpoint using the Bind method  
                 Listener.Bind(localEndPoint);
-
+                        
                 // Specify how many requests a Socket can listen before it gives Server busy response
                 Listener.Listen(10);
                 while (true)
@@ -38,7 +38,7 @@ namespace Networking
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.ToString());
+                // Handle error
             }
         }
 
