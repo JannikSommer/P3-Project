@@ -9,7 +9,7 @@ namespace Networking
 {
     public class Server
     {
-        private Socket Handler { get; set; }
+        private Socket Handler;
 
         public void StartServer()
         {

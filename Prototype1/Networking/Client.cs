@@ -11,8 +11,7 @@ namespace Networking
 {
     public class Client
     {
-        private Socket Sender { get; set; }
-        private CommunicationHandler CommunicationHandler { get; set; }
+        private Socket Sender;
 
         private byte[] FlagMessasge = new byte[25]; // Fits longest CommunicationFlag with some change 
 
@@ -74,7 +73,8 @@ namespace Networking
             int bytesSent = Sender.Send(FlagMessasge);
 
             // Incoming data from server
-            byte[] bytes = new byte[1000000]; // TODO: Make size fit. Is 1 MB now
+
+            byte[] bytes = new byte[1048576]; // TODO: Make size fit. Is 1 MB now
             int bytesRec = Sender.Receive(bytes);
             string data = Encoding.UTF8.GetString(bytes, 0, bytesRec);
             if (data == CommunicationHandler.Error.ToString())
@@ -195,7 +195,7 @@ namespace Networking
             int bytesSent = Sender.Send(FlagMessasge);
 
             // Incoming data from server
-            byte[] bytes = new byte[1000000]; // TODO: Make size fit
+            byte[] bytes = new byte[1048576]; // TODO: Make size fit
             int bytesRec = Sender.Receive(bytes);
             string data = Encoding.UTF8.GetString(bytes, 0, bytesRec);
             if (data == CommunicationHandler.Error.ToString())
