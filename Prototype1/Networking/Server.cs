@@ -46,7 +46,7 @@ namespace Networking
         {
             // Incoming data from the client
             string data = null;
-            byte[] bytes = new byte[1024];
+            byte[] bytes = new byte[15];
             int bytesRec = Handler.Receive(bytes);
             data += Encoding.UTF8.GetString(bytes, 0, bytesRec);
             Partition partition = new Partition();
@@ -69,7 +69,7 @@ namespace Networking
             // Send permision to upload
             Handler.Send(Encoding.UTF8.GetBytes(CommunicationHandler.Accept.ToString()));
             Partition uploadedPartition = new Partition();
-            byte[] bytes = new byte[1024];
+            byte[] bytes = new byte[1000000];
 
             // Accept data from client
             int bytesRec = Handler.Receive(bytes);
@@ -91,7 +91,7 @@ namespace Networking
             string data = null;
             byte[] bytes = null;
 
-            bytes = new byte[1024];
+            bytes = new byte[25];
             int bytesRec = Handler.Receive(bytes);
             data += Encoding.UTF8.GetString(bytes, 0, bytesRec);
             if (!(data == CommunicationFlag.ConversationCompleted.ToString()))

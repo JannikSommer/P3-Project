@@ -74,7 +74,7 @@ namespace Networking
             int bytesSent = Sender.Send(FlagMessasge);
 
             // Incoming data from server
-            byte[] bytes = new byte[2048]; // TODO: Make size fit
+            byte[] bytes = new byte[1000000]; // TODO: Make size fit. Is 1 MB now
             int bytesRec = Sender.Receive(bytes);
             string data = Encoding.UTF8.GetString(bytes, 0, bytesRec);
             if (data == CommunicationHandler.Error.ToString())
@@ -195,7 +195,7 @@ namespace Networking
             int bytesSent = Sender.Send(FlagMessasge);
 
             // Incoming data from server
-            byte[] bytes = new byte[2048]; // TODO: Make size fit
+            byte[] bytes = new byte[1000000]; // TODO: Make size fit
             int bytesRec = Sender.Receive(bytes);
             string data = Encoding.UTF8.GetString(bytes, 0, bytesRec);
             if (data == CommunicationHandler.Error.ToString())
