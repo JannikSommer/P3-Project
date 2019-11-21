@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.IO;
 
 
@@ -8,11 +6,36 @@ namespace Model.Log {
     public class LogWriter {
 
         public LogWriter(string filePath, LogFile log) {
-            _path = filePath;
-            _log = log;
+            Path = filePath;
+            Log = log;
         }
 
-        private readonly string _path;
+        public string Path {
+            get {
+                return _path;
+            }
+            set {
+                if(value != string.Empty) {
+                    _path = value;
+                } else {
+                    throw new ArgumentException();
+                }
+            }
+        }
+        public LogFile Log {
+            get {
+                return _log;
+            }
+            set {
+                if(value != null) {
+                    _log = value;
+                } else {
+                    throw new ArgumentNullException();
+                }
+            }
+        }
+
+        private string _path;
         private LogFile _log;
 
 

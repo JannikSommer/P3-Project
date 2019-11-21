@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Model.Log {
     public class LogFile {
@@ -14,17 +12,25 @@ namespace Model.Log {
             UnaddedMessages = new Queue<LogMessage>();
         }
 
-
-        // TODO: Needs Validation
         public string Name { get; }
         public DateTime StartDate { get; }
-        public DateTime EndDate { get; private set; }
+        public DateTime EndDate {
+            get {
+                return _endDate;
+            }
+            private set {
+                if(value > StartDate) {
+                    _endDate = value;
+                } else {
+                    throw new ArgumentException();
+                }
+            }
+        }
         public List<LogMessage> Messages { get; }
         public Queue<LogMessage> UnaddedMessages { get; }
 
-        private string _name;
-        private DateTime _startDate;
         private DateTime _endDate;
+
 
         public void AddMessage(LogMessage message) {
             UnaddedMessages.Enqueue(message);
@@ -82,33 +88,5 @@ namespace Model.Log {
 
             return results;
         }
-        
-
-//        // Remove all TextLogMessage types
-//            if(filter.ItemId != string.Empty || filter.UserId != string.Empty) {
-//                results = from message in results
-//                          where message.Type != LogMessageType.Message
-//                          select message;
-//            }
-
-
-//            if(filter.ItemId != string.Empty) {
-//                results = from message in results
-//                          where message.Type == LogMessageType.Verification && ((VerificationLogMessage) message).ItemId == filter.ItemId ||
-//                                message.Type == LogMessageType.LocationUpdate && ((LocationLogMessage) message).Items.Where(x => x.itemId == filter.ItemId).Count() > 0
-//                          select message;
-//}
-
-//            if(filter.UserId != string.Empty) {
-//                results = from message in results
-//                          where message.Type == LogMessageType.Verification && ((VerificationLogMessage) message).UserId == filter.UserId ||
-//                                message.Type == LogMessageType.LocationUpdate && ((LocationLogMessage) message).UserId == filter.UserId
-//                           select message;
-//            }
-
-//            // Select all in specified time interval
-//            results = from message in results
-//                      where message.Time > filter.After && message.Time<filter.Before
-//                      select message;
     }
 }

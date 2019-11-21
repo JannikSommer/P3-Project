@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Model.Log {
     public class TextLogMessage : LogMessage {
@@ -14,18 +10,11 @@ namespace Model.Log {
             Message = GetMessageString();
         }
 
-
-        // TODO: Validation
-        public override DateTime Time {
-            get { return _time; }
-            set { _time = value; }
-        }
+        public override DateTime Time { get; set; }
         public override LogMessageType Type { get; }
         public string Text { get; set; }
         public override string Message { get; set; }
 
-        private DateTime _time;
-        private string _text;
 
         public override string GetExportableString() {
             return Type.ToString() + _seperator +

@@ -1,18 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.IO;
 
 
 namespace Model.Log {
     public class LogReader {
 
+        public LogReader() {}
+
         private readonly char _seperator = '|';
 
-        public LogReader() {
-        }
 
         public LogFile GetLogFromFile(string path) {
             StreamReader streamReader = new StreamReader(path);

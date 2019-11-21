@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using Model;
 
 namespace Model.Log {
     public class LocationLogMessage : LogMessage {
@@ -14,7 +11,6 @@ namespace Model.Log {
                 Items.Add((item.ID, item.CountedQuantity.ToString()));
             }
             Message = GetMessageString();
-
         }
 
         public LocationLogMessage(DateTime time, string userId, string locationId, List<(string itemId, string countedQuantity)> items) : this(time, userId, locationId) {
@@ -29,12 +25,39 @@ namespace Model.Log {
             Type = LogMessageType.LocationUpdate;
         }
 
-        public override DateTime Time { get; set; }
-        public string LocationId { get; set; }
-        public string UserId { get; set; }
-        public List<(string itemId, string countedQuantity)> Items { get; set; }
-        public override LogMessageType Type { get; }
+        public string LocationId {
+            get {
+                return _locationId;
+            }
+            set {
+                if(value != string.Empty) {
+                    _locationId = value;
+                } else {
+                    throw new ArgumentException();
+                }
+            }
+        }
+        public string UserId {
+            get {
+                return _userId;
+            }
+            set {
+                if(value != string.Empty) {
+                    _userId = value;
+                } else {
+                    throw new ArgumentException();
+                }
+            }
+        }
         public override string Message { get; set; }
+        public override DateTime Time { get; set; }
+        public override LogMessageType Type { get; }
+        public List<(string itemId, string countedQuantity)> Items { get; set; }
+
+        private string _userId;
+        private string _locationId;
+
+
 
         // TODO: Add language options
         public override string GetExportableString() {
@@ -70,9 +93,9 @@ namespace Model.Log {
                    itemQuantities = "";
 
             // Compile item-ids and -quantities to seperate strings
-            foreach(var item in Items) {
-                itemIds += item.itemId + ",";
-                itemQuantities += item.countedQuantity + ",";
+            foreach(var (itemId, countedQuantity) in Items) {
+                itemIds += itemId + ",";
+                itemQuantities += countedQuantity + ",";
             }
 
             // Remove last comma and add item-ids and -quantities
@@ -90,12 +113,12 @@ namespace Model.Log {
            stringBuilder.AppendLine(UserId + " started counting location " + LocationId);
 
             // Add each counted item
-            foreach(var item in Items) {
+            foreach(var (itemId, countedQuantity) in Items) {
                 stringBuilder.AppendLine(
                       "   - The quanity of item "
-                    + item.itemId
+                    + itemId
                     + " was changed to "
-                    + item.countedQuantity);
+                    + countedQuantity);
             }
 
             stringBuilder.AppendLine(
