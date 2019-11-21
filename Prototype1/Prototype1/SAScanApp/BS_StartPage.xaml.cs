@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using Xamarin.Essentials;
+using Model;
 
 namespace SAScanApp
 {
@@ -15,7 +16,7 @@ namespace SAScanApp
     public partial class BS_StartPage : ContentPage
     {
         public Partition partition { get; set; }
-        public List<Location> _locationList { get; set; }
+        public List<Model.Location> _locationList { get; set; }
         public List<Item> _itemList { get; set; }
         
         bool lightOn = false;
@@ -54,7 +55,7 @@ namespace SAScanApp
                 HasMultiLocation = false}
             };
 
-            _locationList = new List<Location> { new Location { 
+            _locationList = new List<Model.Location> { new Model.Location { 
                 LocationID = "1", 
                 IsEmpty = false,
                 Shelf = 1, 
@@ -62,7 +63,7 @@ namespace SAScanApp
                 Posistion = "noget", 
                 Items = _itemList},
 
-                new Location {
+                new Model.Location {
                 LocationID = "2",
                 IsEmpty = false,
                 Shelf = 1,
@@ -70,7 +71,7 @@ namespace SAScanApp
                 Posistion = "noget",
                 Items = _itemList},
 
-                new Location {
+                new Model.Location {
                 LocationID = "3",
                 IsEmpty = false,
                 Shelf = 1,
