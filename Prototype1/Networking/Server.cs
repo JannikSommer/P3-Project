@@ -7,16 +7,6 @@ using Model;
 
 namespace Networking
 {
-    public enum CommunicationFlag
-    {
-        PartitionRequest, UploadRequest, ConversationCompleted
-    }
-    public enum CommunicationHandler
-    {
-        Accept, Decline, Error, Success, SocketError, UnknownError
-    }
-    
-
     public class Server
     {
         private Socket Handler { get; set; }
@@ -27,8 +17,8 @@ namespace Networking
             // In this case, we get one IP address of localhost that is IP : 127.0.0.1
             // If a host has multiple addresses, you will get a list of addresses  
             // Get IP-Address from cmd -> ipconfig IPv4 address from Ethernet adapter. 
-            IPHostEntry host = Dns.GetHostEntry("localhost");
-            IPAddress ipAddress = host.AddressList[0];
+            IPHostEntry host = Dns.GetHostEntry(Dns.GetHostName());
+            IPAddress ipAddress = IPAddress.Parse("192.168.0.23");
             IPEndPoint localEndPoint = new IPEndPoint(ipAddress, 8080);
 
             try
@@ -40,7 +30,7 @@ namespace Networking
 
                 // Specify how many requests a Socket can listen before it gives Server busy response
                 Listener.Listen(10);
-                while (true) // Accepts connections untill the method ShutdownServer() is called
+                while (true)
                 {
                     Handler = Listener.Accept();
                     HandleConnection();
@@ -56,13 +46,13 @@ namespace Networking
         {
             // Incoming data from the client
             string data = null;
-            byte[] bytes = new byte[1024];
+            byte[] bytes = new byte[15];
             int bytesRec = Handler.Receive(bytes);
             data += Encoding.UTF8.GetString(bytes, 0, bytesRec);
             Partition partition = new Partition();
             
             if (data == CommunicationFlag.PartitionRequest.ToString())
-                SendPartition(partition);
+                SendPartition(partition); // get partition from somewhere else
             else if (data == CommunicationFlag.UploadRequest.ToString())
                 AcceptPartitionUpload();
             else
@@ -79,12 +69,13 @@ namespace Networking
             // Send permision to upload
             Handler.Send(Encoding.UTF8.GetBytes(CommunicationHandler.Accept.ToString()));
             Partition uploadedPartition = new Partition();
-            byte[] incommingBytes = new byte[1024];
+            byte[] bytes = new byte[1000000];
 
             // Accept data from client
-            int bytesRec = Handler.Receive(incommingBytes);
-            string data = Encoding.UTF8.GetString(incommingBytes, 0, bytesRec);
+            int bytesRec = Handler.Receive(bytes);
+            string data = Encoding.UTF8.GetString(bytes, 0, bytesRec);
             uploadedPartition = JsonSerializer.Deserialize<Partition>(data);
+            // call method to handle data from uploadedPartition
 
             // Signal OK to client and shutdown socket
             Handler.Send(Encoding.UTF8.GetBytes(CommunicationFlag.ConversationCompleted.ToString()));
@@ -100,7 +91,7 @@ namespace Networking
             string data = null;
             byte[] bytes = null;
 
-            bytes = new byte[1024];
+            bytes = new byte[25];
             int bytesRec = Handler.Receive(bytes);
             data += Encoding.UTF8.GetString(bytes, 0, bytesRec);
             if (!(data == CommunicationFlag.ConversationCompleted.ToString()))

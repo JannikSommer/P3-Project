@@ -14,7 +14,7 @@ namespace Networking
         private Socket Sender { get; set; }
         private CommunicationHandler CommunicationHandler { get; set; }
 
-        private byte[] FlagMesasge = new byte[1024]; // TODO: Make size fit 
+        private byte[] FlagMessasge = new byte[25]; // Fits longest CommunicationFlag with some change 
 
         #region async methods
         public async Task<CommunicationHandler> UploadPartitionAsync(Partition partition)
@@ -26,57 +26,66 @@ namespace Networking
                 ClientShutdown();
                 return socketHandler;
             }
-            FlagMesasge = Encoding.UTF8.GetBytes(CommunicationFlag.UploadRequest.ToString());
+            FlagMessasge = Encoding.UTF8.GetBytes(CommunicationFlag.UploadRequest.ToString());
             // Send signal to upload
-            int bytesSent = Sender.Send(FlagMesasge);
+            int bytesSent = Sender.Send(FlagMessasge);
 
             // Receive confirmation to upload
-            byte[] bytes = new byte[64]; // TODO: Make size fit 
-            string serverFlag = null;
+            byte[] bytes = new byte[15]; // Fits longest CommunicationHandler with some change
             int bytesRec = Sender.Receive(bytes);
-            serverFlag += Encoding.UTF8.GetString(bytes, 0, bytesRec);
+            string serverFlag = Encoding.UTF8.GetString(bytes, 0, bytesRec);
             if (serverFlag == CommunicationHandler.Accept.ToString())
+            {
                 Sender.Send(SerializeDataForTransfer(partition));
+            }
             else
+            {
                 return CommunicationHandler.Error;
+            }
 
             // Receive signal to dispose data and close socket
             bytesRec = Sender.Receive(bytes);
-            serverFlag += Encoding.UTF8.GetString(bytes, 0, bytesRec);
+            serverFlag = Encoding.UTF8.GetString(bytes, 0, bytesRec);
             if (serverFlag == CommunicationFlag.ConversationCompleted.ToString())
+            {
                 ClientShutdown();
+            }
             else
+            {
                 return CommunicationHandler.Error;
-
+            }
             return CommunicationHandler.Success;
         }
 
-        public async Task<Partition> DownloadPartitionAsync()
+        public async Task<Tuple<Partition, CommunicationHandler>> DownloadPartitionAsync()
         {
-            FlagMesasge = Encoding.UTF8.GetBytes(CommunicationFlag.PartitionRequest.ToString());
+            FlagMessasge = Encoding.UTF8.GetBytes(CommunicationFlag.PartitionRequest.ToString());
+            CommunicationHandler handler;
             CommunicationHandler socketHandler = await StartClientAsync();
             if (socketHandler != CommunicationHandler.Success)
             {
                 // A socket error has eccoured
-                CommunicationHandler = socketHandler;
+                handler = socketHandler;
                 ClientShutdown();
-                return null;
+                Partition emptyPartition = null;
+                return Tuple.Create(emptyPartition, handler);
             }
             // Send signal to get partition
-            int bytesSent = Sender.Send(FlagMesasge);
+            int bytesSent = Sender.Send(FlagMessasge);
 
             // Incoming data from server
-            byte[] bytes = new byte[2048]; // TODO: Make size fit
+            byte[] bytes = new byte[1000000]; // TODO: Make size fit. Is 1 MB now
             int bytesRec = Sender.Receive(bytes);
             string data = Encoding.UTF8.GetString(bytes, 0, bytesRec);
             if (data == CommunicationHandler.Error.ToString())
             {
                 // Checks if the request has been received and understood by server. 
-                CommunicationHandler = CommunicationHandler.Error;
+                handler = CommunicationHandler.Error;
                 ClientShutdown();
-                return null;
+                Partition emptyPartition = null;
+                return Tuple.Create(emptyPartition, handler);
             }
-            else CommunicationHandler = CommunicationHandler.Success;
+            else handler = CommunicationHandler.Success;
 
             Partition partition = DeserializeDataFromTransfer(bytes, bytesRec);
 
@@ -84,7 +93,7 @@ namespace Networking
             Sender.Send(Encoding.UTF8.GetBytes(CommunicationFlag.ConversationCompleted.ToString()));
 
             ClientShutdown();
-            return partition;
+            return Tuple.Create(partition, handler);
         }
 
         private async Task<CommunicationHandler> StartClientAsync()
@@ -95,11 +104,11 @@ namespace Networking
                 // Get Host IP Address that is used to establish a connection  
                 // In this case, we get one IP address of localhost that is IP : 127.0.0.1  
                 // If a host has multiple addresses, you will get a list of addresses  
-                IPHostEntry host = Dns.GetHostEntry("localhost");
+                IPHostEntry host = Dns.GetHostEntry("192.168.0.23");
                 IPAddress ipAddress = host.AddressList[0];
                 IPEndPoint remoteEP = new IPEndPoint(ipAddress, 8080);
 
-                // Create a TCP/IP  socket.    
+                // Create a TCP/IP  socket
                 Sender = new Socket(ipAddress.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
 
                 // Connect the socket to the remote endpoint. Catch any errors.    
@@ -136,47 +145,57 @@ namespace Networking
                 ClientShutdown();
                 return socketHandler;
             }
-            FlagMesasge = Encoding.UTF8.GetBytes(CommunicationFlag.UploadRequest.ToString());
+            FlagMessasge = Encoding.UTF8.GetBytes(CommunicationFlag.UploadRequest.ToString());
             // Send signal to upload
-            int bytesSent = Sender.Send(FlagMesasge);
+            int bytesSent = Sender.Send(FlagMessasge);
 
             // Receive confirmation to upload
-            byte[] bytes = new byte[64]; // TODO: Make size fit 
+            byte[] bytes = new byte[15]; // Fits longest CommunicationHandler with some change
             string serverFlag = null;
             int bytesRec = Sender.Receive(bytes);
             serverFlag += Encoding.UTF8.GetString(bytes, 0, bytesRec);
             if (serverFlag == CommunicationHandler.Accept.ToString())
+            {
                 Sender.Send(SerializeDataForTransfer(partition));
+            }
             else
+            {
                 return CommunicationHandler.Error;
+            }
 
             // Receive signal to dispose data and close socket
             bytesRec = Sender.Receive(bytes);
             serverFlag += Encoding.UTF8.GetString(bytes, 0, bytesRec);
             if (serverFlag == CommunicationFlag.ConversationCompleted.ToString())
+            {
                 ClientShutdown();
+            }
             else
+            {
                 return CommunicationHandler.Error;
+            }
 
             return CommunicationHandler.Success;
         }
 
-        public Partition DownloadPartition(out CommunicationHandler handler)
+        public Tuple<Partition, CommunicationHandler> DownloadPartition()
         {
-            FlagMesasge = Encoding.UTF8.GetBytes(CommunicationFlag.PartitionRequest.ToString());
+            FlagMessasge = Encoding.UTF8.GetBytes(CommunicationFlag.PartitionRequest.ToString());
+            CommunicationHandler handler;
             CommunicationHandler socketHandler = StartClient();
             if (socketHandler != CommunicationHandler.Success)
             {
                 // A socket error has eccoured
                 handler = socketHandler;
                 ClientShutdown();
-                return null;
+                Partition emptyPartition = null;
+                return Tuple.Create(emptyPartition, handler);
             }
             // Send signal to get partition
-            int bytesSent = Sender.Send(FlagMesasge);
+            int bytesSent = Sender.Send(FlagMessasge);
 
             // Incoming data from server
-            byte[] bytes = new byte[2048]; // TODO: Make size fit
+            byte[] bytes = new byte[1000000]; // TODO: Make size fit
             int bytesRec = Sender.Receive(bytes);
             string data = Encoding.UTF8.GetString(bytes, 0, bytesRec);
             if (data == CommunicationHandler.Error.ToString())
@@ -184,7 +203,8 @@ namespace Networking
                 // Checks if the request has been received and understood by server. 
                 handler = CommunicationHandler.Error;
                 ClientShutdown();
-                return null;
+                Partition emptyPartition = null;
+                return Tuple.Create(emptyPartition, handler);
             }
             else handler = CommunicationHandler.Success;
 
@@ -194,7 +214,7 @@ namespace Networking
             Sender.Send(Encoding.UTF8.GetBytes(CommunicationFlag.ConversationCompleted.ToString()));
 
             ClientShutdown();
-            return partition;
+            return Tuple.Create(partition, handler);
         }
 
         private CommunicationHandler StartClient()
@@ -205,7 +225,7 @@ namespace Networking
                 // Get Host IP Address that is used to establish a connection  
                 // In this case, we get one IP address of localhost that is IP : 127.0.0.1  
                 // If a host has multiple addresses, you will get a list of addresses  
-                IPHostEntry host = Dns.GetHostEntry("localhost");
+                IPHostEntry host = Dns.GetHostEntry("192.168.0.23");
                 IPAddress ipAddress = host.AddressList[0];
                 IPEndPoint remoteEP = new IPEndPoint(ipAddress, 8080);
 

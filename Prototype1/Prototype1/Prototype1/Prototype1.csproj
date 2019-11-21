@@ -19,6 +19,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Model\Model.csproj" />
+    <ProjectReference Include="..\..\Networking\Networking.csproj" />
+    <ProjectReference Include="..\..\WPF PC\WPF PC.csproj" />
   </ItemGroup>
 
   <ItemGroup>

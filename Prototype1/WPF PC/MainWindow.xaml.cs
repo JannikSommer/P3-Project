@@ -12,6 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Networking;
+using System.Threading;
 
 namespace WPF_PC
 {
@@ -20,7 +22,7 @@ namespace WPF_PC
     /// </summary>
     public partial class MainWindow : Window
     {
-        public class Item
+        public class Item // remember to use item class from model
         {
             public string itemID { get; set; }
             public string itemName { get; set; }
@@ -31,7 +33,9 @@ namespace WPF_PC
             public int itemCountVariation { get; set; }
         }
 
-        //public List<string> settings = new List<string>();
+        private Thread NetworkingThread; // Used to keep socket connection open for clients. 
+
+        public List<string> settings = new List<string>();
 
         int numberOfTimesChangeLanguageIsPressed = 0;
 
@@ -39,13 +43,25 @@ namespace WPF_PC
         {
             InitializeComponent();
 
-            updateMainWindow();
+            StartServer();
 
-            loadIntoDataGrid();
-            loadIntoChooseBox();
+            UpdateMainWindow();
+
+            Loading load = new Loading();
+            load.Show();
+
+            LoadIntoDataGrid();
+            LoadIntoChooseBox();
         }
 
-        public void loadIntoDataGrid()
+        private void StartServer()
+        {
+            Server server = new Server();
+            NetworkingThread = new Thread(new ThreadStart(server.StartServer));
+            NetworkingThread.Start();
+        }
+
+        public void LoadIntoDataGrid()
         {
             Item itemOne = new Item();
 
@@ -71,7 +87,18 @@ namespace WPF_PC
 
         }
 
-        public void updateMainWindow()
+        public void LoadIntoChooseBox()
+        {
+
+            settings.Add("I dags optalte");
+            settings.Add("Optalte i denne cyklus");
+            settings.Add("Optalte med difference");
+
+            comboBoxChooseGet.ItemsSource = settings;
+
+        }
+
+        public void UpdateMainWindow()
         {
             //Active Clients:
             int activeClientsInt = 1;
