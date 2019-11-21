@@ -10,7 +10,7 @@ namespace SAScanApp
         public PartitionRequsitionState RequsitionState { get; private set; }
         public int TotalNrOFItems { get; private set; }
         public int ItemsCounted { get; private set; }
-        public List<Item> Items { get; private set; }
+        public List<Model.Item> Items { get; private set; }
 
         public VerificationPartition()
         {
@@ -18,10 +18,10 @@ namespace SAScanApp
             RequsitionState = PartitionRequsitionState.Requested;
             TotalNrOFItems = 0;
             ItemsCounted = 0;
-            Items = new List<Item>();
+            Items = new List<Model.Item>();
         }
 
-        public void AddItem(Item item)
+        public void AddItem(Model.Item item)
         {
             Items.Add(item);
             TotalNrOFItems++;
