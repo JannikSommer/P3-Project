@@ -19,11 +19,12 @@ namespace WPF_PC
     /// </summary>
     public partial class EditCycle : Window
     {
-
-        public EditCycle()
+        private new Language Language;
+        public EditCycle(Language language)
         {
             InitializeComponent();
 
+            EditCycleWindowLanguage(language);
             loadAllUsersnamesIntoChooseBox();
             getSortPriority();
         }
@@ -56,7 +57,7 @@ namespace WPF_PC
             int selectedindex = listBoxShelfPriority.SelectedIndex;
 
             //Check if a move down is possible
-            if (selectedindex < listBoxShelfPriority.Items.Count - 1)
+            if (selectedindex < listBoxShelfPriority.Items.Count - 1 && listBoxShelfPriority.SelectedItem != null)
             {
                 //Copy the selected
                 var item = new ListViewItem();
@@ -141,6 +142,46 @@ namespace WPF_PC
         private void ConfirmEdit_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
+        }
+
+        public void EditCycleWindowLanguage(Language language)
+        {
+
+            //Danish:
+            if (Language.Danish == language)
+            {
+                //Labels:
+                chooseHowToEditCycle.Content = "Vælg hvordan Cyklus'en skal Redigeres:";
+                chooseThePriority.Content = "Vælg hvordan reolerne skal sorteres:";
+                chooseUsers.Content = "Slet en specifik brugers arbejde:";
+                chooseToDeleteTheWholeCycle.Content = "Slet hele cyklus'en:";
+
+                //Buttons:
+                MoveUpButton.Content = "Flyt op";
+                MoveDownButton.Content = "Flyt ned";
+                DeleteUserButton.Content = "Slet brugers arbejde";
+                DeleteCycleCountButton.Content = "Slet Cyklus";
+                ConfirmEdit.Content = "OK";
+                CancelEdit.Content = "Annuller";
+            }
+
+            //English:
+            else if (Language.English == language)
+            {
+                //Labels:
+                chooseHowToEditCycle.Content = "Choose how to edit the cycle:";
+                chooseThePriority.Content = "Choose how to sort the shelfs:";
+                chooseUsers.Content = "Delete a specific users work:";
+                chooseToDeleteTheWholeCycle.Content = "Delete the whole cycle:";
+
+                //Buttons:
+                MoveUpButton.Content = "Move up";
+                MoveDownButton.Content = "Move down";
+                DeleteUserButton.Content = "Delete users work";
+                DeleteCycleCountButton.Content = "Delete cycle";
+                ConfirmEdit.Content = "OK";
+                CancelEdit.Content = "Cancel";
+            }
         }
     }
 }

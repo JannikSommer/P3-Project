@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:WPF_PC"
         mc:Ignorable="d" FontFamily="Segoe UI Light"
         FontSize="16" WindowStartupLocation="CenterScreen" Icon="Assets\count-icon-26.ico.ico"
-        Title="EditCycle" Height="660" Width="680" MinWidth="680" MinHeight="660">
+        Title="Edit Cycle" Height="660" Width="680" MinWidth="680" MinHeight="660">
     <Grid>
 
         <!--Grid Definition-->
@@ -98,10 +98,10 @@
 
         <!--ListBox Buttons-->
 
-        <Button x:Name="MoveUpButton" Content="Flyt op" Width="60" Height="35"
+        <Button x:Name="MoveUpButton" Content="Flyt op" Width="90" Height="35"
                 Grid.Column="2" Grid.Row="2" Margin="210,30,10,10" HorizontalAlignment="Left" VerticalAlignment="Top" Click="MoveUpButton_Click" />
 
-        <Button x:Name="MoveDownButton" Content="Flyt ned" Width="60" Height="35"
+        <Button x:Name="MoveDownButton" Content="Flyt ned" Width="90" Height="35"
                 Grid.Column="2" Grid.Row="2" Margin="210,75,10,10" HorizontalAlignment="Left" VerticalAlignment="Top" Click="MoveDownButton_Click" />
 
     </Grid>
