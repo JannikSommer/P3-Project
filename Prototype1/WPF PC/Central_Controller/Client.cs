@@ -10,7 +10,7 @@ namespace WPF_PC.Central_Controller
     public class Client : IComparable
     {
         public string ID { get; }
-        public Partition _CurrentPartition;
+        private Partition _CurrentPartition;
         private DateTime LastActivity;
 
         public Partition CurrentPartition

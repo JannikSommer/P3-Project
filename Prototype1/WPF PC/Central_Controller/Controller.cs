@@ -139,7 +139,7 @@ namespace WPF_PC.Central_Controller
             return index;
         }
 
-        public void InitialAddItem(Item item, List<string> Location_IDs)
+        public void InitialAddItem(Item item, List<string> Location_IDs) //tester ikke om location allerade eksistere
         {
             int Index;
             Location NewLocation;
@@ -188,7 +188,7 @@ namespace WPF_PC.Central_Controller
             InitilizeLocationComparer();
             Locations.Sort(Location_Comparer);
 
-            if(AvailebleShelfs.Count == 0)
+            if(AvailebleShelfs.Count != 0)
             {
                 throw new Exception("AvailebleShelfs has to be empty to partition useing this algorithm");
             }
@@ -237,34 +237,36 @@ namespace WPF_PC.Central_Controller
             }
         }
 
-        /*public void CheckForAFKclients() needs re-implimentation
+        public void CheckForAFKclients()
         {
             for(int x = 0; x < Active_Clients.Count; x++)
             {
                 if (Active_Clients[x].IsAFK(TimeBeforeAFK))
                 {
-                    RemoveClient(x);
+                    RemoveInactiveClient(x);
                 }
             }
         }
 
-        private void RemoveClient(int UsersIndex)
+        public void RemoveInactiveClient(int UsersIndex)
         {
             for(int x = 0; x < OccopiedShelfs.Count; x++)
             {
-                if(OccopiedShelfs[x].BeingCountedByUser == Active_Clients[UsersIndex])
+                if(OccopiedShelfs[x].HasClient(Active_Clients[UsersIndex]))
                 {
-                    OccopiedShelfs[x].Partitions.Add(Active_Clients[UsersIndex].CurrentPartition);
-                    OccopiedShelfs[x].Partitions.Sort();
+                    OccopiedShelfs[x].RemoveInactiveClients(Active_Clients[UsersIndex]);
 
-                    MoveElementFromListToOtherList(OccopiedShelfs, x, AvailebleShelfs);
-
+                    if(OccopiedShelfs[x].NumberOfClients == 0)
+                    {
+                        MoveElementFromListToOtherList(OccopiedShelfs, x, AvailebleShelfs);
+                    }
+                    
                     break;
                 }
             }
 
             Active_Clients.RemoveAt(UsersIndex);
-        }*/
+        }
 
         private void MoveElementFromListToOtherList<T>(List<T> MoveFromList, int Index, List<T> MoveToList) where T : IComparable
         {

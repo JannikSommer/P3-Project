@@ -235,5 +235,119 @@ namespace Unit_Tests
             Assert.AreEqual(ExpectedLocationCount, ActualLocationCount);
             Assert.AreEqual(ExpectedIsMultiLocationItemPartition, ActualIsMultiLocationItemPartition);
         }
+
+        [TestMethod]
+        public void Sort_Test1()
+        {
+            // Arrange
+            Partition TestPartition1 = new Partition(new Location("001A01"));
+            Partition TestPartition2 = new Partition(new Location("002A01"));
+            Partition TestPartition3 = new Partition(new Location("003A01"));
+
+            //Expected
+            int ExpectedShelf1 = 1;
+            int ExpectedPosistion1 = 1;
+
+            int ExpectedShelf2 = 2;
+            int ExpectedPosistion2 = 1;
+
+            int ExpectedShelf3 = 3;
+            int ExpectedPosistion3 = 1;
+
+            // Act
+            List<Partition> ActualPartitionList = new List<Partition>();
+
+            ActualPartitionList.Add(TestPartition1);
+            ActualPartitionList.Add(TestPartition2);
+            ActualPartitionList.Add(TestPartition3);
+
+            ActualPartitionList.Sort();
+
+            // Assert
+            Assert.AreEqual(ExpectedShelf1, ActualPartitionList[0].Span.Shelf);
+            Assert.AreEqual(ExpectedPosistion1, ActualPartitionList[0].Span.Posistion);
+
+            Assert.AreEqual(ExpectedShelf2, ActualPartitionList[1].Span.Shelf);
+            Assert.AreEqual(ExpectedPosistion2, ActualPartitionList[1].Span.Posistion);
+
+            Assert.AreEqual(ExpectedShelf3, ActualPartitionList[2].Span.Shelf);
+            Assert.AreEqual(ExpectedPosistion3, ActualPartitionList[2].Span.Posistion);
+        }
+
+        [TestMethod]
+        public void Sort_Test2()
+        {
+            // Arrange
+            Partition TestPartition1 = new Partition(new Location("001A01"));
+            Partition TestPartition2 = new Partition(new Location("001A02"));
+            Partition TestPartition3 = new Partition(new Location("001A03"));
+
+            //Expected
+            int ExpectedShelf1 = 1;
+            int ExpectedPosistion1 = 1;
+
+            int ExpectedShelf2 = 1;
+            int ExpectedPosistion2 = 2;
+
+            int ExpectedShelf3 = 1;
+            int ExpectedPosistion3 = 3;
+
+            // Act
+            List<Partition> ActualPartitionList = new List<Partition>();
+
+            ActualPartitionList.Add(TestPartition1);
+            ActualPartitionList.Add(TestPartition2);
+            ActualPartitionList.Add(TestPartition3);
+
+            ActualPartitionList.Sort();
+
+            // Assert
+            Assert.AreEqual(ExpectedShelf1, ActualPartitionList[0].Span.Shelf);
+            Assert.AreEqual(ExpectedPosistion1, ActualPartitionList[0].Span.Posistion);
+
+            Assert.AreEqual(ExpectedShelf2, ActualPartitionList[1].Span.Shelf);
+            Assert.AreEqual(ExpectedPosistion2, ActualPartitionList[1].Span.Posistion);
+
+            Assert.AreEqual(ExpectedShelf3, ActualPartitionList[2].Span.Shelf);
+            Assert.AreEqual(ExpectedPosistion3, ActualPartitionList[2].Span.Posistion);
+        }
+
+        [TestMethod]
+        public void Sort_Test3()
+        {
+            // Arrange
+            Partition TestPartition1 = new Partition(new Location("001A01"));
+            Partition TestPartition2 = new Partition(new Location("001A02"));
+            Partition TestPartition3 = new Partition(new Location("002A01"));
+
+            //Expected
+            int ExpectedShelf1 = 1;
+            int ExpectedPosistion1 = 1;
+
+            int ExpectedShelf2 = 1;
+            int ExpectedPosistion2 = 2;
+
+            int ExpectedShelf3 = 2;
+            int ExpectedPosistion3 = 1;
+
+            // Act
+            List<Partition> ActualPartitionList = new List<Partition>();
+
+            ActualPartitionList.Add(TestPartition1);
+            ActualPartitionList.Add(TestPartition2);
+            ActualPartitionList.Add(TestPartition3);
+
+            ActualPartitionList.Sort();
+
+            // Assert
+            Assert.AreEqual(ExpectedShelf1, ActualPartitionList[0].Span.Shelf);
+            Assert.AreEqual(ExpectedPosistion1, ActualPartitionList[0].Span.Posistion);
+
+            Assert.AreEqual(ExpectedShelf2, ActualPartitionList[1].Span.Shelf);
+            Assert.AreEqual(ExpectedPosistion2, ActualPartitionList[1].Span.Posistion);
+
+            Assert.AreEqual(ExpectedShelf3, ActualPartitionList[2].Span.Shelf);
+            Assert.AreEqual(ExpectedPosistion3, ActualPartitionList[2].Span.Posistion);
+        }
     }
 }

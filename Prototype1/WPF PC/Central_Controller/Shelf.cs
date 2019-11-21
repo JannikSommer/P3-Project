@@ -15,6 +15,7 @@ namespace WPF_PC.Central_Controller
             public List<Partition> Partitions { get; private set; } = new List<Partition>();
             // public Client BeingCountedByUser = null; //needed for first implimentation of send next partition
             private List<ClientInfo> Clients = new List<ClientInfo>();
+            public int NumberOfClients { get { return Clients.Count; } }
 
             public Shelf(int shelfIndex)
             {
@@ -73,30 +74,50 @@ namespace WPF_PC.Central_Controller
                     }
                     else if(Clients.Count == 1)
                     {
-                        Clients.Add(new ClientInfo(client, Partitions.Count - 1, true));
+                        LargestGap = FindLargestGapInPartitions_Posistions();
+
+                        if (LargestGap[1] == int.MaxValue)
+                        {
+                            Clients.Add(new ClientInfo(client, Partitions.Count - 1, true));
+                        }
+                        else
+                        {
+                            Clients.Add(new ClientInfo(client, 0, false));
+                        }  
                     }
                     else
                     {
                         LargestGap = FindLargestGapInPartitions_Posistions();
 
-                        if(Clients[LargestGap[0]].ReverseCount && Clients[LargestGap[1]].ReverseCount) //LargestGap[0] count direction: <-      LargestGap[1] count direction: <-   
+                        if (LargestGap[0] == -1)
                         {
-                            Clients.Add(new ClientInfo(client, Clients[LargestGap[0]].PartitionIndex + 1, false)); 
+                            Clients.Add(new ClientInfo(client, 0, false));
                         }
-                        else if (!Clients[LargestGap[0]].ReverseCount && Clients[LargestGap[1]].ReverseCount) //LargestGap[0] count direction: ->      LargestGap[1] count direction: <-
+                        else if(LargestGap[1] == int.MaxValue)
                         {
-                            // 1/3 of the amounts of partition between the 2 largest gap partitions + the the start point of the first one
-                            int PartitionIndex = (Clients[LargestGap[1]].PartitionIndex - Clients[LargestGap[0]].PartitionIndex) / 3 + Clients[LargestGap[0]].PartitionIndex;
+                            Clients.Add(new ClientInfo(client, Partitions.Count - 1, true));
+                        }
+                        else
+                        {
+                            if (Clients[LargestGap[0]].ReverseCount && Clients[LargestGap[1]].ReverseCount) //LargestGap[0] count direction: <-      LargestGap[1] count direction: <-   
+                            {
+                                Clients.Add(new ClientInfo(client, Clients[LargestGap[0]].PartitionIndex + 1, false));
+                            }
+                            else if (!Clients[LargestGap[0]].ReverseCount && Clients[LargestGap[1]].ReverseCount) //LargestGap[0] count direction: ->      LargestGap[1] count direction: <-
+                            {
+                                // 1/3 of the amounts of partition between the 2 largest gap partitions + the the start point of the first one
+                                int PartitionIndex = (Clients[LargestGap[1]].PartitionIndex - Clients[LargestGap[0]].PartitionIndex) / 3 + Clients[LargestGap[0]].PartitionIndex;
 
-                            Clients.Add(new ClientInfo(client, PartitionIndex, false));
-                        }
-                        else if (Clients[LargestGap[0]].ReverseCount && !Clients[LargestGap[1]].ReverseCount) //LargestGap[0] count direction: <-      LargestGap[1] count direction: ->
-                        {
-                            Clients.Add(new ClientInfo(client, Clients[LargestGap[0]].PartitionIndex + 1, false));
-                        }
-                        else //LargestGap[0] count direction: ->      LargestGap[1] count direction: ->
-                        {
-                            Clients.Add(new ClientInfo(client, Clients[LargestGap[1]].PartitionIndex - 1, true));
+                                Clients.Add(new ClientInfo(client, PartitionIndex, false));
+                            }
+                            else if (Clients[LargestGap[0]].ReverseCount && !Clients[LargestGap[1]].ReverseCount) //LargestGap[0] count direction: <-      LargestGap[1] count direction: ->
+                            {
+                                Clients.Add(new ClientInfo(client, Clients[LargestGap[0]].PartitionIndex + 1, false));
+                            }
+                            else //LargestGap[0] count direction: ->      LargestGap[1] count direction: ->
+                            {
+                                Clients.Add(new ClientInfo(client, Clients[LargestGap[1]].PartitionIndex - 1, true));
+                            }
                         }
                     }
                 }
@@ -113,6 +134,12 @@ namespace WPF_PC.Central_Controller
                 int BiggestGapSize = -1;
                 List<int> LargestGapPosistions = new List<int>();
 
+                if(Clients.Count > 0 && Clients[0].PartitionIndex != 0)
+                {
+                    BiggestGapSize = Clients[0].PartitionIndex;
+                    LargestGapPosistions = new List<int> { -1, 0 };
+                }
+
                 if(Clients.Count >= 2)
                 {
                     for(int x = 1; x < Clients.Count; x++)
@@ -125,13 +152,25 @@ namespace WPF_PC.Central_Controller
                     }
                 }
 
+                if (Clients.Count > 0 && Clients.Last().PartitionIndex != Partitions.Count - 1)
+                {
+                    if(Partitions.Count - 1 - Clients.Last().PartitionIndex > BiggestGapSize)
+                    {
+                        LargestGapPosistions = new List<int> { Clients.Count - 1, int.MaxValue };
+                    }
+                }
+
                 return LargestGapPosistions;
             }
 
             public int FindLargestGapInPartitions_size()
             {
                 int BiggestGapSize = -1;
-                List<int> LargestGapPosistions = new List<int>();
+
+                if (Clients.Count > 0 && Clients[0].PartitionIndex != 0)
+                {
+                    BiggestGapSize = Clients[0].PartitionIndex;
+                }
 
                 if (Clients.Count >= 2)
                 {
@@ -140,8 +179,15 @@ namespace WPF_PC.Central_Controller
                         if (Clients[x].PartitionIndex - Clients[x - 1].PartitionIndex > BiggestGapSize)
                         {
                             BiggestGapSize = Clients[x].PartitionIndex - Clients[x - 1].PartitionIndex;
-                            LargestGapPosistions = new List<int> { x - 1, x };
                         }
+                    }
+                }
+
+                if (Clients.Count > 0 && Clients.Last().PartitionIndex != Partitions.Count - 1)
+                {
+                    if (Partitions.Count - 1 - Clients.Last().PartitionIndex > BiggestGapSize)
+                    {
+                        BiggestGapSize = Partitions.Count - 1 - Clients.Last().PartitionIndex;
                     }
                 }
 
@@ -189,7 +235,44 @@ namespace WPF_PC.Central_Controller
                     }
                 }
 
+                client.CurrentPartition = partition;
+
                 return partition;
+            }
+
+            public void RemoveInactiveClients(Client client)
+            {
+                int InactiveClientIndex = Clients.FindIndex(x => x.Client.ID == client.ID);
+                int IndexOfItem = int.MaxValue;
+
+                if(InactiveClientIndex < 0)
+                {
+                    throw new Exception("Client isn't assigned to shelf");
+                }
+
+                Partitions.Add(Clients[InactiveClientIndex].Client.CurrentPartition);
+                Partitions.Sort();
+
+                //IndexOfItem = Partitions.FindIndex(x => x.CompareTo(client.CurrentPartition) == 0);
+
+                for(int x = 0; x < Partitions.Count; x++)
+                {
+                    if(Partitions[x].Span.Shelf == Clients[InactiveClientIndex].Client.CurrentPartition.Span.Shelf
+                        && Partitions[x].Span.Posistion == Clients[InactiveClientIndex].Client.CurrentPartition.Span.Posistion)
+                    {
+                        IndexOfItem = x;
+                    }
+                }
+
+                foreach(ClientInfo _client in Clients)
+                {
+                    if(_client.PartitionIndex >= IndexOfItem)
+                    {
+                        _client.PartitionIndex++;
+                    }
+                }
+
+                Clients.RemoveAt(InactiveClientIndex);
             }
 
             private void RemoveUsers(List<int> IndexList)
