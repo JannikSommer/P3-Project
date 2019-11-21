@@ -58,6 +58,5 @@ namespace Model
                 HasMultiLocation = true;
             }
         }
-
     }
 }

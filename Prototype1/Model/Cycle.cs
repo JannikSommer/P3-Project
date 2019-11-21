@@ -8,7 +8,6 @@ namespace Model
     {
         bool DataFormatted { get; set; }
         List<Partition> Partitions { get; set; }
-        Log log { get; set; }
         bool CycleState { get; set; }
 
         public Cycle()
