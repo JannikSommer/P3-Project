@@ -48,25 +48,31 @@ namespace Networking
             byte[] bytes = new byte[15];
             int bytesRec = Handler.Receive(bytes);
             string data = Encoding.UTF8.GetString(bytes, 0, bytesRec);
-            Partition partition = new Partition();
-            
+
             if (data == CommunicationFlag.PartitionRequest.ToString())
             {
+                Partition partition = new Partition(); 
                 SendPartition(partition); // get partition from somewhere else
-<<<<<<< Updated upstream
             }
-            else if (data == CommunicationFlag.UploadRequest.ToString())
-            {
-=======
-            else if (data == CommunicationFlag.PartitionUpload.ToString())
->>>>>>> Stashed changes
+            else if (data == CommunicationFlag.PartitionUpload.ToString()) 
+            { 
                 AcceptPartitionUpload();
+            }
+            else if (data == CommunicationFlag.VerificationRequest.ToString())
+            {
+                VerificationPartition verificationPartition = new VerificationPartition();
+                SendVerificationPartition(verificationPartition);
+            }
+            else if (data == CommunicationFlag.VerificationUpload.ToString())
+            {
+                AcceptVerificationPartitionUpload();
             }
             else
             {
                 CommunicationError();
             }
         }
+
 
         private void CommunicationError()
         {
@@ -92,7 +98,7 @@ namespace Networking
         private void SendPartition(Partition partition)
         {
             // Send partition to client
-            string json = JsonSerializer.Serialize<Partition>(partition);
+            string json = JsonSerializer.Serialize(partition);
             Handler.Send(Encoding.UTF8.GetBytes(json));
 
             // Recieve callback
@@ -105,6 +111,39 @@ namespace Networking
                 // Handle error
             }
         }
+
+        private void SendVerificationPartition(VerificationPartition verificationPartition)
+        {
+            // Send partition to client
+            string json = JsonSerializer.Serialize(verificationPartition);
+            Handler.Send(Encoding.UTF8.GetBytes(json));
+
+            // Recieve callback
+            string data = null;
+            byte[] bytes = new byte[25];
+            int bytesRec = Handler.Receive(bytes);
+            data += Encoding.UTF8.GetString(bytes, 0, bytesRec);
+            if (!(data == CommunicationFlag.ConversationCompleted.ToString()))
+            {
+                // Handle error
+            }
+        }
+
+        private void AcceptVerificationPartitionUpload()
+        {
+            // Send permision to upload
+            Handler.Send(Encoding.UTF8.GetBytes(CommunicationHandler.Accept.ToString()));
+            byte[] bytes = new byte[1048576];
+
+            // Accept data from client
+            int bytesRec = Handler.Receive(bytes);
+            string data = Encoding.UTF8.GetString(bytes, 0, bytesRec);
+            VerificationPartition verificationPartition = JsonSerializer.Deserialize<VerificationPartition>(data);
+            // call method to handle data from uploadedPartition
+
+            // Signal OK to client and shutdown socket
+            Handler.Send(Encoding.UTF8.GetBytes(CommunicationFlag.ConversationCompleted.ToString()));
+        }    
 
         public void ShutdownServer()
         {
