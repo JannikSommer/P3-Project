@@ -302,6 +302,7 @@ namespace WPF_PC.Central_Controller
                     {
                         AvailebleShelfs.Add(new Shelf(location.Shelf));
                         AvailebleShelfs[AvailebleShelfs.Count - 1].AddLocation(location);
+                        AvailebleShelfs.Sort(ShelfSort);
                     }
                 }
             }
@@ -318,6 +319,14 @@ namespace WPF_PC.Central_Controller
         private Shelf FindShelf(List<Shelf> ShelfList, int Index)
         {
             return ShelfList.Find(x => x.ShelfIndex == Index);
+        }
+
+        private int ShelfSort(Shelf a, Shelf b)
+        {
+            int aHieraky = Location_Comparer.ShelfHierakyOf(a.ShelfIndex);
+            int bHieraky = Location_Comparer.ShelfHierakyOf(b.ShelfIndex);
+
+            return aHieraky.CompareTo(bHieraky);
         }
 
         private List<Item> ConvertLocationListToItemList(List<Location> LocationList) //Runs 3 loops

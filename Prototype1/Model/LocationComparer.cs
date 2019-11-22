@@ -6,24 +6,29 @@ namespace Model
 {
     public class LocationComparer : IComparer<Location>
     {
-        public int[] ShelfHierakyi { get; private set; }
+        public int[] ShelfHieraky { get; private set; }
         private int HighestValueShelf;
 
         public LocationComparer(int highestShelfNumber)
         {
-            ShelfHierakyi = new int[highestShelfNumber + 1];
+            ShelfHieraky = new int[highestShelfNumber + 1];
             HighestValueShelf = highestShelfNumber;
 
             for(int x = 0; x <= highestShelfNumber; x++)
             {
-                ShelfHierakyi[x] = x;
+                ShelfHieraky[x] = x;
             }
+        }
+
+        public int ShelfHierakyOf(int ShelfIndex)
+        {
+            return ShelfHieraky[ShelfIndex];
         }
 
         int IComparer<Location>.Compare(Location a, Location b)
         {
-            int ShelfHierakyi_a = ShelfHierakyi[a.Shelf];
-            int ShelfHierakyi_b = ShelfHierakyi[b.Shelf];
+            int ShelfHierakyi_a = ShelfHieraky[a.Shelf];
+            int ShelfHierakyi_b = ShelfHieraky[b.Shelf];
             int x;
 
             if(ShelfHierakyi_a > ShelfHierakyi_b)
@@ -51,19 +56,19 @@ namespace Model
         {
             int temp;
 
-            if (ShelfHierakyi[ShelfIndex] < HighestValueShelf)
-                temp = ++ShelfHierakyi[ShelfIndex];
+            if (ShelfHieraky[ShelfIndex] < HighestValueShelf)
+                temp = ++ShelfHieraky[ShelfIndex];
             else
                 throw new Exception("Can't increase priority further");
 
             for(int x = 0; x < HighestValueShelf; x++)
             {
-                if (ShelfHierakyi[x] == temp)
+                if (ShelfHieraky[x] == temp)
                 {
                     if (x == ShelfIndex) { }
                     else
                     {
-                        ShelfHierakyi[x]--;
+                        ShelfHieraky[x]--;
                         break;
                     }
                 }
@@ -74,19 +79,19 @@ namespace Model
         {
             int temp;
 
-            if (ShelfHierakyi[PosistionOfElement] > 0)
-                temp = --ShelfHierakyi[PosistionOfElement];
+            if (ShelfHieraky[PosistionOfElement] > 0)
+                temp = --ShelfHieraky[PosistionOfElement];
             else
                 throw new Exception("Can't decrease priority further");
 
             for (int x = 0; x < HighestValueShelf; x++)
             {
-                if (ShelfHierakyi[x] == temp)
+                if (ShelfHieraky[x] == temp)
                 {
                     if (x == PosistionOfElement) { }
                     else
                     {
-                        ShelfHierakyi[x]++;
+                        ShelfHieraky[x]++;
                         break;
                     }
                 }
