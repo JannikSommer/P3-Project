@@ -29,15 +29,11 @@ namespace Model
         {
             int ShelfHierakyi_a = ShelfHieraky[a.Shelf];
             int ShelfHierakyi_b = ShelfHieraky[b.Shelf];
-            int x;
+            int x = ShelfHierakyi_a - ShelfHierakyi_b;
 
-            if(ShelfHierakyi_a > ShelfHierakyi_b)
+            if (x != 0)
             {
-                return -1;
-            }
-            else if(ShelfHierakyi_a < ShelfHierakyi_b)
-            {
-                return 1;
+                return x;
             }
             else
             {

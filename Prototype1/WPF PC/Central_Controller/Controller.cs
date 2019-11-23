@@ -103,11 +103,11 @@ namespace WPF_PC.Central_Controller
                 {
                     MoveElementFromListToOtherList<Shelf>(AvailebleShelfs, 0, OccopiedShelfs);
                     ShelfsIndex = OccopiedShelfs.Count - 1;
-                    OccopiedShelfs.Last().AddClient(client);
+                    OccopiedShelfs[OccopiedShelfs.Count - 1].AddClient(client);
                 }
                 else //if no availeble shelfs assign the client to the shelf with the most room;
                 {
-                    int LargestGap = -1;
+                    int LargestGap = 0;
                     
                     for(int Counter = 0; Counter < OccopiedShelfs.Count; Counter++)
                     {
@@ -116,6 +116,11 @@ namespace WPF_PC.Central_Controller
                             LargestGap = OccopiedShelfs[Counter].FindLargestGapInPartitions_size();
                             ShelfsIndex = Counter;
                         }
+                    }
+
+                    if(ShelfsIndex < 0) //if there are no more Shelfs
+                    {
+                        return null;
                     }
 
                     OccopiedShelfs[ShelfsIndex].AddClient(client);
@@ -162,7 +167,7 @@ namespace WPF_PC.Central_Controller
             TotalNumberOfItems++;
         }
 
-        private void InitilizeLocationComparer()
+        private void InitilizeLocationComparer() //THIS MIGHT NEED TO BE REWORKED AND REMOVED, + remember that its called in InitialPartitionUnpartitionedLocations when/if reworking this.
         {
             Location_Comparer = new LocationComparer(UnPartitionedLocations.Values[UnPartitionedLocations.Count - 1].Shelf);
         }
@@ -185,10 +190,9 @@ namespace WPF_PC.Central_Controller
             int FormerPosistion = -1;
             List<Location> Locations = UnPartitionedLocations.Values.ToList();
 
-            InitilizeLocationComparer();
-            Locations.Sort(Location_Comparer);
+            InitilizeLocationComparer(); //THIS MIGHT NEED TO BE REWORKED AND REMOVED
 
-            if(AvailebleShelfs.Count != 0)
+            if (AvailebleShelfs.Count != 0)
             {
                 throw new Exception("AvailebleShelfs has to be empty to partition useing this algorithm");
             }

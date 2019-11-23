@@ -152,7 +152,7 @@ namespace WPF_PC.Central_Controller
                     }
                 }
 
-                if (Clients.Count > 0 && Clients.Last().PartitionIndex != Partitions.Count - 1)
+                if (Clients.Count > 0 && Clients.Last().PartitionIndex != Partitions.Count)
                 {
                     if(Partitions.Count - 1 - Clients.Last().PartitionIndex > BiggestGapSize)
                     {
