@@ -10,6 +10,6 @@ namespace Model
         public int TotalNrOFItems { get; set; }
         public int ItemsCounted { get; set; }
         public PartitionRequsitionState RequsitionState { get; set; }
-        abstract List<T> 
+        public string Employee { get; set; }
     }
 }

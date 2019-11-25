@@ -8,9 +8,9 @@ namespace Model
     {
         public bool DataFormatted { get; set; }
         public bool CycleState { get; set; }
-        public List<Partition> UncountedPartitions { get; set; }
-        public List<Partition> CountedPartitions { get; set; }
-        public List<Partition> VerifiedPartitions { get; set; }
+        public List<PartitionBase> UncountedPartitions { get; set; }
+        public List<PartitionBase> CountedPartitions { get; set; }
+        public List<PartitionBase> VerifiedPartitions { get; set; }
 
         public Partition GetPartitionForClient()
         {
@@ -19,7 +19,7 @@ namespace Model
             {
                 if (partition.State == PartitionState.NotCounted)
                 {
-                    UncountedPartitions.Remove(partition);
+                    UncountedPartitions.Remove(partition); // should only be removed when the client uploads
                     sendPartition = partition;
                     break;
                 }
