@@ -50,11 +50,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Client_Tests.cs" />
-    <Compile Include="Controller_Tests.cs" />
+    <Compile Include="Controller_Tests\Controller_InitialAddItem_Tests.cs" />
+    <Compile Include="Controller_Tests\Controller_CheckCountedItem_Tests.cs" />
+    <Compile Include="Controller_Tests\Controller_AddClient_Tests.cs" />
+    <Compile Include="Controller_Tests\Controller_NextPartition_Tests.cs" />
+    <Compile Include="Controller_Tests\Controller_CreateVerificationPartition_Tests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Item_Tests.cs" />
     <Compile Include="Location_Tests.cs" />
     <Compile Include="Partition_Tests.cs" />
+    <Compile Include="LocationComparer_Tests.cs" />
+    <Compile Include="VerificationPartition_Tests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Model\Model.csproj">

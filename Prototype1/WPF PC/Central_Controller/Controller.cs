@@ -299,7 +299,7 @@ namespace WPF_PC.Central_Controller
                     }
 
                     shelf = FindShelf(OccopiedShelfs, location.Shelf);
-                    else if (shelf != null)
+                    if (shelf != null)
                     {
                         shelf.AddLocation(location);
                     }
