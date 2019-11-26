@@ -394,7 +394,7 @@ namespace WPF_PC.Central_Controller
                     }
                 }
 
-                if(ShortestMultiLocDistance < ShortestSingleLocDistance)
+                if(ShortestMultiLocDistance / 1000 < ShortestSingleLocDistance / 1000) //if a multilocation item is the same nr of shelfs away as a single location item, its prioritized
                 {
                     verificationPartition.AddItem(MultiLocationItemsForVerification[IndexOfMultiLoc]);
 

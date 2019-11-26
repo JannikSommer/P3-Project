@@ -7,7 +7,7 @@ using WPF_PC.Central_Controller;
 namespace Unit_Tests.Controller_Tests
 {
     [TestClass]
-    public class Controller_CreateVerificationPartition_Tests
+    public class Controller_CreateVerificationPartition_Tests //all test created with the assumption that Controller.MaxNumLocationForVerificationPartitions = 20
     {
         [TestMethod]
         public void skabelon()
