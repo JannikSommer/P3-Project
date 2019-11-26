@@ -398,6 +398,8 @@ namespace WPF_PC.Central_Controller
                 }
             }
 
+            verificationPartition.Locations.Sort(Location_Comparer);
+
             return verificationPartition;
         }
 
