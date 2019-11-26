@@ -854,7 +854,7 @@ namespace Unit_Tests.Controller_Tests
             Item TestItem19 = new Item("019");
             Item TestItem20 = new Item("020");
             Item TestItem21 = new Item("021");
-            Item TestItem22 = new Item("022");
+            //Item TestItem22 = new Item("022");
 
             Location TestLocation1 = new Location("001A01");
             Location TestLocation2 = new Location("001B02");
@@ -883,7 +883,7 @@ namespace Unit_Tests.Controller_Tests
 
             TestController.InitialAddItem(DumpItem1, new List<string> { "005A01" });
 
-            TestController.InitialPartitionUnpartitionedLocations(); //makes sure LocationComparer is created with MaxValueShelf = 5
+            TestController.InitialPartitionUnpartitionedLocations(); //makes sure LocationComparer is initialized with MaxValueShelf = 5
 
             TestItem1.AddLocation(TestLocation1);
             TestItem1.AddLocation(TestLocation8);
