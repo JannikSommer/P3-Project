@@ -20,15 +20,22 @@ namespace Model
             TotalNrOFItems = 0;
             ItemsCounted = 0;
             Items = new List<Item>();
+            Locations = new List<Location>();
         }
 
         public void AddItem(Item item)
         {
-            Items.Add(item);
-            TotalNrOFItems++;
             int Index;
 
-            foreach(Location location in item.Locations)
+            if(Items.Exists(x => x.ID == item.ID))
+            {
+                throw new Exception("Item Already exists in this Verification Partition");
+            }
+
+            Items.Add(item);
+            TotalNrOFItems++;
+
+            foreach (Location location in item.Locations)
             {
                 Index = Locations.FindIndex(x => x.ID == location.ID);
 
@@ -59,11 +66,11 @@ namespace Model
                 throw new Exception("Can't compare distance to item when this VerificationPartition doesn't have any assigned Locations yet");
             }
 
-            foreach (Location ThisPartitionsLocation in Locations)
+            foreach (Location ItemsLocation in item.Locations)
             {
                 ShortestDistance = int.MaxValue;
 
-                foreach (Location ItemsLocation in item.Locations)
+                foreach (Location ThisPartitionsLocation in Locations)
                 {
                     x = ThisPartitionsLocation.CompareDistance(ItemsLocation, locationComparer);
 
