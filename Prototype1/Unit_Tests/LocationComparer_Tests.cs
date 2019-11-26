@@ -9,18 +9,6 @@ namespace Unit_Tests
     public class LocationComparer_Tests
     {
         [TestMethod]
-        public void skabelon()
-        {
-            // Arrange
-
-            //Expected
-
-            // Act
-
-            // Assert
-        }
-
-        [TestMethod]
         public void LocationComparer_test1_SortOrder()
         {
             // Arrange

@@ -9,18 +9,6 @@ namespace Unit_Tests
     public class Client_Tests
     {
         [TestMethod]
-        public void skabelon()
-        {
-            // Arrange
-
-            //Expected
-
-            // Act
-
-            // Assert
-        }
-
-        [TestMethod]
         public void ConstructorTest1()
         {
             // Arrange

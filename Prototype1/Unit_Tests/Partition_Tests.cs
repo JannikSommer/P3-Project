@@ -9,18 +9,6 @@ namespace Unit_Tests
     public class Partition_Tests
     {
         [TestMethod]
-        public void skabelon()
-        {
-            // Arrange
-
-            //Expected
-
-            // Act
-
-            // Assert
-        }
-
-        [TestMethod]
         public void Constroctor_test1()
         {
             // Arrange

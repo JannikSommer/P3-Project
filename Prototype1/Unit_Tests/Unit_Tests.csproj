@@ -60,6 +60,7 @@
     <Compile Include="Location_Tests.cs" />
     <Compile Include="Partition_Tests.cs" />
     <Compile Include="LocationComparer_Tests.cs" />
+    <Compile Include="UnitTest_Skarbelon.cs" />
     <Compile Include="VerificationPartition_Tests.cs" />
   </ItemGroup>
   <ItemGroup>

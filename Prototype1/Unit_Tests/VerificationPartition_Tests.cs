@@ -8,18 +8,6 @@ namespace Unit_Tests
     public class VerificationPartition_Tests
     {
         [TestMethod]
-        public void skabelon()
-        {
-            // Arrange
-
-            //Expected
-
-            // Act
-
-            // Assert
-        }
-
-        [TestMethod]
         public void VerificationPartition_Test1_AddItem()
         {
             // Arrange
