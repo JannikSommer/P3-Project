@@ -11,7 +11,7 @@ namespace WPF_PC.Central_Controller
     {
         public int TotalNumberOfItems { get; private set; } = 0;
         public int ItemsVerified { get; private set; } = 0;
-        private readonly int MaxNumLocationForVerificationPartitions = 20;
+        private readonly int MaxNumLocationForVerificationPartitions = 20; //verificationPartitions can be larger then this, if the verification partition is size 19, the algorithm can add a multilocationItem of 2 or higher
         private readonly TimeSpan TimeBeforeAFK = new TimeSpan(0, 30, 0);
         public SortedList<string, Location> UnPartitionedLocations { get; private set; } = new SortedList<string, Location>();
         private List<Location> MultiLocationsItem_Locations = new List<Location>();
@@ -343,6 +343,16 @@ namespace WPF_PC.Central_Controller
                 verificationPartition.AddItem(MultiLocationItemsForVerification[0]);
 
                 MultiLocationItemsForVerification.RemoveAt(0);
+            }
+            else if(ItemsForVerification.Count != 0)
+            {
+                verificationPartition.AddItem(ItemsForVerification[0]);
+
+                ItemsForVerification.RemoveAt(0);
+            }
+            else
+            {
+                return null;
             }
 
             while(verificationPartition.Locations.Count < MaxNumLocationForVerificationPartitions && (MultiLocationItemsForVerification.Count != 0 || ItemsForVerification.Count != 0))

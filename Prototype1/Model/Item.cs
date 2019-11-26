@@ -25,6 +25,7 @@ namespace Model
         public Item(string id)
         {
             ID = id;
+            Locations = new List<Location>();
         }
 
         public Item(string _ID, string _Name, string _Color, string _Size)

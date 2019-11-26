@@ -29,7 +29,7 @@ namespace Model
             }
             else
             {
-                throw new Exception("ID sting to long");
+                throw new Exception("ID has to be 6 charaters long, 3 digits, then 1 letter and 2 digits again");
             }
         }
 
