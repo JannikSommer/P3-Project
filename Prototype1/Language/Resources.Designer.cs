@@ -61,11 +61,92 @@ namespace Language {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Messages after:.
+        /// </summary>
+        public static string LogWindowAfterLabel {
+            get {
+                return ResourceManager.GetString("LogWindowAfterLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Messages before:.
+        /// </summary>
+        public static string LogWindowBeforeLabel {
+            get {
+                return ResourceManager.GetString("LogWindowBeforeLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Item id:.
+        /// </summary>
+        public static string LogWindowItemLabel {
+            get {
+                return ResourceManager.GetString("LogWindowItemLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Location id:.
+        /// </summary>
+        public static string LogWindowLocationLabel {
+            get {
+                return ResourceManager.GetString("LogWindowLocationLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Message.
+        /// </summary>
+        public static string LogWindowMessageHeader {
+            get {
+                return ResourceManager.GetString("LogWindowMessageHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Search.
+        /// </summary>
+        public static string LogWindowSearchButton {
+            get {
+                return ResourceManager.GetString("LogWindowSearchButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Time.
+        /// </summary>
+        public static string LogWindowTimeHeader {
+            get {
+                return ResourceManager.GetString("LogWindowTimeHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Log.
         /// </summary>
         public static string LogWindowTitle {
             get {
                 return ResourceManager.GetString("LogWindowTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User id.
+        /// </summary>
+        public static string LogWindowUserHeader {
+            get {
+                return ResourceManager.GetString("LogWindowUserHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User id:.
+        /// </summary>
+        public static string LogWindowUserLabel {
+            get {
+                return ResourceManager.GetString("LogWindowUserLabel", resourceCulture);
             }
         }
     }

@@ -120,4 +120,31 @@
   <data name="LogWindowTitle" xml:space="preserve">
     <value>Log</value>
   </data>
+  <data name="LogWindowSearchButton" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="LogWindowAfterLabel" xml:space="preserve">
+    <value>Messages after:</value>
+  </data>
+  <data name="LogWindowBeforeLabel" xml:space="preserve">
+    <value>Messages before:</value>
+  </data>
+  <data name="LogWindowLocationLabel" xml:space="preserve">
+    <value>Location id:</value>
+  </data>
+  <data name="LogWindowItemLabel" xml:space="preserve">
+    <value>Item id:</value>
+  </data>
+  <data name="LogWindowUserLabel" xml:space="preserve">
+    <value>User id:</value>
+  </data>
+  <data name="LogWindowTimeHeader" xml:space="preserve">
+    <value>Time</value>
+  </data>
+  <data name="LogWindowUserHeader" xml:space="preserve">
+    <value>User id</value>
+  </data>
+  <data name="LogWindowMessageHeader" xml:space="preserve">
+    <value>Message</value>
+  </data>
 </root>

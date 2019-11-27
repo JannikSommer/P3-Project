@@ -120,4 +120,31 @@
   <data name="LogWindowTitle" xml:space="preserve">
     <value>Log</value>
   </data>
+  <data name="LogWindowSearchButton" xml:space="preserve">
+    <value>Søg</value>
+  </data>
+  <data name="LogWindowAfterLabel" xml:space="preserve">
+    <value>Beskeder efter:</value>
+  </data>
+  <data name="LogWindowBeforeLabel" xml:space="preserve">
+    <value>Beskeder før:</value>
+  </data>
+  <data name="LogWindowLocationLabel" xml:space="preserve">
+    <value>Lokations id:</value>
+  </data>
+  <data name="LogWindowItemLabel" xml:space="preserve">
+    <value>Artikel id:</value>
+  </data>
+  <data name="LogWindowUserLabel" xml:space="preserve">
+    <value>Bruger id:</value>
+  </data>
+  <data name="LogWindowTimeHeader" xml:space="preserve">
+    <value>Tidspunkt</value>
+  </data>
+  <data name="LogWindowUserHeader" xml:space="preserve">
+    <value>Bruger id</value>
+  </data>
+  <data name="LogWindowMessageHeader" xml:space="preserve">
+    <value>Besked</value>
+  </data>
 </root>
