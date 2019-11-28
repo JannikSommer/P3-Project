@@ -146,8 +146,19 @@ namespace WPF_PC.Central_Controller
                     {
                         if(Clients[x].PartitionIndex - Clients[x - 1].PartitionIndex > BiggestGapSize)
                         {
-                            BiggestGapSize = Clients[x].PartitionIndex - Clients[x - 1].PartitionIndex;
-                            LargestGapPosistions = new List<int> { x - 1, x };
+                            if (!Clients[x - 1].ReverseCount && Clients[x].ReverseCount)
+                            {
+                                if ((Clients[x].PartitionIndex - Clients[x - 1].PartitionIndex) / 3 > BiggestGapSize)
+                                {
+                                    BiggestGapSize = (Clients[x].PartitionIndex - Clients[x - 1].PartitionIndex) / 3;
+                                    LargestGapPosistions = new List<int> { x - 1, x };
+                                }
+                            }
+                            else
+                            {
+                                BiggestGapSize = Clients[x].PartitionIndex - Clients[x - 1].PartitionIndex;
+                                LargestGapPosistions = new List<int> { x - 1, x };
+                            }
                         }
                     }
                 }
@@ -178,7 +189,17 @@ namespace WPF_PC.Central_Controller
                     {
                         if (Clients[x].PartitionIndex - Clients[x - 1].PartitionIndex > BiggestGapSize)
                         {
-                            BiggestGapSize = Clients[x].PartitionIndex - Clients[x - 1].PartitionIndex;
+                            if (!Clients[x - 1].ReverseCount && Clients[x].ReverseCount)
+                            {
+                                if ((Clients[x].PartitionIndex - Clients[x - 1].PartitionIndex) / 3 > BiggestGapSize)
+                                {
+                                    BiggestGapSize = (Clients[x].PartitionIndex - Clients[x - 1].PartitionIndex) / 3;
+                                }
+                            }
+                            else
+                            {
+                                BiggestGapSize = Clients[x].PartitionIndex - Clients[x - 1].PartitionIndex;
+                            }
                         }
                     }
                 }

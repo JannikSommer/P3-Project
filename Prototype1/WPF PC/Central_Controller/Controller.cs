@@ -109,7 +109,7 @@ namespace WPF_PC.Central_Controller
                 }
                 else //if no availeble shelfs assign the client to the shelf with the most room;
                 {
-                    int LargestGap = 0;
+                    int LargestGap = -1;
                     
                     for(int Counter = 0; Counter < OccopiedShelfs.Count; Counter++)
                     {
