@@ -120,31 +120,139 @@
   <data name="LogWindowTitle" xml:space="preserve">
     <value>Log</value>
   </data>
-  <data name="LogWindowSearchButton" xml:space="preserve">
+  <data name="LogWindowButtonSearch" xml:space="preserve">
     <value>Søg</value>
   </data>
-  <data name="LogWindowAfterLabel" xml:space="preserve">
+  <data name="LogWindowLabelAfter" xml:space="preserve">
     <value>Beskeder efter:</value>
   </data>
-  <data name="LogWindowBeforeLabel" xml:space="preserve">
+  <data name="LogWindowLabelBefore" xml:space="preserve">
     <value>Beskeder før:</value>
   </data>
-  <data name="LogWindowLocationLabel" xml:space="preserve">
+  <data name="LogWindowLabelLocation" xml:space="preserve">
     <value>Lokations id:</value>
   </data>
-  <data name="LogWindowItemLabel" xml:space="preserve">
+  <data name="LogWindowLabelItem" xml:space="preserve">
     <value>Artikel id:</value>
   </data>
-  <data name="LogWindowUserLabel" xml:space="preserve">
+  <data name="LogWindowLabelUser" xml:space="preserve">
     <value>Bruger id:</value>
   </data>
-  <data name="LogWindowTimeHeader" xml:space="preserve">
+  <data name="LogWindowHeaderTime" xml:space="preserve">
     <value>Tidspunkt</value>
   </data>
-  <data name="LogWindowUserHeader" xml:space="preserve">
+  <data name="LogWindowHeaderUser" xml:space="preserve">
     <value>Bruger id</value>
   </data>
-  <data name="LogWindowMessageHeader" xml:space="preserve">
+  <data name="LogWindowHeaderMessage" xml:space="preserve">
     <value>Besked</value>
+  </data>
+  <data name="MainWindowTitle" xml:space="preserve">
+    <value>Controller</value>
+  </data>
+  <data name="MainWindowButtonCreateCycle" xml:space="preserve">
+    <value>Opret Optællings Cyklus</value>
+  </data>
+  <data name="MainWindowButtonEditCycle" xml:space="preserve">
+    <value>Redigér Cyclus</value>
+  </data>
+  <data name="MainWindowButtonFinishCycle" xml:space="preserve">
+    <value>Færdiggør Cyclus</value>
+  </data>
+  <data name="MainWindowButtonShowChosenType" xml:space="preserve">
+    <value>Vis</value>
+  </data>
+  <data name="MainWindowButtonShowLog" xml:space="preserve">
+    <value>Vis log</value>
+  </data>
+  <data name="MainWindowHeaderCountVariance" xml:space="preserve">
+    <value> Difference</value>
+  </data>
+  <data name="MainWindowHeaderHasBeenCounted" xml:space="preserve">
+    <value> Optalt</value>
+  </data>
+  <data name="MainWindowHeaderId" xml:space="preserve">
+    <value> ID</value>
+  </data>
+  <data name="MainWindowHeaderLocations" xml:space="preserve">
+    <value> Lokationer</value>
+  </data>
+  <data name="MainWindowHeaderName" xml:space="preserve">
+    <value> Navn</value>
+  </data>
+  <data name="MainWindowHeaderServerCount" xml:space="preserve">
+    <value> Optalt fra serveren</value>
+  </data>
+  <data name="MainWindowHeaderStorageCount" xml:space="preserve">
+    <value> Optalt fra lageret</value>
+  </data>
+  <data name="MainWindowLabelActiveClients" xml:space="preserve">
+    <value>Aktive klienter:</value>
+  </data>
+  <data name="MainWindowLabelTotalCount" xml:space="preserve">
+    <value>Totalt optalt:</value>
+  </data>
+  <data name="MainWindowLabelTotalCountDifference" xml:space="preserve">
+    <value>Optalt med difference:</value>
+  </data>
+  <data name="MainWindowLabelWarning" xml:space="preserve">
+    <value>Vælg venligst den ønskede funktion</value>
+  </data>
+  <data name="MainWindowComboboxCountedToday" xml:space="preserve">
+    <value>I dags optalte</value>
+  </data>
+  <data name="MainWindowComboboxCountedThisCycle" xml:space="preserve">
+    <value>Optalte i denne cyklus</value>
+  </data>
+  <data name="MainWindowComboboxCountedDifference" xml:space="preserve">
+    <value>Optalte med difference</value>
+  </data>
+  <data name="EditCycleWindowTitle" xml:space="preserve">
+    <value>Redigér Cyclus</value>
+  </data>
+  <data name="EditCycleWindowButtonCancel" xml:space="preserve">
+    <value>Annullér</value>
+  </data>
+  <data name="EditCycleWindowButtonConfirm" xml:space="preserve">
+    <value>Bekræft</value>
+  </data>
+  <data name="EditCycleWindowButtonDeleteCycle" xml:space="preserve">
+    <value>Slet Cyclus</value>
+  </data>
+  <data name="EditCycleWindowButtonDeleteUser" xml:space="preserve">
+    <value>Slet brugers arbejde</value>
+  </data>
+  <data name="EditCycleWindowLabelChooseUsers" xml:space="preserve">
+    <value>Slet en specifik brugers ændringer:</value>
+  </data>
+  <data name="EditCycleWindowLabelDeleteCycle" xml:space="preserve">
+    <value>Slet hele cyklus'en</value>
+  </data>
+  <data name="EditCycleWindowLabelWarning" xml:space="preserve">
+    <value>Vælg venligst en bruger:</value>
+  </data>
+  <data name="EditCycleWindowLabelEditType" xml:space="preserve">
+    <value>Vælg hvordan Cyklus'en skal redigeres:</value>
+  </data>
+  <data name="EditCycleWindowLabelPriority" xml:space="preserve">
+    <value>Vælg hvordan reolerne skal sorteres:</value>
+  </data>
+  <data name="EditCycleWindowButtonMoveDown" xml:space="preserve">
+    <value>Flyt ned</value>
+  </data>
+  <data name="EditCycleWindowButtonMoveUp" xml:space="preserve">
+    <value>Flyt op</value>
+  </data>
+  <data name="CreateCycleWindowTitle" xml:space="preserve">
+    <value>Opret Optællings Cyclus</value>
+  </data>
+  <data name="CreateCycleWindowButtonCreateCycle" xml:space="preserve">
+    <value>Opret Cyclus</value>
+  </data>
+  <data name="CreateCycleWindowLabelChooseCycle" xml:space="preserve">
+    <value>Vælg hvordan cyklus'en skal oprettes:</value>
+  </data>
+  <data name="CreateCycleWindowLabelWarning" xml:space="preserve">
+    <value>Vælg venligst den ønskede funktion</value>
   </data>
 </root>

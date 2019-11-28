@@ -3,9 +3,10 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:lang="clr-namespace:Localization;assembly=Localization"
         xmlns:local="clr-namespace:WPF_PC"
         mc:Ignorable="d"
-        Title="Opret Optællings Cyklus" Height="200" Width="525" FontFamily="Segoe UI Light"
+        Title="{x:Static lang:Resources.CreateCycleWindowTitle}" Height="200" Width="525" FontFamily="Segoe UI Light"
         FontSize="16" WindowStartupLocation="CenterScreen" MinWidth="525" MinHeight="200" Icon="Assets\count-icon-26.ico.ico" >
     <Grid HorizontalAlignment="Left">
 
@@ -28,17 +29,17 @@
 
         <!--Labels-->
 
-        <Label x:Name="chooseCycle" Content="Vælg hvordan cyklus'en skal oprettes:" Grid.Column="1" Grid.Row="1"
+        <Label x:Name="chooseCycle" Content="{x:Static lang:Resources.CreateCycleWindowLabelChooseCycle}" Grid.Column="1" Grid.Row="1"
                HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10" x:FieldModifier="public" />
 
         <!--Error Labels-->
 
-        <Label x:Name="labelWarningTwo" Content="Vælg venligst den ønskede funktion" Grid.Column="1" Grid.Row="1" Grid.RowSpan="2"
+        <Label x:Name="labelWarningTwo" Content="{x:Static lang:Resources.CreateCycleWindowLabelWarning}" Grid.Column="1" Grid.Row="1" Grid.RowSpan="2"
                  HorizontalAlignment="Center" FontSize="12" Height="28" Margin="10,60,10,10" Foreground="Red" VerticalAlignment="Top" Visibility="Hidden" />
 
         <!--Button-->
 
-        <Button x:Name="CreateCycleCountButton" Content="Opret Cyklus" Width="110" Height="28"
+        <Button x:Name="CreateCycleCountButton" Content="{x:Static lang:Resources.CreateCycleWindowButtonCreateCycle}" Width="110" Height="28"
                 Grid.Column="2" Grid.Row="2" Margin="10,30,10,10" HorizontalAlignment="Center" Click="CreateCycleCountButton_Click" VerticalAlignment="Bottom" />
 
         <!--Combobox-->

@@ -16,6 +16,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Update="Resources.da.resx">
+      <CustomToolNamespace>Localization</CustomToolNamespace>
+    </EmbeddedResource>
     <EmbeddedResource Update="Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -34,7 +37,7 @@
     <EmbeddedResource Update="Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-      <CustomToolNamespace>Language</CustomToolNamespace>
+      <CustomToolNamespace>Localization</CustomToolNamespace>
     </EmbeddedResource>
   </ItemGroup>
 </Project>

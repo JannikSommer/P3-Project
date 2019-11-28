@@ -120,46 +120,139 @@
   <data name="LogWindowTitle" xml:space="preserve">
     <value>Log</value>
   </data>
-  <data name="LogWindowSearchButton" xml:space="preserve">
+  <data name="LogWindowButtonSearch" xml:space="preserve">
     <value>Search</value>
   </data>
-  <data name="LogWindowAfterLabel" xml:space="preserve">
+  <data name="LogWindowLabelAfter" xml:space="preserve">
     <value>Messages after:</value>
   </data>
-  <data name="LogWindowBeforeLabel" xml:space="preserve">
+  <data name="LogWindowLabelBefore" xml:space="preserve">
     <value>Messages before:</value>
   </data>
-  <data name="LogWindowLocationLabel" xml:space="preserve">
+  <data name="LogWindowLabelLocation" xml:space="preserve">
     <value>Location id:</value>
   </data>
-  <data name="LogWindowItemLabel" xml:space="preserve">
+  <data name="LogWindowLabelItem" xml:space="preserve">
     <value>Item id:</value>
   </data>
-  <data name="LogWindowUserLabel" xml:space="preserve">
+  <data name="LogWindowLabelUser" xml:space="preserve">
     <value>User id:</value>
   </data>
-  <data name="LogWindowTimeHeader" xml:space="preserve">
+  <data name="LogWindowHeaderTime" xml:space="preserve">
     <value>Time</value>
   </data>
-  <data name="LogWindowUserHeader" xml:space="preserve">
+  <data name="LogWindowHeaderUser" xml:space="preserve">
     <value>User id</value>
   </data>
-  <data name="LogWindowMessageHeader" xml:space="preserve">
+  <data name="LogWindowHeaderMessage" xml:space="preserve">
     <value>Message</value>
   </data>
   <data name="MainWindowTitle" xml:space="preserve">
-    <value></value>
+    <value>Controller</value>
   </data>
-  <data name="MainWindowCreateCycleButton" xml:space="preserve">
-    <value></value>
+  <data name="MainWindowButtonCreateCycle" xml:space="preserve">
+    <value>Create Cycle Count</value>
   </data>
-  <data name="MainWindowShowButton" xml:space="preserve">
-    <value></value>
+  <data name="MainWindowButtonFinishCycle" xml:space="preserve">
+    <value>Finish Cycle</value>
   </data>
-  <data name="MainWindowFinishCycleButton" xml:space="preserve">
-    <value></value>
+  <data name="MainWindowButtonShowChosenType" xml:space="preserve">
+    <value>Show</value>
   </data>
-  <data name="MainWindowShowChosenTypeButton" xml:space="preserve">
-    <value></value>
+  <data name="MainWindowButtonEditCycle" xml:space="preserve">
+    <value>Edit Cycle</value>
+  </data>
+  <data name="MainWindowLabelActiveClients" xml:space="preserve">
+    <value>Active clients:</value>
+  </data>
+  <data name="MainWindowLabelTotalCount" xml:space="preserve">
+    <value>Total counted:</value>
+  </data>
+  <data name="MainWindowLabelTotalCountDifference" xml:space="preserve">
+    <value>Counted with difference:</value>
+  </data>
+  <data name="MainWindowHeaderId" xml:space="preserve">
+    <value> ID</value>
+  </data>
+  <data name="MainWindowHeaderName" xml:space="preserve">
+    <value> Name</value>
+  </data>
+  <data name="MainWindowHeaderLocations" xml:space="preserve">
+    <value> Locations</value>
+  </data>
+  <data name="MainWindowHeaderHasBeenCounted" xml:space="preserve">
+    <value> Counted</value>
+  </data>
+  <data name="MainWindowHeaderStorageCount" xml:space="preserve">
+    <value> Counted from storage</value>
+  </data>
+  <data name="MainWindowHeaderServerCount" xml:space="preserve">
+    <value> Counted from server</value>
+  </data>
+  <data name="MainWindowHeaderCountVariance" xml:space="preserve">
+    <value> Difference</value>
+  </data>
+  <data name="MainWindowLabelWarning" xml:space="preserve">
+    <value>Please choose the desired function</value>
+  </data>
+  <data name="MainWindowButtonShowLog" xml:space="preserve">
+    <value>Show log</value>
+  </data>
+  <data name="MainWindowComboboxCountedToday" xml:space="preserve">
+    <value>Counted today</value>
+  </data>
+  <data name="MainWindowComboboxCountedThisCycle" xml:space="preserve">
+    <value>Counted in this cycle</value>
+  </data>
+  <data name="MainWindowComboboxCountedDifference" xml:space="preserve">
+    <value>Counted with difference</value>
+  </data>
+  <data name="EditCycleWindowTitle" xml:space="preserve">
+    <value>Edit Cycle</value>
+  </data>
+  <data name="EditCycleWindowButtonDeleteCycle" xml:space="preserve">
+    <value>Delete Cycle</value>
+  </data>
+  <data name="EditCycleWindowButtonCancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="EditCycleWindowButtonConfirm" xml:space="preserve">
+    <value>Confirm</value>
+  </data>
+  <data name="EditCycleWindowButtonDeleteUser" xml:space="preserve">
+    <value>Delete users work</value>
+  </data>
+  <data name="EditCycleWindowLabelEditType" xml:space="preserve">
+    <value>Choose how to modify the cycle:</value>
+  </data>
+  <data name="EditCycleWindowLabelChooseUsers" xml:space="preserve">
+    <value>Delete a specific users changes:</value>
+  </data>
+  <data name="EditCycleWindowLabelDeleteCycle" xml:space="preserve">
+    <value>Delete the cycle</value>
+  </data>
+  <data name="EditCycleWindowLabelPriority" xml:space="preserve">
+    <value>Choose how the shelves are sorted:</value>
+  </data>
+  <data name="EditCycleWindowLabelWarning" xml:space="preserve">
+    <value>Please select a user:</value>
+  </data>
+  <data name="EditCycleWindowButtonMoveUp" xml:space="preserve">
+    <value>Move up</value>
+  </data>
+  <data name="EditCycleWindowButtonMoveDown" xml:space="preserve">
+    <value>Move down</value>
+  </data>
+  <data name="CreateCycleWindowTitle" xml:space="preserve">
+    <value>Create Cycle Count</value>
+  </data>
+  <data name="CreateCycleWindowLabelChooseCycle" xml:space="preserve">
+    <value>Choose how the cycle will be created:</value>
+  </data>
+  <data name="CreateCycleWindowLabelWarning" xml:space="preserve">
+    <value>Please select the wanted function</value>
+  </data>
+  <data name="CreateCycleWindowButtonCreateCycle" xml:space="preserve">
+    <value>Create Cycle</value>
   </data>
 </root>

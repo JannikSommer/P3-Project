@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SAScanApp", "Prototype1\SAS
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SAScanApp.Android", "Prototype1\SAScanApp.Android\SAScanApp.Android.csproj", "{5910D92B-D64E-47ED-8DB8-5034ADFD8E0B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Language", "Language\Language.csproj", "{28A15257-4CE6-4074-8AD8-9D4A9A034001}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Localization", "Language\Localization.csproj", "{28A15257-4CE6-4074-8AD8-9D4A9A034001}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

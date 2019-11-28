@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Language {
+namespace Localization {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace Language {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Language.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Localization.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,65 +61,227 @@ namespace Language {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Messages after:.
+        ///   Looks up a localized string similar to Create Cycle.
         /// </summary>
-        public static string LogWindowAfterLabel {
+        public static string CreateCycleWindowButtonCreateCycle {
             get {
-                return ResourceManager.GetString("LogWindowAfterLabel", resourceCulture);
+                return ResourceManager.GetString("CreateCycleWindowButtonCreateCycle", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Messages before:.
+        ///   Looks up a localized string similar to Choose how the cycle will be created:.
         /// </summary>
-        public static string LogWindowBeforeLabel {
+        public static string CreateCycleWindowLabelChooseCycle {
             get {
-                return ResourceManager.GetString("LogWindowBeforeLabel", resourceCulture);
+                return ResourceManager.GetString("CreateCycleWindowLabelChooseCycle", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Item id:.
+        ///   Looks up a localized string similar to Please select the wanted function.
         /// </summary>
-        public static string LogWindowItemLabel {
+        public static string CreateCycleWindowLabelWarning {
             get {
-                return ResourceManager.GetString("LogWindowItemLabel", resourceCulture);
+                return ResourceManager.GetString("CreateCycleWindowLabelWarning", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Location id:.
+        ///   Looks up a localized string similar to Create Cycle Count.
         /// </summary>
-        public static string LogWindowLocationLabel {
+        public static string CreateCycleWindowTitle {
             get {
-                return ResourceManager.GetString("LogWindowLocationLabel", resourceCulture);
+                return ResourceManager.GetString("CreateCycleWindowTitle", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Message.
+        ///   Looks up a localized string similar to Cancel.
         /// </summary>
-        public static string LogWindowMessageHeader {
+        public static string EditCycleWindowButtonCancel {
             get {
-                return ResourceManager.GetString("LogWindowMessageHeader", resourceCulture);
+                return ResourceManager.GetString("EditCycleWindowButtonCancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Confirm.
+        /// </summary>
+        public static string EditCycleWindowButtonConfirm {
+            get {
+                return ResourceManager.GetString("EditCycleWindowButtonConfirm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete Cycle.
+        /// </summary>
+        public static string EditCycleWindowButtonDeleteCycle {
+            get {
+                return ResourceManager.GetString("EditCycleWindowButtonDeleteCycle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete users work.
+        /// </summary>
+        public static string EditCycleWindowButtonDeleteUser {
+            get {
+                return ResourceManager.GetString("EditCycleWindowButtonDeleteUser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Move down.
+        /// </summary>
+        public static string EditCycleWindowButtonMoveDown {
+            get {
+                return ResourceManager.GetString("EditCycleWindowButtonMoveDown", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Move up.
+        /// </summary>
+        public static string EditCycleWindowButtonMoveUp {
+            get {
+                return ResourceManager.GetString("EditCycleWindowButtonMoveUp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete a specific users changes:.
+        /// </summary>
+        public static string EditCycleWindowLabelChooseUsers {
+            get {
+                return ResourceManager.GetString("EditCycleWindowLabelChooseUsers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete the cycle.
+        /// </summary>
+        public static string EditCycleWindowLabelDeleteCycle {
+            get {
+                return ResourceManager.GetString("EditCycleWindowLabelDeleteCycle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Choose how to modify the cycle:.
+        /// </summary>
+        public static string EditCycleWindowLabelEditType {
+            get {
+                return ResourceManager.GetString("EditCycleWindowLabelEditType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Choose how the shelves are sorted:.
+        /// </summary>
+        public static string EditCycleWindowLabelPriority {
+            get {
+                return ResourceManager.GetString("EditCycleWindowLabelPriority", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please select a user:.
+        /// </summary>
+        public static string EditCycleWindowLabelWarning {
+            get {
+                return ResourceManager.GetString("EditCycleWindowLabelWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit Cycle.
+        /// </summary>
+        public static string EditCycleWindowTitle {
+            get {
+                return ResourceManager.GetString("EditCycleWindowTitle", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Search.
         /// </summary>
-        public static string LogWindowSearchButton {
+        public static string LogWindowButtonSearch {
             get {
-                return ResourceManager.GetString("LogWindowSearchButton", resourceCulture);
+                return ResourceManager.GetString("LogWindowButtonSearch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Message.
+        /// </summary>
+        public static string LogWindowHeaderMessage {
+            get {
+                return ResourceManager.GetString("LogWindowHeaderMessage", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Time.
         /// </summary>
-        public static string LogWindowTimeHeader {
+        public static string LogWindowHeaderTime {
             get {
-                return ResourceManager.GetString("LogWindowTimeHeader", resourceCulture);
+                return ResourceManager.GetString("LogWindowHeaderTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User id.
+        /// </summary>
+        public static string LogWindowHeaderUser {
+            get {
+                return ResourceManager.GetString("LogWindowHeaderUser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Messages after:.
+        /// </summary>
+        public static string LogWindowLabelAfter {
+            get {
+                return ResourceManager.GetString("LogWindowLabelAfter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Messages before:.
+        /// </summary>
+        public static string LogWindowLabelBefore {
+            get {
+                return ResourceManager.GetString("LogWindowLabelBefore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Item id:.
+        /// </summary>
+        public static string LogWindowLabelItem {
+            get {
+                return ResourceManager.GetString("LogWindowLabelItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Location id:.
+        /// </summary>
+        public static string LogWindowLabelLocation {
+            get {
+                return ResourceManager.GetString("LogWindowLabelLocation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User id:.
+        /// </summary>
+        public static string LogWindowLabelUser {
+            get {
+                return ResourceManager.GetString("LogWindowLabelUser", resourceCulture);
             }
         }
         
@@ -133,61 +295,178 @@ namespace Language {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to User id.
+        ///   Looks up a localized string similar to Create Cycle Count.
         /// </summary>
-        public static string LogWindowUserHeader {
+        public static string MainWindowButtonCreateCycle {
             get {
-                return ResourceManager.GetString("LogWindowUserHeader", resourceCulture);
+                return ResourceManager.GetString("MainWindowButtonCreateCycle", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to User id:.
+        ///   Looks up a localized string similar to Edit Cycle.
         /// </summary>
-        public static string LogWindowUserLabel {
+        public static string MainWindowButtonEditCycle {
             get {
-                return ResourceManager.GetString("LogWindowUserLabel", resourceCulture);
+                return ResourceManager.GetString("MainWindowButtonEditCycle", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Finish Cycle.
         /// </summary>
-        public static string MainWindowCreateCycleButton {
+        public static string MainWindowButtonFinishCycle {
             get {
-                return ResourceManager.GetString("MainWindowCreateCycleButton", resourceCulture);
+                return ResourceManager.GetString("MainWindowButtonFinishCycle", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Show.
         /// </summary>
-        public static string MainWindowFinishCycleButton {
+        public static string MainWindowButtonShowChosenType {
             get {
-                return ResourceManager.GetString("MainWindowFinishCycleButton", resourceCulture);
+                return ResourceManager.GetString("MainWindowButtonShowChosenType", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Show log.
         /// </summary>
-        public static string MainWindowShowButton {
+        public static string MainWindowButtonShowLog {
             get {
-                return ResourceManager.GetString("MainWindowShowButton", resourceCulture);
+                return ResourceManager.GetString("MainWindowButtonShowLog", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Counted with difference.
         /// </summary>
-        public static string MainWindowShowChosenTypeButton {
+        public static string MainWindowComboboxCountedDifference {
             get {
-                return ResourceManager.GetString("MainWindowShowChosenTypeButton", resourceCulture);
+                return ResourceManager.GetString("MainWindowComboboxCountedDifference", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Counted in this cycle.
+        /// </summary>
+        public static string MainWindowComboboxCountedThisCycle {
+            get {
+                return ResourceManager.GetString("MainWindowComboboxCountedThisCycle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Counted today.
+        /// </summary>
+        public static string MainWindowComboboxCountedToday {
+            get {
+                return ResourceManager.GetString("MainWindowComboboxCountedToday", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to  Difference.
+        /// </summary>
+        public static string MainWindowHeaderCountVariance {
+            get {
+                return ResourceManager.GetString("MainWindowHeaderCountVariance", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to  Counted.
+        /// </summary>
+        public static string MainWindowHeaderHasBeenCounted {
+            get {
+                return ResourceManager.GetString("MainWindowHeaderHasBeenCounted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to  ID.
+        /// </summary>
+        public static string MainWindowHeaderId {
+            get {
+                return ResourceManager.GetString("MainWindowHeaderId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to  Locations.
+        /// </summary>
+        public static string MainWindowHeaderLocations {
+            get {
+                return ResourceManager.GetString("MainWindowHeaderLocations", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to  Name.
+        /// </summary>
+        public static string MainWindowHeaderName {
+            get {
+                return ResourceManager.GetString("MainWindowHeaderName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to  Counted from server.
+        /// </summary>
+        public static string MainWindowHeaderServerCount {
+            get {
+                return ResourceManager.GetString("MainWindowHeaderServerCount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to  Counted from storage.
+        /// </summary>
+        public static string MainWindowHeaderStorageCount {
+            get {
+                return ResourceManager.GetString("MainWindowHeaderStorageCount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Active clients:.
+        /// </summary>
+        public static string MainWindowLabelActiveClients {
+            get {
+                return ResourceManager.GetString("MainWindowLabelActiveClients", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Total counted:.
+        /// </summary>
+        public static string MainWindowLabelTotalCount {
+            get {
+                return ResourceManager.GetString("MainWindowLabelTotalCount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Counted with difference:.
+        /// </summary>
+        public static string MainWindowLabelTotalCountDifference {
+            get {
+                return ResourceManager.GetString("MainWindowLabelTotalCountDifference", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please choose the desired function.
+        /// </summary>
+        public static string MainWindowLabelWarning {
+            get {
+                return ResourceManager.GetString("MainWindowLabelWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Controller.
         /// </summary>
         public static string MainWindowTitle {
             get {
