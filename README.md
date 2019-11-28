@@ -1,2 +1,2 @@
 # P3 Project
- Vi laver dejlig kode her
+ Code for the project on the thirds semester for a group at Aalborg University. 
