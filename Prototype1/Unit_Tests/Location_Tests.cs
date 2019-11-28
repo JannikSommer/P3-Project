@@ -9,18 +9,6 @@ namespace Unit_Tests
     public class Location_Tests
     {
         [TestMethod]
-        public void skabelon()
-        {
-            // Arrange
-
-            //Expected
-
-            // Act
-
-            // Assert
-        }
-
-        [TestMethod]
         public void Constructor_test1()
         {
             // Arrange

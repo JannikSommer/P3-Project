@@ -11,7 +11,8 @@ namespace WPF_PC.Central_Controller
     {
         public int TotalNumberOfItems { get; private set; } = 0;
         public int ItemsVerified { get; private set; } = 0;
-        private TimeSpan TimeBeforeAFK = new TimeSpan(0, 30, 0);
+        private readonly int MaxNumLocationForVerificationPartitions = 20; //verificationPartitions can be larger then this, if the verification partition is size 19, the algorithm can add a multilocationItem of 2 or higher
+        private readonly TimeSpan TimeBeforeAFK = new TimeSpan(0, 30, 0);
         public SortedList<string, Location> UnPartitionedLocations { get; private set; } = new SortedList<string, Location>();
         private List<Location> MultiLocationsItem_Locations = new List<Location>();
         private List<Item> MultilocationItems = new List<Item>();
@@ -19,6 +20,7 @@ namespace WPF_PC.Central_Controller
         private List<Shelf> AvailebleShelfs = new List<Shelf>();
         private List<Shelf> OccopiedShelfs = new List<Shelf>();
         private List<Item> ItemsForVerification = new List<Item>();
+        private List<Item> MultiLocationItemsForVerification = new List<Item>();
         private LocationComparer Location_Comparer;
 
         /* first Send Next Partition Implimentation
@@ -191,6 +193,7 @@ namespace WPF_PC.Central_Controller
             List<Location> Locations = UnPartitionedLocations.Values.ToList();
 
             InitilizeLocationComparer(); //THIS MIGHT NEED TO BE REWORKED AND REMOVED
+            Locations.Sort(Location_Comparer); //The initial AddItem doesn't need to use a sorted list anymore, because compareing the strings isn't good enough anymore
 
             if (AvailebleShelfs.Count != 0)
             {
@@ -312,12 +315,103 @@ namespace WPF_PC.Central_Controller
             }
             else if (item.ServerQuantity != item.CountedQuantity)
             {
-                ItemsForVerification.Add(item);
+                if (item.HasMultiLocation)
+                {
+                    MultiLocationItemsForVerification.Add(item);
+                }
+                else
+                {
+                    ItemsForVerification.Add(item);
+                }
             }
             else
             {
                 ItemsVerified++;
             }
+        }
+
+        public VerificationPartition CreateVerificationPartition()
+        {
+            VerificationPartition verificationPartition = new VerificationPartition();
+            int Distance;
+            int ShortestMultiLocDistance; 
+            int ShortestSingleLocDistance;
+            int IndexOfMultiLoc;
+            int IndexOfSingleLoc;
+
+            if (MultiLocationItemsForVerification.Count != 0)
+            {
+                verificationPartition.AddItem(MultiLocationItemsForVerification[0]);
+
+                MultiLocationItemsForVerification.RemoveAt(0);
+            }
+            else if(ItemsForVerification.Count != 0)
+            {
+                verificationPartition.AddItem(ItemsForVerification[0]);
+
+                ItemsForVerification.RemoveAt(0);
+            }
+            else
+            {
+                return null;
+            }
+
+            while(verificationPartition.Locations.Count < MaxNumLocationForVerificationPartitions && (MultiLocationItemsForVerification.Count != 0 || ItemsForVerification.Count != 0))
+            {
+                ShortestMultiLocDistance = int.MaxValue;
+                IndexOfMultiLoc = -1;
+
+                for(int x = 0; x < MultiLocationItemsForVerification.Count; x++)
+                {
+                    Distance = verificationPartition.CompareDistance(MultiLocationItemsForVerification[x], Location_Comparer);
+
+                    if(Distance < ShortestMultiLocDistance)
+                    {
+                        ShortestMultiLocDistance = Distance;
+                        IndexOfMultiLoc = x;
+                    }
+                }
+
+                if(ShortestMultiLocDistance < 1000) //if a MultiLocation item can be checked without Visiting new Shelfs, its given priority over single Location items
+                {
+                    verificationPartition.AddItem(MultiLocationItemsForVerification[IndexOfMultiLoc]);
+
+                    MultiLocationItemsForVerification.RemoveAt(IndexOfMultiLoc);
+
+                    continue;
+                }
+
+                ShortestSingleLocDistance = int.MaxValue;
+                IndexOfSingleLoc = -1;
+
+                for (int x = 0; x < ItemsForVerification.Count; x++)
+                {
+                    Distance = verificationPartition.CompareDistance(ItemsForVerification[x], Location_Comparer);
+
+                    if (Distance < ShortestSingleLocDistance)
+                    {
+                        ShortestSingleLocDistance = Distance;
+                        IndexOfSingleLoc = x;
+                    }
+                }
+
+                if(ShortestMultiLocDistance / 1000 < ShortestSingleLocDistance / 1000) //if a multilocation item is the same nr of shelfs away as a single location item, its prioritized
+                {
+                    verificationPartition.AddItem(MultiLocationItemsForVerification[IndexOfMultiLoc]);
+
+                    MultiLocationItemsForVerification.RemoveAt(IndexOfMultiLoc);
+                }
+                else
+                {
+                    verificationPartition.AddItem(ItemsForVerification[IndexOfSingleLoc]);
+
+                    ItemsForVerification.RemoveAt(IndexOfSingleLoc);
+                }
+            }
+
+            verificationPartition.Locations.Sort(Location_Comparer);
+
+            return verificationPartition;
         }
 
         private Shelf FindShelf(List<Shelf> ShelfList, int Index)
