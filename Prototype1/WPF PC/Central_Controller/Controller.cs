@@ -193,6 +193,7 @@ namespace WPF_PC.Central_Controller
             List<Location> Locations = UnPartitionedLocations.Values.ToList();
 
             InitilizeLocationComparer(); //THIS MIGHT NEED TO BE REWORKED AND REMOVED
+            Locations.Sort(Location_Comparer); //The initial AddItem doesn't need to use a sorted list anymore, because compareing the strings isn't good enough anymore
 
             if (AvailebleShelfs.Count != 0)
             {
