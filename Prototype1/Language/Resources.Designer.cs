@@ -149,5 +149,50 @@ namespace Language {
                 return ResourceManager.GetString("LogWindowUserLabel", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string MainWindowCreateCycleButton {
+            get {
+                return ResourceManager.GetString("MainWindowCreateCycleButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string MainWindowFinishCycleButton {
+            get {
+                return ResourceManager.GetString("MainWindowFinishCycleButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string MainWindowShowButton {
+            get {
+                return ResourceManager.GetString("MainWindowShowButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string MainWindowShowChosenTypeButton {
+            get {
+                return ResourceManager.GetString("MainWindowShowChosenTypeButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string MainWindowTitle {
+            get {
+                return ResourceManager.GetString("MainWindowTitle", resourceCulture);
+            }
+        }
     }
 }
