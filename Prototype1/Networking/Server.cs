@@ -4,6 +4,7 @@ using System.Net;
 using System.Text.Json;
 using System.Text;
 using Model;
+using Central_Controller;
 
 namespace Networking
 {
@@ -11,7 +12,8 @@ namespace Networking
     {
         private Socket Handler;
         private Cycle Cycle = new Cycle();
-        private Controller
+        private Controller Controller; 
+        
 
         public void StartServer()
         {
@@ -53,7 +55,8 @@ namespace Networking
 
             if (data == CommunicationFlag.PartitionRequest.ToString())
             {
-                Partition partition = 
+                Central_Controller.Client client = new Central_Controller.Client("asd");
+                Partition partition = Controller.NextPartition(client);
                 SendPartition(partition); 
             }
             else if (data == CommunicationFlag.PartitionUpload.ToString())

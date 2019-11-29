@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Model;
 
-namespace WPF_PC.Central_Controller
+namespace Central_Controller
 {
     public partial class Controller
     {
