@@ -21,7 +21,7 @@ namespace WPF_PC
     {
         public Loading()
         {
-            InitializeComponent();
+            //InitializeComponent();
         }
     }
 }
