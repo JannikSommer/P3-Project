@@ -119,7 +119,7 @@ namespace WPF_PC
 
         private void editCycle_Click(object sender, RoutedEventArgs e)
         {
-            EditCycle EditCycle = new EditCycle();
+            EditCycle EditCycle = new EditCycle(Language);
             EditCycle.Show();
 
         }
@@ -156,7 +156,6 @@ namespace WPF_PC
         public void LoadIntoChooseBox()
         {
             List<string> settings = new List<string>();
-            //settings = null;
 
             //Danish:
             if (Language.Danish == Language)
