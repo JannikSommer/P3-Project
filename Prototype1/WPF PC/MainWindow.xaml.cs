@@ -217,7 +217,9 @@ namespace WPF_PC
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            
+            // End the thread and server when the program closes. 
+            Server.ShutdownServer();
+            NetworkingThread.Abort();
         }
 
         private void comboBoxChooseGet_SelectionChanged(object sender, SelectionChangedEventArgs e)

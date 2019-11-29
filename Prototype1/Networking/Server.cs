@@ -11,6 +11,7 @@ namespace Networking
     {
         private Socket Handler;
         private Cycle Cycle = new Cycle();
+        private Controller
 
         public void StartServer()
         {
@@ -52,7 +53,7 @@ namespace Networking
 
             if (data == CommunicationFlag.PartitionRequest.ToString())
             {
-                Partition partition = Cycle.GetPartitionForClient();
+                Partition partition = 
                 SendPartition(partition); 
             }
             else if (data == CommunicationFlag.PartitionUpload.ToString()) 
