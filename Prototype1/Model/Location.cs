@@ -9,16 +9,14 @@ namespace Model
         public string ID { get; private set; }
         public bool IsEmpty { get; private set; }
         public int Shelf { get; private set; }
-        public char Row { get; private set; }
-        public int Posistion { get; private set; }
-        public bool HasMultilocationItem { get; set; }
+        public string Row { get; private set; }
+        public string Position { get; private set; }
         public List<Item> Items { get; private set; }
 
         public Location() { } // Used for JSON Deserialization.
 
         public Location(string _ID)
         {
-            ID = _ID;
             IsEmpty = true;
             Items = new List<Item>();
 
@@ -29,7 +27,7 @@ namespace Model
             }
             else
             {
-                throw new Exception("ID has to be 6 charaters long, 3 digits, then 1 letter and 2 digits again");
+                throw new Exception("ID sting to long");
             }
         }
 
@@ -45,14 +43,11 @@ namespace Model
                 throw new Exception("ID sting to long");
             }
 
-            Items = new List<Item>();
+            Items = items;
 
             if(items.Count > 0)
             {
-                foreach(Item item in items)
-                {
-                    AddItem(item);
-                }
+                IsEmpty = false;
             }
             else
             {
@@ -63,51 +58,14 @@ namespace Model
         private void ConvertID(string ID)
         {
             Shelf = Convert.ToInt32(ID.Substring(0, 3));
-            Row = ID[3];
-            Posistion = Convert.ToInt32(ID.Substring(4, 2));
-        }
-
-        public bool HasItem(Item item)
-        {
-            return Items.Exists(x => x.ID == item.ID);
+            Row = ID.Substring(3, 1);
+            Position = ID.Substring(4, 2);
         }
 
         public void AddItem(Item _Item)
         {
-            if (!HasItem(_Item))
-            {
-                Items.Add(_Item);
-                IsEmpty = false;
-
-                if (!_Item.HasLocation(this))
-                {
-                    _Item.AddLocation(this);
-                }
-
-                if (_Item.HasMultiLocation)
-                {
-                    HasMultilocationItem = true;
-                }
-            }
+            Items.Add(_Item);
+            IsEmpty = false;
         }
-
-        public int CompareDistance(Location OtherLocation, LocationComparer locationComparer)
-        {
-            if(OtherLocation.Shelf == Shelf)
-            {
-                return Math.Abs(OtherLocation.Posistion - Posistion);
-            }
-            else
-            {
-                //multiplies 1000 to Switching shelfs, in order to make sure its always considered a longer distance then staying at the same shelf
-                return Math.Abs(locationComparer.ShelfHieraky[OtherLocation.Shelf] - locationComparer.ShelfHieraky[Shelf]) * 1000;
-            }
-        }
-
-        /*public int CompareTo(object location)
-        {
-            Location OtherLocation = (Location)location;
-            return ID.CompareTo(OtherLocation.ID);
-        }*/
     }
 }

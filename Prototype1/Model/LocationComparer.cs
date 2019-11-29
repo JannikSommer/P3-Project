@@ -6,65 +6,64 @@ namespace Model
 {
     public class LocationComparer : IComparer<Location>
     {
-        public int[] ShelfHieraky { get; private set; }
+        public int[] ShelfHierakyi { get; private set; }
         private int HighestValueShelf;
 
         public LocationComparer(int highestShelfNumber)
         {
-            ShelfHieraky = new int[highestShelfNumber + 1];
+            ShelfHierakyi = new int[highestShelfNumber];
             HighestValueShelf = highestShelfNumber;
 
-            for(int x = 0; x <= highestShelfNumber; x++)
+            for(int x = 0; x <= highestShelfNumber + 1; x++)
             {
-                ShelfHieraky[x] = x;
+                ShelfHierakyi[x - 1] = x;
             }
-        }
-
-        public int ShelfHierakyOf(int ShelfIndex)
-        {
-            return ShelfHieraky[ShelfIndex];
         }
 
         int IComparer<Location>.Compare(Location a, Location b)
         {
-            int ShelfHierakyi_a = ShelfHieraky[a.Shelf];
-            int ShelfHierakyi_b = ShelfHieraky[b.Shelf];
-            int x = ShelfHierakyi_a - ShelfHierakyi_b;
+            int ShelfHierakyi_a = ShelfHierakyi[a.Shelf];
+            int ShelfHierakyi_b = ShelfHierakyi[b.Shelf];
+            int x;
 
-            if (x != 0)
+            if(ShelfHierakyi_a > ShelfHierakyi_b)
             {
-                return x;
+                return -1;
+            }
+            else if(ShelfHierakyi_a < ShelfHierakyi_b)
+            {
+                return 1;
             }
             else
             {
-                x = a.Posistion.CompareTo(b.Posistion);
+                x = a.Row.CompareTo(b.Row);
 
                 if (x == 0)
                 {
-                    return a.Row.CompareTo(b.Row);
+                    return a.Position.CompareTo(b.Position);
                 }
 
                 return x;
             }
         }
 
-        public void IncreasePriority(int ShelfIndex)
+        public void IncreasePriority(int PosistionOfElement)
         {
             int temp;
 
-            if (ShelfHieraky[ShelfIndex] < HighestValueShelf)
-                temp = ++ShelfHieraky[ShelfIndex];
+            if (ShelfHierakyi[PosistionOfElement] < HighestValueShelf)
+                temp = ++ShelfHierakyi[PosistionOfElement];
             else
                 throw new Exception("Can't increase priority further");
 
             for(int x = 0; x < HighestValueShelf; x++)
             {
-                if (ShelfHieraky[x] == temp)
+                if (ShelfHierakyi[x] == temp)
                 {
-                    if (x == ShelfIndex) { }
+                    if (x == PosistionOfElement) { }
                     else
                     {
-                        ShelfHieraky[x]--;
+                        ShelfHierakyi[x]--;
                         break;
                     }
                 }
@@ -75,19 +74,19 @@ namespace Model
         {
             int temp;
 
-            if (ShelfHieraky[PosistionOfElement] > 0)
-                temp = --ShelfHieraky[PosistionOfElement];
+            if (ShelfHierakyi[PosistionOfElement] > 0)
+                temp = --ShelfHierakyi[PosistionOfElement];
             else
                 throw new Exception("Can't decrease priority further");
 
             for (int x = 0; x < HighestValueShelf; x++)
             {
-                if (ShelfHieraky[x] == temp)
+                if (ShelfHierakyi[x] == temp)
                 {
                     if (x == PosistionOfElement) { }
                     else
                     {
-                        ShelfHieraky[x]++;
+                        ShelfHierakyi[x]++;
                         break;
                     }
                 }

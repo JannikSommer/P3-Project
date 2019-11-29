@@ -4,7 +4,6 @@ using System.Net;
 using System.Text.Json;
 using System.Text;
 using Model;
-using Central_Controller;
 
 namespace Networking
 {
@@ -12,26 +11,24 @@ namespace Networking
     {
         private Socket Handler;
         private Cycle Cycle = new Cycle();
-        private Controller Controller; 
-        
 
         public void StartServer()
         {
-            // Get Host IP Address that is used to establish a connection
+            // Get Host IP Address that is used to establish a connection  
             // In this case, we get one IP address of localhost that is IP : 127.0.0.1
-            // If a host has multiple addresses, you will get a list of addresses
-            // Get IP-Address from cmd -> ipconfig IPv4 address from Ethernet adapter.
+            // If a host has multiple addresses, you will get a list of addresses  
+            // Get IP-Address from cmd -> ipconfig IPv4 address from Ethernet adapter. 
             IPHostEntry host = Dns.GetHostEntry(Dns.GetHostName());
-            IPAddress ipAddress = IPAddress.Parse("192.168.1.2");
+            IPAddress ipAddress = IPAddress.Parse("192.168.0.23");
             IPEndPoint localEndPoint = new IPEndPoint(ipAddress, 8080);
 
             try
             {
-                // Create a Socket that will use Tcp protocol
+                // Create a Socket that will use Tcp protocol      
                 Socket Listener = new Socket(ipAddress.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
-                // A Socket must be associated with an endpoint using the Bind method
+                // A Socket must be associated with an endpoint using the Bind method  
                 Listener.Bind(localEndPoint);
-
+                        
                 // Specify how many requests a Socket can listen before it gives Server busy response
                 Listener.Listen(10);
                 while (true)
@@ -46,7 +43,7 @@ namespace Networking
             }
         }
 
-        private void HandleConnection() // Handles the connection of the socket.
+        private void HandleConnection() // Handles the connection of the socket. 
         {
             // Incoming data from the client
             byte[] bytes = new byte[15];
@@ -55,17 +52,16 @@ namespace Networking
 
             if (data == CommunicationFlag.PartitionRequest.ToString())
             {
-                Central_Controller.Client client = new Central_Controller.Client("asd");
-                Partition partition = Controller.NextPartition(client);
+                Partition partition = Cycle.GetPartitionForClient();
                 SendPartition(partition); 
             }
-            else if (data == CommunicationFlag.PartitionUpload.ToString())
+            else if (data == CommunicationFlag.PartitionUpload.ToString()) 
             { 
                 AcceptPartitionUpload();
             }
             else if (data == CommunicationFlag.VerificationRequest.ToString())
             {
-                VerificationPartition verificationPartition = new VerificationPartition(); // FIX
+                VerificationPartition verificationPartition = new VerificationPartition();
                 SendVerificationPartition(verificationPartition);
             }
             else if (data == CommunicationFlag.VerificationUpload.ToString())
@@ -97,7 +93,7 @@ namespace Networking
 
             // Signal OK to client and shutdown socket
             Handler.Send(Encoding.UTF8.GetBytes(CommunicationFlag.ConversationCompleted.ToString()));
-            Cycle.ReceicePartitionUpload(uploadedPartition); // FIX
+            Cycle.ReceicePartitionUpload(uploadedPartition);
         }
 
         private void SendPartition(Partition partition)
@@ -148,11 +144,11 @@ namespace Networking
 
             // Signal OK to client and shutdown socket
             Handler.Send(Encoding.UTF8.GetBytes(CommunicationFlag.ConversationCompleted.ToString()));
-        }
+        }    
 
         public void ShutdownServer()
         {
-            Handler.Shutdown(SocketShutdown.Both);
+            Handler.Shutdown(SocketShutdown.Both); 
             Handler.Close();
         }
     }

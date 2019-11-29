@@ -11,13 +11,14 @@ namespace Networking
 {
     public class Client
     {
+
         private Socket Sender;
 
-        private byte[] FlagMessasge = new byte[25]; // Fits longest CommunicationFlag with some change
+        private byte[] FlagMessasge = new byte[25]; // Fits longest CommunicationFlag with some change 
 
-
+        
         #region async methods
-
+        
         public async Task<CommunicationHandler> UploadVerificationPartitionAsync(VerificationPartition verificationPartition)
         {
             CommunicationHandler socketHandler = await StartClientAsync();
@@ -80,7 +81,7 @@ namespace Networking
             string data = Encoding.UTF8.GetString(bytes, 0, bytesRec);
             if (data == CommunicationHandler.Error.ToString())
             {
-                // Checks if the request has been received and understood by server.
+                // Checks if the request has been received and understood by server. 
                 handler = CommunicationHandler.Error;
                 ClientShutdown();
                 VerificationPartition emptyPartition = null;
@@ -96,7 +97,7 @@ namespace Networking
             ClientShutdown();
             return Tuple.Create(partition, handler);
         }
-
+        
         public async Task<CommunicationHandler> UploadPartitionAsync(Partition partition)
         {
             CommunicationHandler socketHandler = await StartClientAsync();
@@ -160,7 +161,7 @@ namespace Networking
             string data = Encoding.UTF8.GetString(bytes, 0, bytesRec);
             if (data == CommunicationHandler.Error.ToString())
             {
-                // Checks if the request has been received and understood by server.
+                // Checks if the request has been received and understood by server. 
                 handler = CommunicationHandler.Error;
                 ClientShutdown();
                 Partition emptyPartition = null;
@@ -185,17 +186,17 @@ namespace Networking
                 // Get Host IP Address that is used to establish a connection  
                 // In this case, we get one IP address of localhost that is IP : 127.0.0.1  
                 // If a host has multiple addresses, you will get a list of addresses  
-                IPHostEntry host = Dns.GetHostEntry("192.168.1.2");
+                IPHostEntry host = Dns.GetHostEntry("192.168.0.23");
                 IPAddress ipAddress = host.AddressList[0];
                 IPEndPoint remoteEP = new IPEndPoint(ipAddress, 8080);
 
                 // Create a TCP/IP  socket
                 Sender = new Socket(ipAddress.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
 
-                // Connect the socket to the remote endpoint. Catch any errors.
+                // Connect the socket to the remote endpoint. Catch any errors.    
                 try
                 {
-                    // Connect to Remote EndPoint
+                    // Connect to Remote EndPoint  
                     Sender.Connect(remoteEP);
                 }
                 catch (SocketException)
@@ -216,7 +217,7 @@ namespace Networking
 
         #endregion
 
-        #region sync methods
+        #region sync methods 
 
         public CommunicationHandler UploadVerificationPartition(VerificationPartition verificationPartition)
         {
@@ -276,12 +277,12 @@ namespace Networking
             int bytesSent = Sender.Send(FlagMessasge);
 
             // Incoming data from server
-            byte[] bytes = new byte[1048576]; // TODO: Make size fit - is 1MB
+            byte[] bytes = new byte[1048576]; // TODO: Make size fit
             int bytesRec = Sender.Receive(bytes);
             string data = Encoding.UTF8.GetString(bytes, 0, bytesRec);
             if (data == CommunicationHandler.Error.ToString())
             {
-                // Checks if the request has been received and understood by server.
+                // Checks if the request has been received and understood by server. 
                 handler = CommunicationHandler.Error;
                 ClientShutdown();
                 VerificationPartition emptyPartition = null;
@@ -363,7 +364,7 @@ namespace Networking
             string data = Encoding.UTF8.GetString(bytes, 0, bytesRec);
             if (data == CommunicationHandler.Error.ToString())
             {
-                // Checks if the request has been received and understood by server.
+                // Checks if the request has been received and understood by server. 
                 handler = CommunicationHandler.Error;
                 ClientShutdown();
                 Partition emptyPartition = null;
@@ -372,7 +373,7 @@ namespace Networking
             else handler = CommunicationHandler.Success;
 
             Partition partition = DeserializeDataAsPartition(bytes, bytesRec);
-
+            
             // Respons to server to close connection
             Sender.Send(Encoding.UTF8.GetBytes(CommunicationFlag.ConversationCompleted.ToString()));
 
@@ -388,17 +389,17 @@ namespace Networking
                 // Get Host IP Address that is used to establish a connection  
                 // In this case, we get one IP address of localhost that is IP : 127.0.0.1  
                 // If a host has multiple addresses, you will get a list of addresses  
-                IPHostEntry host = Dns.GetHostEntry("192.168.1.2");
+                IPHostEntry host = Dns.GetHostEntry("192.168.0.23");
                 IPAddress ipAddress = host.AddressList[0];
                 IPEndPoint remoteEP = new IPEndPoint(ipAddress, 8080);
 
-                // Create a TCP/IP  socket.
+                // Create a TCP/IP  socket.    
                 Sender = new Socket(ipAddress.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
 
-                // Connect the socket to the remote endpoint. Catch any errors.
+                // Connect the socket to the remote endpoint. Catch any errors.    
                 try
                 {
-                    // Connect to Remote EndPoint
+                    // Connect to Remote EndPoint  
                     Sender.Connect(remoteEP);
                 }
                 catch (SocketException)
@@ -437,7 +438,7 @@ namespace Networking
 
         private void ClientShutdown()
         {
-            // Release the socket.
+            // Release the socket.    
             Sender.Shutdown(SocketShutdown.Both);
             Sender.Close();
         }
