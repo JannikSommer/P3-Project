@@ -17,16 +17,10 @@ namespace Model
         public string Size { get; private set; }
         public string ImageUrl { get; private set; }
         public string CheckSum { get; set; }
-        public List<Location> Locations { get; private set; }
+        public List<Model.Location> Locations { get; private set; }
 
 
         public Item() { } // Used for JSON Deserialization.
-
-        public Item(string id)
-        {
-            ID = id;
-            Locations = new List<Location>();
-        }
 
         public Item(string _ID, string _Name, string _Color, string _Size)
         {
@@ -44,69 +38,25 @@ namespace Model
             Name = _Name;
             Color = _Color;
             Size = _Size;
-            Locations = new List<Location>();
+            Locations = _Locations;
 
-            foreach (Location location in _Locations)
+            if(_Locations.Count >= 2)
             {
-                AddLocation(location);
+                HasMultiLocation = true;
+            }
+            else
+            {
+                HasMultiLocation = false;
             }
         }
 
         public void AddLocation(Location _Location)
         {
-            if(!HasLocation(_Location))
+            Locations.Add(_Location);
+            if(Locations.Count >= 2)
             {
-                Locations.Add(_Location);
-                if (Locations.Count >= 2)
-                {
-                    HasMultiLocation = true;
-                    foreach (Location location in Locations)
-                    {
-                        location.HasMultilocationItem = true;
-                    }
-                }
+                HasMultiLocation = true;
             }
-
-            if (!_Location.HasItem(this))
-            {
-                _Location.AddItem(this);
-            }
-        }
-
-        public bool HasLocation(Location location)
-        {
-            return Locations.Exists(x => x.ID == location.ID);
-        }
-
-        public int CompareDistance(Item OtherItem, LocationComparer locationComparer)
-        {
-            int TotalDistance = 0;
-            int ShortestDistance;
-            int x;
-
-            if(Locations.Count == 0 || OtherItem.Locations.Count == 0)
-            {
-                throw new Exception("Can't compare Distance of items where one or both doesn't have any assigned locations");
-            }
-
-            foreach(Location ThisItemsLocation in Locations)
-            {
-                ShortestDistance = int.MaxValue;
-
-                foreach (Location OtherItemLocation in OtherItem.Locations)
-                {
-                    x = ThisItemsLocation.CompareDistance(OtherItemLocation, locationComparer);
-
-                    if (x < ShortestDistance)
-                    {
-                        ShortestDistance = x;
-                    }
-                }
-
-                TotalDistance += ShortestDistance;
-            }
-
-            return TotalDistance;
         }
     }
 }
