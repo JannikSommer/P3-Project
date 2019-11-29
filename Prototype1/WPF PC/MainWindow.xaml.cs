@@ -114,7 +114,7 @@ namespace WPF_PC
 
         private void createCycleCount_Click(object sender, RoutedEventArgs e)
         {
-            Window1 CreateCycle = new Window1(Language);
+            CreateCycleWindow CreateCycle = new CreateCycleWindow();
             CreateCycle.Show();
 
         }
@@ -162,28 +162,9 @@ namespace WPF_PC
                 Localization.Resources.MainWindowComboboxCountedThisCycle, 
                 Localization.Resources.MainWindowComboboxCountedDifference
             };
-            
-
-            //settings = null;
-
-            ////Danish:
-            //if (Language.Danish == Language)
-            //{
-            //    settings.Add("I dags optalte");
-            //    settings.Add("Optalte i denne cyklus");
-            //    settings.Add("Optalte med difference");
-            //}
-
-            ////English:
-            //else if (Language.English == Language)
-            //{
-            //    settings.Add("Counted today");
-            //    settings.Add("Counted in this cycle");
-            //    settings.Add("Counted with difference");
-            //}
-
-
+           
             comboBoxChooseGet.ItemsSource = settings;
+            comboBoxChooseGet.SelectedIndex = 0;
         }
 
         private void showChosenType_Click(object sender, RoutedEventArgs e)

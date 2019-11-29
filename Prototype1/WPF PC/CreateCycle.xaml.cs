@@ -17,42 +17,41 @@ namespace WPF_PC
     /// <summary>
     /// Interaction logic for Window1.xaml
     /// </summary>
-    public partial class Window1 : Window
+    public partial class CreateCycleWindow : Window
     {
-        private new Language Language;
-        public Window1(Language language)
+        public CreateCycleWindow()
         {
             InitializeComponent();
 
-            CreateCycleWindowLanguage(language);
-            LoadIntoChooseBox(language);
+            CreateCycleWindowLanguage();
+            LoadIntoChooseBox();
         }
 
-        public void LoadIntoChooseBox(Language language)
+        public void LoadIntoChooseBox()
         {
             List<string> createCycleTypes = new List<string>();
 
-            //Danish:
-            if (Language.Danish == language)
-            {
-                createCycleTypes.Add("Hele lageret");
-                createCycleTypes.Add("T-shirts");
-                createCycleTypes.Add("Bukser");
-                createCycleTypes.Add("Skateboards");
-                createCycleTypes.Add("Sko");
-                createCycleTypes.Add("Hoodies");
-            }
+            ////Danish:
+            //if (Language.Danish == language)
+            //{
+            //    createCycleTypes.Add("Hele lageret");
+            //    createCycleTypes.Add("T-shirts");
+            //    createCycleTypes.Add("Bukser");
+            //    createCycleTypes.Add("Skateboards");
+            //    createCycleTypes.Add("Sko");
+            //    createCycleTypes.Add("Hoodies");
+            //}
 
-            //English:
-            else if (Language.English == language)
-            {
-                createCycleTypes.Add("The whole storage");
-                createCycleTypes.Add("T-shirts");
-                createCycleTypes.Add("Pants");
-                createCycleTypes.Add("Skateboards");
-                createCycleTypes.Add("Shoes");
-                createCycleTypes.Add("Hoodies");
-            }
+            ////English:
+            //else if (Language.English == language)
+            //{
+            //    createCycleTypes.Add("The whole storage");
+            //    createCycleTypes.Add("T-shirts");
+            //    createCycleTypes.Add("Pants");
+            //    createCycleTypes.Add("Skateboards");
+            //    createCycleTypes.Add("Shoes");
+            //    createCycleTypes.Add("Hoodies");
+            //}
             comboBoxChooseCycleCountTypes.ItemsSource = createCycleTypes;
         }
 
@@ -70,34 +69,34 @@ namespace WPF_PC
             }
         }
 
-        public void CreateCycleWindowLanguage(Language language)
+        public void CreateCycleWindowLanguage()
         {
 
             //Danish:
-            if (Language.Danish == language)
-            {
-                //Window name:
-                CreateCycle.Title = "Opret Optællings Cyklus";
+            //if (Language.Danish == language)
+            //{
+            //    //Window name:
+            //    CreateCycle.Title = "Opret Optællings Cyklus";
 
-                //Labels:
-                chooseCycle.Content = "Vælg hvordan cyklus'en skal oprettes:";
+            //    //Labels:
+            //    chooseCycle.Content = "Vælg hvordan cyklus'en skal oprettes:";
 
-                //Buttons:
-                CreateCycleCountButton.Content = "Opret cyklus";
-            }
+            //    //Buttons:
+            //    CreateCycleCountButton.Content = "Opret cyklus";
+            //}
 
-            //English:
-            else if (Language.English == language)
-            {
-                //Window name:
-                CreateCycle.Title = "Create Cycle Count";
+            ////English:
+            //else if (Language.English == language)
+            //{
+            //    //Window name:
+            //    CreateCycle.Title = "Create Cycle Count";
 
-                //Labels:
-                chooseCycle.Content = "Choose how to create the cycle:";
+            //    //Labels:
+            //    chooseCycle.Content = "Choose how to create the cycle:";
 
-                //Buttons:
-                CreateCycleCountButton.Content = "Create cycle";
-            }
+            //    //Buttons:
+            //    CreateCycleCountButton.Content = "Create cycle";
+            //}
         }
     }
 }
