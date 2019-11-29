@@ -121,7 +121,7 @@ namespace WPF_PC
 
         private void editCycle_Click(object sender, RoutedEventArgs e)
         {
-            EditCycle EditCycle = new EditCycle(Language);
+            EditCycle EditCycle = new EditCycle();
             EditCycle.Show();
 
         }
