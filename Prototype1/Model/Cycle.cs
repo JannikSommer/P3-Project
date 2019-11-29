@@ -8,9 +8,9 @@ namespace Model
     {
         public bool DataFormatted { get; set; }
         public bool CycleState { get; set; }
-        public List<PartitionBase> UncountedPartitions { get; set; }
-        public List<PartitionBase> CountedPartitions { get; set; }
-        public List<PartitionBase> VerifiedPartitions { get; set; }
+        public List<Partition> UncountedPartitions { get; set; }
+        public List<Partition> CountedPartitions { get; set; }
+        public List<Partition> VerifiedPartitions { get; set; }
 
         public Partition GetPartitionForClient()
         {
@@ -27,19 +27,19 @@ namespace Model
             return sendPartition;
         }
 
-        public void ReceicePartitionUpload(Partition partition)
-        {
-            if (partition.State == PartitionState.NotCounted)
-            {
-                partition.State = PartitionState.Counted;
-                CountedPartitions.Add(partition);
-            }
-            else if (partition.State == PartitionState.Counted)
-            {
-                partition.State = PartitionState.Verified;
-                VerifiedPartitions.Add(partition);
-            }
-        }
+        //public void ReceicePartitionUpload(Partition partition)
+        //{
+        //    if (partition.State == PartitionState.NotCounted)
+        //    {
+        //        partition.State = PartitionState.Counted;
+        //        CountedPartitions.Add(partition);
+        //    }
+        //    else if (partition.State == PartitionState.Counted)
+        //    {
+        //        partition.State = PartitionState.Verified;
+        //        VerifiedPartitions.Add(partition);
+        //    }
+        //}
 
         public void DownloadFromServer()
         {

@@ -11,7 +11,7 @@ namespace Networking
     {
         private Socket Handler;
         private Cycle Cycle = new Cycle();
-        private Controller
+        //private Controller
 
         public void StartServer()
         {
@@ -35,7 +35,7 @@ namespace Networking
                 while (true)
                 {
                     Handler = Listener.Accept();
-                    HandleConnection();
+                    //HandleConnection();
                 }
             }
             catch (Exception e)
@@ -44,36 +44,35 @@ namespace Networking
             }
         }
 
-        private void HandleConnection() // Handles the connection of the socket.
-        {
-            // Incoming data from the client
-            byte[] bytes = new byte[15];
-            int bytesRec = Handler.Receive(bytes);
-            string data = Encoding.UTF8.GetString(bytes, 0, bytesRec);
+        //private void HandleConnection() // Handles the connection of the socket.
+        //{
+        //    // Incoming data from the client
+        //    byte[] bytes = new byte[15];
+        //    int bytesRec = Handler.Receive(bytes);
+        //    string data = Encoding.UTF8.GetString(bytes, 0, bytesRec);
 
-            if (data == CommunicationFlag.PartitionRequest.ToString())
-            {
-                Partition partition = 
-                SendPartition(partition); 
-            }
-            else if (data == CommunicationFlag.PartitionUpload.ToString())
-            { 
-                AcceptPartitionUpload();
-            }
-            else if (data == CommunicationFlag.VerificationRequest.ToString())
-            {
-                VerificationPartition verificationPartition = new VerificationPartition();
-                SendVerificationPartition(verificationPartition);
-            }
-            else if (data == CommunicationFlag.VerificationUpload.ToString())
-            {
-                AcceptVerificationPartitionUpload();
-            }
-            else
-            {
-                CommunicationError();
-            }
-        }
+        //    if (data == CommunicationFlag.PartitionRequest.ToString())
+        //    { 
+        //        SendPartition(partition); 
+        //    }
+        //    else if (data == CommunicationFlag.PartitionUpload.ToString())
+        //    { 
+        //        AcceptPartitionUpload();
+        //    }
+        //    else if (data == CommunicationFlag.VerificationRequest.ToString())
+        //    {
+        //        VerificationPartition verificationPartition = new VerificationPartition();
+        //        SendVerificationPartition(verificationPartition);
+        //    }
+        //    else if (data == CommunicationFlag.VerificationUpload.ToString())
+        //    {
+        //        AcceptVerificationPartitionUpload();
+        //    }
+        //    else
+        //    {
+        //        CommunicationError();
+        //    }
+        //}
 
 
         private void CommunicationError()
@@ -94,10 +93,10 @@ namespace Networking
 
             // Signal OK to client and shutdown socket
             Handler.Send(Encoding.UTF8.GetBytes(CommunicationFlag.ConversationCompleted.ToString()));
-            Cycle.ReceicePartitionUpload(uploadedPartition);
+            //Cycle.ReceicePartitionUpload(uploadedPartition);
         }
 
-        private void SendPartition(Partition partition)
+        public void SendPartition(Partition partition)
         {
             // Send partition to client
             string json = JsonSerializer.Serialize(partition);
