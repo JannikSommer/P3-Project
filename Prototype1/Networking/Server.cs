@@ -19,7 +19,7 @@ namespace Networking
             // If a host has multiple addresses, you will get a list of addresses  
             // Get IP-Address from cmd -> ipconfig IPv4 address from Ethernet adapter. 
             IPHostEntry host = Dns.GetHostEntry(Dns.GetHostName());
-            IPAddress ipAddress = IPAddress.Parse("192.168.0.23");
+            IPAddress ipAddress = IPAddress.Parse("192.168.1.2");
             IPEndPoint localEndPoint = new IPEndPoint(ipAddress, 8080);
 
             try
