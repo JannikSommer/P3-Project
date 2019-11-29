@@ -6,25 +6,27 @@
         xmlns:conv="clr-namespace:WPF_PC.Converters"
         xmlns:toolkit="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:lang="clr-namespace:Localization;assembly=Localization"
-        mc:Ignorable="d"
-        Title="{x:Static lang:Resources.LogWindowTitle}" Height="450" Width="660" Topmost="True" ResizeMode="NoResize">
+        mc:Ignorable="d" WindowStartupLocation="CenterScreen" Icon="Assets\count-icon-26.ico.ico"
+        Title="{x:Static lang:Resources.LogWindowTitle}" Height="550" Width="780" Topmost="True" ResizeMode="NoResize" MinWidth="780" MinHeight="550">
 
     <Window.Resources>
         <conv:DateTimeConverter x:Key="DateTimeConverter"/>
     </Window.Resources>
 
-    <Grid x:Name="_mainGrid">
+    <Grid x:Name="_mainGrid" >
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="3*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="auto"/>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <DataGrid x:Name="_dataGrid" Grid.Row="1" Grid.ColumnSpan="3" AutoGenerateColumns="False" IsReadOnly="False" Margin="10,0,-116,10" Height="auto" HorizontalAlignment="Left" Width="632" >
+        <!-- Data Grid -->
+
+        <DataGrid x:Name="_dataGrid" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" AutoGenerateColumns="False" IsReadOnly="True" Margin="20,20,20,10" HorizontalAlignment="Left" CanUserReorderColumns="False" CanUserResizeColumns="False" >
             <DataGrid.Columns>
                 <DataGridTextColumn Header="{x:Static lang:Resources.LogWindowHeaderTime}" Binding="{Binding Time, Converter={StaticResource DateTimeConverter}}" CanUserReorder="False" Width="150"/>
                 <DataGridTextColumn Header="{x:Static lang:Resources.LogWindowHeaderUser}" Binding="{Binding UserId}" CanUserReorder="False" Width="100"/>
@@ -33,23 +35,24 @@
         </DataGrid>
 
         <!-- Date and Time (Column 0) -->
-        <Label x:Name="labelAfterDatePicker" Grid.Column="0" Grid.Row="0" Content="{x:Static lang:Resources.LogWindowLabelAfter}" HorizontalAlignment="Left" Margin="5,4,0,0" VerticalAlignment="Top"/>
-        <toolkit:DateTimePicker x:Name="datePickerAfter" Grid.Column="0"  Grid.Row="0" MinWidth="190" Height="20" HorizontalAlignment="Left" Margin="10,25,0,0" VerticalAlignment="Top" Kind="Local" FormatString="yyyy/MM/dd HH:mm:ss" AutoCloseCalendar="True" />
+        <Label x:Name="labelAfterDatePicker" Grid.Column="0" Grid.Row="0" Content="{x:Static lang:Resources.LogWindowLabelAfter}" HorizontalAlignment="Left" Margin="16,15,0,0" VerticalAlignment="Top"/>
+        <toolkit:DateTimePicker x:Name="datePickerAfter" Grid.Column="0"  Grid.Row="0" MinWidth="265" MaxWidth="265" Height="20" HorizontalAlignment="Left" Margin="20,35,20,0" VerticalAlignment="Top" Kind="Local" FormatString="yyyy/MM/dd HH:mm:ss" AutoCloseCalendar="True" />
 
-        <Label x:Name="labelBeforeDatePicker" Grid.Column="0" Grid.Row="0" Content="{x:Static lang:Resources.LogWindowLabelBefore}" HorizontalAlignment="Left" Margin="5,54,0,0" VerticalAlignment="Top"/>
-        <toolkit:DateTimePicker x:Name="datePickerBefore" Grid.Column="0" Grid.Row="0" MinWidth="190" Height="20" HorizontalAlignment="Left" Margin="10,75,0,0" VerticalAlignment="Top" Kind="Local" FormatString="yyyy/MM/dd HH:mm:ss" AutoCloseCalendar="True"/>
+        <Label x:Name="labelBeforeDatePicker" Grid.Column="0" Grid.Row="0" Content="{x:Static lang:Resources.LogWindowLabelBefore}" HorizontalAlignment="Left" Margin="16,75,0,0" VerticalAlignment="Top"/>
+        <toolkit:DateTimePicker x:Name="datePickerBefore" Grid.Column="0" Grid.Row="0" MinWidth="265" MaxWidth="265" Height="20" HorizontalAlignment="Left" Margin="20,95,20,0" VerticalAlignment="Top" Kind="Local" FormatString="yyyy/MM/dd HH:mm:ss" AutoCloseCalendar="True"/>
 
         <!--Location- and item-ID (Column 1) -->
-        <Label x:Name="labelLocation" Grid.Column="1" Grid.Row="0" Content="{x:Static lang:Resources.LogWindowLabelLocation}" Margin="5,4,0,0" HorizontalAlignment="Left"  VerticalAlignment="Top"/>
-        <TextBox x:Name="textboxLocation" Grid.Column="1" Grid.Row="0" MinWidth="190" Height="20" Margin="10,25,0,0" HorizontalAlignment="Left"  VerticalAlignment="Top"/>
+        <Label x:Name="labelLocation" Grid.Column="1" Grid.Row="0" Content="{x:Static lang:Resources.LogWindowLabelLocation}" Margin="16,15,0,0" HorizontalAlignment="Left"  VerticalAlignment="Top"/>
+        <TextBox x:Name="textboxLocation" Grid.Column="1" Grid.Row="0" MinWidth="190" Height="20" Margin="20,35,0,0" HorizontalAlignment="Left"  VerticalAlignment="Top"/>
 
-        <Label x:Name="labelItem" Grid.Column="1" Grid.Row="0" Content="{x:Static lang:Resources.LogWindowLabelItem}" Margin="5,54,0,0" HorizontalAlignment="Left"  VerticalAlignment="Top"/>
-        <TextBox x:Name="textboxItem" Grid.Column="1" Grid.Row="0" MinWidth="190" Height="20" Margin="10,75,0,0" HorizontalAlignment="Left"  VerticalAlignment="Top"/>
+        <Label x:Name="labelItem" Grid.Column="1" Grid.Row="0" Content="{x:Static lang:Resources.LogWindowLabelItem}" Margin="16,75,0,0" HorizontalAlignment="Left"  VerticalAlignment="Top"/>
+        <TextBox x:Name="textboxItem" Grid.Column="1" Grid.Row="0" MinWidth="190" Height="20" Margin="20,95,0,0" HorizontalAlignment="Left"  VerticalAlignment="Top"/>
 
         <!-- User Id  and seach button (Column 2) -->
-        <Label x:Name="labelUser" Grid.Column="2" Grid.Row="0" Content="{x:Static lang:Resources.LogWindowLabelUser}" Margin="5,4,0,0" HorizontalAlignment="Left"  VerticalAlignment="Top"/>
-        <TextBox x:Name="textboxUser" Grid.Column="2" Grid.Row="0" MinWidth="190" Height="20" Margin="10,25,0,0" HorizontalAlignment="Left"  VerticalAlignment="Top"/>
+        <Label x:Name="labelUser" Grid.Column="2" Grid.Row="0" Content="{x:Static lang:Resources.LogWindowLabelUser}" Margin="16,15,165,0" HorizontalAlignment="Left"  VerticalAlignment="Top"/>
+        <TextBox x:Name="textboxUser" Grid.Column="2" Grid.Row="0" MinWidth="190" Height="20" Margin="20,35,20,0" HorizontalAlignment="Left"  VerticalAlignment="Top"/>
 
-        <Button x:Name="buttonSearch" Grid.Column="2" Grid.Row="0" Content="{x:Static lang:Resources.LogWindowButtonSearch}" Height="20" Width="60" Margin="0,75,18,0" HorizontalAlignment="Right" VerticalAlignment="Top" Click="buttonSearch_Click"/>
+        <!-- Buttons -->
+        <Button x:Name="buttonSearch" Grid.Column="2" Grid.Row="0" Content="{x:Static lang:Resources.LogWindowButtonSearch}" Height="35" Width="70" Margin="0,0,20,0" HorizontalAlignment="Right" VerticalAlignment="Bottom" Click="buttonSearch_Click"/>
     </Grid>
 </Window>

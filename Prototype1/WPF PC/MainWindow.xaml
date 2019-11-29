@@ -89,7 +89,7 @@
 
         <!--Datagrid, Where items is shown-->
 
-        <DataGrid x:Name="dataGridMain" Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="4" Margin="10,0,10,0" FontSize="14" FrozenColumnCount="1" CanUserReorderColumns="False" CanUserResizeColumns="False" >
+        <DataGrid x:Name="dataGridMain" Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="4" IsReadOnly="True" Margin="10,0,10,0" FontSize="14" CanUserReorderColumns="False" CanUserResizeColumns="False" >
 
             <!--Datagrid, Header Color and style-->
 
