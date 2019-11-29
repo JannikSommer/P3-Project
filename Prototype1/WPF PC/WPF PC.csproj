@@ -100,6 +100,9 @@
     <ApplicationDefinition Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
+    <Compile Include="Central_Controller\Client.cs" />
+    <Compile Include="Central_Controller\Controller.cs" />
+    <Compile Include="Central_Controller\Shelf.cs" />
     <Compile Include="Converters\DateTimeConverter.cs" />
     <Compile Include="CreateCycle.xaml.cs">
       <DependentUpon>CreateCycle.xaml</DependentUpon>
