@@ -26,7 +26,6 @@ namespace WPF_PC
 
             EditCycleWindowLanguage(language);
             loadAllUsersnamesIntoChooseBox();
-            getSortPriority();
         }
 
         private void MoveUpButton_Click(object sender, RoutedEventArgs e)
@@ -92,7 +91,7 @@ namespace WPF_PC
 
             for (int index = 0; index < listBoxShelfPriority.Items.Count; index++)
             {
-                sortPriority.Add(listBoxShelfPriority.Items.GetItemAt(index).ToString());
+                sortPriority.Add(((ListViewItem)listBoxShelfPriority.Items.GetItemAt(index)).Content.ToString());
             }
 
             //where to?
@@ -141,6 +140,7 @@ namespace WPF_PC
 
         private void ConfirmEdit_Click(object sender, RoutedEventArgs e)
         {
+            getSortPriority();
             this.Close();
         }
 
