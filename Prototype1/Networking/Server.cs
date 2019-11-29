@@ -65,7 +65,7 @@ namespace Networking
             }
             else if (data == CommunicationFlag.VerificationRequest.ToString())
             {
-                VerificationPartition verificationPartition = new VerificationPartition();
+                VerificationPartition verificationPartition = new VerificationPartition(); // FIX
                 SendVerificationPartition(verificationPartition);
             }
             else if (data == CommunicationFlag.VerificationUpload.ToString())
@@ -97,7 +97,7 @@ namespace Networking
 
             // Signal OK to client and shutdown socket
             Handler.Send(Encoding.UTF8.GetBytes(CommunicationFlag.ConversationCompleted.ToString()));
-            Cycle.ReceicePartitionUpload(uploadedPartition);
+            Cycle.ReceicePartitionUpload(uploadedPartition); // FIX
         }
 
         private void SendPartition(Partition partition)
