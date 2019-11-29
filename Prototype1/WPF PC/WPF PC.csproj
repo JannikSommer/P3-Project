@@ -170,6 +170,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Language\Localization.csproj">
+      <Project>{28a15257-4ce6-4074-8ad8-9d4a9a034001}</Project>
+      <Name>Localization</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Model\Model.csproj">
       <Project>{486dfbc0-2b7d-4c56-940c-150e673f643a}</Project>
       <Name>Model</Name>

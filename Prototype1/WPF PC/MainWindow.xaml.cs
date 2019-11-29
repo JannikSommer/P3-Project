@@ -15,6 +15,8 @@ using System.Windows.Shapes;
 using Networking;
 using System.Threading;
 using Model.Log;
+using Localization;
+
 
 namespace WPF_PC
 {
@@ -155,23 +157,32 @@ namespace WPF_PC
 
         public void LoadIntoChooseBox()
         {
-            List<string> settings = new List<string>();
+            List<string> settings = new List<string> { 
+                Localization.Resources.MainWindowComboboxCountedToday, 
+                Localization.Resources.MainWindowComboboxCountedThisCycle, 
+                Localization.Resources.MainWindowComboboxCountedDifference
+            };
+            
 
-            //Danish:
-            if (Language.Danish == Language)
-            {
-                settings.Add("I dags optalte");
-                settings.Add("Optalte i denne cyklus");
-                settings.Add("Optalte med difference");
-            }
+            //settings = null;
 
-            //English:
-            else if (Language.English == Language)
-            {
-                settings.Add("Counted today");
-                settings.Add("Counted in this cycle");
-                settings.Add("Counted with difference");
-            }
+            ////Danish:
+            //if (Language.Danish == Language)
+            //{
+            //    settings.Add("I dags optalte");
+            //    settings.Add("Optalte i denne cyklus");
+            //    settings.Add("Optalte med difference");
+            //}
+
+            ////English:
+            //else if (Language.English == Language)
+            //{
+            //    settings.Add("Counted today");
+            //    settings.Add("Counted in this cycle");
+            //    settings.Add("Counted with difference");
+            //}
+
+
             comboBoxChooseGet.ItemsSource = settings;
         }
 
@@ -215,16 +226,19 @@ namespace WPF_PC
 
         private void changeLanguage_Click(object sender, RoutedEventArgs e)
         {
-            if (Language == Language.Danish)
-            {
-                Language = Language.English;
-            }
-            else
-            {
-                Language = Language.Danish;
-            }
-            MainWindowLanguage();
-            LoadIntoChooseBox();
+
+            System.Globalization.CultureInfo.CurrentUICulture = new System.Globalization.CultureInfo("da-DK", true);
+            InitializeComponent();
+            //if (Language == Language.Danish)
+            //{
+            //    Language = Language.English;
+            //}
+            //else
+            //{
+            //    Language = Language.Danish;
+            //}
+            //MainWindowLanguage();
+            //LoadIntoChooseBox();
         }  
         
         public void MainWindowLanguage()
