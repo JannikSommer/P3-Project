@@ -226,16 +226,19 @@ namespace WPF_PC
 
         private void changeLanguage_Click(object sender, RoutedEventArgs e)
         {
-            if (Language == Language.Danish)
-            {
-                Language = Language.English;
-            }
-            else
-            {
-                Language = Language.Danish;
-            }
-            MainWindowLanguage();
-            LoadIntoChooseBox();
+
+            System.Globalization.CultureInfo.CurrentUICulture = new System.Globalization.CultureInfo("da-DK", true);
+            InitializeComponent();
+            //if (Language == Language.Danish)
+            //{
+            //    Language = Language.English;
+            //}
+            //else
+            //{
+            //    Language = Language.Danish;
+            //}
+            //MainWindowLanguage();
+            //LoadIntoChooseBox();
         }  
         
         public void MainWindowLanguage()
