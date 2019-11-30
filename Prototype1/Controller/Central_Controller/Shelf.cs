@@ -30,7 +30,7 @@ namespace Central_Controller
 
             public void AddLocation(Location location)
             {
-                bool PosistionExistsInPartitions = false;
+                bool PositionExistsInPartitions = false;
 
                 if (location.Shelf == ShelfIndex)
                 {
@@ -38,14 +38,14 @@ namespace Central_Controller
                     {
                         if (partition.Span.Position == location.Position)
                         {
-                            PosistionExistsInPartitions = true;
+                            PositionExistsInPartitions = true;
                             partition.AddLocation(location);
                             partition.Locations.Sort();
                             break;
                         }
                     }
 
-                    if (!PosistionExistsInPartitions)
+                    if (!PositionExistsInPartitions)
                     {
                         Partitions.Add(new Partition(location));
                         Partitions.Sort();
@@ -74,7 +74,7 @@ namespace Central_Controller
                     }
                     else if(Clients.Count == 1)
                     {
-                        LargestGap = FindLargestGapInPartitions_Posistions();
+                        LargestGap = FindLargestGapInPartitions_Positions();
 
                         if (LargestGap[1] == int.MaxValue)
                         {
@@ -87,7 +87,7 @@ namespace Central_Controller
                     }
                     else
                     {
-                        LargestGap = FindLargestGapInPartitions_Posistions();
+                        LargestGap = FindLargestGapInPartitions_Positions();
 
                         if (LargestGap[0] == -1)
                         {
@@ -129,15 +129,15 @@ namespace Central_Controller
                 Clients.Sort();
             }
 
-            private List<int> FindLargestGapInPartitions_Posistions()
+            private List<int> FindLargestGapInPartitions_Positions()
             {
                 int BiggestGapSize = -1;
-                List<int> LargestGapPosistions = new List<int>();
+                List<int> LargestGapPositions = new List<int>();
 
                 if(Clients.Count > 0 && Clients[0].PartitionIndex != 0)
                 {
                     BiggestGapSize = Clients[0].PartitionIndex;
-                    LargestGapPosistions = new List<int> { -1, 0 };
+                    LargestGapPositions = new List<int> { -1, 0 };
                 }
 
                 if(Clients.Count >= 2)
@@ -151,13 +151,13 @@ namespace Central_Controller
                                 if ((Clients[x].PartitionIndex - Clients[x - 1].PartitionIndex) / 3 > BiggestGapSize)
                                 {
                                     BiggestGapSize = (Clients[x].PartitionIndex - Clients[x - 1].PartitionIndex) / 3;
-                                    LargestGapPosistions = new List<int> { x - 1, x };
+                                    LargestGapPositions = new List<int> { x - 1, x };
                                 }
                             }
                             else
                             {
                                 BiggestGapSize = Clients[x].PartitionIndex - Clients[x - 1].PartitionIndex;
-                                LargestGapPosistions = new List<int> { x - 1, x };
+                                LargestGapPositions = new List<int> { x - 1, x };
                             }
                         }
                     }
@@ -167,11 +167,11 @@ namespace Central_Controller
                 {
                     if(Partitions.Count - 1 - Clients.Last().PartitionIndex > BiggestGapSize)
                     {
-                        LargestGapPosistions = new List<int> { Clients.Count - 1, int.MaxValue };
+                        LargestGapPositions = new List<int> { Clients.Count - 1, int.MaxValue };
                     }
                 }
 
-                return LargestGapPosistions;
+                return LargestGapPositions;
             }
 
             public int FindLargestGapInPartitions_size()

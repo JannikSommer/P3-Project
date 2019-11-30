@@ -189,7 +189,7 @@ namespace Central_Controller
         public void InitialPartitionUnpartitionedLocations()
         {
             int FormerShelf = -1;
-            int FormerPosistion = -1;
+            int FormerPosition = -1;
             List<Location> Locations = UnPartitionedLocations.Values.ToList();
 
             InitilizeLocationComparer(); //THIS MIGHT NEED TO BE REWORKED AND REMOVED
@@ -205,14 +205,14 @@ namespace Central_Controller
             {
                 if(FormerShelf == location.Shelf)
                 {
-                    if(FormerPosistion == location.Position)
+                    if(FormerPosition == location.Position)
                     {
                         //adds location to last shelf in Availebleshelfs lists, last partition in Partition list.
                         AvailebleShelfs.Last().Partitions.Last().AddLocation(location);
                     }
                     else
                     {
-                        FormerPosistion = location.Position;
+                        FormerPosition = location.Position;
 
                         //adds new partition to last shelf in Availebleshelf list
                         AvailebleShelfs.Last().Partitions.Add(new Partition(location));
@@ -221,7 +221,7 @@ namespace Central_Controller
                 else
                 {
                     FormerShelf = location.Shelf;
-                    FormerPosistion = location.Position;
+                    FormerPosition = location.Position;
 
                     //adds new shelf to availeble shelf list, and adds new partition to said shelf.
                     AvailebleShelfs.Add(new Shelf(location.Shelf));
@@ -421,8 +421,8 @@ namespace Central_Controller
 
         private int ShelfSort(Shelf a, Shelf b)
         {
-            int aHieraky = Location_Comparer.ShelfHierakyOf(a.ShelfIndex);
-            int bHieraky = Location_Comparer.ShelfHierakyOf(b.ShelfIndex);
+            int aHieraky = Location_Comparer.ShelfHierarchyOf(a.ShelfIndex);
+            int bHieraky = Location_Comparer.ShelfHierarchyOf(b.ShelfIndex);
 
             return aHieraky.CompareTo(bHieraky);
         }

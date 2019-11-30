@@ -12,10 +12,10 @@ namespace Model
         public int Shelf;
         public int Position;
 
-        public PartitionSpan(int shelf, int posistion)
+        public PartitionSpan(int shelf, int position)
         {
             Shelf = shelf;
-            Position = posistion;
+            Position = position;
         }
     }
 

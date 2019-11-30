@@ -100,7 +100,7 @@ namespace Model
             else
             {
                 //multiplies 1000 to Switching shelfs, in order to make sure its always considered a longer distance then staying at the same shelf
-                return Math.Abs(locationComparer.ShelfHierakyi[OtherLocation.Shelf] - locationComparer.ShelfHierakyi[Shelf]) * 1000;
+                return Math.Abs(locationComparer.ShelfHierarchy[OtherLocation.Shelf] - locationComparer.ShelfHierarchy[Shelf]) * 1000;
             }
         }
 
