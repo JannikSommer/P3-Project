@@ -205,14 +205,14 @@ namespace Central_Controller
             {
                 if(FormerShelf == location.Shelf)
                 {
-                    if(FormerPosistion == location.Posistion)
+                    if(FormerPosistion == location.Position)
                     {
                         //adds location to last shelf in Availebleshelfs lists, last partition in Partition list.
                         AvailebleShelfs.Last().Partitions.Last().AddLocation(location);
                     }
                     else
                     {
-                        FormerPosistion = location.Posistion;
+                        FormerPosistion = location.Position;
 
                         //adds new partition to last shelf in Availebleshelf list
                         AvailebleShelfs.Last().Partitions.Add(new Partition(location));
@@ -221,7 +221,7 @@ namespace Central_Controller
                 else
                 {
                     FormerShelf = location.Shelf;
-                    FormerPosistion = location.Posistion;
+                    FormerPosistion = location.Position;
 
                     //adds new shelf to availeble shelf list, and adds new partition to said shelf.
                     AvailebleShelfs.Add(new Shelf(location.Shelf));

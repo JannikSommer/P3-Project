@@ -36,7 +36,7 @@ namespace Central_Controller
                 {
                     foreach (Partition partition in Partitions)
                     {
-                        if (partition.Span.Posistion == location.Posistion)
+                        if (partition.Span.Position == location.Position)
                         {
                             PosistionExistsInPartitions = true;
                             partition.AddLocation(location);
@@ -279,7 +279,7 @@ namespace Central_Controller
                 for(int x = 0; x < Partitions.Count; x++)
                 {
                     if(Partitions[x].Span.Shelf == Clients[InactiveClientIndex].Client.CurrentPartition.Span.Shelf
-                        && Partitions[x].Span.Posistion == Clients[InactiveClientIndex].Client.CurrentPartition.Span.Posistion)
+                        && Partitions[x].Span.Position == Clients[InactiveClientIndex].Client.CurrentPartition.Span.Position)
                     {
                         IndexOfItem = x;
                     }

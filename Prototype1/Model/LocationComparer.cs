@@ -11,36 +11,31 @@ namespace Model
 
         public LocationComparer(int highestShelfNumber)
         {
-            ShelfHierakyi = new int[highestShelfNumber];
+            ShelfHierakyi = new int[highestShelfNumber + 1];
             HighestValueShelf = highestShelfNumber;
 
-            for(int x = 0; x <= highestShelfNumber + 1; x++)
+            for(int x = 0; x <= highestShelfNumber; x++)
             {
-                ShelfHierakyi[x - 1] = x;
+                ShelfHierakyi[x] = x;
             }
         }
 
         int IComparer<Location>.Compare(Location a, Location b)
         {
-            int ShelfHierakyi_a = ShelfHierakyi[a.Shelf];
-            int ShelfHierakyi_b = ShelfHierakyi[b.Shelf];
+            int ShelfComparison = ShelfHierakyi[a.Shelf] - ShelfHierakyi[b.Shelf];
             int x;
 
-            if(ShelfHierakyi_a > ShelfHierakyi_b)
+            if(ShelfComparison != 0)
             {
-                return -1;
-            }
-            else if(ShelfHierakyi_a < ShelfHierakyi_b)
-            {
-                return 1;
+                return ShelfComparison;
             }
             else
             {
-                x = a.Row.CompareTo(b.Row);
+                x = a.Position.CompareTo(b.Position);
 
                 if (x == 0)
                 {
-                    return a.Position.CompareTo(b.Position);
+                    return a.Row.CompareTo(b.Row);
                 }
 
                 return x;
@@ -91,6 +86,11 @@ namespace Model
                     }
                 }
             }
+        }
+
+        public int ShelfHierakyOf(int shelfIndex)
+        {
+            return ShelfHierakyi[shelfIndex];
         }
 
         /*int IComparer<Location>.Compare(Location a, Location b)
