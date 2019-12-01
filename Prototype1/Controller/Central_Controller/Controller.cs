@@ -427,7 +427,7 @@ namespace Central_Controller
             return aHieraky.CompareTo(bHieraky);
         }
 
-        public void InitialPartitionUnpartitionedMultilocationItemLocations() 
+        public void InitialPartition_Unpartitioned_MultilocationItemLocations() 
         {
             List<List<Location>> Paths = new List<List<Location>>();
             List<Location> NewList;
@@ -444,6 +444,88 @@ namespace Central_Controller
 
                 Paths.Add(NewList);
             }
+
+            DivideLargerPaths(Paths); //paths larger then MaxSizeForPartitions is devided into multiple paths
+
+            CombineShorterPaths(Paths); //paths lower then MaxSizeForPartition is combined with others combinable paths. (paths are considered combinable, if all the location in both paths are contained within the same shelves)
+
+            FillPaths(Paths); //Paths still lower then MaxSizeForPartition is filled with Locations that doesn't have MultiLocationItems
+        }
+
+        private void DivideLargerPaths(List<List<Location>> paths)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void FillPaths(List<List<Location>> paths)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void CombineShorterPaths(List<List<Location>> Paths)
+        {
+            for(int x = 0; x < Paths.Count; x++)
+            {
+                if (Paths[x].Count < MaxSizeForPartitions - 1)
+                {
+                    for (int y = x + 1; y < Paths.Count; y++)
+                    {
+                        if (Paths[x].Count + Paths[y].Count <= MaxSizeForPartitions && PathsIsCombinable(Paths[x], Paths[y]))
+                        {
+                            foreach (Location location in Paths[y])
+                            {
+                                Paths[x].Add(location);
+                            }
+
+                            Paths.RemoveAt(y);
+                            y--;
+
+                            if(Paths[x].Count >= MaxSizeForPartitions - 1)
+                            {
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        private bool PathsIsCombinable(List<Location> PathA, List<Location> PathB) //tests 2 list of locations, to see if they are both comtained within the same shelfs
+        {
+            bool PathA_HasAShelfOutsideB = false;
+            bool LocationAExistInB_Test;
+            List<bool> LocationsInBThatExistInA = new List<bool>();
+
+            for(int x = 0; x < PathA.Count; x++ )
+            {
+                LocationsInBThatExistInA.Add(false);
+            }
+
+            foreach (Location LocationInA in PathA) //test if all locations in PathA, match a shelf contained in PathB
+            {
+                LocationAExistInB_Test = false;
+
+                for(int x = 0; x < PathB.Count; x++)
+                {
+                    if(LocationInA.ID == PathB[x].ID)
+                    {
+                        LocationAExistInB_Test = true;
+                        LocationsInBThatExistInA[x] = true;
+                    }
+                }
+
+                if (!LocationAExistInB_Test)
+                {
+                    PathA_HasAShelfOutsideB = true;
+                }
+            }
+
+            if (!PathA_HasAShelfOutsideB || !(LocationsInBThatExistInA.Exists(x => x == false)))
+            {
+                return true;
+            }
+
+            return false;
         }
 
         private void AddConnectedItems(Location StartLocation, List<Location> CombinedList)
