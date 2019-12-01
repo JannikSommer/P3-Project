@@ -445,11 +445,11 @@ namespace Central_Controller
                 Paths.Add(NewList);
             }
 
-            DivideLargerPaths(Paths); //paths larger then MaxSizeForPartitions is devided into multiple paths
+            /* NOT IMPLIMENTED */ DivideLargerPaths(Paths); //paths larger then MaxSizeForPartitions is devided into multiple paths
 
             CombineShorterPaths(Paths); //paths lower then MaxSizeForPartition is combined with others combinable paths. (paths are considered combinable, if all the location in both paths are contained within the same shelves)
 
-            FillPaths(Paths); //Paths still lower then MaxSizeForPartition is filled with Locations that doesn't have MultiLocationItems
+            /* NOT IMPLIMENTED */ FillPaths(Paths); //Paths still lower then MaxSizeForPartition is filled with Locations that doesn't have MultiLocationItems
         }
 
         private void DivideLargerPaths(List<List<Location>> paths)
@@ -462,7 +462,9 @@ namespace Central_Controller
             throw new NotImplementedException();
         }
 
-        private void CombineShorterPaths(List<List<Location>> Paths)
+        private void CombineShorterPaths(List<List<Location>> Paths) 
+        //combines paths of linked MultiLocationItemLocations containted within Paths, 
+        //as long as they don't become longer then MaxSizeForPartitions
         {
             for(int x = 0; x < Paths.Count; x++)
             {
@@ -490,7 +492,8 @@ namespace Central_Controller
             }
         }
 
-        private bool PathsIsCombinable(List<Location> PathA, List<Location> PathB) //tests 2 list of locations, to see if they are both comtained within the same shelfs
+        private bool PathsIsCombinable(List<Location> PathA, List<Location> PathB) 
+        //tests 2 list of locations, to test if PathA only contain locations with Shelves also contained in PathB, or vise versa
         {
             bool PathA_HasAShelfOutsideB = false;
             bool LocationAExistInB_Test;
@@ -501,7 +504,7 @@ namespace Central_Controller
                 LocationsInBThatExistInA.Add(false);
             }
 
-            foreach (Location LocationInA in PathA) //test if all locations in PathA, match a shelf contained in PathB
+            foreach (Location LocationInA in PathA)
             {
                 LocationAExistInB_Test = false;
 
@@ -528,7 +531,7 @@ namespace Central_Controller
             return false;
         }
 
-        private void AddConnectedItems(Location StartLocation, List<Location> CombinedList)
+        private void AddConnectedItems(Location StartLocation, List<Location> CombinedList) //Turns Locations connected by commen MultiLocationItems into one list
         {
             CombinedList.Add(StartLocation);
 
