@@ -39,7 +39,7 @@ namespace Networking
             }
             catch (Exception e)
             {
-                // Handle error
+                throw e;
             }
         }
 
@@ -109,7 +109,7 @@ namespace Networking
             data += Encoding.UTF8.GetString(bytes, 0, bytesRec);
             if (!(data == CommunicationFlag.ConversationCompleted.ToString()))
             {
-                // Handle error
+                // DO NOT MARK PARTITION AS InProgress
             }
         }
 
@@ -126,7 +126,7 @@ namespace Networking
             data += Encoding.UTF8.GetString(bytes, 0, bytesRec);
             if (!(data == CommunicationFlag.ConversationCompleted.ToString()))
             {
-                // Handle error
+                // DO NOT MARK PARTITION AS InProgress
             }
         }
 
