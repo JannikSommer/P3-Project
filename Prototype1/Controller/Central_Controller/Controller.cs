@@ -11,11 +11,11 @@ namespace Central_Controller
     {
         public int TotalNumberOfItems { get; private set; } = 0;
         public int ItemsVerified { get; private set; } = 0;
-        private readonly int MaxNumLocationForVerificationPartitions = 20; //verificationPartitions can be larger then this, if the verification partition is size 19, the algorithm can add a multilocationItem of 2 or higher
+        private readonly int MaxSizeForPartitions = 20; //MaxSizeForPartitions is a lie, anything adding multiple locations at once can exceed this limit
         private readonly TimeSpan TimeBeforeAFK = new TimeSpan(0, 30, 0);
         public SortedList<string, Location> UnPartitionedLocations { get; private set; } = new SortedList<string, Location>();
         private List<Location> MultiLocationsItem_Locations = new List<Location>();
-        private List<Item> MultilocationItems = new List<Item>();
+        //private List<Item> MultilocationItems = new List<Item>();
         private List<Client> Active_Clients = new List<Client>();
         private List<Shelf> AvailebleShelfs = new List<Shelf>();
         private List<Shelf> OccopiedShelfs = new List<Shelf>();
@@ -356,7 +356,7 @@ namespace Central_Controller
                 return null;
             }
 
-            while(verificationPartition.Locations.Count < MaxNumLocationForVerificationPartitions && (MultiLocationItemsForVerification.Count != 0 || ItemsForVerification.Count != 0))
+            while(verificationPartition.Locations.Count < MaxSizeForPartitions && (MultiLocationItemsForVerification.Count != 0 || ItemsForVerification.Count != 0))
             {
                 ShortestMultiLocDistance = int.MaxValue;
                 IndexOfMultiLoc = -1;
@@ -425,6 +425,60 @@ namespace Central_Controller
             int bHieraky = Location_Comparer.ShelfHierarchyOf(b.ShelfIndex);
 
             return aHieraky.CompareTo(bHieraky);
+        }
+
+        public void InitialPartitionUnpartitionedMultilocationItemLocations() 
+        {
+            List<List<Location>> Paths = new List<List<Location>>();
+            List<Location> NewList;
+
+            while(MultiLocationsItem_Locations.Count != 0) //All locations connected by items, is turned into a list and then added to Paths
+            {
+                NewList = new List<Location> {};
+
+                AddConnectedItems(MultiLocationsItem_Locations[0], NewList);
+
+                RemoveLocationInListA_From_ListB(NewList, MultiLocationsItem_Locations);
+
+                NewList.Sort(Location_Comparer);
+
+                Paths.Add(NewList);
+            }
+        }
+
+        private void AddConnectedItems(Location StartLocation, List<Location> CombinedList)
+        {
+            CombinedList.Add(StartLocation);
+
+            foreach (Item item in StartLocation.Items)
+            {
+                if (item.HasMultiLocation)
+                {
+                    foreach(Location location in item.Locations)
+                    {
+                        if(!CombinedList.Exists(x => x.ID == location.ID))
+                        {
+                            AddConnectedItems(location, CombinedList);
+                        }
+                    }
+                }
+            }
+        }
+
+        private void RemoveLocationInListA_From_ListB(List<Location> ListA, List<Location> ListB)
+        {
+            Location LocationInB;
+
+            for(int n = 0; n < ListB.Count; n++)
+            {
+                LocationInB = ListB[n];
+                
+                if(ListA.Exists(x => x.ID == LocationInB.ID))
+                {
+                    ListB.RemoveAt(n);
+                    n--;
+                }
+            }
         }
 
         private List<Item> ConvertLocationListToItemList(List<Location> LocationList) //Runs 3 loops
