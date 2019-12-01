@@ -19,6 +19,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Central_Controller", "Contr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unit_Tests", "Unit_Tests\Unit_Tests.csproj", "{B64EF9A0-DA94-471E-9AE1-41C84973B3F6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrestaSharpAPI", "PrestaSharpAPI\PrestaSharpAPI.csproj", "{041FBFC8-73CB-40B4-9F1E-2BDBFB0CC2D5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -59,6 +61,10 @@ Global
 		{B64EF9A0-DA94-471E-9AE1-41C84973B3F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B64EF9A0-DA94-471E-9AE1-41C84973B3F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B64EF9A0-DA94-471E-9AE1-41C84973B3F6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{041FBFC8-73CB-40B4-9F1E-2BDBFB0CC2D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{041FBFC8-73CB-40B4-9F1E-2BDBFB0CC2D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{041FBFC8-73CB-40B4-9F1E-2BDBFB0CC2D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{041FBFC8-73CB-40B4-9F1E-2BDBFB0CC2D5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
