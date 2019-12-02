@@ -67,7 +67,7 @@ namespace Networking
             }
             else if (data == CommunicationFlag.VerificationRequest.ToString())
             {
-                VerificationPartition verificationPartition = new VerificationPartition();
+                VerificationPartition verificationPartition = Controller.CreateVerificationPartition();
                 SendVerificationPartition(verificationPartition);
             }
             else if (data == CommunicationFlag.VerificationUpload.ToString())
