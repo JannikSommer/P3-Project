@@ -102,7 +102,7 @@ namespace Networking
             Cycle.ReceicePartitionUpload(uploadedPartition);
         }
 
-        private void SendPartition(Partition partition)
+        public void SendPartition(Partition partition)
         {
             // Send partition to client
             string json = JsonSerializer.Serialize(partition);
