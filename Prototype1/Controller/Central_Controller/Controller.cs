@@ -11,7 +11,7 @@ namespace Central_Controller
     {
         public int TotalNumberOfItems { get; private set; } = 0;
         public int ItemsVerified { get; private set; } = 0;
-        private readonly int MaxSizeForPartitions = 20; //MaxSizeForPartitions is a lie, anything adding multiple locations at once can exceed this limit
+        public int MaxSizeForPartitions = 20; //MaxSizeForPartitions is a lie, anything adding multiple locations at once can exceed this limit
         private readonly TimeSpan TimeBeforeAFK = new TimeSpan(0, 30, 0);
         public SortedList<string, Location> UnPartitionedLocations { get; private set; } = new SortedList<string, Location>();
         private List<Location> MultiLocationsItem_Locations = new List<Location>();
@@ -429,40 +429,216 @@ namespace Central_Controller
 
         public void InitialPartition_Unpartitioned_MultilocationItemLocations() 
         {
-            List<List<Location>> Paths = new List<List<Location>>();
+            List<List<List<Location>>> Paths = new List<List<List<Location>>>();
             List<Location> NewList;
+            int x = 0;
 
             while(MultiLocationsItem_Locations.Count != 0) //All locations connected by items, is turned into a list and then added to Paths
             {
                 NewList = new List<Location> {};
 
-                AddConnectedItems(MultiLocationsItem_Locations[0], NewList);
+                CombineLocationConnectedByCommonItems(MultiLocationsItem_Locations[0], NewList);
 
                 RemoveLocationInListA_From_ListB(NewList, MultiLocationsItem_Locations);
 
                 NewList.Sort(Location_Comparer);
 
-                Paths.Add(NewList);
+                Paths[x].Add(NewList);
+
+                x++;
             }
 
-            /* NOT IMPLIMENTED */ DivideLargerPaths(Paths); //paths larger then MaxSizeForPartitions is devided into multiple paths
+            DivideLargerPaths(Paths); //paths larger then MaxSizeForPartitions is devided
 
             CombineShorterPaths(Paths); //paths lower then MaxSizeForPartition is combined with others combinable paths. (paths are considered combinable, if all the location in both paths are contained within the same shelves)
 
-            /* NOT IMPLIMENTED */ FillPaths(Paths); //Paths still lower then MaxSizeForPartition is filled with Locations that doesn't have MultiLocationItems
+            FillAllPaths(Paths); //Paths still lower then MaxSizeForPartition is filled with Locations that doesn't have MultiLocationItems
         }
 
-        private void DivideLargerPaths(List<List<Location>> paths)
+        private void DivideLargerPaths(List<List<List<Location>>> Paths)
         {
-            throw new NotImplementedException();
+            List<List<Location>> DevidedPath = new List<List<Location>>();
+
+            int HowManyDivisions;
+            int ConnectionCut;
+            int LeastConnectionCut;
+            int Index = -1;
+            
+            for(int x = 0; x < Paths.Count; x++)
+            {
+                DevidedPath = new List<List<Location>>();
+
+                while (Paths[x][0].Count > MaxSizeForPartitions)
+                {
+                    HowManyDivisions = Paths[x][0].Count / (MaxSizeForPartitions - 5);
+
+                    LeastConnectionCut = int.MaxValue;
+
+                    for(int y = MaxSizeForPartitions - 5; y <= MaxSizeForPartitions; y++)
+                    {
+                        ConnectionCut = HowManyConnectionsSevered(Paths[y][0], y);
+                        
+                        if(ConnectionCut < LeastConnectionCut)
+                        {
+                            Index = y;
+                            LeastConnectionCut = ConnectionCut;
+                        }
+                    }
+
+                    DevidedPath.Add(new List<Location>(TakeFirstXInList<Location>(Index, Paths[x][0])));
+                }
+
+                if(DevidedPath.Count > 1)
+                {
+                    Paths[x] = DevidedPath;
+                }
+            }
         }
 
-        private void FillPaths(List<List<Location>> paths)
+        private int HowManyConnectionsSevered(List<Location> path, int Index) //Test how many items in a Connected MultiLocationList has is location before and after Index
         {
-            throw new NotImplementedException();
+            List<string> LocationIDs = new List<string>();
+            List<string> ItemIDs = new List<string>();
+            int NumOfConnecteionsSevered = 0;
+
+            for(int n = 0; n < Index; n++)
+            {
+                LocationIDs.Add(path[n].ID);
+            }
+
+            for (int n = 0; n < Index; n++)
+            {
+                foreach(Item item in path[n].Items)
+                {
+                    if (!(ItemIDs.Exists(x => x == item.ID)))
+                    {
+                        ItemIDs.Add(item.ID);
+                        
+                        foreach (Location location in item.Locations)
+                        {
+                            if (!(LocationIDs.Exists(x => x == location.ID)))
+                            {
+                                NumOfConnecteionsSevered++;
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+
+            return NumOfConnecteionsSevered;
         }
 
-        private void CombineShorterPaths(List<List<Location>> Paths) 
+        private IEnumerable<T> TakeFirstXInList<T>(int X, List<T> path) //Takes Items before index and puts them into a new list
+        {
+            List<T> NewList = new List<T>();
+            int x = X;
+
+            while(x > 0)
+            {
+                NewList.Add(path[0]);
+
+                path.RemoveAt(0);
+
+                x--;
+            }
+
+            return NewList;
+        }
+
+        private void FillAllPaths(List<List<List<Location>>> paths)
+        {
+            int NumOfPaths = NumberOfPaths(paths);
+            List<Location> TestPath;
+
+            for(int x = 0; x < NumOfPaths; x++)
+            {
+                TestPath = FindPathAtIndex(x, paths);
+
+                if(TestPath.Count < MaxSizeForPartitions)
+                {
+                    FillPath(TestPath);
+                }
+            }
+        }
+
+        private void FillPath(List<Location> Path)
+        {
+            int ClosestDistanceToShelf;
+            int ShelfIndex;
+            int ClosestDistanceToPartition;
+            int PartitionIndex;
+            int x;
+
+
+            while (Path.Count < MaxSizeForPartitions)
+            {
+                ShelfIndex = -1;
+                ClosestDistanceToShelf = int.MaxValue;
+                
+                foreach(Location location in Path)
+                {
+                    for(x = 0; x < AvailebleShelfs.Count; x++)
+                    {
+                        if(Math.Abs(location.Shelf - AvailebleShelfs[x].ShelfIndex) < ClosestDistanceToShelf)
+                        {
+                            ShelfIndex = x;
+                            ClosestDistanceToShelf = Math.Abs(location.Shelf - AvailebleShelfs[x].ShelfIndex);
+
+                            if(ClosestDistanceToShelf == 0)
+                            {
+                                break;
+                            }
+                        }
+                    }
+
+                    if (ClosestDistanceToShelf == 0)
+                    {
+                        break;
+                    }
+                }
+
+                if(ClosestDistanceToShelf != 0)
+                {
+                    break;
+                }
+
+                PartitionIndex = -1;
+                ClosestDistanceToPartition = int.MaxValue;
+
+                for(x = 0; x < AvailebleShelfs[ShelfIndex].Partitions.Count; x++)
+                {
+                    foreach(Location location in Path)
+                    {
+                        if(Math.Abs(location.Position - AvailebleShelfs[ShelfIndex].Partitions[x].Span.Position) < ClosestDistanceToPartition)
+                        {
+                            ClosestDistanceToPartition = location.Position - AvailebleShelfs[ShelfIndex].Partitions[x].Span.Position;
+                            PartitionIndex = x;
+
+                            if(ClosestDistanceToPartition == 0)
+                            {
+                                break;
+                            }
+                        }
+                    }
+
+                    if (ClosestDistanceToPartition == 0)
+                    {
+                        break;
+                    }
+                }
+
+                while(AvailebleShelfs[ShelfIndex].Partitions[PartitionIndex].Locations.Count != 0 && Path.Count < MaxSizeForPartitions)
+                {
+                    Path.Add(AvailebleShelfs[ShelfIndex].Partitions[PartitionIndex].Locations[0]);
+                    AvailebleShelfs[ShelfIndex].Partitions[PartitionIndex].Locations.RemoveAt(0);
+                }
+            }
+
+            Path.Sort(Location_Comparer);
+        }
+
+        /* original private void CombineShorterPaths(List<List<Location>> Paths) 
         //combines paths of linked MultiLocationItemLocations containted within Paths, 
         //as long as they don't become longer then MaxSizeForPartitions
         {
@@ -490,6 +666,102 @@ namespace Central_Controller
                     }
                 }
             }
+        } */
+
+        private void CombineShorterPaths(List<List<List<Location>>> Paths)
+        {
+            int NumOfPaths = NumberOfPaths(Paths);
+            List<Location> PathA;
+            List<Location> PathB;
+
+            for (int x = 0; x < NumOfPaths; x++)
+            {
+                PathA = FindPathAtIndex(x, Paths);
+
+                if(PathA.Count < MaxSizeForPartitions - 1)
+                {
+                    break;
+                }
+
+                for (int y = x + 1; y < NumOfPaths; y++)
+                {
+                    PathB = FindPathAtIndex(y, Paths);
+
+                    if(PathA.Count + PathB.Count < MaxSizeForPartitions && PathsIsCombinable(PathA, PathB))
+                    {
+                        while(PathB.Count != 0)
+                        {
+                            PathA.Add(PathB[0]);
+                            PathB.RemoveAt(0);
+                        }
+
+                        RemovePathAtIndex(y, Paths);
+
+                        if (PathA.Count < MaxSizeForPartitions - 1)
+                        {
+                            break;
+                        }
+
+                        y--;
+                    }
+                }
+            }
+        }
+
+        private void RemovePathAtIndex(int Index, List<List<List<Location>>> paths)
+        {
+            int num = 0;
+            int x;
+
+            for (x = 0; x < paths.Count; x++)
+            {
+                if (num + paths[x].Count < Index)
+                {
+                    num += paths.Count;
+                }
+                else
+                {
+                    num = Index - num - 1;
+                    break;
+                }
+            }
+
+            paths[x].RemoveAt(num);
+        }
+
+        private List<Location> FindPathAtIndex(int Index, List<List<List<Location>>> paths)
+        {
+            int num = 0;
+            int x;
+            
+            for(x = 0; x < paths.Count; x++)
+            {
+                if(num + paths[x].Count < Index)
+                {
+                    num += paths.Count;
+                }
+                else
+                {
+                    num = Index - num - 1;
+                    break;
+                }
+            }
+
+            return paths[x][num];
+            
+            throw new NotImplementedException();
+        }
+
+        private int NumberOfPaths(List<List<List<Location>>> Paths)
+        {
+            int num = 0;
+
+            for(int x = 0; x < Paths.Count; x++)
+            {
+                num += Paths[x].Count;
+            }
+
+            return num;
         }
 
         private bool PathsIsCombinable(List<Location> PathA, List<Location> PathB) 
@@ -531,7 +803,7 @@ namespace Central_Controller
             return false;
         }
 
-        private void AddConnectedItems(Location StartLocation, List<Location> CombinedList) //Turns Locations connected by commen MultiLocationItems into one list
+        private void CombineLocationConnectedByCommonItems(Location StartLocation, List<Location> CombinedList) //Turns Locations connected by commen MultiLocationItems into one list
         {
             CombinedList.Add(StartLocation);
 
@@ -543,7 +815,7 @@ namespace Central_Controller
                     {
                         if(!CombinedList.Exists(x => x.ID == location.ID))
                         {
-                            AddConnectedItems(location, CombinedList);
+                            CombineLocationConnectedByCommonItems(location, CombinedList);
                         }
                     }
                 }
