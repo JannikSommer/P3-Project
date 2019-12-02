@@ -56,7 +56,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\Documents\GitHub\P3-Project\Prototype1\Controller\Central_Controller.csproj">
+    <ProjectReference Include="..\..\Controller\Central_Controller.csproj">
       <Project>{66201624-4c47-47b3-b056-dab6be3de5cd}</Project>
       <Name>Central_Controller</Name>
     </ProjectReference>
