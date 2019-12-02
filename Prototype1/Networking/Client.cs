@@ -15,7 +15,7 @@ namespace Networking
 
         private byte[] FlagMessasge = new byte[25]; // Fits longest CommunicationFlag with some change 
 
-        private long MessageSize = 536870912; // 512 MB
+        private long MessageSize = 1048576; // 100 MB
 
 
         #region async methods

@@ -13,7 +13,7 @@ namespace Networking
         private Socket Handler;
         private Cycle Cycle = new Cycle();
         private Controller Controller = new Controller();
-        private long MessageSize = 536870912; // 512 MB
+        private long MessageSize = 1048576; // 100 MB
 
 
         public void StartServer()
