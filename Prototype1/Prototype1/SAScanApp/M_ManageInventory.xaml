@@ -72,7 +72,7 @@
                 BackgroundColor="White"
                 BorderColor="Blue"
                 BorderWidth="2"
-                Text="x:Static lang:Resources.PhoneInventoryPageButtonRemoveItem"
+                Text="{x:Static lang:Resources.PhoneInventoryPageButtonRemoveItem}"
                 TextColor="Blue"
                 FontSize="30"
                 BorderRadius="40"

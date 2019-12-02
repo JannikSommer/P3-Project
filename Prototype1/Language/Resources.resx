@@ -312,7 +312,28 @@
   <data name="PhoneAdminStartPageButtonCameraScan" xml:space="preserve">
     <value>Camera Scan</value>
   </data>
+  <data name="PhoneAdminStartPageButtonLogOut" xml:space="preserve">
+    <value>Logout</value>
+  </data>
+  <data name="PhoneAdminStartPageLabelScanner" xml:space="preserve">
+    <value>Scanner</value>
+  </data>
+  <data name="PhoneAdminLoginButtonBack" xml:space="preserve">
+    <value>Back</value>
+  </data>
+  <data name="PhoneAdminLoginStackLayoutLabelAdminLogin" xml:space="preserve">
+    <value>Admin Login</value>
+  </data>
+  <data name="PhoneAdminLoginStackLayoutLabelEnterPW" xml:space="preserve">
+    <value>Please enter your password:</value>
+  </data>
+  <data name="PhoneAdminLoginStackLayoutEntryUserName" xml:space="preserve">
+    <value>User name</value>
+  </data>
+  <data name="PhoneAdminLoginStackLayoutEntryUserPW" xml:space="preserve">
+    <value>User password</value>
+    </data>
   <data name="MainWindowComboboxCountedDifference" xml:space="preserve">
-    <value></value>
+    <value>Counted with difference:</value>
   </data>
 </root>
