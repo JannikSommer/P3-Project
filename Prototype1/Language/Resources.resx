@@ -312,4 +312,7 @@
   <data name="PhoneAdminStartPageButtonCameraScan" xml:space="preserve">
     <value>Camera Scan</value>
   </data>
+  <data name="MainWindowComboboxCountedDifference" xml:space="preserve">
+    <value></value>
+  </data>
 </root>
