@@ -15,9 +15,11 @@ namespace Networking
 
         private byte[] FlagMessasge = new byte[25]; // Fits longest CommunicationFlag with some change 
 
-        
+        private long MessageSize = 1048576; // 100 MB
+
+
         #region async methods
-        
+
         public async Task<CommunicationHandler> UploadVerificationPartitionAsync(VerificationPartition verificationPartition)
         {
             CommunicationHandler socketHandler = await StartClientAsync();
@@ -75,7 +77,7 @@ namespace Networking
             int bytesSent = Sender.Send(FlagMessasge);
 
             // Incoming data from server
-            byte[] bytes = new byte[1048576]; // TODO: Make size fit. Is 1 MB now
+            byte[] bytes = new byte[MessageSize]; // TODO: Make size fit. Is 1 MB now
             int bytesRec = Sender.Receive(bytes);
             string data = Encoding.UTF8.GetString(bytes, 0, bytesRec);
             if (data == CommunicationHandler.Error.ToString())
@@ -154,7 +156,7 @@ namespace Networking
             bytesSent = Sender.Send(Encoding.UTF8.GetBytes(JsonSerializer.Serialize(client)));
 
             // Incoming data from server
-            byte[] bytes = new byte[1048576]; // TODO: Make size fit. Is 1 MB now
+            byte[] bytes = new byte[MessageSize]; // TODO: Make size fit. Is 1 MB now
             int bytesRec = Sender.Receive(bytes);
             string data = Encoding.UTF8.GetString(bytes, 0, bytesRec);
             if (data == CommunicationHandler.Error.ToString())
@@ -186,7 +188,7 @@ namespace Networking
                 // If a host has multiple addresses, you will get a list of addresses  
                 IPHostEntry host = Dns.GetHostEntry("192.168.0.23");
                 IPAddress ipAddress = host.AddressList[0];
-                IPEndPoint remoteEP = new IPEndPoint(ipAddress, 69420);
+                IPEndPoint remoteEP = new IPEndPoint(ipAddress, 6969);
 
                 // Create a TCP/IP socket
                 Sender = new Socket(ipAddress.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
@@ -275,7 +277,7 @@ namespace Networking
             int bytesSent = Sender.Send(FlagMessasge);
 
             // Incoming data from server
-            byte[] bytes = new byte[1048576]; // TODO: Make size fit
+            byte[] bytes = new byte[MessageSize]; // TODO: Make size fit
             int bytesRec = Sender.Receive(bytes);
             string data = Encoding.UTF8.GetString(bytes, 0, bytesRec);
             if (data == CommunicationHandler.Error.ToString())
@@ -356,7 +358,7 @@ namespace Networking
             bytesSent = Sender.Send(Encoding.UTF8.GetBytes(JsonSerializer.Serialize(client)));
 
             // Incoming data from server
-            byte[] bytes = new byte[1048576]; // TODO: Make size fit
+            byte[] bytes = new byte[MessageSize]; // TODO: Make size fit
             int bytesRec = Sender.Receive(bytes);
             string data = Encoding.UTF8.GetString(bytes, 0, bytesRec);
             if (data == CommunicationHandler.Error.ToString())
@@ -388,7 +390,7 @@ namespace Networking
                 // If a host has multiple addresses, you will get a list of addresses  
                 IPHostEntry host = Dns.GetHostEntry("192.168.0.23");
                 IPAddress ipAddress = host.AddressList[0];
-                IPEndPoint remoteEP = new IPEndPoint(ipAddress, 69420);
+                IPEndPoint remoteEP = new IPEndPoint(ipAddress, 6969);
 
                 // Create a TCP/IP  socket.    
                 Sender = new Socket(ipAddress.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
