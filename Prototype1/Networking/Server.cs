@@ -4,6 +4,7 @@ using System.Net;
 using System.Text.Json;
 using System.Text;
 using Model;
+using Central_Controller;
 
 namespace Networking
 {
@@ -11,6 +12,9 @@ namespace Networking
     {
         private Socket Handler;
         private Cycle Cycle = new Cycle();
+        private Controller Controller = new Controller();
+        private long MessageSize = 1048576; // 100 MB
+
 
         public void StartServer()
         {
@@ -19,8 +23,8 @@ namespace Networking
             // If a host has multiple addresses, you will get a list of addresses  
             // Get IP-Address from cmd -> ipconfig IPv4 address from Ethernet adapter. 
             IPHostEntry host = Dns.GetHostEntry(Dns.GetHostName());
-            IPAddress ipAddress = IPAddress.Parse("192.168.0.23");
-            IPEndPoint localEndPoint = new IPEndPoint(ipAddress, 8080);
+            IPAddress ipAddress = IPAddress.Parse("192.168.163.1");
+            IPEndPoint localEndPoint = new IPEndPoint(ipAddress, 6969);
 
             try
             {
@@ -28,7 +32,7 @@ namespace Networking
                 Socket Listener = new Socket(ipAddress.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
                 // A Socket must be associated with an endpoint using the Bind method  
                 Listener.Bind(localEndPoint);
-                        
+
                 // Specify how many requests a Socket can listen before it gives Server busy response
                 Listener.Listen(10);
                 while (true)
@@ -39,7 +43,7 @@ namespace Networking
             }
             catch (Exception e)
             {
-                // Handle error
+                throw e;
             }
         }
 
@@ -52,8 +56,10 @@ namespace Networking
 
             if (data == CommunicationFlag.PartitionRequest.ToString())
             {
-                Partition partition = Cycle.GetPartitionForClient();
-                SendPartition(partition); 
+                bytesRec = Handler.Receive(bytes);
+                string Client = Encoding.UTF8.GetString(bytes, 0, bytesRec); // Does this work when the client sends 2 messages in a row?
+                var client= JsonSerializer.Deserialize<Central_Controller.Client>(Client);
+                SendPartition(Controller.NextPartition(client));
             }
             else if (data == CommunicationFlag.PartitionUpload.ToString()) 
             { 
@@ -84,7 +90,7 @@ namespace Networking
         {
             // Send permision to upload
             Handler.Send(Encoding.UTF8.GetBytes(CommunicationHandler.Accept.ToString()));
-            byte[] bytes = new byte[1048576];
+            byte[] bytes = new byte[MessageSize];
 
             // Accept data from client
             int bytesRec = Handler.Receive(bytes);
@@ -96,7 +102,7 @@ namespace Networking
             Cycle.ReceicePartitionUpload(uploadedPartition);
         }
 
-        private void SendPartition(Partition partition)
+        public void SendPartition(Partition partition)
         {
             // Send partition to client
             string json = JsonSerializer.Serialize(partition);
@@ -109,7 +115,7 @@ namespace Networking
             data += Encoding.UTF8.GetString(bytes, 0, bytesRec);
             if (!(data == CommunicationFlag.ConversationCompleted.ToString()))
             {
-                // Handle error
+                // DO NOT MARK PARTITION AS InProgress
             }
         }
 
@@ -126,7 +132,7 @@ namespace Networking
             data += Encoding.UTF8.GetString(bytes, 0, bytesRec);
             if (!(data == CommunicationFlag.ConversationCompleted.ToString()))
             {
-                // Handle error
+                // DO NOT MARK PARTITION AS InProgress
             }
         }
 
@@ -134,7 +140,7 @@ namespace Networking
         {
             // Send permision to upload
             Handler.Send(Encoding.UTF8.GetBytes(CommunicationHandler.Accept.ToString()));
-            byte[] bytes = new byte[1048576];
+            byte[] bytes = new byte[MessageSize];
 
             // Accept data from client
             int bytesRec = Handler.Receive(bytes);

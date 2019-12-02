@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:lang="clr-namespace:Localization;assembly=Localization"
              mc:Ignorable="d"
              x:Class="SAScanApp.LocationSelected">
     <ContentPage.Content>
@@ -42,7 +43,7 @@
                             BorderColor="Blue"
                             BorderWidth="1"/>
 
-                    <Button Text="LIGHT"
+                    <Button Text="{x:Static lang:Resources.PhoneLocationSelelectButtonLight}"
                             Grid.Column="1"
                             BackgroundColor="White"
                             TextColor="Blue"
@@ -62,7 +63,7 @@
                             TextColor="Blue"
                             BorderColor="Blue"
                             BorderWidth="2"/>
-                    <Button Text="Menu"
+                    <Button Text="{x:Static lang:Resources.PhoneLocationSelectedButtonMenu}"
                             Grid.Column="4"
                             BackgroundColor="White"
                             TextColor="Blue"

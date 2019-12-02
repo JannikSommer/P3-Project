@@ -23,7 +23,7 @@
     <EmbeddedResource Update="Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-      <CustomToolNamespace>Language</CustomToolNamespace>
+      <CustomToolNamespace>Localization</CustomToolNamespace>
     </EmbeddedResource>
   </ItemGroup>
 

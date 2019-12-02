@@ -11,14 +11,15 @@ namespace Networking
 {
     public class Client
     {
-
         private Socket Sender;
 
         private byte[] FlagMessasge = new byte[25]; // Fits longest CommunicationFlag with some change 
 
-        
+        private long MessageSize = 1048576; // 100 MB
+
+
         #region async methods
-        
+
         public async Task<CommunicationHandler> UploadVerificationPartitionAsync(VerificationPartition verificationPartition)
         {
             CommunicationHandler socketHandler = await StartClientAsync();
@@ -76,7 +77,7 @@ namespace Networking
             int bytesSent = Sender.Send(FlagMessasge);
 
             // Incoming data from server
-            byte[] bytes = new byte[1048576]; // TODO: Make size fit. Is 1 MB now
+            byte[] bytes = new byte[MessageSize]; // TODO: Make size fit. Is 1 MB now
             int bytesRec = Sender.Receive(bytes);
             string data = Encoding.UTF8.GetString(bytes, 0, bytesRec);
             if (data == CommunicationHandler.Error.ToString())
@@ -138,9 +139,8 @@ namespace Networking
             return CommunicationHandler.Success;
         }
 
-        public async Task<Tuple<Partition, CommunicationHandler>> DownloadPartitionAsync()
+        public async Task<Tuple<Partition, CommunicationHandler>> DownloadPartitionAsync(Central_Controller.Client client)
         {
-            FlagMessasge = Encoding.UTF8.GetBytes(CommunicationFlag.PartitionRequest.ToString());
             CommunicationHandler handler;
             CommunicationHandler socketHandler = await StartClientAsync();
             if (socketHandler != CommunicationHandler.Success)
@@ -152,11 +152,11 @@ namespace Networking
                 return Tuple.Create(emptyPartition, handler);
             }
             // Send signal to get partition
-            int bytesSent = Sender.Send(FlagMessasge);
+            int bytesSent = Sender.Send(Encoding.UTF8.GetBytes(CommunicationFlag.PartitionRequest.ToString()));
+            bytesSent = Sender.Send(Encoding.UTF8.GetBytes(JsonSerializer.Serialize(client)));
 
             // Incoming data from server
-
-            byte[] bytes = new byte[1048576]; // TODO: Make size fit. Is 1 MB now
+            byte[] bytes = new byte[MessageSize]; // TODO: Make size fit. Is 1 MB now
             int bytesRec = Sender.Receive(bytes);
             string data = Encoding.UTF8.GetString(bytes, 0, bytesRec);
             if (data == CommunicationHandler.Error.ToString())
@@ -188,16 +188,16 @@ namespace Networking
                 // If a host has multiple addresses, you will get a list of addresses  
                 IPHostEntry host = Dns.GetHostEntry("192.168.0.23");
                 IPAddress ipAddress = host.AddressList[0];
-                IPEndPoint remoteEP = new IPEndPoint(ipAddress, 8080);
+                IPEndPoint remoteEP = new IPEndPoint(ipAddress, 6969);
 
-                // Create a TCP/IP  socket
+                // Create a TCP/IP socket
                 Sender = new Socket(ipAddress.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
 
                 // Connect the socket to the remote endpoint. Catch any errors.    
                 try
                 {
                     // Connect to Remote EndPoint  
-                    Sender.Connect(remoteEP);
+                    await Sender.ConnectAsync(remoteEP);
                 }
                 catch (SocketException)
                 {
@@ -277,7 +277,7 @@ namespace Networking
             int bytesSent = Sender.Send(FlagMessasge);
 
             // Incoming data from server
-            byte[] bytes = new byte[1048576]; // TODO: Make size fit
+            byte[] bytes = new byte[MessageSize]; // TODO: Make size fit
             int bytesRec = Sender.Receive(bytes);
             string data = Encoding.UTF8.GetString(bytes, 0, bytesRec);
             if (data == CommunicationHandler.Error.ToString())
@@ -298,7 +298,6 @@ namespace Networking
             ClientShutdown();
             return Tuple.Create(partition, handler);
         }
-
 
         public CommunicationHandler UploadPartition(Partition partition)
         {
@@ -342,9 +341,8 @@ namespace Networking
             return CommunicationHandler.Success;
         }
 
-        public Tuple<Partition, CommunicationHandler> DownloadPartition()
+        public Tuple<Partition, CommunicationHandler> DownloadPartition(Central_Controller.Client client)
         {
-            FlagMessasge = Encoding.UTF8.GetBytes(CommunicationFlag.PartitionRequest.ToString());
             CommunicationHandler handler;
             CommunicationHandler socketHandler = StartClient();
             if (socketHandler != CommunicationHandler.Success)
@@ -356,10 +354,11 @@ namespace Networking
                 return Tuple.Create(emptyPartition, handler);
             }
             // Send signal to get partition
-            int bytesSent = Sender.Send(FlagMessasge);
+            int bytesSent = Sender.Send(Encoding.UTF8.GetBytes(CommunicationFlag.PartitionRequest.ToString()));
+            bytesSent = Sender.Send(Encoding.UTF8.GetBytes(JsonSerializer.Serialize(client)));
 
             // Incoming data from server
-            byte[] bytes = new byte[1048576]; // TODO: Make size fit
+            byte[] bytes = new byte[MessageSize]; // TODO: Make size fit
             int bytesRec = Sender.Receive(bytes);
             string data = Encoding.UTF8.GetString(bytes, 0, bytesRec);
             if (data == CommunicationHandler.Error.ToString())
@@ -391,7 +390,7 @@ namespace Networking
                 // If a host has multiple addresses, you will get a list of addresses  
                 IPHostEntry host = Dns.GetHostEntry("192.168.0.23");
                 IPAddress ipAddress = host.AddressList[0];
-                IPEndPoint remoteEP = new IPEndPoint(ipAddress, 8080);
+                IPEndPoint remoteEP = new IPEndPoint(ipAddress, 6969);
 
                 // Create a TCP/IP  socket.    
                 Sender = new Socket(ipAddress.AddressFamily, SocketType.Stream, ProtocolType.Tcp);

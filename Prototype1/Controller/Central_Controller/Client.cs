@@ -30,6 +30,9 @@ namespace Central_Controller
         {
             ID = _ID;
         }
+
+        public Client() { } // Used for JSON serialization
+
         public bool IsAFK(TimeSpan TimeBeforeAFK)
         {
             TimeSpan TimeSinceLastActivity = DateTime.Now.Subtract(LastActivity);

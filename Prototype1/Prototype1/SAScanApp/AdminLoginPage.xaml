@@ -3,22 +3,23 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:lang="clr-namespace:Localization;assembly=Localization"
              mc:Ignorable="d"
              x:Class="SAScanApp.AdminLoginPage">
     <ContentPage.Content>
 
         <StackLayout BackgroundColor="White">
-            <Label Text="Admin Login" FontSize="20" HorizontalOptions="Center" TextColor="Blue" Margin="0,0,0,20"/>
-            <Label Text="Please enter your password:" TextColor="Blue" Margin="0,0,0,20"/>
-            <Entry Placeholder="Login" x:Name="userLogin" Keyboard="Text" PlaceholderColor="#7098EE"/>
-            <Entry Placeholder="Password" x:Name="userPassword" PlaceholderColor="#7098EE" IsPassword="true" Completed="Entry_Completed"/>
+            <Label Text="{x:Static lang:Resources.PhoneAdminLoginStackLayoutLabelAdminLogin}" FontSize="20" HorizontalOptions="Center" TextColor="Blue" Margin="0,0,0,20"/>
+            <Label Text="{x:Static lang:Resources.PhoneAdminLoginStackLayoutLabelEnterPW}" TextColor="Blue" Margin="0,0,0,20"/>
+            <Entry Placeholder="{x:Static lang:Resources.PhoneAdminLoginStackLayoutEntryUserName}" x:Name="userLogin" Keyboard="Text" PlaceholderColor="#7098EE"/>
+            <Entry Placeholder="{x:Static lang:Resources.PhoneAdminLoginStackLayoutLabelEnterPW}" x:Name="userPassword" PlaceholderColor="#7098EE" IsPassword="true" Completed="Entry_Completed"/>
 
             <Button 
             Margin="10, 10, 10, 10"
             BackgroundColor="White"
             BorderColor="Blue"
             BorderWidth="2"
-            Text="Back"
+            Text="{x:Static lang:Resources.PhoneAdminLoginButtonBack}"
             TextColor="Blue"
             FontSize="30"
             BorderRadius="40"
