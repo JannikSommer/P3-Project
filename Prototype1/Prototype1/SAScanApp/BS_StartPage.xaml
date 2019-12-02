@@ -44,7 +44,7 @@
                             BorderColor="Blue"
                             BorderWidth="1"/>
 
-                    <Button Text="LIGHT"
+                    <Button Text="{x:Static lang:Resources.PhoneLocationSelelectButtonLight}"
                             Grid.Column="1"
                             Margin="-1,0,0,0"
                             BackgroundColor="White"

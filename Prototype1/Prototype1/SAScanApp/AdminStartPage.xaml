@@ -59,7 +59,7 @@
                 BackgroundColor="White"
                 BorderColor="Blue"
                 BorderWidth="2"
-                Text="Logout"
+                Text="{x:Static lang:Resources.PhoneAdminStartPageButtonLogOut}"
                 TextColor="Blue"
                 FontSize="20"
                 BorderRadius="40"
@@ -82,7 +82,7 @@
                        Grid.Row="0"
                        Margin="0,0,0,0"/>
                     
-                    <Label Text="SCANNER"
+                    <Label Text="{x:Static lang:Resources.PhoneAdminStartPageLabelScanner}"
                        Grid.Row="1"
                        FontSize="10"
                        HorizontalOptions="Center"

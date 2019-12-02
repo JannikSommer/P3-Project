@@ -466,6 +466,51 @@ namespace Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Back.
+        /// </summary>
+        public static string PhoneAdminLoginButtonBack {
+            get {
+                return ResourceManager.GetString("PhoneAdminLoginButtonBack", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User name.
+        /// </summary>
+        public static string PhoneAdminLoginStackLayoutEntryUserName {
+            get {
+                return ResourceManager.GetString("PhoneAdminLoginStackLayoutEntryUserName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User password.
+        /// </summary>
+        public static string PhoneAdminLoginStackLayoutEntryUserPW {
+            get {
+                return ResourceManager.GetString("PhoneAdminLoginStackLayoutEntryUserPW", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Admin Login.
+        /// </summary>
+        public static string PhoneAdminLoginStackLayoutLabelAdminLogin {
+            get {
+                return ResourceManager.GetString("PhoneAdminLoginStackLayoutLabelAdminLogin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please enter your password:.
+        /// </summary>
+        public static string PhoneAdminLoginStackLayoutLabelEnterPW {
+            get {
+                return ResourceManager.GetString("PhoneAdminLoginStackLayoutLabelEnterPW", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Bluetooth Scan.
         /// </summary>
         public static string PhoneAdminStartPageButtonBTScan {
@@ -480,6 +525,24 @@ namespace Localization {
         public static string PhoneAdminStartPageButtonCameraScan {
             get {
                 return ResourceManager.GetString("PhoneAdminStartPageButtonCameraScan", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Logout.
+        /// </summary>
+        public static string PhoneAdminStartPageButtonLogOut {
+            get {
+                return ResourceManager.GetString("PhoneAdminStartPageButtonLogOut", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Scanner.
+        /// </summary>
+        public static string PhoneAdminStartPageLabelScanner {
+            get {
+                return ResourceManager.GetString("PhoneAdminStartPageLabelScanner", resourceCulture);
             }
         }
         
