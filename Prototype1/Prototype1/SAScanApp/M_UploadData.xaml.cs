@@ -14,6 +14,7 @@ namespace SAScanApp
     public partial class M_UploadData : ContentPage
     {
         private M_StartPage _mStartPage;
+        private Central_Controller.Client DeviceClient;
         public M_UploadData(M_StartPage mStartPage)
         {
             InitializeComponent();

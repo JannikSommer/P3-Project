@@ -11,7 +11,6 @@ namespace Networking
 {
     public class Client
     {
-
         private Socket Sender;
 
         private byte[] FlagMessasge = new byte[25]; // Fits longest CommunicationFlag with some change 
@@ -187,9 +186,9 @@ namespace Networking
                 // If a host has multiple addresses, you will get a list of addresses  
                 IPHostEntry host = Dns.GetHostEntry("192.168.0.23");
                 IPAddress ipAddress = host.AddressList[0];
-                IPEndPoint remoteEP = new IPEndPoint(ipAddress, 8080);
+                IPEndPoint remoteEP = new IPEndPoint(ipAddress, 69420);
 
-                // Create a TCP/IP  socket
+                // Create a TCP/IP socket
                 Sender = new Socket(ipAddress.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
 
                 // Connect the socket to the remote endpoint. Catch any errors.    
@@ -389,7 +388,7 @@ namespace Networking
                 // If a host has multiple addresses, you will get a list of addresses  
                 IPHostEntry host = Dns.GetHostEntry("192.168.0.23");
                 IPAddress ipAddress = host.AddressList[0];
-                IPEndPoint remoteEP = new IPEndPoint(ipAddress, 8080);
+                IPEndPoint remoteEP = new IPEndPoint(ipAddress, 69420);
 
                 // Create a TCP/IP  socket.    
                 Sender = new Socket(ipAddress.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
