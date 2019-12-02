@@ -24,7 +24,7 @@ namespace Networking
             // Get IP-Address from cmd -> ipconfig IPv4 address from Ethernet adapter. 
             IPHostEntry host = Dns.GetHostEntry(Dns.GetHostName());
             IPAddress ipAddress = IPAddress.Parse("192.168.0.23");
-            IPEndPoint localEndPoint = new IPEndPoint(ipAddress, 8080);
+            IPEndPoint localEndPoint = new IPEndPoint(ipAddress, 69420);
 
             try
             {

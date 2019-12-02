@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:lang="clr-namespace:Localization;assembly=Localization"
              mc:Ignorable="d"
              x:Class="SAScanApp.M_UploadData">
     <ContentPage.Content>
@@ -35,7 +36,7 @@
                 BackgroundColor="White"
                 BorderColor="Blue"
                 BorderWidth="2"
-                Text="Upload Partition"
+                Text="{x:Static lang:Resources.PhoneUploadDataButtonUpload}"
                 TextColor="Blue"
                 FontSize="20"
                 BorderRadius="40"
@@ -46,7 +47,7 @@
                 BackgroundColor="White"
                 BorderColor="Blue"
                 BorderWidth="2"
-                Text="Download Partition"
+                Text="{x:Static lang:Resources.PhoneUploadDataButtonDownload}"
                 TextColor="Blue"
                 FontSize="20"
                 BorderRadius="40"

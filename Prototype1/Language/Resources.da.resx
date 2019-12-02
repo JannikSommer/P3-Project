@@ -204,9 +204,6 @@
   <data name="MainWindowComboboxCountedThisCycle" xml:space="preserve">
     <value>Optalte i denne cyklus</value>
   </data>
-  <data name="MainWindowComboboxCountedDifference" xml:space="preserve">
-    <value>Optalte med difference</value>
-  </data>
   <data name="EditCycleWindowTitle" xml:space="preserve">
     <value>Redigér Cyclus</value>
   </data>
@@ -255,16 +252,64 @@
   <data name="CreateCycleWindowLabelWarning" xml:space="preserve">
     <value>Vælg venligst den ønskede funktion</value>
   </data>
-  <data name="PhoneMainWindowLabelScanner" xml:space="preserve">
+  <data name="PhoneMainPageLabelScanner" xml:space="preserve">
     <value>SKANNER</value>
   </data>
   <data name="PhoneMainPageButtonBTScan" xml:space="preserve">
     <value>Bluetooth Skan</value>
   </data>
-  <data name="PhoneMainWindowButtonCameraScan" xml:space="preserve">
+  <data name="PhoneMainPageButtonCameraScan" xml:space="preserve">
     <value>Kamera Skan</value>
   </data>
-  <data name="PhoneMainWindowButtonAdmin" xml:space="preserve">
+  <data name="PhoneMainPageButtonAdmin" xml:space="preserve">
     <value>Admin Login</value>
+  </data>
+  <data name="PhoneUploadDataButtonUpload" xml:space="preserve">
+    <value>Send Partition</value>
+  </data>
+  <data name="PhoneUploadDataButtonDownload" xml:space="preserve">
+    <value>Hent Partition</value>
+  </data>
+  <data name="PhoneStartPageButtonBack" xml:space="preserve">
+    <value>Tilbage</value>
+  </data>
+  <data name="PhoneStartPageLabelMenu" xml:space="preserve">
+    <value>MENU</value>
+  </data>
+  <data name="PhoneStartPageButtonTerminate" xml:space="preserve">
+    <value>Afslut Skanning</value>
+  </data>
+  <data name="PhoneStartPageButtonLogin" xml:space="preserve">
+    <value>Admin Login</value>
+  </data>
+  <data name="PhoneStartPageButtonUpload" xml:space="preserve">
+    <value>Send data</value>
+  </data>
+  <data name="PhoneStartPageButtonSwitch" xml:space="preserve">
+    <value>Skift skan type</value>
+  </data>
+  <data name="PhoneInventoryPageLabelMenu" xml:space="preserve">
+    <value>MENU</value>
+  </data>
+  <data name="PhoneInventoryPageLabelManageLocation" xml:space="preserve">
+    <value>Administrér lokation:</value>
+  </data>
+  <data name="PhoneInventoryPageButtonAddItem" xml:space="preserve">
+    <value>Tilføj artikel</value>
+  </data>
+  <data name="PhoneInventoryPageButtonRemoveItem" xml:space="preserve">
+    <value>Fjern artikel</value>
+  </data>
+  <data name="PhoneLocationSelelectButtonLight" xml:space="preserve">
+    <value>Lys</value>
+  </data>
+  <data name="PhoneLocationSelectedButtonMenu" xml:space="preserve">
+    <value>Menu</value>
+  </data>
+  <data name="PhoneAdminStartPageButtonBTScan" xml:space="preserve">
+    <value>Bluetooth Skan</value>
+  </data>
+  <data name="PhoneAdminStartPageButtonCameraScan" xml:space="preserve">
+    <value>Kamera Skan</value>
   </data>
 </root>
