@@ -333,4 +333,7 @@
   <data name="PhoneAdminLoginStackLayoutEntryUserPW" xml:space="preserve">
     <value>Adgangskode</value>
   </data>
+  <data name="MainWindowComboboxCountedDifference" xml:space="preserve">
+    <value>Optalt med difference:</value>
+  </data>
 </root>
