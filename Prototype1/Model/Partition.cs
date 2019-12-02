@@ -7,18 +7,7 @@ namespace Model
     public enum PartitionState { NotCounted, Counted, Verified}
     public enum PartitionRequsitionState { Requested, Uploaded, Recieved}
 
-    public struct PartitionSpan
-    {
-        public int Shelf;
-        public int Position;
-
-        public PartitionSpan(int shelf, int position)
-        {
-            Shelf = shelf;
-            Position = position;
-        }
-    }
-
+    
     public class Partition : IComparable
     {
         public PartitionState State { get; set; }
