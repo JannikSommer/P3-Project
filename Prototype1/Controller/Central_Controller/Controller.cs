@@ -85,7 +85,7 @@ namespace Central_Controller
         }
         */
 
-        public Partition NextPartition(Client client)
+        /* NEEDS TO BE REWORKED, to also give multilocation partitions!!!*/ public Partition NextPartition(Client client)
         {
             int ClientsIndex = IndexOfClient(client);
 
