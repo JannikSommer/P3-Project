@@ -63,7 +63,7 @@
                             TextColor="Blue"
                             BorderColor="Blue"
                             BorderWidth="2"/>
-                    <Button Text="{x:Static lang:Resources.PhoneLocationSelelectButtonMenu}"
+                    <Button Text="{x:Static lang:Resources.PhoneLocationSelectedButtonMenu}"
                             Grid.Column="4"
                             BackgroundColor="White"
                             TextColor="Blue"
