@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:lang="clr-namespace:Localization;assembly=Localization"
              mc:Ignorable="d"
              x:Class="SAScanApp.M_ManageInventory">
    
@@ -19,7 +20,7 @@
 
         <Grid Grid.Row="0"
               VerticalOptions="End">
-            <Label Text="MENU:"
+            <Label Text="{x:Static lang:Resources.PhoneInventoryPageLabelMenu}"
                    FontSize="30"
                    TextColor="Blue"
                    HorizontalOptions="CenterAndExpand"
@@ -43,7 +44,7 @@
             </Grid.ColumnDefinitions>
 
             <Label
-                Text="Manage item location:"
+                Text="{x:Static lang:Resources.PhoneInventoryPageLabelManageLocation}"
                 TextColor="Blue"
                 BackgroundColor="White"
                 FontSize="25"
@@ -57,7 +58,7 @@
                 BackgroundColor="White"
                 BorderColor="Blue"
                 BorderWidth="2"
-                Text="ADD ITEM"
+                Text="{x:Static lang:Resources.PhoneInventoryPageButtonAddItem}"
                 TextColor="Blue"
                 FontSize="30"
                 BorderRadius="40"
@@ -71,7 +72,7 @@
                 BackgroundColor="White"
                 BorderColor="Blue"
                 BorderWidth="2"
-                Text="REMOVE ITEM"
+                Text="x:Static lang:Resources.PhoneInventoryPageButtonRemoveItem"
                 TextColor="Blue"
                 FontSize="30"
                 BorderRadius="40"
