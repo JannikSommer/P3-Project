@@ -138,9 +138,8 @@ namespace Networking
             return CommunicationHandler.Success;
         }
 
-        public async Task<Tuple<Partition, CommunicationHandler>> DownloadPartitionAsync()
+        public async Task<Tuple<Partition, CommunicationHandler>> DownloadPartitionAsync(Central_Controller.Client client)
         {
-            FlagMessasge = Encoding.UTF8.GetBytes(CommunicationFlag.PartitionRequest.ToString());
             CommunicationHandler handler;
             CommunicationHandler socketHandler = await StartClientAsync();
             if (socketHandler != CommunicationHandler.Success)
@@ -152,10 +151,10 @@ namespace Networking
                 return Tuple.Create(emptyPartition, handler);
             }
             // Send signal to get partition
-            int bytesSent = Sender.Send(FlagMessasge);
+            int bytesSent = Sender.Send(Encoding.UTF8.GetBytes(CommunicationFlag.PartitionRequest.ToString()));
+            bytesSent = Sender.Send(Encoding.UTF8.GetBytes(JsonSerializer.Serialize(client)));
 
             // Incoming data from server
-
             byte[] bytes = new byte[1048576]; // TODO: Make size fit. Is 1 MB now
             int bytesRec = Sender.Receive(bytes);
             string data = Encoding.UTF8.GetString(bytes, 0, bytesRec);
@@ -197,7 +196,7 @@ namespace Networking
                 try
                 {
                     // Connect to Remote EndPoint  
-                    Sender.Connect(remoteEP);
+                    await Sender.ConnectAsync(remoteEP);
                 }
                 catch (SocketException)
                 {
@@ -299,7 +298,6 @@ namespace Networking
             return Tuple.Create(partition, handler);
         }
 
-
         public CommunicationHandler UploadPartition(Partition partition)
         {
             CommunicationHandler socketHandler = StartClient();
@@ -342,9 +340,8 @@ namespace Networking
             return CommunicationHandler.Success;
         }
 
-        public Tuple<Partition, CommunicationHandler> DownloadPartition()
+        public Tuple<Partition, CommunicationHandler> DownloadPartition(Central_Controller.Client client)
         {
-            FlagMessasge = Encoding.UTF8.GetBytes(CommunicationFlag.PartitionRequest.ToString());
             CommunicationHandler handler;
             CommunicationHandler socketHandler = StartClient();
             if (socketHandler != CommunicationHandler.Success)
@@ -356,7 +353,8 @@ namespace Networking
                 return Tuple.Create(emptyPartition, handler);
             }
             // Send signal to get partition
-            int bytesSent = Sender.Send(FlagMessasge);
+            int bytesSent = Sender.Send(Encoding.UTF8.GetBytes(CommunicationFlag.PartitionRequest.ToString()));
+            bytesSent = Sender.Send(Encoding.UTF8.GetBytes(JsonSerializer.Serialize(client)));
 
             // Incoming data from server
             byte[] bytes = new byte[1048576]; // TODO: Make size fit

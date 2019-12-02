@@ -4,6 +4,7 @@ using System.Net;
 using System.Text.Json;
 using System.Text;
 using Model;
+using Central_Controller;
 
 namespace Networking
 {
@@ -11,6 +12,8 @@ namespace Networking
     {
         private Socket Handler;
         private Cycle Cycle = new Cycle();
+        private Controller Controller = new Controller();
+
 
         public void StartServer()
         {
@@ -28,7 +31,7 @@ namespace Networking
                 Socket Listener = new Socket(ipAddress.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
                 // A Socket must be associated with an endpoint using the Bind method  
                 Listener.Bind(localEndPoint);
-                        
+
                 // Specify how many requests a Socket can listen before it gives Server busy response
                 Listener.Listen(10);
                 while (true)
@@ -52,8 +55,10 @@ namespace Networking
 
             if (data == CommunicationFlag.PartitionRequest.ToString())
             {
-                Partition partition = Cycle.GetPartitionForClient();
-                SendPartition(partition); 
+                bytesRec = Handler.Receive(bytes);
+                string Client = Encoding.UTF8.GetString(bytes, 0, bytesRec); // Does this work when the client sends 2 messages in a row?
+                var client= JsonSerializer.Deserialize<Central_Controller.Client>(Client);
+                SendPartition(Controller.NextPartition(client));
             }
             else if (data == CommunicationFlag.PartitionUpload.ToString()) 
             { 

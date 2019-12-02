@@ -29,8 +29,9 @@ namespace SAScanApp
 
         private void DownloadPartition(object sender, EventArgs e)
         {
-            Client client = new Client();
-            (Model.Partition partition,  CommunicationHandler handler) = client.DownloadPartitionAsync().Result;
+            Client networkingClient = new Client();
+            Central_Controller.Client DeviceClient = new Central_Controller.Client("Anders");
+            (Model.Partition partition,  CommunicationHandler handler) = networkingClient.DownloadPartitionAsync(DeviceClient).Result;
         }
     }
 }
