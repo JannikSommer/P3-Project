@@ -332,5 +332,7 @@
   </data>
   <data name="PhoneAdminLoginStackLayoutEntryUserPW" xml:space="preserve">
     <value>User password</value>
+  <data name="MainWindowComboboxCountedDifference" xml:space="preserve">
+    <value></value>
   </data>
 </root>

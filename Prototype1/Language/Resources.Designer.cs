@@ -340,6 +340,15 @@ namespace Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string MainWindowComboboxCountedDifference {
+            get {
+                return ResourceManager.GetString("MainWindowComboboxCountedDifference", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Counted in this cycle.
         /// </summary>
         public static string MainWindowComboboxCountedThisCycle {
