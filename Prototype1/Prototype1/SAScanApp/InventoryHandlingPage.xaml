@@ -4,8 +4,8 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-             x:Class="SAScanApp.M_ManageInventory">
-   
+             x:Class="SAScanApp.InventoryHandlingPage">
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="20*"/>
@@ -91,7 +91,7 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-           
+
 
         </Grid>
 

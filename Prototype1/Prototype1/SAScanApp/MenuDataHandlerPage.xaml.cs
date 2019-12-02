@@ -10,21 +10,25 @@ using Xamarin.Forms.Xaml;
 namespace SAScanApp
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class M_ManageInventory : ContentPage
+    public partial class MenuDataHandlerPage : ContentPage
     {
-        public M_ManageInventory()
+        private MenuStartPage _mStartPage;
+        public MenuDataHandlerPage(MenuStartPage mStartPage)
         {
             InitializeComponent();
+            _mStartPage = mStartPage;
         }
 
-        private void Add_Button_Clicked(object sender, EventArgs e)
+        private void Button_Clicked(object sender, EventArgs e)
         {
-            DisplayAlert("Test", "Test", "Test");
+
         }
 
-        private void Remove_Button_Clicked(object sender, EventArgs e)
+        private void Button_Clicked_1(object sender, EventArgs e)
         {
-            DisplayAlert("Test", "Test", "Test");
+
         }
+
+
     }
 }

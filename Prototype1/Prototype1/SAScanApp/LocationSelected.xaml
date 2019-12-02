@@ -4,7 +4,7 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-             x:Class="SAScanApp.BS_LocationSelected">
+             x:Class="SAScanApp.LocationSelected">
     <ContentPage.Content>
         <StackLayout>
             <Grid>
@@ -49,7 +49,7 @@
                             BorderColor="Blue"
                             BorderWidth="1"
                             Clicked="Light_Button_Clicked"/>
-                    
+
                     <Button Text="V"
                             Grid.Column="2"
                             BackgroundColor="White"
@@ -116,10 +116,10 @@
                     <ListView x:Name="itemDisplayList" BackgroundColor="White"
                               ItemTapped="itemDisplayList_ItemTapped"
                               ItemSelected="itemDisplayList_ItemSelected">
-                        
+
                         <ListView.ItemTemplate>
-                        
-                        <DataTemplate>
+
+                            <DataTemplate>
                                 <ViewCell>
                                     <StackLayout Orientation="Horizontal">
                                         <StackLayout Orientation="Horizontal">

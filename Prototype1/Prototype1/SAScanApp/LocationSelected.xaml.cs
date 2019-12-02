@@ -14,31 +14,31 @@ using Model;
 namespace SAScanApp
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class BS_LocationSelected : ContentPage
+    public partial class LocationSelected : ContentPage
     {
-        private BS_StartPage _bsStartPage { get; set; }
+        private ScanPage _scanPage { get; set; }
         private List<Model.Item> _itemList { get; set; }
 
         public bool _counterEnabled { get; set; }
         bool lightOn = false;
         uint value = 00;
 
-        public BS_LocationSelected()
+        public LocationSelected()
         {
             InitializeComponent();
             quantity.Text = Convert.ToString(value);
             _counterEnabled = false;
         }
-        public BS_LocationSelected(BS_StartPage startPage)
+        public LocationSelected(ScanPage startPage)
             : this()
         {
-            _bsStartPage = startPage;           
+            _scanPage = startPage;
         }
 
-        public BS_LocationSelected(BS_StartPage startPage, List<Model.Item> itemList)
+        public LocationSelected(ScanPage startPage, List<Model.Item> itemList)
             : this()
         {
-            _bsStartPage = startPage;
+            _scanPage = startPage;
             _itemList = itemList;
             itemDisplayList.ItemsSource = _itemList;
         }
@@ -98,12 +98,12 @@ namespace SAScanApp
 
         private async void Menu_Button_Clicked(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new M_StartPage(this));
+            await Navigation.PushAsync(new MenuStartPage(this));
         }
 
         private void itemDisplayList_ItemTapped(object sender, ItemTappedEventArgs e)
         {
-            
+
         }
 
         private void itemDisplayList_ItemSelected(object sender, SelectedItemChangedEventArgs e)

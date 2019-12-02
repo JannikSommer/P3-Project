@@ -4,9 +4,9 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-             x:Class="SAScanApp.AdminLogin">
+             x:Class="SAScanApp.AdminLoginPage">
     <ContentPage.Content>
-        
+
         <StackLayout BackgroundColor="White">
             <Label Text="Admin Login" FontSize="20" HorizontalOptions="Center" TextColor="Blue" Margin="0,0,0,20"/>
             <Label Text="Please enter your password:" TextColor="Blue" Margin="0,0,0,20"/>
@@ -27,6 +27,6 @@
             VerticalOptions="End"
             HorizontalOptions="FillAndExpand"/>
         </StackLayout>
-        
+
     </ContentPage.Content>
 </ContentPage>
