@@ -473,5 +473,41 @@ namespace Localization {
                 return ResourceManager.GetString("MainWindowTitle", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bluetooth Scan.
+        /// </summary>
+        public static string PhoneMainPageButtonBTScan {
+            get {
+                return ResourceManager.GetString("PhoneMainPageButtonBTScan", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Admin Login.
+        /// </summary>
+        public static string PhoneMainWindowButtonAdmin {
+            get {
+                return ResourceManager.GetString("PhoneMainWindowButtonAdmin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Camera Scan.
+        /// </summary>
+        public static string PhoneMainWindowButtonCameraScan {
+            get {
+                return ResourceManager.GetString("PhoneMainWindowButtonCameraScan", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SCANNER.
+        /// </summary>
+        public static string PhoneMainWindowLabelScanner {
+            get {
+                return ResourceManager.GetString("PhoneMainWindowLabelScanner", resourceCulture);
+            }
+        }
     }
 }

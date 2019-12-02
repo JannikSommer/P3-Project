@@ -41,7 +41,6 @@ namespace WPF_PC
         }
 
         private Thread NetworkingThread; // Used to keep socket connection open for clients. 
-        private Server Server;
 
         private new Language Language;
 
@@ -59,8 +58,8 @@ namespace WPF_PC
 
         private void StartServer()
         {
-            Server = new Server();
-            NetworkingThread = new Thread(new ThreadStart(Server.StartServer));
+            Server server = new Server();
+            NetworkingThread = new Thread(new ThreadStart(server.StartServer));
             NetworkingThread.Start();
         }
 
@@ -115,14 +114,14 @@ namespace WPF_PC
 
         private void createCycleCount_Click(object sender, RoutedEventArgs e)
         {
-            Window1 CreateCycle = new Window1(Language);
+            CreateCycleWindow CreateCycle = new CreateCycleWindow();
             CreateCycle.Show();
 
         }
 
         private void editCycle_Click(object sender, RoutedEventArgs e)
         {
-            EditCycle EditCycle = new EditCycle(Language);
+            EditCycle EditCycle = new EditCycle();
             EditCycle.Show();
 
         }
@@ -163,28 +162,9 @@ namespace WPF_PC
                 Localization.Resources.MainWindowComboboxCountedThisCycle, 
                 Localization.Resources.MainWindowComboboxCountedDifference
             };
-            
-
-            //settings = null;
-
-            ////Danish:
-            //if (Language.Danish == Language)
-            //{
-            //    settings.Add("I dags optalte");
-            //    settings.Add("Optalte i denne cyklus");
-            //    settings.Add("Optalte med difference");
-            //}
-
-            ////English:
-            //else if (Language.English == Language)
-            //{
-            //    settings.Add("Counted today");
-            //    settings.Add("Counted in this cycle");
-            //    settings.Add("Counted with difference");
-            //}
-
-
+           
             comboBoxChooseGet.ItemsSource = settings;
+            comboBoxChooseGet.SelectedIndex = 0;
         }
 
         private void showChosenType_Click(object sender, RoutedEventArgs e)
@@ -217,9 +197,7 @@ namespace WPF_PC
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            // End the thread and server when the program closes. 
-            Server.ShutdownServer();
-            NetworkingThread.Abort();
+            //Load everything to log.
         }
 
         private void comboBoxChooseGet_SelectionChanged(object sender, SelectionChangedEventArgs e)

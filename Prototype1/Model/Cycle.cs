@@ -27,19 +27,19 @@ namespace Model
             return sendPartition;
         }
 
-        //public void ReceicePartitionUpload(Partition partition)
-        //{
-        //    if (partition.State == PartitionState.NotCounted)
-        //    {
-        //        partition.State = PartitionState.Counted;
-        //        CountedPartitions.Add(partition);
-        //    }
-        //    else if (partition.State == PartitionState.Counted)
-        //    {
-        //        partition.State = PartitionState.Verified;
-        //        VerifiedPartitions.Add(partition);
-        //    }
-        //}
+        public void ReceicePartitionUpload(Partition partition)
+        {
+            //if (partition.State == PartitionState.NotCounted)
+            //{
+            //    partition.State = PartitionState.Counted;
+            //    CountedPartitions.Add(partition);
+            //}
+            //else if (partition.State == PartitionState.Counted)
+            //{
+            //    partition.State = PartitionState.Verified;
+            //    VerifiedPartitions.Add(partition);
+            //}
+        }
 
         public void DownloadFromServer()
         {

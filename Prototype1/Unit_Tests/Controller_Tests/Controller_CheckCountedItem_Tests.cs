@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Model;
-using WPF_PC.Central_Controller;
+using Central_Controller;
 
 namespace Unit_Tests.Controller_Tests
 {

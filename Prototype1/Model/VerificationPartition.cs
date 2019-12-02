@@ -4,8 +4,12 @@ using System.Text;
 
 namespace Model
 {
-    public class VerificationPartition : PartitionBase
+    public class VerificationPartition
     {
+        public PartitionState State { get; set; }
+        public int TotalNrOFItems { get; set; }
+        public int ItemsCounted { get; set; }
+        public PartitionRequsitionState RequsitionState { get; set; }
         public List<Item> Items { get; private set; }
         public List<Location> Locations { get; private set; }
 

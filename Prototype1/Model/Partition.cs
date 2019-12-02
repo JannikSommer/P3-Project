@@ -7,21 +7,10 @@ namespace Model
     public enum PartitionState { NotCounted, Counted, Verified}
     public enum PartitionRequsitionState { Requested, Uploaded, Recieved}
 
-    public struct PartitionSpan
-    {
-        public int Shelf;
-        public int Posistion;
-
-        public PartitionSpan(int shelf, int posistion)
-        {
-            Shelf = shelf;
-            Posistion = posistion;
-        }
-    }
-
+    
     public class Partition : IComparable
     {
-        public PartitionState State { get; private set; }
+        public PartitionState State { get; set; }
         public int TotalNrOFItems { get; private set; }
         public int ItemsCounted { get; private set; }
         public bool IsMultiLocationItemPartition { get; private set; } = false;
@@ -75,9 +64,9 @@ namespace Model
                         Locations.Add(_Location);
                         TotalNrOFItems += _Location.Items.Count;
 
-                        Span = new PartitionSpan(_Location.Shelf, _Location.Posistion);
+                        Span = new PartitionSpan(_Location.Shelf, _Location.Position);
                     }
-                    else if (Span.Shelf == _Location.Shelf && Span.Posistion == _Location.Posistion)
+                    else if (Span.Shelf == _Location.Shelf && Span.Position == _Location.Position)
                     {
                         Locations.Add(_Location);
                         TotalNrOFItems += _Location.Items.Count;
@@ -108,7 +97,7 @@ namespace Model
 
             if(x == 0)
             {
-                return Span.Posistion.CompareTo(OtherPartition.Span.Posistion);
+                return Span.Position.CompareTo(OtherPartition.Span.Position);
             }
 
             return x;

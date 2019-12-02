@@ -17,17 +17,17 @@ namespace Unit_Tests
             //Expected
             int ExpectedShelf = 1;
             char ExpectedRow = 'A';
-            int ExpectedPosistion = 1;
+            int ExpectedPosition = 1;
 
             // Act
             int ActualShelf = TestLocation.Shelf;
             char ActualRow = TestLocation.Row;
-            int ActualPosistion = TestLocation.Posistion;
+            int ActualPosition = TestLocation.Position;
 
             // Assert
             Assert.AreEqual(ExpectedShelf, ActualShelf);
             Assert.AreEqual(ExpectedRow, ActualRow);
-            Assert.AreEqual(ExpectedPosistion, ActualPosistion);
+            Assert.AreEqual(ExpectedPosition, ActualPosition);
         }
 
         [TestMethod]
@@ -47,7 +47,7 @@ namespace Unit_Tests
             // Act
             int ActualShelf = TestLocation.Shelf;
             char ActualRow = TestLocation.Row;
-            int ActualPosistion = TestLocation.Posistion;
+            int ActualPosistion = TestLocation.Position;
             bool ActualHasMultiLocationItems = TestLocation.HasMultilocationItem;
 
             // Assert
@@ -74,7 +74,7 @@ namespace Unit_Tests
             // Act
             int ActualShelf = TestLocation.Shelf;
             char ActualRow = TestLocation.Row;
-            int ActualPosistion = TestLocation.Posistion;
+            int ActualPosistion = TestLocation.Position;
             bool ActualHasMultiLocationItems = TestLocation.HasMultilocationItem;
 
             // Assert
@@ -103,7 +103,7 @@ namespace Unit_Tests
             // Act
             int ActualShelf = TestLocation.Shelf;
             char ActualRow = TestLocation.Row;
-            int ActualPosistion = TestLocation.Posistion;
+            int ActualPosistion = TestLocation.Position;
             bool ActualHasMultiLocationItems = TestLocation.HasMultilocationItem;
             int ActualItemCount = TestLocation.Items.Count;
 
@@ -133,7 +133,7 @@ namespace Unit_Tests
             // Act
             int ActualShelf = TestLocation.Shelf;
             char ActualRow = TestLocation.Row;
-            int ActualPosistion = TestLocation.Posistion;
+            int ActualPosistion = TestLocation.Position;
             bool ActualHasMultiLocationItems = TestLocation.HasMultilocationItem;
             int ActualItemCount = TestLocation.Items.Count;
 

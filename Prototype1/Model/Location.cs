@@ -10,7 +10,7 @@ namespace Model
         public bool IsEmpty { get; private set; }
         public int Shelf { get; private set; }
         public char Row { get; private set; }
-        public int Posistion { get; private set; }
+        public int Position { get; private set; }
         public bool HasMultilocationItem { get; set; }
         public List<Item> Items { get; private set; }
 
@@ -64,7 +64,7 @@ namespace Model
         {
             Shelf = Convert.ToInt32(ID.Substring(0, 3));
             Row = ID[3];
-            Posistion = Convert.ToInt32(ID.Substring(4, 2));
+            Position = Convert.ToInt32(ID.Substring(4, 2));
         }
 
         public bool HasItem(Item item)
@@ -95,12 +95,12 @@ namespace Model
         {
             if(OtherLocation.Shelf == Shelf)
             {
-                return Math.Abs(OtherLocation.Posistion - Posistion);
+                return Math.Abs(OtherLocation.Position - Position);
             }
             else
             {
                 //multiplies 1000 to Switching shelfs, in order to make sure its always considered a longer distance then staying at the same shelf
-                return Math.Abs(locationComparer.ShelfHieraky[OtherLocation.Shelf] - locationComparer.ShelfHieraky[Shelf]) * 1000;
+                return Math.Abs(locationComparer.ShelfHierarchy[OtherLocation.Shelf] - locationComparer.ShelfHierarchy[Shelf]) * 1000;
             }
         }
 

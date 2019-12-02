@@ -1,6 +1,6 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using WPF_PC.Central_Controller;
+using Central_Controller;
 using Model;
 
 namespace Unit_Tests

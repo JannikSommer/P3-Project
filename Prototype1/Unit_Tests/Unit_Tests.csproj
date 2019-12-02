@@ -64,6 +64,10 @@
     <Compile Include="VerificationPartition_Tests.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Controller\Central_Controller.csproj">
+      <Project>{66201624-4c47-47b3-b056-dab6be3de5cd}</Project>
+      <Name>Central_Controller</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Model\Model.csproj">
       <Project>{486dfbc0-2b7d-4c56-940c-150e673f643a}</Project>
       <Name>Model</Name>

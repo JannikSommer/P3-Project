@@ -19,12 +19,11 @@ namespace WPF_PC
     /// </summary>
     public partial class EditCycle : Window
     {
-        private new Language Language;
-        public EditCycle(Language language)
+        public EditCycle()
         {
             InitializeComponent();
 
-            EditCycleWindowLanguage(language);
+            EditCycleWindowLanguage();
             loadAllUsersnamesIntoChooseBox();
         }
 
@@ -144,44 +143,44 @@ namespace WPF_PC
             this.Close();
         }
 
-        public void EditCycleWindowLanguage(Language language)
+        public void EditCycleWindowLanguage()
         {
 
-            //Danish:
-            if (Language.Danish == language)
-            {
-                //Labels:
-                chooseHowToEditCycle.Content = "Vælg hvordan Cyklus'en skal Redigeres:";
-                chooseThePriority.Content = "Vælg hvordan reolerne skal sorteres:";
-                chooseUsers.Content = "Slet en specifik brugers arbejde:";
-                chooseToDeleteTheWholeCycle.Content = "Slet hele cyklus'en:";
+            ////Danish:
+            //if (Language.Danish == language)
+            //{
+            //    //Labels:
+            //    chooseHowToEditCycle.Content = "Vælg hvordan Cyklus'en skal Redigeres:";
+            //    chooseThePriority.Content = "Vælg hvordan reolerne skal sorteres:";
+            //    chooseUsers.Content = "Slet en specifik brugers arbejde:";
+            //    chooseToDeleteTheWholeCycle.Content = "Slet hele cyklus'en:";
 
-                //Buttons:
-                MoveUpButton.Content = "Flyt op";
-                MoveDownButton.Content = "Flyt ned";
-                DeleteUserButton.Content = "Slet brugers arbejde";
-                DeleteCycleCountButton.Content = "Slet Cyklus";
-                ConfirmEdit.Content = "OK";
-                CancelEdit.Content = "Annuller";
-            }
+            //    //Buttons:
+            //    MoveUpButton.Content = "Flyt op";
+            //    MoveDownButton.Content = "Flyt ned";
+            //    DeleteUserButton.Content = "Slet brugers arbejde";
+            //    DeleteCycleCountButton.Content = "Slet Cyklus";
+            //    ConfirmEdit.Content = "OK";
+            //    CancelEdit.Content = "Annuller";
+            //}
 
-            //English:
-            else if (Language.English == language)
-            {
-                //Labels:
-                chooseHowToEditCycle.Content = "Choose how to edit the cycle:";
-                chooseThePriority.Content = "Choose how to sort the shelfs:";
-                chooseUsers.Content = "Delete a specific users work:";
-                chooseToDeleteTheWholeCycle.Content = "Delete the whole cycle:";
+            ////English:
+            //else if (Language.English == language)
+            //{
+            //    //Labels:
+            //    chooseHowToEditCycle.Content = "Choose how to edit the cycle:";
+            //    chooseThePriority.Content = "Choose how to sort the shelfs:";
+            //    chooseUsers.Content = "Delete a specific users work:";
+            //    chooseToDeleteTheWholeCycle.Content = "Delete the whole cycle:";
 
-                //Buttons:
-                MoveUpButton.Content = "Move up";
-                MoveDownButton.Content = "Move down";
-                DeleteUserButton.Content = "Delete users work";
-                DeleteCycleCountButton.Content = "Delete cycle";
-                ConfirmEdit.Content = "OK";
-                CancelEdit.Content = "Cancel";
-            }
+            //    //Buttons:
+            //    MoveUpButton.Content = "Move up";
+            //    MoveDownButton.Content = "Move down";
+            //    DeleteUserButton.Content = "Delete users work";
+            //    DeleteCycleCountButton.Content = "Delete cycle";
+            //    ConfirmEdit.Content = "OK";
+            //    CancelEdit.Content = "Cancel";
+            //}
         }
     }
 }
