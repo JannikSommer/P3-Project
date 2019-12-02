@@ -255,4 +255,16 @@
   <data name="CreateCycleWindowLabelWarning" xml:space="preserve">
     <value>Vælg venligst den ønskede funktion</value>
   </data>
+  <data name="PhoneMainWindowLabelScanner" xml:space="preserve">
+    <value>SKANNER</value>
+  </data>
+  <data name="PhoneMainPageButtonBTScan" xml:space="preserve">
+    <value>Bluetooth Skan</value>
+  </data>
+  <data name="PhoneMainWindowButtonCameraScan" xml:space="preserve">
+    <value>Kamera Skan</value>
+  </data>
+  <data name="PhoneMainWindowButtonAdmin" xml:space="preserve">
+    <value>Admin Login</value>
+  </data>
 </root>
