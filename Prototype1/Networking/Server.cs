@@ -13,6 +13,7 @@ namespace Networking
         private Socket Handler;
         private Cycle Cycle = new Cycle();
         private Controller Controller = new Controller();
+        private long MessageSize = 536870912; // 512 MB
 
 
         public void StartServer()
@@ -22,8 +23,8 @@ namespace Networking
             // If a host has multiple addresses, you will get a list of addresses  
             // Get IP-Address from cmd -> ipconfig IPv4 address from Ethernet adapter. 
             IPHostEntry host = Dns.GetHostEntry(Dns.GetHostName());
-            IPAddress ipAddress = IPAddress.Parse("192.168.0.23");
-            IPEndPoint localEndPoint = new IPEndPoint(ipAddress, 69420);
+            IPAddress ipAddress = IPAddress.Parse("192.168.163.1");
+            IPEndPoint localEndPoint = new IPEndPoint(ipAddress, 6969);
 
             try
             {
@@ -89,7 +90,7 @@ namespace Networking
         {
             // Send permision to upload
             Handler.Send(Encoding.UTF8.GetBytes(CommunicationHandler.Accept.ToString()));
-            byte[] bytes = new byte[1048576];
+            byte[] bytes = new byte[MessageSize];
 
             // Accept data from client
             int bytesRec = Handler.Receive(bytes);
@@ -139,7 +140,7 @@ namespace Networking
         {
             // Send permision to upload
             Handler.Send(Encoding.UTF8.GetBytes(CommunicationHandler.Accept.ToString()));
-            byte[] bytes = new byte[1048576];
+            byte[] bytes = new byte[MessageSize];
 
             // Accept data from client
             int bytesRec = Handler.Receive(bytes);
