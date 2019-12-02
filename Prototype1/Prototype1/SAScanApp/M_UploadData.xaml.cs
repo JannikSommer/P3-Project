@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using Networking;
 
 namespace SAScanApp
 {
@@ -13,22 +14,25 @@ namespace SAScanApp
     public partial class M_UploadData : ContentPage
     {
         private M_StartPage _mStartPage;
+        private Central_Controller.Client DeviceClient;
         public M_UploadData(M_StartPage mStartPage)
         {
             InitializeComponent();
             _mStartPage = mStartPage;
         }
 
-        private void Button_Clicked(object sender, EventArgs e)
+        private void UploadPartition(object sender, EventArgs e)
         {
-            
+            Client client = new Client();
+            Model.Partition partition = new Model.Partition();
+            CommunicationHandler handler = client.UploadPartitionAsync(partition).Result;
         }
 
-        private void Button_Clicked_1(object sender, EventArgs e)
+        private void DownloadPartition(object sender, EventArgs e)
         {
-
+            Client networkingClient = new Client();
+            Central_Controller.Client DeviceClient = new Central_Controller.Client("Anders");
+            (Model.Partition partition,  CommunicationHandler handler) = networkingClient.DownloadPartitionAsync(DeviceClient).Result;
         }
-
-        
     }
 }
