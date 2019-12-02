@@ -93,16 +93,16 @@ namespace SQL_DB_test_Frame
             //    }
             //    x++;
             //}
-
+            Console.WriteLine("Done1!");
             controller.InitialPartitionUnpartitionedLocations();
 
             Central_Controller.Client client = new Central_Controller.Client("01");
-
+            Console.WriteLine("Done2!");
             controller.AddClient(client);
             Partition TestPartition = controller.NextPartition(client);
 
             //Console.WriteLine("TestPartition Count: " + TestPartition.Locations[0].Items.Count);
-
+            Console.WriteLine("Done3!");
             server.StartServer();
             server.SendPartition(TestPartition);
 
