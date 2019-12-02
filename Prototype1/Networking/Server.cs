@@ -9,6 +9,7 @@ namespace Networking
 {
     public class Server
     {
+        private long package = 1048576000000;
         private Socket Handler;
         private Cycle Cycle = new Cycle();
         //private Controller
@@ -84,7 +85,7 @@ namespace Networking
         {
             // Send permision to upload
             Handler.Send(Encoding.UTF8.GetBytes(CommunicationHandler.Accept.ToString()));
-            byte[] bytes = new byte[1048576];
+            byte[] bytes = new byte[package];
 
             // Accept data from client
             int bytesRec = Handler.Receive(bytes);
@@ -134,7 +135,7 @@ namespace Networking
         {
             // Send permision to upload
             Handler.Send(Encoding.UTF8.GetBytes(CommunicationHandler.Accept.ToString()));
-            byte[] bytes = new byte[1048576];
+            byte[] bytes = new byte[package];
 
             // Accept data from client
             int bytesRec = Handler.Receive(bytes);

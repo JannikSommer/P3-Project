@@ -11,6 +11,10 @@ namespace Networking
 {
     public class Client
     {
+<<<<<<< Updated upstream
+=======
+        private long package = 1048576000000;
+>>>>>>> Stashed changes
         private Socket Sender;
 
         private byte[] FlagMessasge = new byte[25]; // Fits longest CommunicationFlag with some change
@@ -75,7 +79,7 @@ namespace Networking
             int bytesSent = Sender.Send(FlagMessasge);
 
             // Incoming data from server
-            byte[] bytes = new byte[1048576]; // TODO: Make size fit. Is 1 MB now
+            byte[] bytes = new byte[package]; // TODO: Make size fit. Is 1 MB now
             int bytesRec = Sender.Receive(bytes);
             string data = Encoding.UTF8.GetString(bytes, 0, bytesRec);
             if (data == CommunicationHandler.Error.ToString())
@@ -155,7 +159,7 @@ namespace Networking
 
             // Incoming data from server
 
-            byte[] bytes = new byte[1048576]; // TODO: Make size fit. Is 1 MB now
+            byte[] bytes = new byte[package]; // TODO: Make size fit. Is 1 MB now
             int bytesRec = Sender.Receive(bytes);
             string data = Encoding.UTF8.GetString(bytes, 0, bytesRec);
             if (data == CommunicationHandler.Error.ToString())
@@ -276,7 +280,11 @@ namespace Networking
             int bytesSent = Sender.Send(FlagMessasge);
 
             // Incoming data from server
+<<<<<<< Updated upstream
             byte[] bytes = new byte[1048576]; // TODO: Make size fit - is 1MB
+=======
+            byte[] bytes = new byte[package]; // TODO: Make size fit
+>>>>>>> Stashed changes
             int bytesRec = Sender.Receive(bytes);
             string data = Encoding.UTF8.GetString(bytes, 0, bytesRec);
             if (data == CommunicationHandler.Error.ToString())
@@ -358,7 +366,7 @@ namespace Networking
             int bytesSent = Sender.Send(FlagMessasge);
 
             // Incoming data from server
-            byte[] bytes = new byte[1048576]; // TODO: Make size fit
+            byte[] bytes = new byte[package]; // TODO: Make size fit
             int bytesRec = Sender.Receive(bytes);
             string data = Encoding.UTF8.GetString(bytes, 0, bytesRec);
             if (data == CommunicationHandler.Error.ToString())
