@@ -22,6 +22,7 @@ namespace Central_Controller
         private List<Item> ItemsForVerification = new List<Item>();
         private List<Item> MultiLocationItemsForVerification = new List<Item>();
         private LocationComparer Location_Comparer;
+        public List<List<Partition>> MultiLocationPartitions { get; private set; } = new List<List<Partition>>();
 
         /* first Send Next Partition Implimentation
         public Partition SendNextPartition(Client client)
@@ -427,11 +428,10 @@ namespace Central_Controller
             return aHieraky.CompareTo(bHieraky);
         }
 
-        public void InitialPartition_Unpartitioned_MultilocationItemLocations() 
+        public void InitialPartition_Unpartitioned_MultilocationItemLocations() //Creates Multilocation item Locations
         {
             List<List<List<Location>>> Paths = new List<List<List<Location>>>();
             List<Location> NewList;
-            int x = 0;
 
             while(MultiLocationsItem_Locations.Count != 0) //All locations connected by items, is turned into a list and then added to Paths
             {
@@ -443,9 +443,7 @@ namespace Central_Controller
 
                 NewList.Sort(Location_Comparer);
 
-                Paths[x].Add(NewList);
-
-                x++;
+                Paths.Last().Add(NewList);
             }
 
             DivideLargerPaths(Paths); //paths larger then MaxSizeForPartitions is devided
@@ -453,6 +451,23 @@ namespace Central_Controller
             CombineShorterPaths(Paths); //paths lower then MaxSizeForPartition is combined with others combinable paths. (paths are considered combinable, if all the location in both paths are contained within the same shelves)
 
             FillAllPaths(Paths); //Paths still lower then MaxSizeForPartition is filled with Locations that doesn't have MultiLocationItems
+
+            foreach(List<List<Location>> ConnectedPaths in Paths) //turns List<List<List<Location>>> Paths into List<List<Partition>> MultiLocationPartitions
+            {
+                MultiLocationPartitions.Add(new List<Partition>());
+
+                foreach(List<Location> Path in ConnectedPaths)
+                {
+                    Partition NewPartition = new Partition(true);
+
+                    foreach(Location location in Path)
+                    {
+                        NewPartition.AddLocation(location);
+                    }
+
+                    MultiLocationPartitions.Last().Add(NewPartition);
+                }
+            }
         }
 
         private void DivideLargerPaths(List<List<List<Location>>> Paths)
