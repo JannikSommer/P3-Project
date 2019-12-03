@@ -12,10 +12,10 @@ namespace Networking
     public class Server
     {
         private Socket Handler;
-        private Cycle Cycle = new Cycle();
-        private long MessageSize = 536870912; // 100 MB
         private Controller Controller { get; set; }
-        private JsonSerializerSettings settings =  new JsonSerializerSettings
+        private readonly int FlagMessageSize = 25;
+        private readonly long MessageSize = 536870912; // 512 MB
+        private readonly JsonSerializerSettings settings = new JsonSerializerSettings
         {
             PreserveReferencesHandling = PreserveReferencesHandling.Objects,
             ReferenceLoopHandling = ReferenceLoopHandling.Ignore
@@ -33,7 +33,6 @@ namespace Networking
             // In this case, we get one IP address of localhost that is IP : 127.0.0.1
             // If a host has multiple addresses, you will get a list of addresses  
             // Get IP-Address from cmd -> ipconfig IPv4 address from Ethernet adapter. 
-            IPHostEntry host = Dns.GetHostEntry(Dns.GetHostName());
             IPAddress ipAddress = IPAddress.Parse("192.168.1.4");
             IPEndPoint localEndPoint = new IPEndPoint(ipAddress, 6969);
 
@@ -58,9 +57,8 @@ namespace Networking
 
         private void HandleConnection() // Handles the connection of the socket. 
         {
-            Console.WriteLine("Step 0");
             // Incoming data from the client
-            byte[] bytes = new byte[20];
+            byte[] bytes = new byte[FlagMessageSize];
             int bytesRec = Handler.Receive(bytes);
             string data = Encoding.UTF8.GetString(bytes, 0, bytesRec);
 
@@ -69,17 +67,12 @@ namespace Networking
             {
                 Handler.Send(Encoding.UTF8.GetBytes(CommunicationHandler.Success.ToString()));
 
-                byte[] clinetBytes = new byte[1000];
+                byte[] clinetBytes = new byte[1024]; //Size of a CentralController.Client
                 bytesRec = Handler.Receive(clinetBytes);
                 string Client = Encoding.UTF8.GetString(clinetBytes, 0, bytesRec); 
-
-                Console.WriteLine("Step 3");
-
                 Central_Controller.Client client = JsonConvert.DeserializeObject<Central_Controller.Client>(Client, settings);
-                Console.WriteLine("Step 4");
 
                 SendPartition(client);
-                Console.WriteLine("Step 5");
 
             }
             else if (data == CommunicationFlag.PartitionUpload.ToString()) 
@@ -117,11 +110,9 @@ namespace Networking
             int bytesRec = Handler.Receive(bytes);
             string data = Encoding.UTF8.GetString(bytes, 0, bytesRec);
             Partition uploadedPartition = JsonConvert.DeserializeObject<Partition>(data, settings);
-
-
+            Console.WriteLine(data);
             // Signal OK to client and shutdown socket
             Handler.Send(Encoding.UTF8.GetBytes(CommunicationFlag.ConversationCompleted.ToString()));
-            Cycle.ReceicePartitionUpload(uploadedPartition);
         }
 
         public void SendPartition(Central_Controller.Client client)
@@ -133,15 +124,13 @@ namespace Networking
 
             // Recieve callback
             string data = null;
-            byte[] bytes = new byte[25];
+            byte[] bytes = new byte[FlagMessageSize];
             int bytesRec = Handler.Receive(bytes);
-            data += Encoding.UTF8.GetString(bytes, 0, bytesRec);
+            data = Encoding.UTF8.GetString(bytes, 0, bytesRec);
             if (!(data == CommunicationFlag.ConversationCompleted.ToString()))
-                
             {
                 // DO NOT MARK PARTITION AS InProgress
             }
-            ShutdownServer(); // remove after testing!
         }
 
         private void SendVerificationPartition(VerificationPartition verificationPartition)
@@ -152,7 +141,7 @@ namespace Networking
 
             // Recieve callback
             string data = null;
-            byte[] bytes = new byte[25];
+            byte[] bytes = new byte[FlagMessageSize];
             int bytesRec = Handler.Receive(bytes);
             data += Encoding.UTF8.GetString(bytes, 0, bytesRec);
             if (!(data == CommunicationFlag.ConversationCompleted.ToString()))
