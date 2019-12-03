@@ -99,10 +99,10 @@
 
         <!--ListBox Buttons-->
 
-        <Button x:Name="MoveUpButton" Content="{x:Static lang:Resources.EditCycleWindowButtonMoveUp}" Width="60" Height="35"
+        <Button x:Name="MoveUpButton" Content="{x:Static lang:Resources.EditCycleWindowButtonMoveUp}" Width="95" Height="35"
                 Grid.Column="2" Grid.Row="2" Margin="210,30,10,10" HorizontalAlignment="Left" VerticalAlignment="Top" Click="MoveUpButton_Click" />
 
-        <Button x:Name="MoveDownButton" Content="{x:Static lang:Resources.EditCycleWindowButtonMoveDown}" Width="60" Height="35"
+        <Button x:Name="MoveDownButton" Content="{x:Static lang:Resources.EditCycleWindowButtonMoveDown}" Width="95" Height="35"
                 Grid.Column="2" Grid.Row="2" Margin="210,75,10,10" HorizontalAlignment="Left" VerticalAlignment="Top" Click="MoveDownButton_Click" />
 
     </Grid>

@@ -7,6 +7,7 @@ using System.Diagnostics;
 using Model;
 using Central_Controller;
 using Networking;
+using System.Threading;
 
 namespace SQL_DB_test_Frame
 {
@@ -20,7 +21,7 @@ namespace SQL_DB_test_Frame
             Item item = new Item();
             Location location = new Location();
             Controller controller = new Controller();
-            Server server = new Server();
+            //Server server = new Server();
             
             timer.Start();
             //string test_name, test2;
@@ -99,18 +100,21 @@ namespace SQL_DB_test_Frame
             Central_Controller.Client client = new Central_Controller.Client("01");
             Console.WriteLine("Done2!");
             controller.AddClient(client);
-            Partition TestPartition = controller.NextPartition(client);
 
             //Console.WriteLine("TestPartition Count: " + TestPartition.Locations[0].Items.Count);
             Console.WriteLine("Done3!");
-            server.StartServer();
-            server.SendPartition(TestPartition);
+            Server server = new Server(controller);
+            Thread NetworkingThread = new Thread(new ThreadStart(server.StartServer));
+            NetworkingThread.Start();
+            // server.StartServer();
+            // Console.WriteLine("Done4!");
+            // server.SendPartition(TestPartition);
 
 
 
             timer.Stop();
             Console.WriteLine("Time: " + timer.ElapsedMilliseconds);
-            Console.WriteLine("Done4!");
+            Console.WriteLine("Done5!");
             Console.ReadKey();
         }
     }

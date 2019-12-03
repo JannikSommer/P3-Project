@@ -9,6 +9,9 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Xamarin.Forms.Xaml;
 using Xamarin.Forms;
+using Xamarin.Essentials;
+using Xamarin.Android;
+using Android.App;
 
 [assembly: Xamarin.Forms.Dependency(typeof(BluetoothHandler))]
 namespace SAScanApp.Droid
