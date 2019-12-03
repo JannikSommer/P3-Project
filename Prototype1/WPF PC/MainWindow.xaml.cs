@@ -17,11 +17,8 @@ using System.Threading;
 using Model.Log;
 using Localization;
 using Central_Controller;
-using PrestaSharpAPI;
-using Bukimedia.PrestaSharp.Entities;
-using Bukimedia.PrestaSharp;
 using Model;
-
+using Central_Controller.IO;
 
 namespace WPF_PC
 {
@@ -46,6 +43,7 @@ namespace WPF_PC
         }
 
         private Thread NetworkingThread; // Used to keep socket connection open for clients. 
+        private IOController _ioController = new IOController("TestCycle");
 
         private new Language Language;
 
@@ -59,6 +57,18 @@ namespace WPF_PC
 
             LoadIntoDataGrid();
             LoadIntoChooseBox();
+
+            // Add eksample data to save files.
+            if(true) {
+                List<LogMessage> list = new List<LogMessage> {
+                new VerificationLogMessage(new DateTime(2019, 11, 12, 10, 21, 9), "Polle", "5709216007104", true),
+                new LocationLogMessage(new DateTime(2019, 11, 12, 10, 21, 9), "Ole", "001C27", new List<(string itemId, string countedQuantity)>{("5709216007104", "5"), ("5849225908104", "2")}),
+                new TextLogMessage(DateTime.Now, "Hello Bob!")
+                };
+                _ioController.CountedItems.AddRange(new List<string> { "12", "123456", "135612455" });
+                _ioController.Log.AddMultipleMessages(list);
+            }
+
         }
 
         private void StartServer()
@@ -132,15 +142,9 @@ namespace WPF_PC
 
         private void showLog_Click(object sender, RoutedEventArgs e)
         {
-            List<LogMessage> list = new List<LogMessage> {
-                new VerificationLogMessage(new DateTime(2019, 11, 12, 10, 21, 9), "Polle", "5709216007104", true),
-                new LocationLogMessage(new DateTime(2019, 11, 12, 10, 21, 9), "Ole", "001C27", new List<(string itemId, string countedQuantity)>{("5709216007104", "5"), ("5849225908104", "2")}),
-                new TextLogMessage(DateTime.Now, "Hello Bob!")
-            };
+            
 
-            LogFile logFile = new LogFile("TestLog", DateTime.Now, list);
-
-            LogWindow logWindow = new LogWindow(logFile);
+            LogWindow logWindow = new LogWindow(_ioController.Log);
             logWindow.Show();
         }
 
@@ -201,7 +205,7 @@ namespace WPF_PC
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            //Load everything to log.
+            _ioController.Save();
         }
 
         private void comboBoxChooseGet_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -211,19 +215,18 @@ namespace WPF_PC
 
         private void changeLanguage_Click(object sender, RoutedEventArgs e)
         {
-
-            System.Globalization.CultureInfo.CurrentUICulture = new System.Globalization.CultureInfo("da-DK", true);
-            InitializeComponent();
-            //if (Language == Language.Danish)
-            //{
-            //    Language = Language.English;
-            //}
-            //else
-            //{
-            //    Language = Language.Danish;
-            //}
-            //MainWindowLanguage();
-            //LoadIntoChooseBox();
+            //System.Globalization.CultureInfo.CurrentUICulture = new System.Globalization.CultureInfo("da-DK", true);
+            //InitializeComponent();
+            ////if (Language == Language.Danish)
+            ////{
+            ////    Language = Language.English;
+            ////}
+            ////else
+            ////{
+            ////    Language = Language.Danish;
+            ////}
+            ////MainWindowLanguage();
+            ////LoadIntoChooseBox();
         }  
         
         public void MainWindowLanguage()

@@ -5,11 +5,13 @@ using System.Linq;
 namespace Model.Log {
     public class LogFile {
 
+        public LogFile(string name, DateTime startDate) : this(name, startDate, new List<LogMessage>()) {}
+
         public LogFile(string name, DateTime startDate, List<LogMessage> messages) {
             Name = name;
             StartDate = startDate;
             Messages = messages;
-            UnaddedMessages = new Queue<LogMessage>();
+            UnsavedMessages = new Queue<LogMessage>();
         }
 
         public string Name { get; }
@@ -27,13 +29,12 @@ namespace Model.Log {
             }
         }
         public List<LogMessage> Messages { get; }
-        public Queue<LogMessage> UnaddedMessages { get; }
+        public Queue<LogMessage> UnsavedMessages { get; }
 
         private DateTime _endDate;
 
-
         public void AddMessage(LogMessage message) {
-            UnaddedMessages.Enqueue(message);
+            UnsavedMessages.Enqueue(message);
             Messages.Add(message);
         }
 

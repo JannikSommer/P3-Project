@@ -86,7 +86,8 @@ namespace Model.Log {
                 + _seperator
                 + UserId
                 + _seperator
-                + LocationId);
+                + LocationId
+                + _seperator);
 
             /// Add each counted item
             string itemIds = "",
@@ -99,7 +100,7 @@ namespace Model.Log {
             }
 
             // Remove last comma and add item-ids and -quantities
-            stringBuilder.AppendLine(
+            stringBuilder.Append(
                   itemIds.Substring(0, itemIds.Length - 1)
                 + _seperator
                 + itemQuantities.Substring(0, itemQuantities.Length - 1));
