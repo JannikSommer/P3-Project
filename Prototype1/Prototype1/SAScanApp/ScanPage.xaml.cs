@@ -16,21 +16,30 @@ namespace SAScanApp
         public ObservableCollection<Model.Location> _locationList { get; set; }
         public List<Item> _itemList { get; set; }
 
+        public Model.Partition _partition { get; set; }
+
         bool lightOn = false;
 
         public ScanPage()
         {
+        }
+
+        public ScanPage(Model.Partition partition)
+        {
+            _partition = partition;
+            
             InitializeComponent();
             _locationList = new ObservableCollection<Model.Location>();
 
+            
+
+            
+
             // temp
-            _locationList.Add(new Model.Location("001A08",
-                                   new List<Item> {
-                                   new Item("item1"),
-                                   new Item("item2"),
-                                   new Item("item3"),
-                                   new Item("item4")
-                                   }));
+            for(int i = 0; i < partition.Locations.Count; i++)
+            {
+                _locationList.Add(partition.Locations[i]);
+            }
 
             _locationList.CollectionChanged += _locationList_CollectionChanged;
             displayList.ItemsSource = _locationList;
@@ -39,11 +48,6 @@ namespace SAScanApp
         private void _locationList_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e) {
             displayList.BeginRefresh();
             displayList.EndRefresh();
-        }
-
-        public ScanPage(Partition partition) : this()
-        {
-            DependencyService.Get<IBluetoothHandler>().enableBluetooth();
         }
 
         private async void Menu_Button_Clicked(object sender, EventArgs e)
@@ -85,6 +89,7 @@ namespace SAScanApp
 
         private void MenuItem_Clicked(object sender, EventArgs e)
         {
+            // Add a Observable Collection List that pops down with the paired devices recieved
             DependencyService.Get<IBluetoothHandler>().getPairedDevices();
         }
 
@@ -110,4 +115,6 @@ namespace SAScanApp
                                    }));
         }
     }
+
+
 }
