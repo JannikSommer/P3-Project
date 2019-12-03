@@ -24,35 +24,31 @@ namespace SAScanApp
 
         }
         
-        private async void UploadPartition(object sender, EventArgs e)
+        private void UploadPartition(object sender, EventArgs e)
         {
 
-            Networking.Client networkingClient = new Networking.Client();
+            Client client = new Client();
             Model.Partition partition = new Model.Partition();
-            CommunicationHandler handler = await networkingClient.UploadPartitionAsync(partition);
-            if (handler == CommunicationHandler.Success)
-            {
-                await DisplayAlert("You did it", handler.ToString(), "Incredible");
-            }
-            else
-            {
-                await DisplayAlert("You didn't", handler.ToString(), "Fix your shit");
-            }
+            CommunicationHandler handler = client.UploadPartitionAsync(partition).Result;
+
+            DependencyService.Get<IBluetoothHandler>().closeBluetoothConnection();
         }
 
-        private async void DownloadPartition(object sender, EventArgs e) // TODO: make async event
+        private void DownloadPartition(object sender, EventArgs e) // TODO: make async event
         {
-            Networking.Client networkingClient = new Networking.Client();
+            Client networkingClient = new Client();
             Central_Controller.Client DeviceClient = new Central_Controller.Client("Anders");
-            (Model.Partition partition,  CommunicationHandler handler) = await networkingClient.DownloadPartitionAsync(DeviceClient);
+            (Model.Partition partition,  CommunicationHandler handler) = networkingClient.DownloadPartition(DeviceClient);
             if (handler != CommunicationHandler.Success)
             {
-                await DisplayAlert("Error", "An error occured", "Fix your shit!");
+                DisplayAlert("Error", "An error occured", "Fix your shit!");
             }
             else
             {
-                await DisplayAlert(handler.ToString(), partition.Locations[0].ID , "You fixed your shit!");
+                DisplayAlert(handler.ToString(), partition.Locations[0].ID , "You fixed your shit!");
             }
+
+            DependencyService.Get<IBluetoothHandler>().enableBluetooth();
         }
     }
 }
