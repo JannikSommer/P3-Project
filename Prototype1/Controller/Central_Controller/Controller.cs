@@ -23,6 +23,7 @@ namespace Central_Controller
         private List<Item> MultiLocationItemsForVerification = new List<Item>();
         private LocationComparer Location_Comparer;
         public List<List<Partition>> MultiLocationPartitions { get; private set; } = new List<List<Partition>>();
+        public List<Partition> PriorityPartitions { get; private set; } = new List<Partition>();
 
         /* first Send Next Partition Implimentation
         public Partition SendNextPartition(Client client)
@@ -85,7 +86,74 @@ namespace Central_Controller
         }
         */
 
-        /* NEEDS TO BE REWORKED, to also give multilocation partitions!!!*/ public Partition NextPartition(Client client)
+        public Partition NextPartition(Client client)
+        {
+            Partition ClientsNextPartition = null;
+            
+            if(PriorityPartitions.Count != 0)
+            {
+                ClientsNextPartition = PriorityPartitions[0];
+
+                client.CurrentPartition = PriorityPartitions[0];
+
+                PriorityPartitions.RemoveAt(0);
+            }
+            
+            if(ClientsNextPartition == null)
+            {
+                ClientsNextPartition = NextMultiLocationPartition(client);
+            }
+
+            if(ClientsNextPartition == null)
+            {
+                ClientsNextPartition = NextSingleLocationPartition(client);
+            }
+
+            if (ClientsNextPartition == null && MultiLocationPartitions.Count != 0)
+            {
+                ClientsNextPartition = MultiLocationPartitions.Last()[0];
+
+                MultiLocationPartitions.Last().RemoveAt(0);
+
+                if(MultiLocationPartitions.Last().Count != 0)
+                {
+                    PriorityPartitions = MultiLocationPartitions.Last();
+                }
+                else
+                {
+                    MultiLocationPartitions.RemoveAt(MultiLocationPartitions.Count - 1);
+                }
+
+                client.CurrentPartition = ClientsNextPartition;
+            }
+
+            return ClientsNextPartition;
+        }
+
+        private Partition NextMultiLocationPartition(Client client)
+        {
+            Partition partition = null;
+            
+            for(int x = 0; x < MultiLocationPartitions.Count; x++)
+            {
+                if(MultiLocationPartitions[x].Count <= Active_Clients.Count)
+                {
+                    partition = MultiLocationPartitions[x][0];
+
+                    MultiLocationPartitions[x].RemoveAt(0);
+
+                    PriorityPartitions = MultiLocationPartitions[x];
+
+                    MultiLocationPartitions.RemoveAt(x);
+
+                    client.CurrentPartition = partition;
+                }
+            }
+
+            return partition;
+        }
+
+        private Partition NextSingleLocationPartition(Client client)
         {
             int ClientsIndex = IndexOfClient(client);
 
@@ -468,6 +536,8 @@ namespace Central_Controller
                     MultiLocationPartitions.Last().Add(NewPartition);
                 }
             }
+
+            MultiLocationPartitions.Sort(SortListByLargestFirst);
         }
 
         private void DivideLargerPaths(List<List<List<Location>>> Paths)
@@ -851,6 +921,11 @@ namespace Central_Controller
                     n--;
                 }
             }
+        }
+
+        private int SortListByLargestFirst<T>(List<T> ListA, List<T> ListB)
+        {
+            return ListB.Count - ListA.Count;
         }
 
         private List<Item> ConvertLocationListToItemList(List<Location> LocationList) //Runs 3 loops

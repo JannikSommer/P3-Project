@@ -10,7 +10,7 @@ namespace Unit_Tests.Controller_Tests
     public class Controller_NextPartition_Tests
     {
         [TestMethod]
-        public void NextPartition_test1()
+        public void NextPartition_Test1()
         {
             // Arrange
             Controller TestController = new Controller();
