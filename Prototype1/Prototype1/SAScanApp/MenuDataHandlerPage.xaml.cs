@@ -43,7 +43,7 @@ namespace SAScanApp
             }
             else
             {
-                DisplayAlert(handler.ToString(), "No error", "You fixed your shit!");
+                DisplayAlert(handler.ToString(), partition.Locations[0].ID , "You fixed your shit!");
             }
         }
     }

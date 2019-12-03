@@ -10,7 +10,7 @@ namespace PrestaSharpAPI
     {
         private string APIKey = "VFIS4BMMSYNJLLVRG1571X3U15ZLTSIW";
         private string URL = "http://157.230.120.255/api/";
-        private string Password = ""; // Passwords are not used.
+        private string Password = ""; // Passwords are not used
 
         public product GetProduct(long ID)
         {

@@ -12,8 +12,13 @@ namespace Networking
     {
         private Socket Handler;
         private Cycle Cycle = new Cycle();
-        private Controller Controller = new Controller();
         private long MessageSize = 1048576; // 100 MB
+        private Controller Controller { get; set; }
+
+        public Server(Controller controller)
+        {
+            Controller = controller;
+        }
 
 
         public void StartServer()
@@ -23,7 +28,7 @@ namespace Networking
             // If a host has multiple addresses, you will get a list of addresses  
             // Get IP-Address from cmd -> ipconfig IPv4 address from Ethernet adapter. 
             IPHostEntry host = Dns.GetHostEntry(Dns.GetHostName());
-            IPAddress ipAddress = IPAddress.Parse("192.168.163.1");
+            IPAddress ipAddress = IPAddress.Parse("192.168.1.2");
             IPEndPoint localEndPoint = new IPEndPoint(ipAddress, 6969);
 
             try
@@ -117,6 +122,7 @@ namespace Networking
             {
                 // DO NOT MARK PARTITION AS InProgress
             }
+            ShutdownServer(); // remove after testing!
         }
 
         private void SendVerificationPartition(VerificationPartition verificationPartition)

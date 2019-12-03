@@ -17,6 +17,10 @@ using System.Threading;
 using Model.Log;
 using Localization;
 using Central_Controller;
+using PrestaSharpAPI;
+using Bukimedia.PrestaSharp.Entities;
+using Bukimedia.PrestaSharp;
+using Model;
 
 
 namespace WPF_PC
@@ -58,10 +62,8 @@ namespace WPF_PC
 
         private void StartServer()
         {
-            Controller controller = new Controller();
-            Server server = new Server();
-            NetworkingThread = new Thread(new ThreadStart(server.StartServer));
-            NetworkingThread.Start();
+
+
         }
 
         public void LoadIntoDataGrid()
