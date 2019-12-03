@@ -11,7 +11,14 @@ namespace ViewModel
     {
         public Thread NetworkingThread { get; set; }
         public Controller Controller { get; set; }
+        public MainWindow MainWindow { get; set; }
 
+        private void StartServer()
+        {
+            Server server = new Server();
+            NetworkingThread = new Thread(new ThreadStart(server.StartServer));
+            NetworkingThread.Start();
+        }
 
 
 

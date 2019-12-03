@@ -181,6 +181,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Controller\Central_Controller.csproj">
+      <Project>{66201624-4c47-47b3-b056-dab6be3de5cd}</Project>
+      <Name>Central_Controller</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Language\Localization.csproj">
       <Project>{28a15257-4ce6-4074-8ad8-9d4a9a034001}</Project>
       <Name>Localization</Name>
