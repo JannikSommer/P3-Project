@@ -21,7 +21,7 @@ namespace SQL_DB_test_Frame
             Item item = new Item();
             Location location = new Location();
             Controller controller = new Controller();
-            // Server server = new Server();
+            //Server server = new Server();
             
             timer.Start();
             //string test_name, test2;

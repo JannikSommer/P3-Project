@@ -5,6 +5,7 @@ using System.Text.Json;
 using System.Text;
 using Model;
 using Central_Controller;
+using System.IO;
 
 namespace Networking
 {
@@ -28,11 +29,10 @@ namespace Networking
             // If a host has multiple addresses, you will get a list of addresses  
             // Get IP-Address from cmd -> ipconfig IPv4 address from Ethernet adapter. 
             IPHostEntry host = Dns.GetHostEntry(Dns.GetHostName());
-            IPAddress ipAddress = IPAddress.Parse("192.168.1.2");
+            IPAddress ipAddress = IPAddress.Parse("192.168.1.4");
             IPEndPoint localEndPoint = new IPEndPoint(ipAddress, 6969);
 
-            try
-            {
+            
                 // Create a Socket that will use Tcp protocol      
                 Socket Listener = new Socket(ipAddress.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
                 // A Socket must be associated with an endpoint using the Bind method  
@@ -40,16 +40,13 @@ namespace Networking
 
                 // Specify how many requests a Socket can listen before it gives Server busy response
                 Listener.Listen(15); // Specified wish from StreetAmmo. A total number of 15 people can be 
+
                 while (true)
                 {
                     Handler = Listener.Accept();
                     HandleConnection();
                 }
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
+           
         }
 
         private void HandleConnection() // Handles the connection of the socket. 
@@ -58,12 +55,18 @@ namespace Networking
             byte[] bytes = new byte[15];
             int bytesRec = Handler.Receive(bytes);
             string data = Encoding.UTF8.GetString(bytes, 0, bytesRec);
-
+            Console.WriteLine("Step 1 done");
             if (data == CommunicationFlag.PartitionRequest.ToString())
             {
                 bytesRec = Handler.Receive(bytes);
+                Console.WriteLine("Step 2 done");
+
                 string Client = Encoding.UTF8.GetString(bytes, 0, bytesRec); // Does this work when the client sends 2 messages in a row?
-                var client= JsonSerializer.Deserialize<Central_Controller.Client>(Client);
+                Console.WriteLine("Step 3 done");
+
+                var client = JsonSerializer.Deserialize<Central_Controller.Client>(Client);
+                Console.WriteLine("Step 4 done");
+
                 SendPartition(Controller.NextPartition(client));
             }
             else if (data == CommunicationFlag.PartitionUpload.ToString()) 
