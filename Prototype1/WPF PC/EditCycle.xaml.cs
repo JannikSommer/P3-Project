@@ -11,6 +11,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Model;
+using System.IO;
 
 namespace WPF_PC
 {
@@ -86,14 +88,53 @@ namespace WPF_PC
 
         public void getSortPriority()
         {
-            List<string> sortPriority = new List<string>();
+            //Get sorting priority and load into list.
 
-            for (int index = 0; index < listBoxShelfPriority.Items.Count; index++)
+            List<string> sortPriority = new List<string>();
+            int index;
+
+            for (index = 0; index < listBoxShelfPriority.Items.Count; index++)
             {
                 sortPriority.Add(((ListViewItem)listBoxShelfPriority.Items.GetItemAt(index)).Content.ToString());
             }
 
-            //where to?
+            //load into text file.
+
+            string filepath = Environment.CurrentDirectory + @"\SortPriority.txt";
+            StringBuilder priority = new StringBuilder();
+            index = 0;
+
+            foreach (string shelf in sortPriority)
+            {
+                if (index < listBoxShelfPriority.Items.Count - 1)
+                {
+                    priority.Append(shelf + ",");
+                }
+                else if(index == listBoxShelfPriority.Items.Count - 1)
+                {
+                    priority.Append(shelf);
+                }
+                index++;
+            }
+
+            File.WriteAllText(filepath, priority.ToString());
+
+            int[] pri = RetrieveSortingPriorityFromFile();
+        }
+
+        public int[] RetrieveSortingPriorityFromFile()
+        {
+            int[] priority = new int[listBoxShelfPriority.Items.Count];
+            string filePath = Environment.CurrentDirectory + @"\SortPriority.txt";
+
+            List<string> lines = File.ReadAllLines(filePath).ToList();
+
+            foreach (string line in lines)
+            {
+                priority = Array.ConvertAll(line.Split(','), int.Parse);
+            }
+
+            return priority;
         }
 
         private void DeleteUserButton_Click(object sender, RoutedEventArgs e)
