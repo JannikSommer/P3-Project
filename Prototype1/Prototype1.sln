@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unit_Tests", "Unit_Tests\Un
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SQL_DB_test_Frame", "SQL_DB_test_Frame\SQL_DB_test_Frame\SQL_DB_test_Frame.csproj", "{BBFE8076-7E77-4018-B0E5-224C5DD96548}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrestaSharpAPI", "PrestaSharpAPI\PrestaSharpAPI.csproj", "{041FBFC8-73CB-40B4-9F1E-2BDBFB0CC2D5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		App|Any CPU = App|Any CPU
