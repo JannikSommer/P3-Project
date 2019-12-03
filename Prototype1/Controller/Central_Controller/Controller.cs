@@ -142,7 +142,10 @@ namespace Central_Controller
 
                     MultiLocationPartitions[x].RemoveAt(0);
 
-                    PriorityPartitions = MultiLocationPartitions[x];
+                    if (MultiLocationPartitions[x].Count != 0)
+                    {
+                        PriorityPartitions = MultiLocationPartitions[x];
+                    }
 
                     MultiLocationPartitions.RemoveAt(x);
 
@@ -243,7 +246,7 @@ namespace Central_Controller
             Location_Comparer = new LocationComparer(UnPartitionedLocations.Values[UnPartitionedLocations.Count - 1].Shelf);
         }
 
-        public void SortMultiLocationItem_Locations()
+        private void SortMultiLocationItem_Locations()
         {
             for(int x = 0; x < UnPartitionedLocations.Count; x++)
             {
@@ -251,17 +254,28 @@ namespace Central_Controller
                 {
                     MultiLocationsItem_Locations.Add(UnPartitionedLocations.Values[x]);
                     UnPartitionedLocations.RemoveAt(x);
+                    x--;
                 }
             }
         }
 
         public void InitialPartitionUnpartitionedLocations()
         {
+            InitilizeLocationComparer(); //THIS MIGHT NEED TO BE REWORKED AND REMOVED
+
+            SortMultiLocationItem_Locations();
+
+            InitialPartitionUnpartitionedSingleLocations();
+
+            InitialPartition_Unpartitioned_MultilocationItemLocations();
+        }
+
+        private void InitialPartitionUnpartitionedSingleLocations()
+        {
             int FormerShelf = -1;
             int FormerPosition = -1;
             List<Location> Locations = UnPartitionedLocations.Values.ToList();
 
-            InitilizeLocationComparer(); //THIS MIGHT NEED TO BE REWORKED AND REMOVED
             Locations.Sort(Location_Comparer); //The initial AddItem doesn't need to use a sorted list anymore, because compareing the strings isn't good enough anymore
 
             if (AvailebleShelfs.Count != 0)
@@ -496,7 +510,7 @@ namespace Central_Controller
             return aHieraky.CompareTo(bHieraky);
         }
 
-        public void InitialPartition_Unpartitioned_MultilocationItemLocations() //Creates Multilocation item Locations
+        private void InitialPartition_Unpartitioned_MultilocationItemLocations() //Creates Multilocation item Locations
         {
             List<List<List<Location>>> Paths = new List<List<List<Location>>>();
             List<Location> NewList;
@@ -510,6 +524,8 @@ namespace Central_Controller
                 RemoveLocationInListA_From_ListB(NewList, MultiLocationsItem_Locations);
 
                 NewList.Sort(Location_Comparer);
+
+                Paths.Add(new List<List<Location>>());
 
                 Paths.Last().Add(NewList);
             }
@@ -541,10 +557,10 @@ namespace Central_Controller
         }
 
         private void DivideLargerPaths(List<List<List<Location>>> Paths)
+        //Devides paths larger then MaxSizeForPartitions into multiple paths, ensureing that the fews number of item connections are cut
         {
-            List<List<Location>> DevidedPath = new List<List<Location>>();
+            List<List<Location>> DevidedPath;
 
-            int HowManyDivisions;
             int ConnectionCut;
             int LeastConnectionCut;
             int Index = -1;
@@ -555,13 +571,11 @@ namespace Central_Controller
 
                 while (Paths[x][0].Count > MaxSizeForPartitions)
                 {
-                    HowManyDivisions = Paths[x][0].Count / (MaxSizeForPartitions - 5);
-
                     LeastConnectionCut = int.MaxValue;
 
-                    for(int y = MaxSizeForPartitions - 5; y <= MaxSizeForPartitions; y++)
+                    for(int y = MaxSizeForPartitions - (MaxSizeForPartitions / 4); y <= MaxSizeForPartitions; y++)
                     {
-                        ConnectionCut = HowManyConnectionsSevered(Paths[y][0], y);
+                        ConnectionCut = HowManyConnectionsSevered(Paths[x][0], y);
                         
                         if(ConnectionCut < LeastConnectionCut)
                         {
@@ -573,8 +587,10 @@ namespace Central_Controller
                     DevidedPath.Add(new List<Location>(TakeFirstXInList<Location>(Index, Paths[x][0])));
                 }
 
-                if(DevidedPath.Count > 1)
+                if(DevidedPath.Count > 0)
                 {
+                    DevidedPath.Add(Paths[x][0]);
+
                     Paths[x] = DevidedPath;
                 }
             }
@@ -717,6 +733,18 @@ namespace Central_Controller
                 {
                     Path.Add(AvailebleShelfs[ShelfIndex].Partitions[PartitionIndex].Locations[0]);
                     AvailebleShelfs[ShelfIndex].Partitions[PartitionIndex].Locations.RemoveAt(0);
+
+                    if(AvailebleShelfs[ShelfIndex].Partitions[PartitionIndex].Locations.Count == 0)
+                    {
+                        AvailebleShelfs[ShelfIndex].Partitions.RemoveAt(PartitionIndex);
+                        
+                        if(AvailebleShelfs[ShelfIndex].Partitions.Count == 0)
+                        {
+                            AvailebleShelfs.RemoveAt(ShelfIndex);
+                        }
+
+                        break;
+                    }
                 }
             }
 
@@ -763,26 +791,26 @@ namespace Central_Controller
             {
                 PathA = FindPathAtIndex(x, Paths);
 
-                if(PathA.Count < MaxSizeForPartitions - 1)
+                if(PathA.Count >= MaxSizeForPartitions - 1)
                 {
-                    break;
+                    continue;
                 }
 
                 for (int y = x + 1; y < NumOfPaths; y++)
                 {
                     PathB = FindPathAtIndex(y, Paths);
 
-                    if(PathA.Count + PathB.Count < MaxSizeForPartitions && PathsIsCombinable(PathA, PathB))
+                    if(PathA.Count + PathB.Count <= MaxSizeForPartitions && PathsIsCombinable(PathA, PathB))
                     {
-                        while(PathB.Count != 0)
+                        foreach(Location location in PathB)
                         {
-                            PathA.Add(PathB[0]);
-                            PathB.RemoveAt(0);
+                            PathA.Add(location);
                         }
 
                         RemovePathAtIndex(y, Paths);
+                        NumOfPaths--;
 
-                        if (PathA.Count < MaxSizeForPartitions - 1)
+                        if (PathA.Count >= MaxSizeForPartitions - 1)
                         {
                             break;
                         }
@@ -795,46 +823,51 @@ namespace Central_Controller
 
         private void RemovePathAtIndex(int Index, List<List<List<Location>>> paths)
         {
-            int num = 0;
-            int x;
+            int ElementsSeen = 0;
+            int ListNum = 0;
 
-            for (x = 0; x < paths.Count; x++)
+            int SizeOfPath = paths.Count;
+
+            while (ElementsSeen < Index + 1)
             {
-                if (num + paths[x].Count < Index)
+                if (ElementsSeen + paths[ListNum].Count >= Index + 1)
                 {
-                    num += paths.Count;
+                    paths[ListNum].RemoveAt(Index - ElementsSeen);
+
+                    if (paths[ListNum].Count == 0)
+                    {
+                        paths.RemoveAt(ListNum);
+                    }
+
+                    break;
                 }
                 else
                 {
-                    num = Index - num - 1;
-                    break;
+                    ElementsSeen += paths[ListNum].Count;
+                    ListNum++;
                 }
             }
-
-            paths[x].RemoveAt(num);
         }
 
         private List<Location> FindPathAtIndex(int Index, List<List<List<Location>>> paths)
         {
-            int num = 0;
-            int x;
-            
-            for(x = 0; x < paths.Count; x++)
+            int ElementsSeen = 0;
+            int ListNum = 0;
+
+            while(ElementsSeen < Index + 1)
             {
-                if(num + paths[x].Count < Index)
+                if(ElementsSeen + paths[ListNum].Count >= Index + 1 && paths.Count < int.MaxValue)
                 {
-                    num += paths.Count;
+                    return paths[ListNum][Index - ElementsSeen];
                 }
                 else
                 {
-                    num = Index - num - 1;
-                    break;
+                    ElementsSeen += paths[ListNum].Count;
+                    ListNum++;
                 }
             }
 
-            return paths[x][num];
-            
-            throw new NotImplementedException();
+            throw new Exception("Couldn't find Path at Index");
         }
 
         private int NumberOfPaths(List<List<List<Location>>> Paths)
@@ -854,11 +887,11 @@ namespace Central_Controller
         {
             bool PathA_HasAShelfOutsideB = false;
             bool LocationAExistInB_Test;
-            List<bool> LocationsInBThatExistInA = new List<bool>();
+            List<bool> LocationsInBExistInA = new List<bool>();
 
-            for(int x = 0; x < PathA.Count; x++ )
+            for(int x = 0; x < PathB.Count; x++ )
             {
-                LocationsInBThatExistInA.Add(false);
+                LocationsInBExistInA.Add(false);
             }
 
             foreach (Location LocationInA in PathA)
@@ -867,10 +900,10 @@ namespace Central_Controller
 
                 for(int x = 0; x < PathB.Count; x++)
                 {
-                    if(LocationInA.ID == PathB[x].ID)
+                    if(LocationInA.Shelf == PathB[x].Shelf)
                     {
                         LocationAExistInB_Test = true;
-                        LocationsInBThatExistInA[x] = true;
+                        LocationsInBExistInA[x] = true;
                     }
                 }
 
@@ -880,7 +913,7 @@ namespace Central_Controller
                 }
             }
 
-            if (!PathA_HasAShelfOutsideB || !(LocationsInBThatExistInA.Exists(x => x == false)))
+            if (!PathA_HasAShelfOutsideB || !(LocationsInBExistInA.Exists(x => x == false)))
             {
                 return true;
             }
