@@ -7,6 +7,7 @@ using System.Diagnostics;
 using Model;
 using Central_Controller;
 using Networking;
+using WPF_PC;
 
 namespace SQL_DB_test_Frame
 {
@@ -21,6 +22,7 @@ namespace SQL_DB_test_Frame
             Location location = new Location();
             Controller controller = new Controller();
             Server server = new Server();
+            WPF_PC WPf = new WPF_PC();
             
             timer.Start();
             //string test_name, test2;
@@ -104,13 +106,14 @@ namespace SQL_DB_test_Frame
             //Console.WriteLine("TestPartition Count: " + TestPartition.Locations[0].Items.Count);
             Console.WriteLine("Done3!");
             server.StartServer();
+            Console.WriteLine("Done4!");
             server.SendPartition(TestPartition);
 
 
 
             timer.Stop();
             Console.WriteLine("Time: " + timer.ElapsedMilliseconds);
-            Console.WriteLine("Done4!");
+            Console.WriteLine("Done5!");
             Console.ReadKey();
         }
     }
