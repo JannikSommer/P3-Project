@@ -109,7 +109,7 @@ namespace Central_Controller
                 ClientsNextPartition = NextSingleLocationPartition(client);
             }
 
-            if (ClientsNextPartition == null && MultiLocationPartitions.Count != 0)
+            if(ClientsNextPartition == null && MultiLocationPartitions.Count != 0)
             {
                 ClientsNextPartition = MultiLocationPartitions.Last()[0];
 
@@ -150,6 +150,8 @@ namespace Central_Controller
                     MultiLocationPartitions.RemoveAt(x);
 
                     client.CurrentPartition = partition;
+
+                    break;
                 }
             }
 
