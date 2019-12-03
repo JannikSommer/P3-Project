@@ -106,12 +106,15 @@ namespace SQL_DB_test_Frame
             Server server = new Server(controller);
             Thread NetworkingThread = new Thread(new ThreadStart(server.StartServer));
             NetworkingThread.Start();
+            // server.StartServer();
+            // Console.WriteLine("Done4!");
+            // server.SendPartition(TestPartition);
 
 
 
             timer.Stop();
             Console.WriteLine("Time: " + timer.ElapsedMilliseconds);
-            Console.WriteLine("Done4!");
+            Console.WriteLine("Done5!");
             Console.ReadKey();
         }
     }
