@@ -49,9 +49,6 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Bukimedia.PrestaSharp, Version=1.0.5.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\PrestaSharp.1.1.0\lib\net452\Bukimedia.PrestaSharp.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.1.1.0\lib\net461\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
     </Reference>
@@ -79,8 +76,8 @@
     <Reference Include="System.Text.Encodings.Web, Version=4.0.5.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Text.Encodings.Web.4.7.0\lib\netstandard2.0\System.Text.Encodings.Web.dll</HintPath>
     </Reference>
-    <Reference Include="System.Text.Json, Version=4.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Text.Json.4.6.0\lib\net461\System.Text.Json.dll</HintPath>
+    <Reference Include="System.Text.Json, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Text.Json.4.7.0\lib\net461\System.Text.Json.dll</HintPath>
     </Reference>
     <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.3\lib\netstandard2.0\System.Threading.Tasks.Extensions.dll</HintPath>
@@ -206,10 +203,6 @@
     <ProjectReference Include="..\Networking\Networking.csproj">
       <Project>{26cbc6b3-3005-40d1-9d2a-3a31129578ea}</Project>
       <Name>Networking</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\PrestaSharpAPI\PrestaSharpAPI.csproj">
-      <Project>{041fbfc8-73cb-40b4-9f1e-2bdbfb0cc2d5}</Project>
-      <Name>PrestaSharpAPI</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

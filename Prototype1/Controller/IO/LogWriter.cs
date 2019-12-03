@@ -45,21 +45,17 @@ namespace Model.Log {
         
         public void CreateNewFile(string otherPath) {
             StreamWriter streamWriter = new StreamWriter(otherPath);
-
-            streamWriter.WriteLine(_log.StartDate);
-            foreach(var message in _log.Messages) {
-                streamWriter.WriteLine(message.GetSaveString());
-            }
-
+            streamWriter.WriteLine(_log.StartDate.ToString("s"));
             streamWriter.Dispose();
-            _log.UnaddedMessages.Clear();
+
+            SaveNewMessages();
         }
 
         public void SaveNewMessages() {
             StreamWriter streamWriter = new StreamWriter(_path, true);
 
-            while(_log.UnaddedMessages.Count != 0) {
-                streamWriter.WriteLine(_log.UnaddedMessages.Dequeue().GetSaveString());
+            while(_log.UnsavedMessages.Count != 0) {
+                streamWriter.WriteLine(_log.UnsavedMessages.Dequeue().GetSaveString());
             }
 
             streamWriter.Dispose();

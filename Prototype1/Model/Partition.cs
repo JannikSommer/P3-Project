@@ -102,5 +102,27 @@ namespace Model
 
             return x;
         }
+
+        public bool ValidateChecksum(string barcode) {
+            if(char.IsLetter(barcode[3])) {
+                foreach(var location in Locations) {
+                    if(location.ID == barcode) {
+                        return true;
+                    }
+                }
+            } else if(char.IsDigit(barcode[3])) {
+                foreach(var location in Locations) {
+                    foreach(var item in location.Items) {
+                        if(item.CheckSum == barcode) {
+                            return true;
+                        }
+                    }
+                }
+            }
+
+            return false;
+        }
+
+
     }
 }
