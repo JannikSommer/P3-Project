@@ -24,7 +24,7 @@ namespace SQL_DB_test_Frame
 
             bool found = false;
 
-            for (int i = 0; i < list[0].Count; i++)
+            for (int i = 0; i < list[0].Count && i < 10; i++)
             {
                 found = false;
                 int j_count = combinedList[0].Count;

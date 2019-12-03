@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Net;
 using System.Net.Sockets;
-using System.Text.Json;
+using Newtonsoft.Json;
 using Model;
 using System.Threading.Tasks;
 
@@ -15,7 +15,13 @@ namespace Networking
 
         private byte[] FlagMessasge = new byte[25]; // Fits longest CommunicationFlag with some change 
 
-        private long MessageSize = 1048576; // 100 MB
+        private long MessageSize = 536870912; // 100 MB
+
+        private JsonSerializerSettings Settings = new JsonSerializerSettings
+        {
+            PreserveReferencesHandling = PreserveReferencesHandling.Objects,
+            ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+        };
 
 
         #region async methods
@@ -153,7 +159,7 @@ namespace Networking
             }
             // Send signal to get partition
             int bytesSent = Sender.Send(Encoding.UTF8.GetBytes(CommunicationFlag.PartitionRequest.ToString()));
-            bytesSent = Sender.Send(Encoding.UTF8.GetBytes(JsonSerializer.Serialize(client)));
+            bytesSent = Sender.Send(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(client, Settings)));
 
             // Incoming data from server
             byte[] bytes = new byte[MessageSize]; // TODO: Make size fit. Is 1 MB now
@@ -355,7 +361,20 @@ namespace Networking
             }
             // Send signal to get partition
             int bytesSent = Sender.Send(Encoding.UTF8.GetBytes(CommunicationFlag.PartitionRequest.ToString()));
-            bytesSent = Sender.Send(Encoding.UTF8.GetBytes(JsonSerializer.Serialize(client)));
+
+            byte[] bytes2 = new byte[MessageSize]; // TODO: Make size fit
+            int bytesRec2 = Sender.Receive(bytes2);
+            string data2 = Encoding.UTF8.GetString(bytes2, 0, bytesRec2);
+
+            if (data2 != CommunicationHandler.Success.ToString())
+            {
+                handler = CommunicationHandler.Error;
+                ClientShutdown();
+                Partition emptyPartition = null;
+                return Tuple.Create(emptyPartition, handler);
+            }
+
+            bytesSent = Sender.Send(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(client, Settings)));
 
             // Incoming data from server
             byte[] bytes = new byte[MessageSize]; // TODO: Make size fit
@@ -419,20 +438,20 @@ namespace Networking
 
         private byte[] SerializeDataForTransfer(Object partition)
         {
-            string json = JsonSerializer.Serialize(partition);
+            string json = JsonConvert.SerializeObject(partition, Settings);
             return Encoding.UTF8.GetBytes(json);
         }
 
         private Partition DeserializeDataAsPartition(byte[] bytes, int bytesRec)
         {
             string data = Encoding.UTF8.GetString(bytes, 0, bytesRec);
-            return JsonSerializer.Deserialize<Partition>(data);
+            return JsonConvert.DeserializeObject<Partition>(data, Settings);
         }
 
         private VerificationPartition DeserializeDataAsVerificationPartition(byte[] bytes, int bytesRec)
         {
             string data = Encoding.UTF8.GetString(bytes, 0, bytesRec);
-            return JsonSerializer.Deserialize<VerificationPartition>(data);
+            return JsonConvert.DeserializeObject<VerificationPartition>(data, Settings);
         }
 
         private void ClientShutdown()

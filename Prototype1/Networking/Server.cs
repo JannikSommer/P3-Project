@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Net.Sockets;
 using System.Net;
-using System.Text.Json;
 using System.Text;
 using Model;
 using Central_Controller;
 using System.IO;
+using Newtonsoft.Json;
 
 namespace Networking
 {
@@ -13,9 +13,14 @@ namespace Networking
     {
         private Socket Handler;
         private Cycle Cycle = new Cycle();
-        private long MessageSize = 1048576; // 100 MB
+        private long MessageSize = 536870912; // 100 MB
         private Controller Controller { get; set; }
-
+        private JsonSerializerSettings settings =  new JsonSerializerSettings
+        {
+            PreserveReferencesHandling = PreserveReferencesHandling.Objects,
+            ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+            
+        };
         public Server(Controller controller)
         {
             Controller = controller;
@@ -42,32 +47,40 @@ namespace Networking
                 Listener.Listen(15); // Specified wish from StreetAmmo. A total number of 15 people can be 
 
                 while (true)
-                {
-                    Handler = Listener.Accept();
-                    HandleConnection();
-                }
+            {
+                Handler = Listener.Accept();
+                HandleConnection();
+            }
+                    
+                
            
         }
 
         private void HandleConnection() // Handles the connection of the socket. 
         {
+            Console.WriteLine("Step 0");
             // Incoming data from the client
-            byte[] bytes = new byte[15];
+            byte[] bytes = new byte[20];
             int bytesRec = Handler.Receive(bytes);
             string data = Encoding.UTF8.GetString(bytes, 0, bytesRec);
-            Console.WriteLine("Step 1 done");
+
+
             if (data == CommunicationFlag.PartitionRequest.ToString())
             {
-                bytesRec = Handler.Receive(bytes);
-                Console.WriteLine("Step 2 done");
+                Handler.Send(Encoding.UTF8.GetBytes(CommunicationHandler.Success.ToString()));
 
-                string Client = Encoding.UTF8.GetString(bytes, 0, bytesRec); // Does this work when the client sends 2 messages in a row?
-                Console.WriteLine("Step 3 done");
+                byte[] clinetBytes = new byte[1000];
+                bytesRec = Handler.Receive(clinetBytes);
+                string Client = Encoding.UTF8.GetString(clinetBytes, 0, bytesRec); 
 
-                var client = JsonSerializer.Deserialize<Central_Controller.Client>(Client);
-                Console.WriteLine("Step 4 done");
+                Console.WriteLine("Step 3");
 
-                SendPartition(Controller.NextPartition(client));
+                Central_Controller.Client client = JsonConvert.DeserializeObject<Central_Controller.Client>(Client, settings);
+                Console.WriteLine("Step 4");
+
+                SendPartition(client);
+                Console.WriteLine("Step 5");
+
             }
             else if (data == CommunicationFlag.PartitionUpload.ToString()) 
             { 
@@ -103,17 +116,19 @@ namespace Networking
             // Accept data from client
             int bytesRec = Handler.Receive(bytes);
             string data = Encoding.UTF8.GetString(bytes, 0, bytesRec);
-            Partition uploadedPartition = JsonSerializer.Deserialize<Partition>(data);
+            Partition uploadedPartition = JsonConvert.DeserializeObject<Partition>(data, settings);
+
 
             // Signal OK to client and shutdown socket
             Handler.Send(Encoding.UTF8.GetBytes(CommunicationFlag.ConversationCompleted.ToString()));
             Cycle.ReceicePartitionUpload(uploadedPartition);
         }
 
-        public void SendPartition(Partition partition)
+        public void SendPartition(Central_Controller.Client client)
         {
+            Partition partition = Controller.NextPartition(client);
             // Send partition to client
-            string json = JsonSerializer.Serialize(partition);
+            string json = JsonConvert.SerializeObject(partition, settings);
             Handler.Send(Encoding.UTF8.GetBytes(json));
 
             // Recieve callback
@@ -122,6 +137,7 @@ namespace Networking
             int bytesRec = Handler.Receive(bytes);
             data += Encoding.UTF8.GetString(bytes, 0, bytesRec);
             if (!(data == CommunicationFlag.ConversationCompleted.ToString()))
+                
             {
                 // DO NOT MARK PARTITION AS InProgress
             }
@@ -131,7 +147,7 @@ namespace Networking
         private void SendVerificationPartition(VerificationPartition verificationPartition)
         {
             // Send partition to client
-            string json = JsonSerializer.Serialize(verificationPartition);
+            string json = JsonConvert.SerializeObject(verificationPartition, settings);
             Handler.Send(Encoding.UTF8.GetBytes(json));
 
             // Recieve callback
@@ -154,7 +170,7 @@ namespace Networking
             // Accept data from client
             int bytesRec = Handler.Receive(bytes);
             string data = Encoding.UTF8.GetString(bytes, 0, bytesRec);
-            VerificationPartition verificationPartition = JsonSerializer.Deserialize<VerificationPartition>(data);
+            VerificationPartition verificationPartition = JsonConvert.DeserializeObject<VerificationPartition>(data, settings);
             // call method to handle data from uploadedPartition
 
             // Signal OK to client and shutdown socket
