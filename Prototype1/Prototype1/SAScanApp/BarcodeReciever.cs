@@ -12,15 +12,18 @@ namespace SAScanApp
         public ObservableCollection<string> barcodes { get; set; } = new ObservableCollection<string>();
         public string RecieveBarcode(object sender, EventArgs e)
         {
+
             DependencyService.Get<IBluetoothHandler>().getBarcode();
 
-            MessagingCenter.Subscribe<Object, string> (sender, "barcode", (a, s) =>
+            var hej = DependencyService.Get<IBluetoothHandler>();
+
+            MessagingCenter.Subscribe<Object, string> (hej, "barcode", (a, s) =>
             {
 
                 barc = a.ToString();
                 barcodes.Add(a.ToString());
                 
-            });;
+            });
 
             var Checker = new CheckSum();
 
