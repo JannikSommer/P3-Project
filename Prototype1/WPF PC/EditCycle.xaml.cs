@@ -118,8 +118,6 @@ namespace WPF_PC
             }
 
             File.WriteAllText(filepath, priority.ToString());
-
-            int[] pri = RetrieveSortingPriorityFromFile();
         }
 
         public int[] RetrieveSortingPriorityFromFile()
