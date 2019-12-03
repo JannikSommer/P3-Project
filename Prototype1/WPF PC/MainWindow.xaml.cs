@@ -17,9 +17,6 @@ using System.Threading;
 using Model.Log;
 using Localization;
 using Central_Controller;
-using PrestaSharpAPI;
-using Bukimedia.PrestaSharp.Entities;
-using Bukimedia.PrestaSharp;
 using Model;
 
 
@@ -45,26 +42,33 @@ namespace WPF_PC
             public int itemCountVariation { get; set; }
         }
 
-        private Thread NetworkingThread; // Used to keep socket connection open for clients. 
+        private Thread NetworkingThread { get; set; }
+        private Controller Controller { get; set; }
+        private Server Server { get; set; }
 
-        private new Language Language;
+        private new Language Language { get; set; }
 
         public MainWindow()
         {
+            Controller = new Controller();
+
             InitializeComponent();
-
-            //StartServer();
-
-            UpdateMainWindow();
-
-            LoadIntoDataGrid();
-            LoadIntoChooseBox();
+            // StartServer();
+            UpdateAllUI();
         }
 
         private void StartServer()
         {
+            Server = new Server(Controller);
+            Thread NetworkingThread = new Thread(new ThreadStart(Server.StartServer));
+            NetworkingThread.Start();
+        }
 
-
+        public void UpdateAllUI()
+        {
+            UpdateMainWindow();
+            LoadIntoDataGrid();
+            LoadIntoChooseBox();
         }
 
         public void LoadIntoDataGrid()
@@ -73,7 +77,7 @@ namespace WPF_PC
 
             itemOne.itemID = "12345";
             itemOne.itemName = "Hvid T-Shirt";
-            itemOne.itemLocation = "001E002, 001F02";
+            itemOne.itemLocation = "001E02, 001F02";
             itemOne.itemHasBeenCounted = true;
             itemOne.itemInStorageCount = 34;
             itemOne.itemServerCount = 35;
@@ -82,7 +86,7 @@ namespace WPF_PC
             Item itemTwo = new Item();
             itemTwo.itemID = "12344";
             itemTwo.itemName = "Sort T-Shirt";
-            itemTwo.itemLocation = "001E003, 001F03";
+            itemTwo.itemLocation = "001E03, 001F03";
             itemTwo.itemHasBeenCounted = true;
             itemTwo.itemInStorageCount = 23;
             itemTwo.itemServerCount = 23;
@@ -96,9 +100,7 @@ namespace WPF_PC
         public void UpdateMainWindow()
         {
             //Active Clients:
-            int activeClientsInt = 1;
-
-            acticeClients.Content = (activeClientsInt);
+            acticeClients.Content = Controller.Active_Clients.Count;
 
             //Counted Items overview:
             double countedInt = 19843;
@@ -202,6 +204,8 @@ namespace WPF_PC
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             //Load everything to log.
+            Server.ShutdownServer();
+
         }
 
         private void comboBoxChooseGet_SelectionChanged(object sender, SelectionChangedEventArgs e)

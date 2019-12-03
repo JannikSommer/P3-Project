@@ -16,7 +16,7 @@ namespace Central_Controller
         public SortedList<string, Location> UnPartitionedLocations { get; private set; } = new SortedList<string, Location>();
         private List<Location> MultiLocationsItem_Locations = new List<Location>();
         private List<Item> MultilocationItems = new List<Item>();
-        private List<Client> Active_Clients = new List<Client>();
+        public List<Client> Active_Clients = new List<Client>();
         private List<Shelf> AvailebleShelfs = new List<Shelf>();
         private List<Shelf> OccopiedShelfs = new List<Shelf>();
         private List<Item> ItemsForVerification = new List<Item>();
