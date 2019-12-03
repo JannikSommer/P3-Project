@@ -5,9 +5,9 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:lang="clr-namespace:Localization;assembly=Localization"
              mc:Ignorable="d"
-             x:Class="SAScanApp.AdminLogin">
+             x:Class="SAScanApp.AdminLoginPage">
     <ContentPage.Content>
-        
+
         <StackLayout BackgroundColor="White">
             <Label Text="{x:Static lang:Resources.PhoneAdminLoginStackLayoutLabelAdminLogin}" FontSize="20" HorizontalOptions="Center" TextColor="Blue" Margin="0,0,0,20"/>
             <Label Text="{x:Static lang:Resources.PhoneAdminLoginStackLayoutLabelEnterPW}" TextColor="Blue" Margin="0,0,0,20"/>
@@ -28,6 +28,6 @@
             VerticalOptions="End"
             HorizontalOptions="FillAndExpand"/>
         </StackLayout>
-        
+
     </ContentPage.Content>
 </ContentPage>

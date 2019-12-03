@@ -10,9 +10,9 @@ using Xamarin.Forms.Xaml;
 namespace SAScanApp
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class M_ManageInventory : ContentPage
+    public partial class InventoryHandlingPage : ContentPage
     {
-        public M_ManageInventory()
+        public InventoryHandlingPage()
         {
             InitializeComponent();
         }

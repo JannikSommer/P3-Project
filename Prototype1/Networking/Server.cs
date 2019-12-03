@@ -34,7 +34,7 @@ namespace Networking
                 Listener.Bind(localEndPoint);
 
                 // Specify how many requests a Socket can listen before it gives Server busy response
-                Listener.Listen(10);
+                Listener.Listen(15); // Specified wish from StreetAmmo. A total number of 15 people can be 
                 while (true)
                 {
                     Handler = Listener.Accept();
@@ -67,7 +67,7 @@ namespace Networking
             }
             else if (data == CommunicationFlag.VerificationRequest.ToString())
             {
-                VerificationPartition verificationPartition = new VerificationPartition();
+                VerificationPartition verificationPartition = Controller.CreateVerificationPartition();
                 SendVerificationPartition(verificationPartition);
             }
             else if (data == CommunicationFlag.VerificationUpload.ToString())

@@ -5,6 +5,7 @@
     <ProduceReferenceAssembly>true</ProduceReferenceAssembly>
     <ApplicationIcon />
     <Win32Resource />
+    <Configurations>Debug;Release;App</Configurations>
   </PropertyGroup>
 
   <ItemGroup>
@@ -40,31 +41,28 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="AdminLogin.xaml">
+    <EmbeddedResource Update="AdminLoginPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="AdminStartPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="BS_LocationSelected.xaml">
+    <EmbeddedResource Update="InventoryHandlingPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="BS_StartPage.xaml">
+    <EmbeddedResource Update="LocationSelected.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="CS_StartPage.xaml">
+    <EmbeddedResource Update="MainPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="M_ManageInventory.xaml">
+    <EmbeddedResource Update="MenuDataHandlerPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="M_StartPage.xaml">
+    <EmbeddedResource Update="MenuStartPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="M_UploadData.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="M_UserStats.xaml">
+    <EmbeddedResource Update="ScanPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>

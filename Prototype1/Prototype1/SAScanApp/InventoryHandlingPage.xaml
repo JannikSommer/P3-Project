@@ -5,8 +5,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:lang="clr-namespace:Localization;assembly=Localization"
              mc:Ignorable="d"
-             x:Class="SAScanApp.M_ManageInventory">
-   
+             x:Class="SAScanApp.InventoryHandlingPage">
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="20*"/>
@@ -92,7 +92,7 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-           
+
 
         </Grid>
 

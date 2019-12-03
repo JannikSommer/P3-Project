@@ -10,20 +10,20 @@ using Xamarin.Forms.Xaml;
 namespace SAScanApp
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class M_StartPage : ContentPage
+    public partial class MenuStartPage : ContentPage
     {
-        private BS_StartPage _bsStartPage { get; set; }
-        private BS_LocationSelected _bsLocSelPage { get; set; }
-        public M_StartPage(BS_StartPage bsStartPage)
+        private ScanPage _scanPage { get; set; }
+        private LocationSelected _locSelPage { get; set; }
+        public MenuStartPage(ScanPage scanPage)
         {
             InitializeComponent();
-            _bsStartPage = bsStartPage;
+            _scanPage = scanPage;
         }
 
-        public M_StartPage(BS_LocationSelected bsLocSelPage)
+        public MenuStartPage(LocationSelected locSelPage)
         {
             InitializeComponent();
-            _bsLocSelPage = bsLocSelPage;
+            _locSelPage = locSelPage;
         }
 
         private void Terminate_Button_Clicked(object sender, EventArgs e)
@@ -33,12 +33,12 @@ namespace SAScanApp
 
         private async void AdminLogin_Button_Clicked(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new AdminLogin(this));
+            await Navigation.PushAsync(new AdminLoginPage(this));
         }
 
         private async void UploadData_Button_Clicked(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new M_UploadData(this));
+            await Navigation.PushAsync(new MenuDataHandlerPage(this));
         }
 
         private void Back_Button_Clicked(object sender, EventArgs e)

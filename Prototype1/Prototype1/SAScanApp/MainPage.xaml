@@ -41,7 +41,7 @@
                 FontSize="20"
                 BorderRadius="40"
                 Clicked="BS_Selected"/>
-            
+
             <Button Grid.Row="1"
                 Margin="30,10,30,10"
                 BackgroundColor="White"

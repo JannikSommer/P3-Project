@@ -10,27 +10,28 @@ using Xamarin.Forms.Xaml;
 namespace SAScanApp
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class AdminLogin : ContentPage
+    public partial class AdminLoginPage : ContentPage
     {
 
         private MainPage _mainPage;
-        private M_StartPage startPage;
+        private MenuStartPage _startPage;
 
-        public AdminLogin() {
+        public AdminLoginPage()
+        {
             InitializeComponent();
         }
 
-        public AdminLogin(MainPage mainPage)
+        public AdminLoginPage(MainPage mainPage)
             : this()
         {
-            
+
             _mainPage = mainPage;
         }
 
-        public AdminLogin(M_StartPage startPage)
+        public AdminLoginPage(MenuStartPage startPage)
             : this()
         {
-            this.startPage = startPage;
+            this._startPage = startPage;
         }
 
         public void Entry_Completed(object sender, EventArgs e)
@@ -41,6 +42,7 @@ namespace SAScanApp
 
             if (usrNme == "Admin" && pssWrd == "Admin")
             {
+                // Her skal den sætte Admin = true, og logge ind på scanpage (lav polymorphism)
                 DisplayAlert("Admin Login Correct", "Your password was correct", "Ok,");
                 adminLoggedIn = true;
             }

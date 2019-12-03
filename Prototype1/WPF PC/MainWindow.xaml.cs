@@ -16,6 +16,7 @@ using Networking;
 using System.Threading;
 using Model.Log;
 using Localization;
+using Central_Controller;
 
 
 namespace WPF_PC
@@ -49,7 +50,6 @@ namespace WPF_PC
             InitializeComponent();
 
             StartServer();
-
             UpdateMainWindow();
 
             LoadIntoDataGrid();
@@ -58,6 +58,7 @@ namespace WPF_PC
 
         private void StartServer()
         {
+            Controller controller = new Controller();
             Server server = new Server();
             NetworkingThread = new Thread(new ThreadStart(server.StartServer));
             NetworkingThread.Start();

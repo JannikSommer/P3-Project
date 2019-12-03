@@ -37,6 +37,17 @@
   <PropertyGroup>
     <ApplicationIcon>count-icon-26.ico.ico</ApplicationIcon>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'App|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\App\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.1.0.0\lib\net461\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
@@ -170,6 +181,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Controller\Central_Controller.csproj">
+      <Project>{66201624-4c47-47b3-b056-dab6be3de5cd}</Project>
+      <Name>Central_Controller</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Language\Localization.csproj">
       <Project>{28a15257-4ce6-4074-8ad8-9d4a9a034001}</Project>
       <Name>Localization</Name>

@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:lang="clr-namespace:Localization;assembly=Localization"
              mc:Ignorable="d"
-             x:Class="SAScanApp.BS_LocationSelected">
+             x:Class="SAScanApp.ScanPage">
     <ContentPage.Content>
         <StackLayout>
             <Grid>
@@ -38,6 +38,7 @@
                     </Grid.ColumnDefinitions>
                     <Button Text="??"
                             Grid.Column="0"
+                            Margin="-1,0,0,0"
                             BackgroundColor="White"
                             TextColor="Blue"
                             BorderColor="Blue"
@@ -45,30 +46,32 @@
 
                     <Button Text="{x:Static lang:Resources.PhoneLocationSelelectButtonLight}"
                             Grid.Column="1"
+                            Margin="-1,0,0,0"
                             BackgroundColor="White"
                             TextColor="Blue"
                             BorderColor="Blue"
                             BorderWidth="1"
                             Clicked="Light_Button_Clicked"/>
-                    
                     <Button Text="V"
                             Grid.Column="2"
                             BackgroundColor="White"
                             TextColor="Blue"
                             BorderColor="Blue"
-                            BorderWidth="2"/>
+                            BorderWidth="1"/>
                     <Button Text="#1"
+                            Margin="-1,0,0,0"
                             Grid.Column="3"
                             BackgroundColor="White"
                             TextColor="Blue"
                             BorderColor="Blue"
-                            BorderWidth="2"/>
-                    <Button Text="{x:Static lang:Resources.PhoneLocationSelectedButtonMenu}"
+                            BorderWidth="1"/>
+                    <Button Text="Menu"
+                            Margin="-1,0,0,0"
                             Grid.Column="4"
                             BackgroundColor="White"
                             TextColor="Blue"
                             BorderColor="Blue"
-                            BorderWidth="2"
+                            BorderWidth="1"
                             Clicked="Menu_Button_Clicked"/>
                 </Grid>
 
@@ -90,45 +93,43 @@
                             Grid.Column="0"
                             VerticalOptions="Center"
                             Margin="20,0,0,0"
-                            Clicked="dec_item_count_Clicked"
-                            TextColor="Blue"
+                            TextColor="Gray"
                             FontSize="70"/>
 
-                    <Label x:Name="quantity"
-                           Text="{Binding value}"
+                    <Label Text="00"
                            FontSize="150"
                            HorizontalOptions="Center"
                            VerticalOptions="Center"
-                           Grid.Column="1"/>
+                           Grid.Column="1"
+                           TextColor="Gray"/>
 
                     <Button x:Name="inc_item_count"
                             VerticalOptions="Center"
                             Text="&gt;"
                             Grid.Column="2"
                             Margin="0,0,20,0"
-                            Clicked="inc_item_count_Clicked"
-                            TextColor="Blue"
+                            TextColor="Gray"
                             FontSize="70"/>
 
 
                 </Grid>
 
                 <Grid x:Name="Grid2" Grid.Row="2">
-                    <ListView x:Name="itemDisplayList" BackgroundColor="White"
-                              ItemTapped="itemDisplayList_ItemTapped"
-                              ItemSelected="itemDisplayList_ItemSelected">
-                        
+                    <ListView x:Name="displayList" BackgroundColor="White"
+                              ItemSelected="displayList_ItemSelected"
+                              ItemTapped="displayList_ItemTapped">
                         <ListView.ItemTemplate>
-                        
-                        <DataTemplate>
+                            <DataTemplate>
+
                                 <ViewCell>
                                     <StackLayout Orientation="Horizontal">
+                                        <Label Text="{Binding IsEmpty}"/>
                                         <StackLayout Orientation="Horizontal">
-                                            <Label Text="{Binding ItemID}" 
-                                                   TextColor="Blue"/>
+                                            <Label Text="{Binding LocationID}" TextColor="Blue"/>
                                         </StackLayout>
                                     </StackLayout>
                                 </ViewCell>
+
 
                             </DataTemplate>
                         </ListView.ItemTemplate>
