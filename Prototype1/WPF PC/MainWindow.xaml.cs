@@ -53,7 +53,8 @@ namespace WPF_PC
         {
             InitializeComponent();
 
-            StartServer();
+            //StartServer();
+
             UpdateMainWindow();
 
             LoadIntoDataGrid();
