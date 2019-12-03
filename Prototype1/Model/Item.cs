@@ -1,15 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.ComponentModel;
 
 namespace Model
 {
     //public enum ItemSize { S = 0, Small = 0, M = 1, Medium = 1, L = 2, Large = 2, XL = 3, ExtraLarge = 3, XXL, XXXL, XXXXL, XXXXXL}
 
-    public class Item
-    {
+    public class Item : INotifyPropertyChanged
+    {   
         public int ServerQuantity { get; set; }
-        public int CountedQuantity { get; set; }
+        public int CountedQuantity { 
+            get { return _countedQuantity; } 
+            set { _countedQuantity = value;
+                OnPropertyChanged("ItemQuantity");
+            } 
+        }
         public bool HasMultiLocation { get; private set; }
         public string ID { get; private set; }
         public string Name { get; private set; }
@@ -19,6 +25,11 @@ namespace Model
         public string CheckSum { get; set; }
         public List<Location> Locations { get; private set; }
 
+        public event PropertyChangedEventHandler PropertyChanged;
+
+
+        private int _countedQuantity;
+
 
         public Item() { } // Used for JSON Deserialization.
 
@@ -26,6 +37,7 @@ namespace Model
         {
             ID = id;
             Locations = new List<Location>();
+            _countedQuantity = 0;
         }
 
         public Item(string _ID, string _Name, string _Color, string _Size)
@@ -108,5 +120,11 @@ namespace Model
 
             return TotalDistance;
         }
+
+
+        protected void OnPropertyChanged(string name) {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+        }
+
     }
 }

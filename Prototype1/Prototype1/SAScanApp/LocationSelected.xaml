@@ -5,7 +5,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:lang="clr-namespace:Localization;assembly=Localization"
              mc:Ignorable="d"
-             x:Class="SAScanApp.LocationSelected">
+             x:Class="SAScanApp.LocationSelected"
+             Disappearing="ContentPage_Disappearing">
     <ContentPage.Content>
         <StackLayout>
             <Grid>
@@ -42,7 +43,6 @@
                             TextColor="Blue"
                             BorderColor="Blue"
                             BorderWidth="1"/>
-
                     <Button Text="{x:Static lang:Resources.PhoneLocationSelelectButtonLight}"
                             Grid.Column="1"
                             BackgroundColor="White"
@@ -50,25 +50,24 @@
                             BorderColor="Blue"
                             BorderWidth="1"
                             Clicked="Light_Button_Clicked"/>
-
                     <Button Text="V"
                             Grid.Column="2"
                             BackgroundColor="White"
                             TextColor="Blue"
                             BorderColor="Blue"
-                            BorderWidth="2"/>
+                            BorderWidth="1"/>
                     <Button Text="#1"
                             Grid.Column="3"
                             BackgroundColor="White"
                             TextColor="Blue"
                             BorderColor="Blue"
-                            BorderWidth="2"/>
+                            BorderWidth="1"/>
                     <Button Text="{x:Static lang:Resources.PhoneLocationSelectedButtonMenu}"
                             Grid.Column="4"
                             BackgroundColor="White"
                             TextColor="Blue"
                             BorderColor="Blue"
-                            BorderWidth="2"
+                            BorderWidth="1"
                             Clicked="Menu_Button_Clicked"/>
                 </Grid>
 
@@ -92,10 +91,11 @@
                             Margin="20,0,0,0"
                             Clicked="dec_item_count_Clicked"
                             TextColor="Blue"
-                            FontSize="70"/>
+                            FontSize="70"
+                            IsEnabled="False"/>
 
                     <Label x:Name="quantity"
-                           Text="{Binding value}"
+                           Text="{Binding Value}"
                            FontSize="150"
                            HorizontalOptions="Center"
                            VerticalOptions="Center"
@@ -108,7 +108,8 @@
                             Margin="0,0,20,0"
                             Clicked="inc_item_count_Clicked"
                             TextColor="Blue"
-                            FontSize="70"/>
+                            FontSize="70"
+                            IsEnabled="False"/>
 
 
                 </Grid>
@@ -119,17 +120,15 @@
                               ItemSelected="itemDisplayList_ItemSelected">
 
                         <ListView.ItemTemplate>
-
                             <DataTemplate>
                                 <ViewCell>
                                     <StackLayout Orientation="Horizontal">
                                         <StackLayout Orientation="Horizontal">
-                                            <Label Text="{Binding ItemID}" 
+                                            <Label Text="{Binding ID}" 
                                                    TextColor="Blue"/>
                                         </StackLayout>
                                     </StackLayout>
                                 </ViewCell>
-
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
