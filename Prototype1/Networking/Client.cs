@@ -186,7 +186,7 @@ namespace Networking
                 // Get Host IP Address that is used to establish a connection  
                 // In this case, we get one IP address of localhost that is IP : 127.0.0.1  
                 // If a host has multiple addresses, you will get a list of addresses  
-                IPHostEntry host = Dns.GetHostEntry("192.168.0.23");
+                IPHostEntry host = Dns.GetHostEntry("192.168.1.2");
                 IPAddress ipAddress = host.AddressList[0];
                 IPEndPoint remoteEP = new IPEndPoint(ipAddress, 6969);
 
@@ -388,7 +388,7 @@ namespace Networking
                 // Get Host IP Address that is used to establish a connection  
                 // In this case, we get one IP address of localhost that is IP : 127.0.0.1  
                 // If a host has multiple addresses, you will get a list of addresses  
-                IPHostEntry host = Dns.GetHostEntry("192.168.0.23");
+                IPHostEntry host = Dns.GetHostEntry("192.168.1.2");
                 IPAddress ipAddress = host.AddressList[0];
                 IPEndPoint remoteEP = new IPEndPoint(ipAddress, 6969);
 

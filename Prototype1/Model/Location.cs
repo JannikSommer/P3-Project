@@ -6,7 +6,7 @@ namespace Model
 {
     public class Location
     {
-        public string ID { get; private set; }
+        public string ID { get; set; }
         public bool IsEmpty { get; private set; }
         public int Shelf { get; private set; }
         public char Row { get; private set; }

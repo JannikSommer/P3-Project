@@ -12,10 +12,13 @@ namespace SAScanApp
         public ObservableCollection<string> barcodes { get; set; } = new ObservableCollection<string>();
         public void RecieveBarcode(object sender, EventArgs e)
         {
-            /*MessagingCenter.Subscribe<DependencyService.Get<, string>(this, "barcode", (a, s) =>
-            {
 
-            }) */
+            MessagingCenter.Subscribe<Object, string> (sender, "barcode", (a, s) =>
+            {
+                barcodes.Add(a.ToString());
+                    
+            });;
         }
     }
 }
+    

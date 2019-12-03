@@ -59,7 +59,6 @@ namespace SQL_DB_test_Frame
                     case 0:
                         Console.Write("Cannot connect to server.  Contact administrator");
                         break;
-
                     case 1045:
                         Console.Write("Invalid username/password, please try again");
                         break;

@@ -16,6 +16,11 @@ using Networking;
 using System.Threading;
 using Model.Log;
 using Localization;
+using Central_Controller;
+using PrestaSharpAPI;
+using Bukimedia.PrestaSharp.Entities;
+using Bukimedia.PrestaSharp;
+using Model;
 
 
 namespace WPF_PC
@@ -58,9 +63,8 @@ namespace WPF_PC
 
         private void StartServer()
         {
-            Server server = new Server();
-            NetworkingThread = new Thread(new ThreadStart(server.StartServer));
-            NetworkingThread.Start();
+
+
         }
 
         public void LoadIntoDataGrid()
@@ -69,7 +73,7 @@ namespace WPF_PC
 
             itemOne.itemID = "12345";
             itemOne.itemName = "Hvid T-Shirt";
-            itemOne.itemLocation = "001E002, 001F002";
+            itemOne.itemLocation = "001E002, 001F02";
             itemOne.itemHasBeenCounted = true;
             itemOne.itemInStorageCount = 34;
             itemOne.itemServerCount = 35;
@@ -78,7 +82,7 @@ namespace WPF_PC
             Item itemTwo = new Item();
             itemTwo.itemID = "12344";
             itemTwo.itemName = "Sort T-Shirt";
-            itemTwo.itemLocation = "001E003, 001F003";
+            itemTwo.itemLocation = "001E003, 001F03";
             itemTwo.itemHasBeenCounted = true;
             itemTwo.itemInStorageCount = 23;
             itemTwo.itemServerCount = 23;
