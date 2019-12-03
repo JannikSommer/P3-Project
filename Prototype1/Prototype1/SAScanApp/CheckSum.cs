@@ -2,62 +2,68 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.Linq;
     using System.Text;
        
-    public class CheckSumCalc
+    public class CheckSum
     {
         
 
-        //public ulong CheckSumValidation(string _Barcode)
-        //{
-        //    ulong SumOfOdds = 0;
-        //    ulong SumOfEvens = 0;
-        //    ulong CheckSum = 0;
-        //    int CheckDigit = 0;
-        //    int CheckSumCalcation = Convert.ToInt32(_Barcode);
-        //    int count = _Barcode.Length;
+        public bool CheckSumValidation(string _Barcode)
+        {
+            ulong SumOfOdds = 0;
+            ulong SumOfEvens = 0;
+            ulong checkSum = 0;
+            int CheckDigit = 0;
+            List<ulong> CheckSumCalculation = new List<ulong>();
+            
 
-           
+            foreach(char c in _Barcode)
+            {
+                CheckSumCalculation.Add(c);
+            }
 
-        //    if (_Barcode.Length != 12)
-        //    {
-        //        Console.WriteLine("Invalid barcode");
-        //    }
-        //    else
-        //    {
-        //        CheckDigit = _Barcode.Last();
+            int count = CheckSumCalculation.Count;
+            
+            if (count != 12)
+            {
+                Console.WriteLine("Invalid barcode");
+            }
+            else
+            {
+                SumOfOdds += CheckSumCalculation[0];
+                SumOfEvens += CheckSumCalculation[1];
 
-        //        for (int i = 2; i < count; i++)
-        //        {
+                CheckDigit = _Barcode.Last();
+                
+                for (int i = 2; i < count; i++)
+                {
 
-        //            /* 0 is an even number, but since we'd usually start from 1,
-        //            then the evens represent odds and vice versa */
-        //            SumOfOdds += ;
-        //            SumOfEvens += ;
+                    /* 0 is an even number, but since we'd usually start from 1,
+                    then the evens represent odds and vice versa */
+                    if (i % 2 == 0)
+                    {
+                        SumOfOdds += CheckSumCalculation[i];
+                    }
+                    else
+                    {
+                        SumOfEvens += CheckSumCalculation[i];
+                    }
+                }
+            }
 
-        //            if (i % 2 == 0)
-        //            {
-        //                SumOfOdds += ;
-        //            }
-        //            else
-        //            {
-        //                SumOfEvens += ;
-        //            }
-        //        }
-        //    }
+            checkSum = ((3 * SumOfOdds) + SumOfEvens);
 
-        //    CheckSum = ((3 * SumOfOdds) + SumOfEvens);
+            ulong NearestMultipleOf10 = (((10 - (checkSum % 10)) + checkSum) - checkSum);
 
-        //    ulong NearestMultipleOf10 = (((10 - (CheckSum % 10)) + CheckSum) - CheckSum);
+            // Finds nearest multiple of 10
+            if (NearestMultipleOf10 == (ulong)CheckDigit){
+                return true;
+            }
 
-        //    // Finds nearest multiple of 10
-        //    if (NearestMultipleOf10 == (ulong)CheckDigit){
-        //        return CheckSum;
-        //    }
+            return false;
 
-        //    return 0;
-
-        //}
+        }
     }
 }
