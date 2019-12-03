@@ -1,10 +1,11 @@
 ﻿using SAScanApp;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using System.ComponentModel;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using Xamarin.Essentials;
@@ -16,38 +17,52 @@ namespace SAScanApp
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class LocationSelected : ContentPage
     {
+        public int Value {
+            get { return _value; }
+            set {
+                _value = value;
+                quantity.Text = Convert.ToString(Value);
+            }
+        }
+
         private ScanPage _scanPage { get; set; }
-        private List<Model.Item> _itemList { get; set; }
-
-        public bool _counterEnabled { get; set; }
-        bool lightOn = false;
-        uint value = 00;
-
+        private ObservableCollection<Item> _itemList;
+        private List<Item> _returnItems;
+        private Item _prevItem;
+        private bool _counterEnabled;
+        private bool lightOn = false;
+        private int _value = 00;
+        
         public LocationSelected()
         {
             InitializeComponent();
-            quantity.Text = Convert.ToString(value);
+            quantity.Text = Convert.ToString(Value);
             _counterEnabled = false;
         }
-        public LocationSelected(ScanPage startPage)
-            : this()
+
+        public LocationSelected(ScanPage startPage) : this()
         {
             _scanPage = startPage;
         }
 
-        public LocationSelected(ScanPage startPage, List<Model.Item> itemList)
-            : this()
+        public LocationSelected(ScanPage startPage, List<Item> itemList) : this(startPage)
         {
-            _scanPage = startPage;
-            _itemList = itemList;
+            _returnItems = itemList;
+            _itemList =  new ObservableCollection<Item>(itemList);
+            _itemList.CollectionChanged += _itemList_CollectionChanged;
             itemDisplayList.ItemsSource = _itemList;
+        }
+
+        private void _itemList_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e) {
+            itemDisplayList.BeginRefresh();
+            itemDisplayList.EndRefresh();
         }
 
         private void dec_item_count_Clicked(object sender, EventArgs e)
         {
-            if (_counterEnabled == true && value > 0)
+            if (_counterEnabled == true && Value > 0)
             {
-                quantity.Text = Convert.ToString(--value);
+                Value--;
             }
         }
 
@@ -55,7 +70,7 @@ namespace SAScanApp
         {
             if (_counterEnabled == true)
             {
-                quantity.Text = Convert.ToString(++value);
+                Value++;
             }
         }
 
@@ -77,15 +92,15 @@ namespace SAScanApp
                     lightOn = false;
                 }
             }
-            catch (FeatureNotSupportedException fnsEx)
+            catch (FeatureNotSupportedException)
             {
                 await DisplayAlert("Error:", "Your device does not support the use of this feature not supported, sorry!", "Okay");
             }
-            catch (PermissionException pEx)
+            catch (PermissionException)
             {
                 await DisplayAlert("Error:", "Enable permissions to access flashlight in your phone", "Okay");
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 await DisplayAlert("Error", "There has been an error", "Okay");
             }
@@ -103,12 +118,44 @@ namespace SAScanApp
 
         private void itemDisplayList_ItemTapped(object sender, ItemTappedEventArgs e)
         {
+            if(_prevItem == ((Item)e.Item)) {
+                // Deselect item
+                itemDisplayList.SelectedItem = null;
+                _counterEnabled = false;
+                inc_item_count.IsEnabled = false;
+                dec_item_count.IsEnabled = false;
+                _prevItem = null;
+            } else {
+                // Save previous quantity
+                SaveQuantity((Item)_prevItem);
 
+                _prevItem = (Item)e.Item;
+                Value = ((Item)itemDisplayList.SelectedItem).CountedQuantity;
+            }
         }
 
         private void itemDisplayList_ItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
-            _counterEnabled = true;
+            if(_counterEnabled != true) {
+                _counterEnabled = true;
+                inc_item_count.IsEnabled = true;
+                dec_item_count.IsEnabled = true;
+            }
+
+        }
+
+        private void ContentPage_Disappearing(object sender, EventArgs e) {
+            SaveQuantity((Item)itemDisplayList.SelectedItem);
+
+            for(int i = 0; i < _returnItems.Count; i++) {
+                _returnItems[i].CountedQuantity = _itemList[i].CountedQuantity;
+            }
+        }
+
+        private void SaveQuantity(Item item) {
+            if(item != null) {
+                item.CountedQuantity = Value;
+            }
         }
     }
 }

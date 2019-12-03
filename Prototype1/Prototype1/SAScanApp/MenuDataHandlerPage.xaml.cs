@@ -32,11 +32,11 @@ namespace SAScanApp
             CommunicationHandler handler = client.UploadPartitionAsync(partition).Result;
         }
 
-        private void DownloadPartition(object sender, EventArgs e)
+        private void DownloadPartition(object sender, EventArgs e) // TODO: make async event
         {
             Client networkingClient = new Client();
             Central_Controller.Client DeviceClient = new Central_Controller.Client("Anders");
-            (Model.Partition partition,  CommunicationHandler handler) = networkingClient.DownloadPartitionAsync(DeviceClient).Result;
+            (Model.Partition partition,  CommunicationHandler handler) = networkingClient.DownloadPartition(DeviceClient);
             if (handler != CommunicationHandler.Success)
             {
                 DisplayAlert("Error", "An error occured", "Fix your shit!");

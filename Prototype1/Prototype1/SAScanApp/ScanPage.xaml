@@ -57,7 +57,8 @@
                             BackgroundColor="White"
                             TextColor="Blue"
                             BorderColor="Blue"
-                            BorderWidth="1"/>
+                            BorderWidth="1"
+                            Clicked="ButtonV_Clicked"/>
                     <Button Text="#1"
                             Margin="-1,0,0,0"
                             Grid.Column="3"
@@ -125,7 +126,7 @@
                                     <StackLayout Orientation="Horizontal">
                                         <Label Text="{Binding IsEmpty}"/>
                                         <StackLayout Orientation="Horizontal">
-                                            <Label Text="{Binding LocationID}" TextColor="Blue"/>
+                                            <Label Text="{Binding ID}" TextColor="Blue"/>
                                         </StackLayout>
                                     </StackLayout>
                                 </ViewCell>

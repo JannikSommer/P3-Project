@@ -30,9 +30,9 @@ namespace SQL_DB_test_Frame
         private void Initialize()
         {
             server = "localhost";
-            database = "streetammo_importtest";
+            database = "SAIT";
             uid = "root";
-            password = "Uni1234567!";
+            password = "April2018..";
             string connectionString;
             connectionString = "SERVER=" + server + ";" + "DATABASE=" + database + ";" + "UID=" + uid + ";" + "PASSWORD=" + password + ";";
 
