@@ -21,7 +21,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unit_Tests", "Unit_Tests\Un
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SQL_DB_test_Frame", "SQL_DB_test_Frame\SQL_DB_test_Frame\SQL_DB_test_Frame.csproj", "{BBFE8076-7E77-4018-B0E5-224C5DD96548}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ViewModel", "ViewModel\ViewModel.csproj", "{FAE2E886-EAB0-4A8A-8DFE-B75EC959A4BB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrestaSharpAPI", "PrestaSharpAPI\PrestaSharpAPI.csproj", "{041FBFC8-73CB-40B4-9F1E-2BDBFB0CC2D5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -87,12 +87,6 @@ Global
 		{BBFE8076-7E77-4018-B0E5-224C5DD96548}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BBFE8076-7E77-4018-B0E5-224C5DD96548}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BBFE8076-7E77-4018-B0E5-224C5DD96548}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FAE2E886-EAB0-4A8A-8DFE-B75EC959A4BB}.App|Any CPU.ActiveCfg = Debug|Any CPU
-		{FAE2E886-EAB0-4A8A-8DFE-B75EC959A4BB}.App|Any CPU.Build.0 = Debug|Any CPU
-		{FAE2E886-EAB0-4A8A-8DFE-B75EC959A4BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FAE2E886-EAB0-4A8A-8DFE-B75EC959A4BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FAE2E886-EAB0-4A8A-8DFE-B75EC959A4BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FAE2E886-EAB0-4A8A-8DFE-B75EC959A4BB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
