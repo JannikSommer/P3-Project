@@ -19,6 +19,8 @@ using Localization;
 using Central_Controller;
 using Model;
 using Central_Controller.IO;
+using System.Globalization;
+
 
 namespace WPF_PC
 {
@@ -214,7 +216,7 @@ namespace WPF_PC
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             //Load everything to log.
-            Server.ShutdownServer();
+            //Server.ShutdownServer();
 
             _ioController.Save();
         }
@@ -224,84 +226,18 @@ namespace WPF_PC
             //e.AddedItems[0].ToString()
         }
 
-        private void changeLanguage_Click(object sender, RoutedEventArgs e)
-        {
-            //System.Globalization.CultureInfo.CurrentUICulture = new System.Globalization.CultureInfo("da-DK", true);
-            //InitializeComponent();
-            ////if (Language == Language.Danish)
-            ////{
-            ////    Language = Language.English;
-            ////}
-            ////else
-            ////{
-            ////    Language = Language.Danish;
-            ////}
-            ////MainWindowLanguage();
-            ////LoadIntoChooseBox();
-        }  
-        
-        public void MainWindowLanguage()
-        {
+        private void changeLanguage_Click(object sender, RoutedEventArgs e) {
+            var danishCultureInfo = new CultureInfo("da-DK", true);
+            var englishCultureInfo = new CultureInfo("en-GB", true);
 
-            //Danish:
-            if (Language.Danish == Language)
-            {
-                //Buttons
-
-                changeLanguage.Content = ("English");
-                createCycleCount.Content = ("Opret Optællings Cyklus");
-                editCycle.Content = ("Rediger Cyklus");
-                showChosenType.Content = ("Vis");
-                showLog.Content = ("Vis log");
-                finishCycle.Content = ("Færdiggør Cyklus");
-
-                //Label
-
-                labelWarning.Content = ("Vælg venligst den ønskede funktion");
-                activeClients.Content = ("Aktive klienter:");
-                totalCount.Content = ("Total Optalt:");
-                totalCountDifference.Content = ("Optalte med difference:");
-
-                // Datagrid
-
-                dataGridMain.Columns[0].Header = " ID";
-                dataGridMain.Columns[1].Header = " Navn";
-                dataGridMain.Columns[2].Header = " Lokationer";
-                dataGridMain.Columns[3].Header = " Optalt";
-                dataGridMain.Columns[4].Header = " Optalt Fra Lageret";
-                dataGridMain.Columns[5].Header = " Antal Fra Serveren";
-                dataGridMain.Columns[6].Header = " Difference";
+            if(CultureInfo.CurrentUICulture.Name == danishCultureInfo.Name) {
+                CultureInfo.CurrentUICulture = englishCultureInfo;
+            } else {
+                CultureInfo.CurrentUICulture = danishCultureInfo;
             }
 
-            //English:
-            else if (Language.English == Language)
-            {
-                //Buttons
-
-                changeLanguage.Content = ("Dansk");
-                createCycleCount.Content = ("Create Cycle Count");
-                editCycle.Content = ("Edit Cycle");
-                showChosenType.Content = ("Show");
-                showLog.Content = ("Show Log");
-                finishCycle.Content = ("Finish Cycle");
-
-                //Label
-
-                labelWarning.Content = ("Please choose the desired function");
-                activeClients.Content = ("Active clients:");
-                totalCount.Content = ("Total Counted:");
-                totalCountDifference.Content = ("Counted with difference:");
-
-                // Datagrid
-
-                dataGridMain.Columns[0].Header = " ID";
-                dataGridMain.Columns[1].Header = " Name";
-                dataGridMain.Columns[2].Header = " Locations";
-                dataGridMain.Columns[3].Header = " Counted";
-                dataGridMain.Columns[4].Header = " Counted from storage";
-                dataGridMain.Columns[5].Header = " Count from server";
-                dataGridMain.Columns[6].Header = " Difference";
-            }
+            Application.Current.MainWindow.UpdateLayout();
         }
+
     }
 }

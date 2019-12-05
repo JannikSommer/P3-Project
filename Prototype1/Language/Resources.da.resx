@@ -336,4 +336,7 @@
   <data name="MainWindowComboboxCountedDifference" xml:space="preserve">
     <value>Optalt med difference:</value>
   </data>
+  <data name="MainWindowButtonSwitchLanguage" xml:space="preserve">
+    <value>Skift Sprog</value>
+  </data>
 </root>

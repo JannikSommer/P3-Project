@@ -103,8 +103,8 @@ namespace Model
             return x;
         }
 
-        public bool ValidateChecksum(string barcode) {
-            if(char.IsLetter(barcode[3])) {
+        public bool ContainsBarcode(string barcode) {
+            if(char.IsLetter(barcode[3])) { 
                 foreach(var location in Locations) {
                     if(location.ID == barcode) {
                         return true;
