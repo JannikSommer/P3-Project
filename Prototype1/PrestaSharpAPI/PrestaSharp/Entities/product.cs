@@ -11,6 +11,7 @@ namespace Bukimedia.PrestaSharp.Entities
     [XmlType(Namespace = "Bukimedia/PrestaSharp/Entities")]
     public class product : PrestaShopEntity, IPrestaShopFactoryEntity
     {
+        public string original_color { get; set; }
         public long? id { get; set; } 
         public long? id_manufacturer { get; set; }
         public long? id_supplier { get; set; }
