@@ -9,7 +9,7 @@ namespace Model
     public class Item
     {
         public int ServerQuantity { get; set; }
-        public int CountedQuantity { get; set; }
+        public int CountedQuantity { get; set; } = -1;
         public bool HasMultiLocation { get; private set; }
         public string ID { get; private set; }
         public string Name { get; private set; }

@@ -95,7 +95,6 @@ namespace Model
             else
             {
                 Locations.Add(_Location);
-                TotalNrOFItems += _Location.Items.Count; //this will count MultilocationItems as once per location, rather then just once
             }
             
         }

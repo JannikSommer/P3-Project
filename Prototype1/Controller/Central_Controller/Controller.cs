@@ -435,7 +435,25 @@ namespace Central_Controller
                     }
                     else
                     {
-                        CheckCountedItem(item);
+                        AllItemLocationsWasVisited = true;
+
+                        foreach (Location location in item.Locations)
+                        {
+                            if(!(partition.Locations.Exists(x => x.ID == location.ID)))
+                            {
+                                AllItemLocationsWasVisited = false;
+                            }
+                        }
+
+                        if (AllItemLocationsWasVisited)
+                        {
+                            CheckCountedItem(item);
+                        }
+                        else
+                        {
+                            //Item wasn't counted and part and only partial, add to priority partitions
+
+                        }
                     }
                 }
             }
