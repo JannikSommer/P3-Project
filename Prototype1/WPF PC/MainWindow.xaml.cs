@@ -17,11 +17,8 @@ using System.Threading;
 using Model.Log;
 using Localization;
 using Central_Controller;
-using PrestaSharpAPI;
-using Bukimedia.PrestaSharp.Entities;
-using Bukimedia.PrestaSharp;
 using Model;
-
+using Central_Controller.IO;
 
 namespace WPF_PC
 {
@@ -45,26 +42,49 @@ namespace WPF_PC
             public int itemCountVariation { get; set; }
         }
 
+        private Thread NetworkingThread { get; set; }
+        private Controller Controller { get; set; }
+        private Server Server { get; set; }
         private Thread NetworkingThread; // Used to keep socket connection open for clients. 
+        private IOController _ioController = new IOController("TestCycle");
 
-        private new Language Language;
+        private new Language Language { get; set; }
 
         public MainWindow()
         {
+            Controller = new Controller();
+
             InitializeComponent();
-
-            //StartServer();
-
-            UpdateMainWindow();
-
+            // StartServer();
+            UpdateAllUI();
             LoadIntoDataGrid();
             LoadIntoChooseBox();
+
+            // Add eksample data to save files.
+            if(true) {
+                List<LogMessage> list = new List<LogMessage> {
+                new VerificationLogMessage(new DateTime(2019, 11, 12, 10, 21, 9), "Polle", "5709216007104", true),
+                new LocationLogMessage(new DateTime(2019, 11, 12, 10, 21, 9), "Ole", "001C27", new List<(string itemId, string countedQuantity)>{("5709216007104", "5"), ("5849225908104", "2")}),
+                new TextLogMessage(DateTime.Now, "Hello Bob!")
+                };
+                _ioController.CountedItems.AddRange(new List<string> { "12", "123456", "135612455" });
+                _ioController.Log.AddMultipleMessages(list);
+            }
+
         }
 
         private void StartServer()
         {
+            Server = new Server(Controller);
+            Thread NetworkingThread = new Thread(new ThreadStart(Server.StartServer));
+            NetworkingThread.Start();
+        }
 
-
+        public void UpdateAllUI()
+        {
+            UpdateMainWindow();
+            LoadIntoDataGrid();
+            LoadIntoChooseBox();
         }
 
         public void LoadIntoDataGrid()
@@ -73,7 +93,7 @@ namespace WPF_PC
 
             itemOne.itemID = "12345";
             itemOne.itemName = "Hvid T-Shirt";
-            itemOne.itemLocation = "001E002, 001F02";
+            itemOne.itemLocation = "001E02, 001F02";
             itemOne.itemHasBeenCounted = true;
             itemOne.itemInStorageCount = 34;
             itemOne.itemServerCount = 35;
@@ -82,7 +102,7 @@ namespace WPF_PC
             Item itemTwo = new Item();
             itemTwo.itemID = "12344";
             itemTwo.itemName = "Sort T-Shirt";
-            itemTwo.itemLocation = "001E003, 001F03";
+            itemTwo.itemLocation = "001E03, 001F03";
             itemTwo.itemHasBeenCounted = true;
             itemTwo.itemInStorageCount = 23;
             itemTwo.itemServerCount = 23;
@@ -96,9 +116,7 @@ namespace WPF_PC
         public void UpdateMainWindow()
         {
             //Active Clients:
-            int activeClientsInt = 1;
-
-            acticeClients.Content = (activeClientsInt);
+            acticeClients.Content = Controller.Active_Clients.Count;
 
             //Counted Items overview:
             double countedInt = 19843;
@@ -132,15 +150,9 @@ namespace WPF_PC
 
         private void showLog_Click(object sender, RoutedEventArgs e)
         {
-            List<LogMessage> list = new List<LogMessage> {
-                new VerificationLogMessage(new DateTime(2019, 11, 12, 10, 21, 9), "Polle", "5709216007104", true),
-                new LocationLogMessage(new DateTime(2019, 11, 12, 10, 21, 9), "Ole", "001C27", new List<(string itemId, string countedQuantity)>{("5709216007104", "5"), ("5849225908104", "2")}),
-                new TextLogMessage(DateTime.Now, "Hello Bob!")
-            };
+            
 
-            LogFile logFile = new LogFile("TestLog", DateTime.Now, list);
-
-            LogWindow logWindow = new LogWindow(logFile);
+            LogWindow logWindow = new LogWindow(_ioController.Log);
             logWindow.Show();
         }
 
@@ -202,6 +214,9 @@ namespace WPF_PC
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             //Load everything to log.
+            Server.ShutdownServer();
+
+            _ioController.Save();
         }
 
         private void comboBoxChooseGet_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -211,19 +226,18 @@ namespace WPF_PC
 
         private void changeLanguage_Click(object sender, RoutedEventArgs e)
         {
-
-            System.Globalization.CultureInfo.CurrentUICulture = new System.Globalization.CultureInfo("da-DK", true);
-            InitializeComponent();
-            //if (Language == Language.Danish)
-            //{
-            //    Language = Language.English;
-            //}
-            //else
-            //{
-            //    Language = Language.Danish;
-            //}
-            //MainWindowLanguage();
-            //LoadIntoChooseBox();
+            //System.Globalization.CultureInfo.CurrentUICulture = new System.Globalization.CultureInfo("da-DK", true);
+            //InitializeComponent();
+            ////if (Language == Language.Danish)
+            ////{
+            ////    Language = Language.English;
+            ////}
+            ////else
+            ////{
+            ////    Language = Language.Danish;
+            ////}
+            ////MainWindowLanguage();
+            ////LoadIntoChooseBox();
         }  
         
         public void MainWindowLanguage()

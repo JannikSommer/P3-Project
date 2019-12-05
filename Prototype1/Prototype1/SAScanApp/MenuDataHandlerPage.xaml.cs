@@ -30,6 +30,8 @@ namespace SAScanApp
             Client client = new Client();
             Model.Partition partition = new Model.Partition();
             CommunicationHandler handler = client.UploadPartitionAsync(partition).Result;
+
+            DependencyService.Get<IBluetoothHandler>().closeBluetoothConnection();
         }
 
         private void DownloadPartition(object sender, EventArgs e) // TODO: make async event
@@ -45,6 +47,8 @@ namespace SAScanApp
             {
                 DisplayAlert(handler.ToString(), partition.Locations[0].ID , "You fixed your shit!");
             }
+
+            DependencyService.Get<IBluetoothHandler>().enableBluetooth();
         }
     }
 }

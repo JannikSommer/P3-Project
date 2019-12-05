@@ -19,19 +19,16 @@ namespace Model.Log {
         }
 
         private string GetName(string path) {
-            int start = -1, 
-                end = -1;
+            int start = -1;
 
-            for(int i = path.Length; i > 0; i--) {
-                if(path[i] == '.' && end == -1) {
-                    end = i - 1;
-                } else if(path[i] == '\\' && start == -1) {
+            for(int i = path.Length - 1; i > 0; i--) {                
+                 if(path[i] == '\\' && start == -1) {
                     start = i;
                     break;
                 }
             }
 
-            return path.Substring(start, end - start);
+            return path.Substring(start, path.Length - 1 - start);
         }
 
         private DateTime ParseDate(string text) {
