@@ -452,7 +452,18 @@ namespace Central_Controller
                         else
                         {
                             //Item wasn't counted and part and only partial, add to priority partitions
-
+                            /*
+                             
+                            NEEDS MORE WORK HERE!!!! 
+                            NEEDS MORE WORK HERE!!!! 
+                            NEEDS MORE WORK HERE!!!! 
+                            NEEDS MORE WORK HERE!!!! 
+                            NEEDS MORE WORK HERE!!!! 
+                            NEEDS MORE WORK HERE!!!! 
+                            NEEDS MORE WORK HERE!!!! 
+                            NEEDS MORE WORK HERE!!!!
+                            
+                            */
                         }
                     }
                 }
