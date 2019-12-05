@@ -65,7 +65,7 @@ namespace Unit_Tests.Controller_Tests
             TestController.InitialAddItem(TestItem6, TestItem6_Locations);
             TestController.InitialAddItem(TestItem7, TestItem7_Locations);
 
-            TestController.InitialPartitionUnpartitionedLocations();
+            TestController.InitialPartitioningOfLocations();
 
             TestController.AddClient(TestClient1);
             TestController.AddClient(TestClient2);
@@ -145,7 +145,7 @@ namespace Unit_Tests.Controller_Tests
             //TestController.InitialAddItem(TestItem6, TestItem6_Locations);
             //TestController.InitialAddItem(TestItem7, TestItem7_Locations);
 
-            TestController.InitialPartitionUnpartitionedLocations();
+            TestController.InitialPartitioningOfLocations();
 
             TestController.AddClient(TestClient1);
             TestController.AddClient(TestClient2);
@@ -244,7 +244,7 @@ namespace Unit_Tests.Controller_Tests
             TestController.InitialAddItem(TestItem8, TestItem8_Locations);
             TestController.InitialAddItem(TestItem9, TestItem9_Locations);
 
-            TestController.InitialPartitionUnpartitionedLocations();
+            TestController.InitialPartitioningOfLocations();
 
             TestController.AddClient(TestClient1);
             TestController.AddClient(TestClient2);
@@ -318,7 +318,7 @@ namespace Unit_Tests.Controller_Tests
             TestController.InitialAddItem(TestItem2, TestItem2_Locations);
             TestController.InitialAddItem(TestItem3, TestItem3_Locations);
 
-            TestController.InitialPartitionUnpartitionedLocations();
+            TestController.InitialPartitioningOfLocations();
 
             TestController.AddClient(TestClient1);
             TestController.AddClient(TestClient2);
@@ -383,7 +383,7 @@ namespace Unit_Tests.Controller_Tests
             TestController.InitialAddItem(TestItem1, TestItem1_Locations);
             TestController.InitialAddItem(TestItem2, TestItem2_Locations);
 
-            TestController.InitialPartitionUnpartitionedLocations();
+            TestController.InitialPartitioningOfLocations();
 
             TestController.AddClient(TestClient1);
             TestController.AddClient(TestClient2);
@@ -522,7 +522,7 @@ namespace Unit_Tests.Controller_Tests
             TestController.InitialAddItem(TestItem14, TestItem14_Locations);
             TestController.InitialAddItem(TestItem15, TestItem15_Locations);
 
-            TestController.InitialPartitionUnpartitionedLocations();
+            TestController.InitialPartitioningOfLocations();
 
             TestController.AddClient(TestClient1);
             TestController.AddClient(TestClient2);
@@ -687,7 +687,7 @@ namespace Unit_Tests.Controller_Tests
             TestController.InitialAddItem(TestItem14, TestItem14_Locations);
             TestController.InitialAddItem(TestItem15, TestItem15_Locations);
 
-            TestController.InitialPartitionUnpartitionedLocations();
+            TestController.InitialPartitioningOfLocations();
 
             TestController.AddClient(TestClient1);
             TestController.AddClient(TestClient2);
