@@ -340,6 +340,15 @@ namespace Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Switch Language.
+        /// </summary>
+        public static string MainWindowButtonSwitchLanguage {
+            get {
+                return ResourceManager.GetString("MainWindowButtonSwitchLanguage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Counted with difference:.
         /// </summary>
         public static string MainWindowComboboxCountedDifference {

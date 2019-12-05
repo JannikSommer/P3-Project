@@ -32,7 +32,7 @@ namespace SQL_DB_test_Frame
             server = "localhost";
             database = "SAIT";
             uid = "root";
-            password = "April2018..";
+            password = "Uni1234567!";
             string connectionString;
             connectionString = "SERVER=" + server + ";" + "DATABASE=" + database + ";" + "UID=" + uid + ";" + "PASSWORD=" + password + ";";
 
@@ -181,7 +181,7 @@ namespace SQL_DB_test_Frame
         }
         public List<string>[] Select(string values, string tableinfo)
         {
-            string query = "SELECT "+values+" FROM "+tableinfo+"";
+            string query = "select * from ps_cent_control_data";
 
             //Create a list to store the result
             List<string>[] list = new List<string>[3];

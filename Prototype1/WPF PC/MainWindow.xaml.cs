@@ -19,6 +19,8 @@ using Localization;
 using Central_Controller;
 using Model;
 using Central_Controller.IO;
+using System.Globalization;
+
 
 namespace WPF_PC
 {
@@ -42,19 +44,21 @@ namespace WPF_PC
             public int itemCountVariation { get; set; }
         }
 
-        private Thread NetworkingThread; // Used to keep socket connection open for clients. 
+        private Thread NetworkingThread { get; set; }
+        private Controller Controller { get; set; }
+        private Server Server { get; set; }
+        //private Thread NetworkingThread; // Used to keep socket connection open for clients. 
         private IOController _ioController = new IOController("TestCycle");
 
-        private new Language Language;
+        private new Language Language { get; set; }
 
         public MainWindow()
         {
+            Controller = new Controller();
+
             InitializeComponent();
-
-            //StartServer();
-
-            UpdateMainWindow();
-
+            // StartServer();
+            UpdateAllUI();
             LoadIntoDataGrid();
             LoadIntoChooseBox();
 
@@ -73,8 +77,16 @@ namespace WPF_PC
 
         private void StartServer()
         {
+            Server = new Server(Controller);
+            Thread NetworkingThread = new Thread(new ThreadStart(Server.StartServer));
+            NetworkingThread.Start();
+        }
 
-
+        public void UpdateAllUI()
+        {
+            UpdateMainWindow();
+            LoadIntoDataGrid();
+            LoadIntoChooseBox();
         }
 
         public void LoadIntoDataGrid()
@@ -83,7 +95,7 @@ namespace WPF_PC
 
             itemOne.itemID = "12345";
             itemOne.itemName = "Hvid T-Shirt";
-            itemOne.itemLocation = "001E002, 001F02";
+            itemOne.itemLocation = "001E02, 001F02";
             itemOne.itemHasBeenCounted = true;
             itemOne.itemInStorageCount = 34;
             itemOne.itemServerCount = 35;
@@ -92,7 +104,7 @@ namespace WPF_PC
             Item itemTwo = new Item();
             itemTwo.itemID = "12344";
             itemTwo.itemName = "Sort T-Shirt";
-            itemTwo.itemLocation = "001E003, 001F03";
+            itemTwo.itemLocation = "001E03, 001F03";
             itemTwo.itemHasBeenCounted = true;
             itemTwo.itemInStorageCount = 23;
             itemTwo.itemServerCount = 23;
@@ -106,9 +118,7 @@ namespace WPF_PC
         public void UpdateMainWindow()
         {
             //Active Clients:
-            int activeClientsInt = 1;
-
-            acticeClients.Content = (activeClientsInt);
+            acticeClients.Content = Controller.Active_Clients.Count;
 
             //Counted Items overview:
             double countedInt = 19843;
@@ -205,6 +215,9 @@ namespace WPF_PC
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            //Load everything to log.
+            //Server.ShutdownServer();
+
             _ioController.Save();
         }
 
@@ -213,84 +226,18 @@ namespace WPF_PC
             //e.AddedItems[0].ToString()
         }
 
-        private void changeLanguage_Click(object sender, RoutedEventArgs e)
-        {
-            //System.Globalization.CultureInfo.CurrentUICulture = new System.Globalization.CultureInfo("da-DK", true);
-            //InitializeComponent();
-            ////if (Language == Language.Danish)
-            ////{
-            ////    Language = Language.English;
-            ////}
-            ////else
-            ////{
-            ////    Language = Language.Danish;
-            ////}
-            ////MainWindowLanguage();
-            ////LoadIntoChooseBox();
-        }  
-        
-        public void MainWindowLanguage()
-        {
+        private void changeLanguage_Click(object sender, RoutedEventArgs e) {
+            var danishCultureInfo = new CultureInfo("da-DK", true);
+            var englishCultureInfo = new CultureInfo("en-GB", true);
 
-            //Danish:
-            if (Language.Danish == Language)
-            {
-                //Buttons
-
-                changeLanguage.Content = ("English");
-                createCycleCount.Content = ("Opret Optællings Cyklus");
-                editCycle.Content = ("Rediger Cyklus");
-                showChosenType.Content = ("Vis");
-                showLog.Content = ("Vis log");
-                finishCycle.Content = ("Færdiggør Cyklus");
-
-                //Label
-
-                labelWarning.Content = ("Vælg venligst den ønskede funktion");
-                activeClients.Content = ("Aktive klienter:");
-                totalCount.Content = ("Total Optalt:");
-                totalCountDifference.Content = ("Optalte med difference:");
-
-                // Datagrid
-
-                dataGridMain.Columns[0].Header = " ID";
-                dataGridMain.Columns[1].Header = " Navn";
-                dataGridMain.Columns[2].Header = " Lokationer";
-                dataGridMain.Columns[3].Header = " Optalt";
-                dataGridMain.Columns[4].Header = " Optalt Fra Lageret";
-                dataGridMain.Columns[5].Header = " Antal Fra Serveren";
-                dataGridMain.Columns[6].Header = " Difference";
+            if(CultureInfo.CurrentUICulture.Name == danishCultureInfo.Name) {
+                CultureInfo.CurrentUICulture = englishCultureInfo;
+            } else {
+                CultureInfo.CurrentUICulture = danishCultureInfo;
             }
 
-            //English:
-            else if (Language.English == Language)
-            {
-                //Buttons
-
-                changeLanguage.Content = ("Dansk");
-                createCycleCount.Content = ("Create Cycle Count");
-                editCycle.Content = ("Edit Cycle");
-                showChosenType.Content = ("Show");
-                showLog.Content = ("Show Log");
-                finishCycle.Content = ("Finish Cycle");
-
-                //Label
-
-                labelWarning.Content = ("Please choose the desired function");
-                activeClients.Content = ("Active clients:");
-                totalCount.Content = ("Total Counted:");
-                totalCountDifference.Content = ("Counted with difference:");
-
-                // Datagrid
-
-                dataGridMain.Columns[0].Header = " ID";
-                dataGridMain.Columns[1].Header = " Name";
-                dataGridMain.Columns[2].Header = " Locations";
-                dataGridMain.Columns[3].Header = " Counted";
-                dataGridMain.Columns[4].Header = " Counted from storage";
-                dataGridMain.Columns[5].Header = " Count from server";
-                dataGridMain.Columns[6].Header = " Difference";
-            }
+            Application.Current.MainWindow.UpdateLayout();
         }
+
     }
 }
