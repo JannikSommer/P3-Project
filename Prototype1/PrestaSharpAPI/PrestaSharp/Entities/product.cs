@@ -24,7 +24,7 @@ namespace Bukimedia.PrestaSharp.Entities
         public long? id_default_combination { get; set; }
         public long? id_tax_rules_group { get; set; }
         public long? position_in_category { get; set; }
-        public string manufacturer_name { get; }
+        public string manufacturer_name { get; set;  }
         public long quantity { get; set; }
         public string type { get; set; }
         public long id_shop_default { get; set; }

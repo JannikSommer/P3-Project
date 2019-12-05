@@ -2,15 +2,16 @@
 using Bukimedia.PrestaSharp.Entities;
 using Bukimedia.PrestaSharp.Factories;
 using System.Collections.Generic;
+using Model;
 
 
 namespace PrestaSharpAPI
 {
     public class ProductAPI
     {
-        private string APIKey = "VFIS4BMMSYNJLLVRG1571X3U15ZLTSIW";
-        private string URL = "http://157.230.120.255/api/";
-        private string Password = ""; // Passwords are not used
+        private readonly string APIKey = "RS9K8F6XLQRKCL51Y3U9TZ7NY39CPMJM";
+        private readonly string URL = "http://streetammo.dk/api/";
+        private readonly string Password = ""; // Passwords are not used
 
         public product GetProduct(long ID)
         {
@@ -18,10 +19,17 @@ namespace PrestaSharpAPI
             return ProductFactory.Get(ID);
         }
 
-        public List<product> GetAllProducts()
+        public List<Item> GetAllProducts()
         {
             ProductFactory ProductFactory = new ProductFactory(URL, APIKey, Password);
-            return ProductFactory.GetAll();
+            List<product> products = ProductFactory.GetAll();
+            List<Item> items = new List<Item>();
+            foreach (product product in products)
+            {
+                items.Add(new Item(product.id.ToString(), product.name[1].Value, "color", "size"));
+            }
+
+            return items;
         }
     }
 }
