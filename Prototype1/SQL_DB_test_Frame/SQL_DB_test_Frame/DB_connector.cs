@@ -181,7 +181,7 @@ namespace SQL_DB_test_Frame
         }
         public List<string>[] Select(string values, string tableinfo)
         {
-            string query = "select * from ps_cent_control_data where id_product in (4222);";//"SELECT "+values+" FROM "+tableinfo+"";
+            string query = "select * from ps_cent_control_data";
 
             //Create a list to store the result
             List<string>[] list = new List<string>[3];

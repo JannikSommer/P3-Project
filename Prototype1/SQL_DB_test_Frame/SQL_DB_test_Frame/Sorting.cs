@@ -24,7 +24,7 @@ namespace SQL_DB_test_Frame
 
             bool found = false;
 
-            for (int i = 0; i < list[0].Count && i < 10; i++)
+            for (int i = 0; i < list[0].Count; i++)
             {
                 found = false;
                 int j_count = combinedList[0].Count;
@@ -139,29 +139,25 @@ namespace SQL_DB_test_Frame
             {
                 locationList.Add(Location);
             }
-            string returnString = locationList[0];
             bool dubFound = false;
-            int count;
-            for (int i = 1; i < locationList.Count; i++)
+            for (int i = 0; i < locationList.Count; i++)
             {
-                count = returnLocationList.Count;
-                for (int j = 0; j < count; j++)
+                for (int j = 0; j < returnLocationList.Count; j++)
                 {
                     if (locationList[i] == returnLocationList[j])
                     {
                         dubFound = true;
-                        returnLocationList.Add(locationList[i]);
                     }
                 }
                 if (!dubFound)
                 {
                     returnLocationList.Add(locationList[i]);
-                    Console.WriteLine("Thing1: " + locationList[i]);
                 }
             }
-            foreach (var location in returnLocationList)
+            string returnString = returnLocationList[0];
+            for (int i = 1; i < returnLocationList.Count; i++)
             {
-                returnString = locationCombiner(returnString, location); 
+                returnString = locationCombiner(returnString, returnLocationList[i]); 
             }
             return returnString;
         }

@@ -45,7 +45,7 @@ namespace WPF_PC
         private Thread NetworkingThread { get; set; }
         private Controller Controller { get; set; }
         private Server Server { get; set; }
-        private Thread NetworkingThread; // Used to keep socket connection open for clients. 
+        //private Thread NetworkingThread; // Used to keep socket connection open for clients. 
         private IOController _ioController = new IOController("TestCycle");
 
         private new Language Language { get; set; }

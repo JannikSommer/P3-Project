@@ -44,13 +44,16 @@ namespace SQL_DB_test_Frame
             //test2 = Console.ReadLine();
             List<string>[] testList = new List<string>[3];
             testList = connector.Select("*", "ps_cent_control_data");
-            //for (int index = 0; index < testList[2].Count - 1; index++)
-            //{
-            //    Console.WriteLine(testList[0][index] + " | " + testList[1][index] + " | " + testList[2][index]);
-            //    Console.ReadKey();
-            //}
+            for (int index = 0; index < testList[2].Count - 1; index++)
+            {
+                Console.WriteLine(testList[0][index] + " | " + testList[1][index] + " | " + testList[2][index]);
+                //Console.ReadKey();
+            }
+
+
             List<string>[] testList2 = new List<string>[3];
             testList2 = sorter.createCombinedList(testList);
+            Console.ReadKey();
             //Console.WriteLine("Done1!");
             //Console.ReadKey();
             //Console.WriteLine("index: "+ testList2[2].Count);

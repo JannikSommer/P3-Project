@@ -11,7 +11,7 @@ using System.Threading;
 
 namespace SQL_DB_test_Frame
 {
-    class Program
+    class Program2
     {
         static void Main(string[] args)
         {
@@ -44,41 +44,45 @@ namespace SQL_DB_test_Frame
             //test2 = Console.ReadLine();
             List<string>[] testList = new List<string>[3];
             testList = connector.Select("*", "ps_cent_control_data");
-            int highest = 0;
-            foreach (var str in testList[0])
-            {
-                if (highest < Convert.ToInt32(str))
-                {
-                    highest = Convert.ToInt32(str);
-                }
-            }
-            Console.WriteLine("highest: " + highest);
-            Console.ReadKey();
-            for (int index = 0; index < testList[2].Count; index++)
-            {
-                Console.WriteLine(testList[0][index] + " | " + testList[1][index] + " | " + testList[2][index]);
-            }
+            //int highest = 0;
+            //foreach (var str in testList[0])
+            //{
+            //    if (highest < Convert.ToInt32(str))
+            //    {
+            //        highest = Convert.ToInt32(str);
+            //    }
+            //}
+            //Console.WriteLine("highest: " + highest);
+            //Console.ReadKey();
+            //for (int index = 0; index < testList[2].Count; index++)
+            //{
+            //    Console.WriteLine(testList[0][index] + " | " + testList[1][index] + " | " + testList[2][index]);
+            //}
+
+            Console.WriteLine("L1: " + testList[0].Count);
             List<string>[] testList2 = new List<string>[3];
             testList2 = sorter.createCombinedList(testList);
-            int highest2 = 0;
-            foreach (var str in testList2[0])
-            {
-                if (highest2 < Convert.ToInt32(str))
-                {
-                    highest2 = Convert.ToInt32(str);
-                }
-            }
-            Console.WriteLine("highest: " + highest2);
             Console.ReadKey();
+            //int highest2 = 0;
+            //foreach (var str in testList2[0])
+            //{
+            //    if (highest2 < Convert.ToInt32(str))
+            //    {
+            //        highest2 = Convert.ToInt32(str);
+            //    }
+            //}
+            //Console.WriteLine("highest: " + highest2);
+            //Console.ReadKey();
             //Console.WriteLine("Done1!");
             //Console.ReadKey();
             //Console.WriteLine("index: "+ testList2[2].Count);
-            Console.WriteLine("LÆNGDE! " + testList2[2].Count);
+            //Console.WriteLine("LÆNGDE! " + testList2[2].Count);
 
-            for (int index = 0; index < testList2[2].Count; index++)
+            for (int index = 0; index < testList2[0].Count; index++)
             {
                 Console.WriteLine(testList2[0][index] + " | " + testList2[1][index] + " | " + testList2[2][index]);
             }
+            Console.WriteLine("L2: " + testList2[0].Count);
             //Console.WriteLine("Done2!");
             //Console.ReadKey();
             //string temp = "test";
