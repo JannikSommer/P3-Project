@@ -25,6 +25,7 @@ namespace Central_Controller
         public List<List<Partition>> MultiLocationPartitions { get; private set; } = new List<List<Partition>>();
         public List<Partition> PriorityPartitions { get; private set; } = new List<Partition>();
         public List<Tuple<Item, bool[]>> PartiallyCountedItems { get; private set; } = new List<Tuple<Item, bool[]>>();
+        public List<Item> VerifiedItems = new List<Item>();
 
         /* first Send Next Partition Implimentation
         public Partition SendNextPartition(Client client)
@@ -370,7 +371,27 @@ namespace Central_Controller
             MoveFromList.RemoveAt(Index);
         }
 
+        public void CheckVerificationPartition(VerificationPartition verificationPartition)
+        {
+            foreach(Item item in verificationPartition.Items)
+            {
+                if(item.CountedQuantity < 0)
+                {
+                    ItemsForVerification.Add(item);
+                }
+                if(item.CountedQuantity == item.ServerQuantity)
+                {
+                    ItemsVerified++;
+                }
+                else
+                {
+                    VerifiedItems.Add(item);
+                }
+            }
+        }
+
         public void CheckPartition(Partition partition)
+        //Checks an entire partitions. Going through all items to see if they've been counted, either adds items to normal rotation, verification items, partially counted item or removes it and considers it verified
         {
             List<Item> ItemsInPartition = ConvertLocationListToItemList(partition.Locations); 
             bool AllItemLocationsWasVisited;
@@ -381,7 +402,7 @@ namespace Central_Controller
             {
                 foreach (Item item in ItemsInPartition)
                 {
-                    if (item.CountedQuantity >= 0)
+                    if (item.CountedQuantity >= 0) //the items was counted by the client
                     {
                         AllItemLocationsWasVisited = true;
                         LocationsVisitedInPartition = new bool[item.Locations.Count];
@@ -391,7 +412,7 @@ namespace Central_Controller
                             LocationsVisitedInPartition[n] = false;
                         }
 
-                        for (int n = 0; n < item.Locations.Count; n++)
+                        for (int n = 0; n < item.Locations.Count; n++) //test if all the items locations was visited in partition
                         {
                             if (!(partition.Locations.Exists(x => x.ID == item.Locations[n].ID)))
                             {
@@ -407,68 +428,120 @@ namespace Central_Controller
                         {
                             CheckCountedItem(item);
                         }
-                        else
+                        else //If all the items locations wasn't visited
                         {
                             Index = PartiallyCountedItems.FindIndex(x => x.Item1.ID == item.ID);
 
-                            if (Index >= 0)
+                            if (Index >= 0) //If the Item already exist in PartitallyCountedItems
                             {
-                                LocationsVisitedInPartition = CombineBoolArray(LocationsVisitedInPartition, PartiallyCountedItems[Index].Item2);
-                                item.CountedQuantity += PartiallyCountedItems[Index].Item1.CountedQuantity;
+                                LocationsVisitedInPartition = CombineBoolArray(LocationsVisitedInPartition, PartiallyCountedItems[Index].Item2); 
+                                item.CountedQuantity += PartiallyCountedItems[Index].Item1.CountedQuantity; //item is combined with its matching item from partiallyCountedItems
 
-                                if (IsEverythingTrue(LocationsVisitedInPartition))
+                                if (IsEverythingTrue(LocationsVisitedInPartition)) //If all the items was visited after the combinations
                                 {
                                     PartiallyCountedItems.RemoveAt(Index);
                                     CheckCountedItem(item);
                                 }
-                                else
+                                else //If all the items still wasn't visited after the combinations
                                 {
                                     PartiallyCountedItems.RemoveAt(Index);
                                     PartiallyCountedItems.Add(new Tuple<Item, bool[]>(item, LocationsVisitedInPartition));
                                 }
                             }
-                            else
+                            else //if the item didn't exist in PartitallyCountedItems
                             {
                                 PartiallyCountedItems.Add(new Tuple<Item, bool[]>(item, LocationsVisitedInPartition));
                             }
                         }
                     }
-                    else
+                    else //If the item was never counted
                     {
                         AllItemLocationsWasVisited = true;
+                        LocationsVisitedInPartition = new bool[item.Locations.Count];
 
-                        foreach (Location location in item.Locations)
+                        for (int n = 0; n < item.Locations.Count; n++)
                         {
-                            if(!(partition.Locations.Exists(x => x.ID == location.ID)))
+                            LocationsVisitedInPartition[n] = false;
+                        }
+
+                        for (int n = 0; n < item.Locations.Count; n++) //tests if all locations was visited
+                        {
+                            if(!(partition.Locations.Exists(x => x.ID == item.Locations[n].ID)))
                             {
                                 AllItemLocationsWasVisited = false;
                             }
+                            else
+                            {
+                                LocationsVisitedInPartition[n] = true;
+                            }
                         }
 
-                        if (AllItemLocationsWasVisited)
+                        if (AllItemLocationsWasVisited) //if all items was visited
                         {
                             CheckCountedItem(item);
                         }
-                        else
+                        else //if all items wasn't visited
                         {
-                            //Item wasn't counted and part and only partial, add to priority partitions
-                            /*
-                             
-                            NEEDS MORE WORK HERE!!!! 
-                            NEEDS MORE WORK HERE!!!! 
-                            NEEDS MORE WORK HERE!!!! 
-                            NEEDS MORE WORK HERE!!!! 
-                            NEEDS MORE WORK HERE!!!! 
-                            NEEDS MORE WORK HERE!!!! 
-                            NEEDS MORE WORK HERE!!!! 
-                            NEEDS MORE WORK HERE!!!!
+                            List<List<Location>> LocationLists = new List<List<Location>>();
                             
-                            */
+                            LocationLists.Add(new List<Location>());
+
+                            for (int n = 0; n < item.Locations.Count; n++) //adds visited locations to LocationLists
+                            {
+                                if (LocationsVisitedInPartition[n])
+                                {
+                                    LocationLists[0].Add(item.Locations[n]);
+                                }
+                            }
+
+                            if(LocationLists[0].Count > MaxSizeForPartitions) //Splits Locations into multiple lists if larger then MaxSizeForParitions
+                            {
+                                List<List<List<Location>>> path = new List<List<List<Location>>>();
+                                path.Add(LocationLists);
+                                DivideLargerPaths(path);
+                            }
+
+                            foreach(Partition priorityPartition in PriorityPartitions) //tries to combine the locations with already existing partitions in PriorityPartition
+                            {
+                                for(int x = 0; x < LocationLists.Count; x++)
+                                {
+                                    if(priorityPartition.Locations.Count + LocationLists[x].Count <= MaxSizeForPartitions && PathsIsCombinable(priorityPartition.Locations, LocationLists[x]))
+                                    {
+                                        foreach(Location location in LocationLists[x])
+                                        {
+                                            priorityPartition.AddLocation(location);
+                                        }
+
+                                        LocationLists.RemoveAt(x);
+                                        break;
+                                    }
+                                }
+
+                                if(LocationLists.Count == 0)
+                                {
+                                    break;
+                                }
+                            }
+
+                            if(LocationLists.Count != 0) //Any LocationLists Unable to add to existing PriorityPartitions, turned into new partitons and added.
+                            {
+                                foreach(List<Location> locationList in LocationLists)
+                                {
+                                    Partition NewPartition = new Partition(true);
+
+                                    foreach(Location location in locationList)
+                                    {
+                                        NewPartition.AddLocation(location);
+                                    }
+
+                                    PriorityPartitions.Add(NewPartition);
+                                }
+                            }
                         }
                     }
                 }
             }
-            else
+            else //if Partition wasn't a MultiLocationPartition
             {
                 foreach(Item item in ItemsInPartition)
                 {
