@@ -12,11 +12,11 @@ namespace PrestaSharpAPI
         private readonly string URL = "http://streetammo.dk/api/";
         private readonly string Password = ""; // Passwords are not used
 
-        public Item GetItem(long ID)
+        public Item GetItem(long id)
         {
             ProductFactory ProductFactory = new ProductFactory(URL, APIKey, Password);
-            product product = ProductFactory.Get(ID);
-            return new Item(product.id.ToString(), product.name[1].Value, (Int32)product.quantity, product.original_color, 
+            product product = ProductFactory.Get(id);
+            return new Item(product.id.ToString(), product.name[1].Value, int product.quantity, product.original_color, 
                             null, new List<Location>(), product.upc ?? product.ean13);
         }
 
@@ -29,7 +29,7 @@ namespace PrestaSharpAPI
             {
                 if (product.type != "virtual")
                 {
-                    items.Add(new Item(product.id.ToString(), product.name[1].Value, (Int32)product.quantity, product.original_color, 
+                    items.Add(new Item(product.id.ToString(), product.name[1].Value, (int) product.quantity, product.original_color, 
                               null, new List<Location>(), product.upc ?? product.ean13));
                 }
             }
