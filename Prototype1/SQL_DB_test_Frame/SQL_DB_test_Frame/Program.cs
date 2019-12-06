@@ -43,7 +43,7 @@ namespace SQL_DB_test_Frame
             //Console.WriteLine("give table string");
             //test2 = Console.ReadLine();
             List<string>[] testList = new List<string>[3];
-            testList = connector.Select("*", "ps_cent_control_data");
+            testList = connector.Select("select * from ps_cent_control_data");
             for (int index = 0; index < testList[2].Count - 1; index++)
             {
                 Console.WriteLine(testList[0][index] + " | " + testList[1][index] + " | " + testList[2][index]);
