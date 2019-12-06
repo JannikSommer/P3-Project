@@ -20,13 +20,15 @@ namespace SAScanApp.Droid
     {
 
         private CancellationTokenSource _ct { get; set; }
+        private BluetoothDevice device { get; set; } = null;
+        BluetoothAdapter adapter { get; set; } = BluetoothAdapter.DefaultAdapter;
+        BluetoothSocket BluetoothSocket { get; set; } = null;
+        public string barcode { get; set; }
+
 
         public async Task enableBluetooth()
         {
-            BluetoothDevice device = null;
-            BluetoothAdapter adapter = BluetoothAdapter.DefaultAdapter;
-            BluetoothSocket BluetoothSocket = null;
-
+           
             //Thread.Sleep(1000);
             _ct = new CancellationTokenSource();
             while (_ct.IsCancellationRequested == false)
@@ -72,42 +74,6 @@ namespace SAScanApp.Droid
                         {
                             //Task.Run ((Func<Task>)loop); /*) => {
                             await BluetoothSocket.ConnectAsync();
-
-
-                            if (BluetoothSocket.IsConnected)
-                            {
-                                string barcode = null;
-                                var mReader = new InputStreamReader(BluetoothSocket.InputStream);
-                                var buffer = new BufferedReader(mReader);
-                                
-                                while (_ct.IsCancellationRequested == false)
-                                {
-                                    if (buffer.Ready())
-                                    {
-                                        barcode = buffer.ToString();
-                                    }
-
-                                    else
-                                    {
-                                                                                
-                                        barcode = await buffer.ReadLineAsync();
-                                    }
-                                    
-                                    if (barcode.Length > 0)
-                                    {
-
-                                        MessagingCenter.Send<App, string>((App)Xamarin.Forms.Application.Current, "Barcode", barcode);
-                                    }
-
-                                }
-
-                                if (!BluetoothSocket.IsConnected)
-                                {
-                                    //DisplayAlert("Scanner not connected");
-                                    throw new Exception();
-                                }
-                            }
-
                         }
                         else
                         {
@@ -121,13 +87,43 @@ namespace SAScanApp.Droid
                 {
                     System.Diagnostics.Debug.WriteLine("EXCEPTION: " + ex.Message);
                 }
+            }
+        }
 
-                finally
+        public async void getBarcode() { 
+
+            if (BluetoothSocket.IsConnected) 
+            { 
+                                
+                string barcode = null;
+                var mReader = new InputStreamReader(BluetoothSocket.InputStream);
+                var buffer = new BufferedReader(mReader);
+                                
+                while (_ct.IsCancellationRequested == false)
                 {
-                    if (BluetoothSocket != null)
-                        BluetoothSocket.Close();
-                    device = null;
-                    adapter = null;
+                    if (buffer.Ready())
+                    {
+                        barcode = buffer.ToString();
+                    }
+
+                    else
+                    {
+                                                                                
+                        barcode = await buffer.ReadLineAsync();
+    }
+                                    
+                    if (barcode.Length > 0)
+                    {
+
+                        MessagingCenter.Send<App, string>((App) Xamarin.Forms.Application.Current, "Barcode", barcode);
+                    }
+
+                }
+
+                if (!BluetoothSocket.IsConnected)
+                {
+                    //DisplayAlert("Scanner not connected");
+                    throw new Exception();
                 }
             }
         }
@@ -140,9 +136,9 @@ namespace SAScanApp.Droid
         {
             if (_ct != null)
             {
-                System.Diagnostics.Debug.WriteLine("Send a cancel to task!");
                 _ct.Cancel();
             }
+
         }
 
 
@@ -156,6 +152,14 @@ namespace SAScanApp.Droid
                 devices.Add(bd.Name);
 
             return devices;
+        }
+
+        public void closeBluetoothConnection()
+        {
+            if (BluetoothSocket != null)
+                BluetoothSocket.Close();
+                device = null;
+                adapter = null;
         }
 
 
