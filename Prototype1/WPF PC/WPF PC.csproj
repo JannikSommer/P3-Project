@@ -119,6 +119,7 @@
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
     <Compile Include="Converters\DateTimeConverter.cs" />
+    <Compile Include="Converters\LocationToStringConverter.cs" />
     <Compile Include="CreateCycle.xaml.cs">
       <DependentUpon>CreateCycle.xaml</DependentUpon>
     </Compile>
@@ -203,6 +204,10 @@
     <ProjectReference Include="..\Networking\Networking.csproj">
       <Project>{26cbc6b3-3005-40d1-9d2a-3a31129578ea}</Project>
       <Name>Networking</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PrestaSharpAPI\PrestaSharpAPI.csproj">
+      <Project>{041fbfc8-73cb-40b4-9f1e-2bdbfb0cc2d5}</Project>
+      <Name>PrestaSharpAPI</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

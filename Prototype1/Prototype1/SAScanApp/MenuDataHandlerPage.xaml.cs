@@ -7,6 +7,7 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using Xamarin.Essentials;
 using Networking;
+using Model;
 
 namespace SAScanApp
 {
@@ -30,6 +31,10 @@ namespace SAScanApp
             CommunicationHandler handler = client.UploadPartitionAsync(partition).Result;
 
             DependencyService.Get<IBluetoothHandler>().closeBluetoothConnection();
+
+            // Der skal addes noget typesafety her, så hvis eventet fyrer igen, imens man er igang med at uploade en partition, så sker der ikke noget
+            // Ligeledes er ens partition ikke done, (mangler en location/item som slet ikke er scannet) så kan den ikke uploades (måske med overrule funktion??)
+            
         }
 
         private void DownloadPartition(object sender, EventArgs e) // TODO: make async event
@@ -47,6 +52,11 @@ namespace SAScanApp
             }
 
             DependencyService.Get<IBluetoothHandler>().enableBluetooth();
+
+            // Typesafety, samme som ovenstående, plus at hvis ens partition pt. ikke er uploaded, kan man ikke få en ny
+           
         }
+
+        
     }
 }
