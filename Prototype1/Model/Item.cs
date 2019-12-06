@@ -29,6 +29,7 @@ namespace Model
         public List<Location> Locations { get; set; }
         public string Barcode { get; set; }
 
+
         public event PropertyChangedEventHandler PropertyChanged;
 
 

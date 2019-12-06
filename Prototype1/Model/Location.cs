@@ -10,12 +10,11 @@ namespace Model
     {
         public string ID { get; set; }
         public bool IsEmpty { get; set; }
+
         public int Shelf { get; set; }
         public char Row { get; set; }
         public int Position { get; set; }
         public bool HasMultilocationItem { get; set; }
-        
-        [XmlIgnore]
         public List<Item> Items { get; set; }
 
         public Location() { } // Used for JSON Deserialization.

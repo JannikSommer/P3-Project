@@ -12,6 +12,7 @@ using Xamarin.Forms;
 using Xamarin.Essentials;
 using Xamarin.Android;
 using Android.App;
+using Model;
 
 [assembly: Xamarin.Forms.Dependency(typeof(BluetoothHandler))]
 namespace SAScanApp.Droid
@@ -118,6 +119,8 @@ namespace SAScanApp.Droid
                         MessagingCenter.Send<App, string>((App) Xamarin.Forms.Application.Current, "Barcode", barcode);
                     }
 
+
+
                 }
 
                 if (!BluetoothSocket.IsConnected)
@@ -145,7 +148,6 @@ namespace SAScanApp.Droid
 
         public ObservableCollection<string> getPairedDevices()
         {
-            BluetoothAdapter adapter = BluetoothAdapter.DefaultAdapter;
             ObservableCollection<string> devices = new ObservableCollection<string>();
 
             foreach (var bd in adapter.BondedDevices)
@@ -162,6 +164,7 @@ namespace SAScanApp.Droid
                 adapter = null;
         }
 
+        
 
 
     }

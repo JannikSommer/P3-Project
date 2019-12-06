@@ -8,8 +8,6 @@
        
     public class CheckSum
     {
-        
-
         public bool CheckSumValidation(string _Barcode)
         {
             ulong SumOfOdds = 0;
@@ -18,7 +16,6 @@
             int CheckDigit = 0;
             List<ulong> CheckSumCalculation = new List<ulong>();
             
-
             foreach(char c in _Barcode)
             {
                 CheckSumCalculation.Add(c);
@@ -66,4 +63,6 @@
 
         }
     }
+
+    // Der mangler kode for at tjekke om koden er UPC-A, måske bare være dovne og læse ind fra ZXing
 }

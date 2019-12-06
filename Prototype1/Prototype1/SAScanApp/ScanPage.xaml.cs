@@ -22,6 +22,18 @@ namespace SAScanApp
 
         public ScanPage()
         {
+            InitializeComponent();
+            Partition _partition = new Partition(); // instancier
+            ObservableCollection<Model.Location> _locationList = new ObservableCollection<Model.Location>(); // instanser
+
+            for (int i = 0; i < _partition.Locations.Count; i++)
+            {
+                _locationList.Add(_partition.Locations[i]);
+            }
+
+            _locationList.CollectionChanged += _locationList_CollectionChanged;
+            displayList.ItemsSource = _locationList; 
+            
         }
 
         public ScanPage(Model.Partition partition)
@@ -29,11 +41,7 @@ namespace SAScanApp
             _partition = partition;
             
             InitializeComponent();
-            _locationList = new ObservableCollection<Model.Location>();
-
-            
-
-            
+            _locationList = new ObservableCollection<Model.Location>();          
 
             // temp
             for(int i = 0; i < partition.Locations.Count; i++)
@@ -43,7 +51,8 @@ namespace SAScanApp
 
             _locationList.CollectionChanged += _locationList_CollectionChanged;
             displayList.ItemsSource = _locationList;
-        }
+
+            }
 
         private void _locationList_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e) {
             displayList.BeginRefresh();
@@ -75,15 +84,15 @@ namespace SAScanApp
             }
             catch (FeatureNotSupportedException)
             {
-                await DisplayAlert("Error:", "Your device does not support the use of this feature not supported, sorry!", "Okay");
+                await DisplayAlert("Error:", "This device does not support the use of the flashlight feature", "Okay");
             }
             catch (PermissionException)
             {
-                await DisplayAlert("Error:", "Enable permissions to access flashlight in your phone", "Okay");
+                await DisplayAlert("Error:", "Permissions to access flashlight is not enabled on your phone", "Okay");
             }
             catch (Exception)
             {
-                await DisplayAlert("Error", "There has been an error", "Okay");
+                await DisplayAlert("Error", "An unknown error has occured", "Okay");
             }
         }
 
@@ -114,6 +123,8 @@ namespace SAScanApp
                                    new Item("item4")
                                    }));
         }
+
+        
     }
 
 
