@@ -20,6 +20,7 @@ using Central_Controller;
 using Model;
 using Central_Controller.IO;
 using System.Globalization;
+using PrestaSharpAPI;
 
 
 namespace WPF_PC
@@ -33,16 +34,6 @@ namespace WPF_PC
     /// </summary>
     public partial class MainWindow : Window
     {
-        public class Item // remember to use item class from model
-        {
-            public string itemID { get; set; }
-            public string itemName { get; set; }
-            public string itemLocation { get; set; }
-            public bool itemHasBeenCounted { get; set; }
-            public int itemInStorageCount { get; set; }
-            public int itemServerCount { get; set; }
-            public int itemCountVariation { get; set; }
-        }
 
         private Thread NetworkingThread { get; set; }
         private Controller Controller { get; set; }
@@ -50,7 +41,6 @@ namespace WPF_PC
         //private Thread NetworkingThread; // Used to keep socket connection open for clients. 
         private IOController _ioController = new IOController("TestCycle");
 
-        private new Language Language { get; set; }
 
         public MainWindow()
         {
@@ -63,15 +53,18 @@ namespace WPF_PC
             LoadIntoChooseBox();
 
             // Add eksample data to save files.
-            if(true) {
+            if(false) {
                 List<LogMessage> list = new List<LogMessage> {
                 new VerificationLogMessage(new DateTime(2019, 11, 12, 10, 21, 9), "Polle", "5709216007104", true),
                 new LocationLogMessage(new DateTime(2019, 11, 12, 10, 21, 9), "Ole", "001C27", new List<(string itemId, string countedQuantity)>{("5709216007104", "5"), ("5849225908104", "2")}),
                 new TextLogMessage(DateTime.Now, "Hello Bob!")
                 };
-                _ioController.CountedItems.AddRange(new List<string> { "12", "123456", "135612455" });
+                _ioController.CountedItems.AddRange(new List<Item> { new Item("135424", "Ugly T-Shirt", "Purple", "XL", new List <Location> { new Location("002F01") }), new Item("19753", "Nice T-Shirt", "Blue", "M", new List<Location> { new Location("002F01"), new Location("022D07") }) });
                 _ioController.Log.AddMultipleMessages(list);
             }
+
+
+
 
         }
 
@@ -91,28 +84,11 @@ namespace WPF_PC
 
         public void LoadIntoDataGrid()
         {
-            Item itemOne = new Item();
-
-            itemOne.itemID = "12345";
-            itemOne.itemName = "Hvid T-Shirt";
-            itemOne.itemLocation = "001E02, 001F02";
-            itemOne.itemHasBeenCounted = true;
-            itemOne.itemInStorageCount = 34;
-            itemOne.itemServerCount = 35;
-            itemOne.itemCountVariation = 1;
-
-            Item itemTwo = new Item();
-            itemTwo.itemID = "12344";
-            itemTwo.itemName = "Sort T-Shirt";
-            itemTwo.itemLocation = "001E03, 001F03";
-            itemTwo.itemHasBeenCounted = true;
-            itemTwo.itemInStorageCount = 23;
-            itemTwo.itemServerCount = 23;
-            itemTwo.itemCountVariation = 0;
-            dataGridMain.Items.Add(itemTwo);
-
-            dataGridMain.Items.Add(itemOne);
-
+            if(false) {
+                ProductAPI psAPI = new ProductAPI();
+                _ioController.CountedItems = psAPI.GetAllItems();
+            }
+            dataGridMain.ItemsSource = _ioController.CountedItems;
         }
 
         public void UpdateMainWindow()
@@ -160,7 +136,7 @@ namespace WPF_PC
 
         private void finishCycle_Click(object sender, RoutedEventArgs e)
         {
-            if (MessageBox.Show(((Language.Danish == Language) ? "ER DU SIKKER?" : "ARE YOU SURE?"), ((Language.Danish == Language) ? "Færdiggør cyklus'en?" : "Finish the cycle?"), MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
+            if (MessageBox.Show("ARE YOU SURE?", "Finish the cycle?", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
             {
                 //do no stuff
                 

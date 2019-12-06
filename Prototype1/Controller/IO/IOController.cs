@@ -4,12 +4,13 @@ using System.Text;
 using Model;
 using Model.Log;
 using System.IO;
+using System.Xml.Serialization;
 
 namespace Central_Controller.IO {
     public class IOController {
 
         public LogFile Log { get; set; }
-        public List<string> CountedItems { get; set; }
+        public List<Item> CountedItems { get; set; }
 
         private readonly string _savesPath = Environment.CurrentDirectory + @"\Cycles\";
         private string _chosenCycleId;
@@ -32,8 +33,8 @@ namespace Central_Controller.IO {
                 if(File.Exists(_logPath)) { Log = new LogReader().GetLogFromFile(_chosenCyclePath + @"\Log"); } 
                 else { Log = new LogFile(_chosenCycleId + "Log", DateTime.Now); }
                 
-                if(File.Exists(_countedItemsPath)) { CountedItems = new List<string>(File.ReadAllLines(_chosenCyclePath + @"\CountedItems")); } 
-                else { CountedItems = new List<string>(); }
+                if(File.Exists(_countedItemsPath)) { CountedItems = LoadCountedItems(); } 
+                else { CountedItems = new List<Item>(); }
         }
 
 
@@ -41,11 +42,27 @@ namespace Central_Controller.IO {
             LogWriter logWriter = new LogWriter(_chosenCyclePath + @"\Log", Log);
             if(!File.Exists(_chosenCyclePath + @"\Log")) { logWriter.CreateNewFile();  } 
             else { logWriter.SaveNewMessages(); }
-            File.AppendAllLines(_chosenCyclePath + @"\CountedItems", CountedItems);
+            SaveCountedItems();
         }
 
 
+        private void SaveCountedItems() {
 
+            StreamWriter writer = new StreamWriter(_countedItemsPath);
+            XmlSerializer serializer = new XmlSerializer(typeof(List<Item>));
+            
+            serializer.Serialize(writer, CountedItems);
+            writer.Dispose();
+        }
+
+        private List<Item> LoadCountedItems() {
+            XmlSerializer serializer = new XmlSerializer(typeof(List<Item>));
+            FileStream fileStream = new FileStream(_countedItemsPath, FileMode.Open);
+
+            List<Item> items = (List<Item>)serializer.Deserialize(fileStream);
+            fileStream.Close();
+            return items;
+        }
 
     }
 }

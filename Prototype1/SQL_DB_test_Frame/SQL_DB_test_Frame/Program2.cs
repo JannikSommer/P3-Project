@@ -43,7 +43,7 @@ namespace SQL_DB_test_Frame
             //Console.WriteLine("give table string");
             //test2 = Console.ReadLine();
             List<string>[] testList = new List<string>[3];
-            testList = connector.Select("*", "ps_cent_control_data");
+            testList = connector.Select("select * from ps_cent_control_data");
             //int highest = 0;
             //foreach (var str in testList[0])
             //{
@@ -59,10 +59,10 @@ namespace SQL_DB_test_Frame
             //    Console.WriteLine(testList[0][index] + " | " + testList[1][index] + " | " + testList[2][index]);
             //}
 
-            Console.WriteLine("L1: " + testList[0].Count);
+            //Console.WriteLine("L1: " + testList[0].Count);
             List<string>[] testList2 = new List<string>[3];
             testList2 = sorter.createCombinedList(testList);
-            Console.ReadKey();
+            //Console.ReadKey();
             //int highest2 = 0;
             //foreach (var str in testList2[0])
             //{
@@ -78,11 +78,11 @@ namespace SQL_DB_test_Frame
             //Console.WriteLine("index: "+ testList2[2].Count);
             //Console.WriteLine("LÆNGDE! " + testList2[2].Count);
 
-            for (int index = 0; index < testList2[0].Count; index++)
-            {
-                Console.WriteLine(testList2[0][index] + " | " + testList2[1][index] + " | " + testList2[2][index]);
-            }
-            Console.WriteLine("L2: " + testList2[0].Count);
+            //for (int index = 0; index < testList2[0].Count; index++)
+            //{
+            //    Console.WriteLine(testList2[0][index] + " | " + testList2[1][index] + " | " + testList2[2][index]);
+            //}
+            //Console.WriteLine("L2: " + testList2[0].Count);
             //Console.WriteLine("Done2!");
             //Console.ReadKey();
             //string temp = "test";
