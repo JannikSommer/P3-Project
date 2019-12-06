@@ -20,6 +20,7 @@ using Central_Controller;
 using Model;
 using Central_Controller.IO;
 using System.Globalization;
+using PrestaSharpAPI;
 
 
 namespace WPF_PC
@@ -62,6 +63,9 @@ namespace WPF_PC
                 _ioController.Log.AddMultipleMessages(list);
             }
 
+
+
+
         }
 
         private void StartServer()
@@ -80,6 +84,10 @@ namespace WPF_PC
 
         public void LoadIntoDataGrid()
         {
+            if(false) {
+                ProductAPI psAPI = new ProductAPI();
+                _ioController.CountedItems = psAPI.GetAllItems();
+            }
             dataGridMain.ItemsSource = _ioController.CountedItems;
         }
 

@@ -205,6 +205,10 @@
       <Project>{26cbc6b3-3005-40d1-9d2a-3a31129578ea}</Project>
       <Name>Networking</Name>
     </ProjectReference>
+    <ProjectReference Include="..\PrestaSharpAPI\PrestaSharpAPI.csproj">
+      <Project>{041fbfc8-73cb-40b4-9f1e-2bdbfb0cc2d5}</Project>
+      <Name>PrestaSharpAPI</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="SortPriority.txt">
