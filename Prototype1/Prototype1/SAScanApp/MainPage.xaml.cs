@@ -11,7 +11,7 @@ namespace SAScanApp
     [DesignTimeVisible(false)]
     public partial class MainPage : ContentPage
     {
-
+        //Skal have en constructor der læser partition ind så den kan bruges i ScanPage instansiering i ScanPage_Selected
         public MainPage()
         {
             InitializeComponent();
@@ -20,14 +20,9 @@ namespace SAScanApp
 
         }
 
-        private void BS_Selected(object sender, EventArgs e)
+        private void ScanPage_Selected(object sender, EventArgs e)
         {
             Navigation.PushAsync(new ScanPage());
-        }
-
-        private void CS_Selected(object sender, EventArgs e)
-        {
-            DisplayAlert("Hey", "Hey", "Hey");
         }
 
         private void Admin_Selected(object sender, EventArgs e)

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Model;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
@@ -10,10 +11,8 @@ namespace SAScanApp
     {
         string barc = null;
         public ObservableCollection<string> barcodes { get; set; } = new ObservableCollection<string>();
-        public string RecieveBarcode(object sender, EventArgs e)
+        public string RecieveBarcode(Partition partition)
         {
-
-            DependencyService.Get<IBluetoothHandler>().getBarcode();
 
             var hej = DependencyService.Get<IBluetoothHandler>();
 
@@ -21,7 +20,7 @@ namespace SAScanApp
             {
 
                 barc = a.ToString();
-                barcodes.Add(a.ToString());
+                barcodes.Add(a.ToString());                           
                 
             });
 
@@ -29,12 +28,19 @@ namespace SAScanApp
 
             if (Checker.CheckSumValidation(barc))
             {
-                
-                return barc;
+
+                List<Item> currentItems = new List<Item>();
+                int j = 0;
+
+                for (int i = 0; i < partition.Locations.Count; i++)
+                {
+                    if (partition.Locations[i].Items[j].ID == barcode)
+                    {
+                        partition.Locations[i].Items[j].CountedQuantity++; ;
             }
 
             return null;
         }
-    } 
+    }
 }
     

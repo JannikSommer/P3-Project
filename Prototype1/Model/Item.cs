@@ -23,7 +23,7 @@ namespace Model
         public string Size { get; private set; }
         public string ImageUrl { get; private set; }
         public string CheckSum { get; set; }
-        public List<Location> Locations { get; private set; }
+        public List<Location> Locations { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
 

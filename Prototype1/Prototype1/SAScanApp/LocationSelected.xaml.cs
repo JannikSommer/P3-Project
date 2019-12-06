@@ -31,7 +31,7 @@ namespace SAScanApp
         private Item _prevItem;
         private bool _counterEnabled;
         private bool lightOn = false;
-        private int _value = 00;
+        private int _value { get; set; }
         
         public LocationSelected()
         {
