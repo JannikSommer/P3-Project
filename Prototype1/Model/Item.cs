@@ -6,7 +6,7 @@ using System.ComponentModel;
 namespace Model
 {
     //public enum ItemSize { S = 0, Small = 0, M = 1, Medium = 1, L = 2, Large = 2, XL = 3, ExtraLarge = 3, XXL, XXXL, XXXXL, XXXXXL}
-
+    [Serializable]
     public class Item : INotifyPropertyChanged
     {   
         public int ServerQuantity { get; set; }
@@ -16,22 +16,24 @@ namespace Model
                 OnPropertyChanged("ItemQuantity");
             } 
         }
-        public bool HasMultiLocation { get; private set; }
-        public string ID { get; private set; }
-        public string Name { get; private set; }
-        public string Color { get; private set; }
-        public string Size { get; private set; }
-        public string ImageUrl { get; private set; }
+        public int QuantityVariance {
+            get { return Math.Abs(ServerQuantity - CountedQuantity); }
+        }
+        public bool HasMultiLocation { get; set; }
+        public string ID { get; set; }
+        public string Name { get; set; }
+        public string Color { get; set; }
+        public string Size { get; set; }
+        public string ImageUrl { get; set; }
         public string CheckSum { get; set; }
-        public List<Location> Locations { get; private set; }
+        public List<Location> Locations { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
 
         private int _countedQuantity;
 
-
-        public Item() { } // Used for JSON Deserialization.
+        public Item() { } // Used for XML/JSON Deserialization.
 
         public Item(string id)
         {

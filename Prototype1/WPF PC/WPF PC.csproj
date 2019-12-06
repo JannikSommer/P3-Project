@@ -119,6 +119,7 @@
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
     <Compile Include="Converters\DateTimeConverter.cs" />
+    <Compile Include="Converters\LocationToStringConverter.cs" />
     <Compile Include="CreateCycle.xaml.cs">
       <DependentUpon>CreateCycle.xaml</DependentUpon>
     </Compile>

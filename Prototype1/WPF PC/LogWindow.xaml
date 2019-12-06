@@ -7,7 +7,7 @@
         xmlns:toolkit="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:lang="clr-namespace:Localization;assembly=Localization"
         mc:Ignorable="d" WindowStartupLocation="CenterScreen" Icon="Assets\count-icon-26.ico.ico"
-        Title="{x:Static lang:Resources.LogWindowTitle}" Height="550" Width="780" Topmost="True" ResizeMode="NoResize" MinWidth="780" MinHeight="550">
+        Title="{x:Static lang:Resources.LogWindowTitle}" Height="550" Width="800" Topmost="True" ResizeMode="NoResize" MinWidth="780" MinHeight="550">
 
     <Window.Resources>
         <conv:DateTimeConverter x:Key="DateTimeConverter"/>
