@@ -92,7 +92,6 @@ namespace SQL_DB_test_Frame
             }
             if (location == null)
             {
-                Console.WriteLine("FUCKUP3:" + location + "|");
                 Console.ReadKey();
                 return "999Z99";
             }
