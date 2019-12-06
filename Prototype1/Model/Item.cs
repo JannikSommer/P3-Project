@@ -72,7 +72,7 @@ namespace Model
             ID = id;
             Name = name;
             ServerQuantity = quantity;
-            Color = color;
+            Color = color;      
             Size = size;
             Barcode = barcode;
             Locations = new List<Location>();
