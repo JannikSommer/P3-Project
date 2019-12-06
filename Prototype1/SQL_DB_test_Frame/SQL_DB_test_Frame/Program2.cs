@@ -125,7 +125,7 @@ namespace SQL_DB_test_Frame
             items = presta.GetAllItems();
             foreach (var itemmm in items)
             {
-                Console.WriteLine("ID: " + itemmm.ID+ "QA: " + itemmm.quan + " | CO: " + itemmm.Color + " | SI: " + itemmm.Size + " | LO: " + itemmm.Locations.Count + " | IM: " + itemmm.ImageUrl);
+                Console.WriteLine("ID: " + itemmm.ID+ "QA: " + itemmm.ServerQuantity + " | CO: " + itemmm.Color + " | SI: " + itemmm.Size + " | LO: " + itemmm.Locations.Count + " | IM: " + itemmm.ImageUrl);
             }
             Console.WriteLine("Done1!");
             //controller.InitialPartitionUnpartitionedLocations();
