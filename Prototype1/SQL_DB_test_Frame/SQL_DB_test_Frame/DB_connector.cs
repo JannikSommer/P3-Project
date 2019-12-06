@@ -179,9 +179,9 @@ namespace SQL_DB_test_Frame
                 this.CloseConnection();
             }
         }
-        public List<string>[] Select(string values, string tableinfo)
+        public List<string>[] Select(string querystring)
         {
-            string query = "select * from ps_cent_control_data";
+            string query = querystring;
 
             //Create a list to store the result
             List<string>[] list = new List<string>[3];

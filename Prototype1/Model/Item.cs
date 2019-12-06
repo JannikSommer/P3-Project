@@ -27,6 +27,7 @@ namespace Model
         public string ImageUrl { get; set; }
         public string CheckSum { get; set; }
         public List<Location> Locations { get; set; }
+        public string Barcode { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -44,7 +45,7 @@ namespace Model
 
         public Item(string _ID, string _Name, string _Color, string _Size)
         {
-            ID = _ID;
+            ID = _ID;   
             Name = _Name;
             Color = _Color;
             Size = _Size;
@@ -58,6 +59,20 @@ namespace Model
             Name = _Name;
             Color = _Color;
             Size = _Size;
+            Locations = new List<Location>();
+
+            foreach (Location location in _Locations)
+            {
+                AddLocation(location);
+            }
+        }
+        public Item(string _ID, string _Name, string _Color, string _Size, List<Model.Location> _Locations, string barcode)
+        {
+            ID = _ID;
+            Name = _Name;
+            Color = _Color;
+            Size = _Size;
+            Barcode = barcode;
             Locations = new List<Location>();
 
             foreach (Location location in _Locations)
