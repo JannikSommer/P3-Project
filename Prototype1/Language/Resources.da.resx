@@ -250,7 +250,7 @@
     <value>Vælg hvordan cyklus'en skal oprettes:</value>
   </data>
   <data name="CreateCycleWindowLabelWarning" xml:space="preserve">
-    <value>Vælg venligst den ønskede funktion</value>
+    <value>Ikke korrekt</value>
   </data>
   <data name="PhoneMainPageLabelScanner" xml:space="preserve">
     <value>SKANNER</value>
@@ -338,5 +338,29 @@
   </data>
   <data name="MainWindowButtonSwitchLanguage" xml:space="preserve">
     <value>Skift Sprog</value>
+  </data>
+  <data name="CreateCycleXAMLComboBox_1" xml:space="preserve">
+    <value>Hele lageret</value>
+  </data>
+  <data name="CreateCycleXAMLComboBox_2" xml:space="preserve">
+    <value>T-shirts</value>
+  </data>
+  <data name="CreateCycleXAMLComboBox_3" xml:space="preserve">
+    <value>Bukser</value>
+  </data>
+  <data name="CreateCycleXAMLComboBox_4" xml:space="preserve">
+    <value>Skateboards</value>
+  </data>
+  <data name="CreateCycleXAMLComboBox_5" xml:space="preserve">
+    <value>Sko</value>
+  </data>
+  <data name="CreateCycleXAMLComboBox_6" xml:space="preserve">
+    <value>Hoodies</value>
+  </data>
+  <data name="CreateCycleWindowLabelChooseCycleName" xml:space="preserve">
+    <value>Cyklus navn:</value>
+  </data>
+  <data name="EditCycleWindowButtonContentEdit" xml:space="preserve">
+    <value>Rediger hylde</value>
   </data>
 </root>
