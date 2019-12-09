@@ -46,7 +46,7 @@ namespace WPF_PC
         public MainWindow()
         {
             EditCycleWindow = new EditCycle(Controller);
-            Controller.InitilizeLocationComparer(EditCycleWindow.RetrieveSortingPriorityFromFile());
+            Controller.InitilizeLocationComparer(EditCycleWindow.ShelfArray);
 
             InitializeComponent();
             // StartServer();

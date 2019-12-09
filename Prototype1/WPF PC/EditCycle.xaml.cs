@@ -24,6 +24,7 @@ namespace WPF_PC
     public partial class EditCycle : Window
     {
         Controller controller;
+        public int[] ShelfArray { get; private set; }
 
         public EditCycle(Controller _controller)
         {
@@ -32,6 +33,8 @@ namespace WPF_PC
             loadAllUsersnamesIntoChooseBox();
 
             controller = _controller;
+
+            ShelfArray = RetrieveSortingPriorityFromFile();
 
             LoadSortPriority();
         }
@@ -191,13 +194,12 @@ namespace WPF_PC
 
         private void LoadSortPriority()
         {
-            int[] ShelfPriority = RetrieveSortingPriorityFromFile();
             ListViewItem item;
 
-            for(int x = 0; x < ShelfPriority.Length; x++)
+            for(int x = 0; x < ShelfArray.Length; x++)
             {
                 item = new ListViewItem();
-                item.Content = ShelfPriority[x].ToString();
+                item.Content = ShelfArray[x].ToString();
 
                 listBoxShelfPriority.Items.Add(item);
             }
