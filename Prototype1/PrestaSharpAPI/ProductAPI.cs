@@ -2,6 +2,7 @@
 using Bukimedia.PrestaSharp.Factories;
 using System.Collections.Generic;
 using Model;
+using System;
 
 namespace PrestaSharpAPI
 {
@@ -11,12 +12,12 @@ namespace PrestaSharpAPI
         private readonly string URL = "http://streetammo.dk/api/";
         private readonly string Password = ""; // Passwords are not used
 
-        public Item GetItem(long ID)
+        public Item GetItem(long id)
         {
             ProductFactory ProductFactory = new ProductFactory(URL, APIKey, Password);
-            product product = ProductFactory.Get(ID);
-            return new Item(product.id.ToString(), product.name[1].Value, product.original_color, null, new List<Location>(),
-                            product.upc ?? product.ean13);
+            product product = ProductFactory.Get(id);
+            return new Item(product.id.ToString(), product.name[1].Value, Convert.ToInt32(product.quantity), product.original_color, 
+                            null, new List<Location>(), product.upc ?? product.ean13);
         }
 
         public List<Item> GetAllItems()
@@ -26,8 +27,11 @@ namespace PrestaSharpAPI
             List<Item> items = new List<Item>();
             foreach (product product in products)
             {
-                items.Add(new Item(product.id.ToString(), product.name[1].Value, product.original_color, null, new List<Location>(),
-                          product.upc ?? product.ean13));
+                if (product.type != "virtual")
+                {
+                    items.Add(new Item(product.id.ToString(), product.name[1].Value, Convert.ToInt32(product.quantity), product.original_color, 
+                              null, new List<Location>(), product.upc ?? product.ean13));
+                }
             }
             return items;
         }

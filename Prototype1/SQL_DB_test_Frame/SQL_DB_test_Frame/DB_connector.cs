@@ -104,9 +104,9 @@ namespace SQL_DB_test_Frame
             }
         }
         //Update statement
-        public void Update()
+        public void Update(string querystring)
         {
-            string query = "";
+            string query = querystring;
 
             //Open connection
             if (this.OpenConnection() == true)

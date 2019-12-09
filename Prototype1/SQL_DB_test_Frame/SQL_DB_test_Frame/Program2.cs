@@ -8,6 +8,7 @@ using Model;
 using Central_Controller;
 using Networking;
 using System.Threading;
+using PrestaSharpAPI;
 
 namespace SQL_DB_test_Frame
 {
@@ -21,6 +22,7 @@ namespace SQL_DB_test_Frame
             Item item = new Item();
             Location location = new Location();
             Controller controller = new Controller();
+            ProductAPI presta = new ProductAPI();
             //Server server = new Server();
             
             timer.Start();
@@ -119,6 +121,12 @@ namespace SQL_DB_test_Frame
             //    }
             //    x++;
             //}
+            List<Item> items = new List<Item>();
+            items = presta.GetAllItems();
+            foreach (var itemmm in items)
+            {
+                Console.WriteLine("ID: " + itemmm.ID+ " | QA: " + itemmm.ServerQuantity + " | CO: " + itemmm.Color + " | SI: " + itemmm.Size + " | LO: " + itemmm.Locations.Count + " | IM: " + itemmm.ImageUrl);
+            }
             Console.WriteLine("Done1!");
             //controller.InitialPartitionUnpartitionedLocations();
 
