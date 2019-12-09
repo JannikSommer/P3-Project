@@ -9,11 +9,11 @@ namespace SAScanApp
 {
     public interface IBluetoothHandler
     {
-        Task enableBluetooth();
-        void closeBluetoothConnection();
-        void getBarcode();
+        Task EnableBluetooth();
+        void CloseBluetoothConnection();
+        void GetBarcode();
         void Cancel();
-        ObservableCollection<string> getPairedDevices();
+        ObservableCollection<string> GetPairedDevices();
 
     }
 }

@@ -19,15 +19,15 @@ namespace SAScanApp.Droid
 {
     public class BluetoothHandler : IBluetoothHandler
     {
+        public string Barcode { get; set; }
 
         private CancellationTokenSource _ct { get; set; }
-        private BluetoothDevice device { get; set; } = null;
-        BluetoothAdapter adapter { get; set; } = BluetoothAdapter.DefaultAdapter;
-        BluetoothSocket BluetoothSocket { get; set; } = null;
-        public string barcode { get; set; }
+        private BluetoothDevice Device { get; set; } = null;
+        private BluetoothAdapter Adapter { get; set; } = BluetoothAdapter.DefaultAdapter;
+        private BluetoothSocket BluetoothSocket { get; set; } = null;
 
 
-        public async Task enableBluetooth()
+        public async Task EnableBluetooth()
         {
             string name = "CS3070";
             //Thread.Sleep(1000);
@@ -36,28 +36,28 @@ namespace SAScanApp.Droid
             {
                 try
                 {
-                    adapter = BluetoothAdapter.DefaultAdapter;
+                    Adapter = BluetoothAdapter.DefaultAdapter;
 
-                    if (adapter == null)
+                    if (Adapter == null)
                     {
                         //DisplayAlert("No Bluetooth adapter found.");
                     }
 
-                    if (!adapter.IsEnabled)
+                    if (!Adapter.IsEnabled)
                     {
                         //DisplayAlert("Bluetooth adapter is not enabled.");
                     }
 
-                    foreach (var bd in adapter.BondedDevices)
+                    foreach (var bd in Adapter.BondedDevices)
                     {
                         if (bd.Name.ToUpper().IndexOf (name.ToUpper()) >= 0)
                         {
-                            device = bd;
+                            Device = bd;
                             break;
                         }
                     }
 
-                    if (device == null)
+                    if (Device == null)
                     {
                         //DisplayAlert("Named device not found.");
                     }
@@ -67,9 +67,9 @@ namespace SAScanApp.Droid
                         UUID uuid = UUID.FromString("00001101-0000-1000-8000-00805f9b34fb");
 
                         if ((int)Android.OS.Build.VERSION.SdkInt >= 10) // Gingerbread 2.3.3 2.3.4
-                            BluetoothSocket = device.CreateInsecureRfcommSocketToServiceRecord(uuid);
+                            BluetoothSocket = Device.CreateInsecureRfcommSocketToServiceRecord(uuid);
                         else
-                            BluetoothSocket = device.CreateRfcommSocketToServiceRecord(uuid);
+                            BluetoothSocket = Device.CreateRfcommSocketToServiceRecord(uuid);
 
                         if (BluetoothSocket != null)
                         {
@@ -91,40 +91,27 @@ namespace SAScanApp.Droid
             }
         }
 
-        public async void getBarcode() { 
+        public async void GetBarcode() { 
 
             if (BluetoothSocket.IsConnected) 
             { 
-                                
-                string barcode = null;
                 var mReader = new InputStreamReader(BluetoothSocket.InputStream);
                 var buffer = new BufferedReader(mReader);
                                 
-                while (_ct.IsCancellationRequested == false)
-                {
-                    if (buffer.Ready())
-                    {
-                        barcode = buffer.ToString();
+                while (_ct.IsCancellationRequested == false) {
+                    if (buffer.Ready()) {
+                        Barcode = buffer.ToString();
+                    } else {                                                       
+                        Barcode = await buffer.ReadLineAsync();
+                    }            
+                    if (Barcode.Length > 0) {
+                        MessagingCenter.Send<App, string>((App) Xamarin.Forms.Application.Current, "Barcode", Barcode);
                     }
-
-                    else
-                    {
-                                                                                
-                        barcode = await buffer.ReadLineAsync();
-    }
-                                    
-                    if (barcode.Length > 0)
-                    {
-
-                        MessagingCenter.Send<App, string>((App) Xamarin.Forms.Application.Current, "Barcode", barcode);
-                    }
-
-
-
                 }
 
-                if (!BluetoothSocket.IsConnected)
-                {
+                buffer.Dispose();
+
+                if (!BluetoothSocket.IsConnected) {
                     //DisplayAlert("Scanner not connected");
                     throw new Exception();
                 }
@@ -141,31 +128,26 @@ namespace SAScanApp.Droid
             {
                 _ct.Cancel();
             }
-
         }
 
 
 
-        public ObservableCollection<string> getPairedDevices()
+        public ObservableCollection<string> GetPairedDevices()
         {
             ObservableCollection<string> devices = new ObservableCollection<string>();
 
-            foreach (var bd in adapter.BondedDevices)
+            foreach (var bd in Adapter.BondedDevices)
                 devices.Add(bd.Name);
 
             return devices;
         }
 
-        public void closeBluetoothConnection()
-        {
-            if (BluetoothSocket != null)
+        public void CloseBluetoothConnection() {
+            if(BluetoothSocket != null) {
                 BluetoothSocket.Close();
-                device = null;
-                adapter = null;
+                Device = null;
+                Adapter = null;
+            }
         }
-
-        
-
-
     }
 }

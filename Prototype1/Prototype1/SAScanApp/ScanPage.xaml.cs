@@ -13,17 +13,16 @@ namespace SAScanApp
     public partial class ScanPage : ContentPage
     {
 
-        public ObservableCollection<Model.Location> _locationList { get; set; }
-        public List<Item> _itemList { get; set; }
+        public ObservableCollection<Model.Location> LocationList { get; set; }
+        public List<Item> ItemList { get; set; }
+        public Partition Partition { get; set; }
 
-        public Model.Partition _partition { get; set; }
-
-        bool lightOn = false;
+        private bool lightOn = false;
 
         public ScanPage()
         {
             InitializeComponent();
-            DependencyService.Get<IBluetoothHandler>().enableBluetooth();
+            DependencyService.Get<IBluetoothHandler>().EnableBluetooth();
             Partition _partition = new Partition(new Model.Location("000A01",
                                                                         new List<Item> {
                                                                             new Item("5701872203005"),
@@ -40,7 +39,7 @@ namespace SAScanApp
                 _locationList.Add(_partition.Locations[i]);
             }
 
-            _locationList.CollectionChanged += _locationList_CollectionChanged;
+            _locationList.CollectionChanged += LocationList_CollectionChanged;
             displayList.ItemsSource = _locationList;
             BarcodeReciever reciever = new BarcodeReciever();
             reciever.RecieveBarcode(_partition);
@@ -49,23 +48,23 @@ namespace SAScanApp
 
         public ScanPage(Model.Partition partition)
         {
-            _partition = partition;
+            Partition = partition;
             
             InitializeComponent();
-            _locationList = new ObservableCollection<Model.Location>();          
+            LocationList = new ObservableCollection<Model.Location>();          
 
             // temp
             for(int i = 0; i < partition.Locations.Count; i++)
             {
-                _locationList.Add(partition.Locations[i]);
+                LocationList.Add(partition.Locations[i]);
             }
 
-            _locationList.CollectionChanged += _locationList_CollectionChanged;
-            displayList.ItemsSource = _locationList;
+            LocationList.CollectionChanged += LocationList_CollectionChanged;
+            displayList.ItemsSource = LocationList;
 
             }
 
-        private void _locationList_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e) {
+        private void LocationList_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e) {
             displayList.BeginRefresh();
             displayList.EndRefresh();
         }
@@ -110,22 +109,21 @@ namespace SAScanApp
         private void MenuItem_Clicked(object sender, EventArgs e)
         {
             // Add a Observable Collection List that pops down with the paired devices recieved
-            DependencyService.Get<IBluetoothHandler>().getPairedDevices();
+            DependencyService.Get<IBluetoothHandler>().GetPairedDevices();
         }
 
-        private void displayList_ItemSelected(object sender, SelectedItemChangedEventArgs e)
+        private void DisplayList_ItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
-
             displayList.SelectedItem = null;
         }
 
-        private async void displayList_ItemTapped(object sender, ItemTappedEventArgs e)
+        private async void DisplayList_ItemTapped(object sender, ItemTappedEventArgs e)
         {
             await Navigation.PushAsync(new LocationSelected(this, ((Model.Location)e.Item).Items));
         }
 
         private void ButtonV_Clicked(object sender, EventArgs e) {
-            _locationList.Add(
+            LocationList.Add(
                 new Model.Location("003B23",
                                    new List<Item> {
                                    new Item("item1"),
@@ -134,9 +132,5 @@ namespace SAScanApp
                                    new Item("item4")
                                    }));
         }
-
-        
     }
-
-
 }

@@ -8,18 +8,17 @@
        
     public class CheckSum
     {
-
-        private string _Barcode { get; set; } = "xxxxxxxxxx";
+        private string _barcode { get; set; } = "xxxxxxxxxx";
         public bool CheckSumValidation(string barcode)
         {
             ulong SumOfOdds = 0;
             ulong SumOfEvens = 0;
             ulong checkSum = 0;
             int CheckDigit = 0;
-            if(_Barcode != "xxxxxxxxxx") { _Barcode = barcode; }          
+            if(_barcode != "xxxxxxxxxx") { _barcode = barcode; }          
             List<ulong> CheckSumCalculation = new List<ulong>();
             
-            foreach(char c in _Barcode)
+            foreach(char c in _barcode)
             {
                 CheckSumCalculation.Add((ulong)c);
             }
@@ -35,7 +34,7 @@
                 SumOfOdds += CheckSumCalculation[0];
                 SumOfEvens += CheckSumCalculation[1];
 
-                CheckDigit = _Barcode.Last();
+                CheckDigit = _barcode.Last();
                 
                 for (int i = 2; i < count; i++)
                 {

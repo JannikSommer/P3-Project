@@ -12,11 +12,9 @@ using Xamarin.Essentials;
 using Model;
 
 
-namespace SAScanApp
-{
+namespace SAScanApp {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class LocationSelected : ContentPage
-    {
+    public partial class LocationSelected : ContentPage {
         public int Value {
             get { return _value; }
             set {
@@ -31,23 +29,20 @@ namespace SAScanApp
         private Item _prevItem;
         private bool _counterEnabled;
         private bool lightOn = false;
-        private int _value { get; set; }
+        private int _value;
         
-        public LocationSelected()
-        {
+        public LocationSelected() {
             InitializeComponent();
             quantity.Text = Convert.ToString(Value);
             _counterEnabled = false;
             BarcodeReciever reciever = new BarcodeReciever();
         }
 
-        public LocationSelected(ScanPage startPage) : this()
-        {
+        public LocationSelected(ScanPage startPage) : this() {
             _scanPage = startPage;
         }
 
-        public LocationSelected(ScanPage startPage, List<Item> itemList) : this(startPage)
-        {
+        public LocationSelected(ScanPage startPage, List<Item> itemList) : this(startPage) {
             _returnItems = itemList;
             _itemList =  new ObservableCollection<Item>(itemList);
             _itemList.CollectionChanged += _itemList_CollectionChanged;
@@ -59,66 +54,46 @@ namespace SAScanApp
             itemDisplayList.EndRefresh();
         }
 
-        private void dec_item_count_Clicked(object sender, EventArgs e)
-        {
-            if (_counterEnabled == true && Value > 0)
-            {
+        private void dec_item_count_Clicked(object sender, EventArgs e) {
+            if (_counterEnabled == true && Value > 0) {
                 Value--;
             }
         }
 
-        private void inc_item_count_Clicked(object sender, EventArgs e)
-        {
-            if (_counterEnabled == true)
-            {
+        private void inc_item_count_Clicked(object sender, EventArgs e) {
+            if (_counterEnabled == true) {
                 Value++;
             }
         }
 
-        private async void Light_Button_Clicked(object sender, EventArgs e)
-        {
-
-            try
-            {
-                if (lightOn == false)
-                {
+        private async void Light_Button_Clicked(object sender, EventArgs e) {
+            try {
+                if (lightOn == false) {
                     // Turn On Flashlight  
                     await Flashlight.TurnOnAsync();
                     lightOn = true;
-                }
-
-                else if (lightOn == true)
-                {
+                } else if (lightOn == true) {
                     await Flashlight.TurnOffAsync();
                     lightOn = false;
                 }
             }
-            catch (FeatureNotSupportedException)
-            {
+
+            catch (FeatureNotSupportedException) {
                 await DisplayAlert("Error:", "Your device does not support the use of this feature not supported, sorry!", "Okay");
             }
-            catch (PermissionException)
-            {
+            catch (PermissionException) {
                 await DisplayAlert("Error:", "Enable permissions to access flashlight in your phone", "Okay");
             }
-            catch (Exception)
-            {
+            catch (Exception) {
                 await DisplayAlert("Error", "There has been an error", "Okay");
             }
         }
 
-        private void MenuItem_Clicked(object sender, EventArgs e)
-        {
-            DisplayAlert("Test", "Test", "Test");
-        }
-
-        private async void Menu_Button_Clicked(object sender, EventArgs e)
-        {
+        private async void Menu_Button_Clicked(object sender, EventArgs e) {
             await Navigation.PushAsync(new MenuStartPage(this));
         }
 
-        private void itemDisplayList_ItemTapped(object sender, ItemTappedEventArgs e)
-        {
+        private void itemDisplayList_ItemTapped(object sender, ItemTappedEventArgs e) {
             if(_prevItem == ((Item)e.Item)) {
                 // Deselect item
                 itemDisplayList.SelectedItem = null;
@@ -128,26 +103,23 @@ namespace SAScanApp
                 _prevItem = null;
             } else {
                 // Save previous quantity
-                SaveQuantity((Item)_prevItem);
+                SaveQuantity(_prevItem);
 
                 _prevItem = (Item)e.Item;
                 Value = ((Item)itemDisplayList.SelectedItem).CountedQuantity;
             }
         }
 
-        private void itemDisplayList_ItemSelected(object sender, SelectedItemChangedEventArgs e)
-        {
+        private void itemDisplayList_ItemSelected(object sender, SelectedItemChangedEventArgs e) {
             if(_counterEnabled != true) {
                 _counterEnabled = true;
                 inc_item_count.IsEnabled = true;
                 dec_item_count.IsEnabled = true;
             }
-
         }
 
         private void ContentPage_Disappearing(object sender, EventArgs e) {
             SaveQuantity((Item)itemDisplayList.SelectedItem);
-
             for(int i = 0; i < _returnItems.Count; i++) {
                 _returnItems[i].CountedQuantity = _itemList[i].CountedQuantity;
             }
