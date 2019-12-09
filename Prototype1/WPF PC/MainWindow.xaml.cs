@@ -71,7 +71,7 @@ namespace WPF_PC
         {
             if(false) {
                 ProductAPI psAPI = new ProductAPI();
-                _ioController.CountedItems = psAPI.GetAllItems();
+                //_ioController.CountedItems = psAPI.GetAllItems();
             }
             dataGridMain.ItemsSource = _ioController.CountedItems;
         }
