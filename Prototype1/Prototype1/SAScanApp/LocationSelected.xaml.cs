@@ -38,6 +38,7 @@ namespace SAScanApp
             InitializeComponent();
             quantity.Text = Convert.ToString(Value);
             _counterEnabled = false;
+            BarcodeReciever reciever = new BarcodeReciever();
         }
 
         public LocationSelected(ScanPage startPage) : this()

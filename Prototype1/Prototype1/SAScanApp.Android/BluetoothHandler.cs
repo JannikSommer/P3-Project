@@ -29,7 +29,7 @@ namespace SAScanApp.Droid
 
         public async Task enableBluetooth()
         {
-           
+            string name = "CS3070";
             //Thread.Sleep(1000);
             _ct = new CancellationTokenSource();
             while (_ct.IsCancellationRequested == false)
@@ -50,10 +50,10 @@ namespace SAScanApp.Droid
 
                     foreach (var bd in adapter.BondedDevices)
                     {
-
-                        if (bd.Name.Contains("3070"))
+                        if (bd.Name.ToUpper().IndexOf (name.ToUpper()) >= 0)
                         {
                             device = bd;
+                            break;
                         }
                     }
 
