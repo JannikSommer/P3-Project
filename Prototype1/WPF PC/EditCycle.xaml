@@ -76,6 +76,7 @@
         <!--ListBox-->
 
         <ListBox x:Name="listBoxShelfPriority" Width="100" Grid.Row="2" Grid.Column="2" Grid.RowSpan="3" Margin="100,10,10,10" FontSize="14" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Height="470" VerticalAlignment="Top">
+            <ListViewItem>0</ListViewItem>
             <ListViewItem>1</ListViewItem>
             <ListViewItem>2</ListViewItem>
             <ListViewItem>3</ListViewItem>

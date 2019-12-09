@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Model;
 using System.IO;
+using Central_Controller;
 
 namespace WPF_PC
 {
@@ -21,12 +22,26 @@ namespace WPF_PC
     /// </summary>
     public partial class EditCycle : Window
     {
+        Controller controller;
+        
         public EditCycle()
         {
             InitializeComponent();
 
             EditCycleWindowLanguage();
             loadAllUsersnamesIntoChooseBox();
+        }
+
+        public EditCycle(Controller _controller)
+        {
+            InitializeComponent();
+
+            getSortPriority();
+
+            EditCycleWindowLanguage();
+            loadAllUsersnamesIntoChooseBox();
+
+            controller = _controller;
         }
 
         private void MoveUpButton_Click(object sender, RoutedEventArgs e)
@@ -49,13 +64,16 @@ namespace WPF_PC
 
                 //Select index
                 listBoxShelfPriority.SelectedIndex = selectedindex - 1;
+
+                //Mimics change in controller
+                controller.Location_Comparer.DecreasePriority(Int32.Parse(text));
             }
         }
 
         private void MoveDownButton_Click(object sender, RoutedEventArgs e)
         {
             int selectedindex = listBoxShelfPriority.SelectedIndex;
-
+            
             //Check if a move down is possible
             if (selectedindex < listBoxShelfPriority.Items.Count - 1 && listBoxShelfPriority.SelectedItem != null)
             {
@@ -72,6 +90,9 @@ namespace WPF_PC
 
                 //Select index
                 listBoxShelfPriority.SelectedIndex = selectedindex + 1;
+
+                //Mimics change in controller
+                controller.Location_Comparer.IncreasePriority(Int32.Parse(text));
             }
         }
 
@@ -124,6 +145,11 @@ namespace WPF_PC
         {
             int[] priority = new int[listBoxShelfPriority.Items.Count];
             string filePath = Environment.CurrentDirectory + @"\SortPriority.txt";
+
+            if (!File.Exists(filePath))
+            {
+                File.CreateText(filePath);
+            }
 
             List<string> lines = File.ReadAllLines(filePath).ToList();
 

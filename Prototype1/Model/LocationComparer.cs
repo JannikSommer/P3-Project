@@ -20,6 +20,12 @@ namespace Model
             }
         }
 
+        public LocationComparer(int[] shelfHierachy)
+        {
+            ShelfHierarchy = shelfHierachy;
+            HighestValueShelf = ShelfHierarchy.Length - 1;
+        }
+
         int IComparer<Location>.Compare(Location a, Location b)
         {
             int ShelfComparison = ShelfHierarchy[a.Shelf] - ShelfHierarchy[b.Shelf];

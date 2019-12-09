@@ -16,16 +16,17 @@ namespace Central_Controller
         public SortedList<string, Location> UnPartitionedLocations { get; private set; } = new SortedList<string, Location>();
         private List<Location> MultiLocationsItem_Locations = new List<Location>();
         //private List<Item> MultilocationItems = new List<Item>();
-        private List<Client> Active_Clients = new List<Client>();
+        public List<Client> Active_Clients { get; private set; } = new List<Client>();
         private List<Shelf> AvailebleShelfs = new List<Shelf>();
         private List<Shelf> OccopiedShelfs = new List<Shelf>();
         private List<Item> ItemsForVerification = new List<Item>();
         private List<Item> MultiLocationItemsForVerification = new List<Item>();
-        private LocationComparer Location_Comparer;
+        public LocationComparer Location_Comparer;
         public List<List<Partition>> MultiLocationPartitions { get; private set; } = new List<List<Partition>>();
         public List<Partition> PriorityPartitions { get; private set; } = new List<Partition>();
         public List<Tuple<Item, bool[]>> PartiallyCountedItems { get; private set; } = new List<Tuple<Item, bool[]>>();
         public List<Item> VerifiedItems = new List<Item>();
+        private bool LocationComparerHasBeenInitialized = false;
 
         /* first Send Next Partition Implimentation
         public Partition SendNextPartition(Client client)
@@ -245,9 +246,11 @@ namespace Central_Controller
             TotalNumberOfItems++;
         }
 
-        private void InitilizeLocationComparer() //THIS MIGHT NEED TO BE REWORKED AND REMOVED, + remember that its called in InitialPartitionUnpartitionedLocations when/if reworking this.
+        public void InitilizeLocationComparer(int[] ShelfHierachy) //THIS MIGHT NEED TO BE REWORKED AND REMOVED, + remember that its called in InitialPartitionUnpartitionedLocations when/if reworking this.
         {
-            Location_Comparer = new LocationComparer(UnPartitionedLocations.Values[UnPartitionedLocations.Count - 1].Shelf);
+            Location_Comparer = new LocationComparer(ShelfHierachy);
+
+            LocationComparerHasBeenInitialized = true;
         }
 
         private void SortMultiLocationItem_Locations()
@@ -265,8 +268,11 @@ namespace Central_Controller
 
         public void InitialPartitioningOfLocations()
         {
-            InitilizeLocationComparer(); //THIS MIGHT NEED TO BE REWORKED AND REMOVED
-
+            if (!LocationComparerHasBeenInitialized)
+            {
+                throw new Exception("LocationComparer has to be initialized");
+            }
+            
             SortMultiLocationItem_Locations();
 
             InitialPartitioningOfSingleLocations();
