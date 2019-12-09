@@ -98,7 +98,7 @@ namespace SQL_DB_test_Frame
             //    x++;
             //}
             Console.WriteLine("Done1!");
-            controller.InitialPartitionUnpartitionedLocations();
+            controller.InitialPartitioningOfLocations();
 
             Central_Controller.Client client = new Central_Controller.Client("01");
             Console.WriteLine("Done2!");

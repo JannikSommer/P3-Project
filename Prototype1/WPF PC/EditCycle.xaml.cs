@@ -13,6 +13,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Model;
 using System.IO;
+using Central_Controller;
+using System.Text.RegularExpressions;
 
 namespace WPF_PC
 {
@@ -21,12 +23,20 @@ namespace WPF_PC
     /// </summary>
     public partial class EditCycle : Window
     {
-        public EditCycle()
+        Controller controller;
+        public int[] ShelfArray { get; private set; }
+
+        public EditCycle(Controller _controller)
         {
             InitializeComponent();
 
-            EditCycleWindowLanguage();
             loadAllUsersnamesIntoChooseBox();
+
+            controller = _controller;
+
+            ShelfArray = RetrieveSortingPriorityFromFile();
+
+            LoadSortPriority();
         }
 
         private void MoveUpButton_Click(object sender, RoutedEventArgs e)
@@ -49,13 +59,16 @@ namespace WPF_PC
 
                 //Select index
                 listBoxShelfPriority.SelectedIndex = selectedindex - 1;
+
+                //Mimics change in controller
+                controller.Location_Comparer.DecreasePriority(Int32.Parse(text));
             }
         }
 
         private void MoveDownButton_Click(object sender, RoutedEventArgs e)
         {
             int selectedindex = listBoxShelfPriority.SelectedIndex;
-
+            
             //Check if a move down is possible
             if (selectedindex < listBoxShelfPriority.Items.Count - 1 && listBoxShelfPriority.SelectedItem != null)
             {
@@ -72,6 +85,9 @@ namespace WPF_PC
 
                 //Select index
                 listBoxShelfPriority.SelectedIndex = selectedindex + 1;
+
+                //Mimics change in controller
+                controller.Location_Comparer.IncreasePriority(Int32.Parse(text));
             }
         }
 
@@ -125,6 +141,11 @@ namespace WPF_PC
             int[] priority = new int[listBoxShelfPriority.Items.Count];
             string filePath = Environment.CurrentDirectory + @"\SortPriority.txt";
 
+            if (!File.Exists(filePath))
+            {
+                File.CreateText(filePath);
+            }
+
             List<string> lines = File.ReadAllLines(filePath).ToList();
 
             foreach (string line in lines)
@@ -171,6 +192,19 @@ namespace WPF_PC
 
         }
 
+        private void LoadSortPriority()
+        {
+            ListViewItem item;
+
+            for(int x = 0; x < ShelfArray.Length; x++)
+            {
+                item = new ListViewItem();
+                item.Content = ShelfArray[x].ToString();
+
+                listBoxShelfPriority.Items.Add(item);
+            }
+        }
+
         private void CancelEdit_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
@@ -182,44 +216,42 @@ namespace WPF_PC
             this.Close();
         }
 
-        public void EditCycleWindowLanguage()
+        private void ConfirmNumberOfShelfs_Click(object sender, RoutedEventArgs e)
         {
+            ChangeNumberOfShelves();
+        }
 
-            ////Danish:
-            //if (Language.Danish == language)
-            //{
-            //    //Labels:
-            //    chooseHowToEditCycle.Content = "Vælg hvordan Cyklus'en skal Redigeres:";
-            //    chooseThePriority.Content = "Vælg hvordan reolerne skal sorteres:";
-            //    chooseUsers.Content = "Slet en specifik brugers arbejde:";
-            //    chooseToDeleteTheWholeCycle.Content = "Slet hele cyklus'en:";
+        public void ChangeNumberOfShelves()
+        {
+            ListBoxItem item;
 
-            //    //Buttons:
-            //    MoveUpButton.Content = "Flyt op";
-            //    MoveDownButton.Content = "Flyt ned";
-            //    DeleteUserButton.Content = "Slet brugers arbejde";
-            //    DeleteCycleCountButton.Content = "Slet Cyklus";
-            //    ConfirmEdit.Content = "OK";
-            //    CancelEdit.Content = "Annuller";
-            //}
+            listBoxShelfPriority.Items.Clear();
 
-            ////English:
-            //else if (Language.English == language)
-            //{
-            //    //Labels:
-            //    chooseHowToEditCycle.Content = "Choose how to edit the cycle:";
-            //    chooseThePriority.Content = "Choose how to sort the shelfs:";
-            //    chooseUsers.Content = "Delete a specific users work:";
-            //    chooseToDeleteTheWholeCycle.Content = "Delete the whole cycle:";
+            int numberOfShelfs = Int32.Parse(TextBoxNumberofShelfs.Text);
 
-            //    //Buttons:
-            //    MoveUpButton.Content = "Move up";
-            //    MoveDownButton.Content = "Move down";
-            //    DeleteUserButton.Content = "Delete users work";
-            //    DeleteCycleCountButton.Content = "Delete cycle";
-            //    ConfirmEdit.Content = "OK";
-            //    CancelEdit.Content = "Cancel";
-            //}
+            for (int index = 0; index < numberOfShelfs; index++)
+            {
+                item = new ListViewItem();
+                item.Content = index.ToString();
+
+                listBoxShelfPriority.Items.Add(item);
+            }
+
+            controller.Location_Comparer = new LocationComparer(numberOfShelfs);
+        }
+
+        private void TextBoxNumberofShelfs_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.Key == System.Windows.Input.Key.Enter)
+            {
+                ChangeNumberOfShelves();
+
+            }
+        }
+        private void NumberValidationTextBox(object sender, TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex("[^0-9]+");
+            e.Handled = regex.IsMatch(e.Text);
         }
     }
 }
