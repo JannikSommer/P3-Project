@@ -9,14 +9,15 @@ namespace SAScanApp
 {
    public class BarcodeReciever
     {
-        string barc = null;
+        private string barc { get; set; }
         public ObservableCollection<string> barcodes { get; set; } = new ObservableCollection<string>();
+        
         public string RecieveBarcode(Partition partition)
         {
+            barc = "xxxxxxxxxx";
+            
 
-            var hej = DependencyService.Get<IBluetoothHandler>();
-
-            MessagingCenter.Subscribe<Object, string> (hej, "barcode", (a, s) =>
+            MessagingCenter.Subscribe<Object, string> (this, "Barcode", (a, s) =>
             {
 
                 barc = a.ToString();
@@ -26,7 +27,7 @@ namespace SAScanApp
 
             var Checker = new CheckSum();
 
-            if (Checker.CheckSumValidation(barc))
+            if (Checker.CheckSumValidation(barc) == true)
             {
 
                 List<Item> currentItems = new List<Item>();
@@ -34,9 +35,15 @@ namespace SAScanApp
 
                 for (int i = 0; i < partition.Locations.Count; i++)
                 {
-                    if (partition.Locations[i].Items[j].ID == barcode)
+                    if (partition.Locations[i].Items[j].ID == barc)
                     {
-                        partition.Locations[i].Items[j].CountedQuantity++; ;
+                        partition.Locations[i].Items[j].CountedQuantity++;
+
+                        return barc;
+                    }
+
+                    
+                }
             }
 
             return null;
