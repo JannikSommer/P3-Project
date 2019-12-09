@@ -27,6 +27,7 @@ namespace Model
         public string ImageUrl { get; set; }
         public string CheckSum { get; set; }
         public List<Location> Locations { get; set; }
+
         public string Barcode { get; set; }
 
 
@@ -67,7 +68,7 @@ namespace Model
                 AddLocation(location);
             }
         }
-        public Item(string id, string name, int quantity, string color, string size, List<Model.Location> locations, string barcode)
+        public Item(string id, string name, int quantity, string color, string size, List<Location> locations, string barcode)
         {
             ID = id;
             Name = name;
@@ -75,14 +76,13 @@ namespace Model
             Color = color;      
             Size = size;
             Barcode = barcode;
-            Locations = new List<Location>();
+            Locations = locations;
 
             foreach (Location location in locations)
             {
                 AddLocation(location);
             }
         }
-
         public void AddLocation(Location location)
         {
             if(!HasLocation(location))

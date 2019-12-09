@@ -8,7 +8,7 @@ using MySql.Data.MySqlClient;
 
 namespace SQL_DB_test_Frame
 {
-    class DB_connector
+    public class DB_connector
     {
         private MySqlConnection connection;
         private string server;
