@@ -36,7 +36,8 @@ namespace WPF_PC
     {
 
         private Thread NetworkingThread { get; set; }
-        private Controller Controller { get; set; }
+        private Controller Controller { get; set; } = new Controller();
+        public EditCycle EditCycleWindow;
         private Server Server { get; set; }
         //private Thread NetworkingThread; // Used to keep socket connection open for clients. 
         private IOController _ioController = new IOController("TestCycle");
@@ -44,7 +45,8 @@ namespace WPF_PC
 
         public MainWindow()
         {
-            Controller = new Controller();
+            EditCycleWindow = new EditCycle(Controller);
+            Controller.InitilizeLocationComparer(EditCycleWindow.ShelfArray);
 
             InitializeComponent();
             // StartServer();
@@ -121,7 +123,7 @@ namespace WPF_PC
 
         private void editCycle_Click(object sender, RoutedEventArgs e)
         {
-            EditCycle EditCycle = new EditCycle();
+            EditCycle EditCycle = new EditCycle(Controller);
             EditCycle.Show();
 
         }
@@ -195,6 +197,7 @@ namespace WPF_PC
             //Server.ShutdownServer();
 
             _ioController.Save();
+            Application.Current.Shutdown();
         }
 
         private void comboBoxChooseGet_SelectionChanged(object sender, SelectionChangedEventArgs e)

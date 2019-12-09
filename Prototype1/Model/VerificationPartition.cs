@@ -31,7 +31,7 @@ namespace Model
             {
                 throw new Exception("Item Already exists in this Verification Partition");
             }
-
+            item.CountedQuantity = -1;
             Items.Add(item);
             TotalNrOFItems++;
 

@@ -7,7 +7,7 @@
         xmlns:local="clr-namespace:WPF_PC"
         mc:Ignorable="d" FontFamily="Segoe UI Light"
         FontSize="16" WindowStartupLocation="CenterScreen" Icon="Assets\count-icon-26.ico.ico"
-        Title="{x:Static lang:Resources.EditCycleWindowTitle}" Height="660" Width="680" MinWidth="680" MinHeight="660">
+        Title="{x:Static lang:Resources.EditCycleWindowTitle}" Height="660" Width="700" MinWidth="700" MinHeight="660">
     <Grid>
 
         <!--Grid Definition-->
@@ -42,6 +42,9 @@
         <Label x:Name="chooseThePriority" Content="{x:Static lang:Resources.EditCycleWindowLabelPriority}" Grid.Column="2" Grid.Row="1"
                HorizontalAlignment="Left" VerticalAlignment="Top" Margin="100,10,10,0" FontSize="16" />
 
+        <Label x:Name="inputShelfNumber" Content="Input number of shelfs:" Grid.Column="2" Grid.Row="3"
+               HorizontalAlignment="Left" VerticalAlignment="Top" Margin="205,20,0,0" FontSize="16" />
+
         <!--Buttons-->
 
         <Button x:Name="DeleteCycleCountButton" Content="{x:Static lang:Resources.EditCycleWindowButtonDeleteCycle}" Width="110" Height="35"
@@ -54,7 +57,13 @@
                 Grid.Column="2" Grid.Row="4" Margin="10,10,140,10" HorizontalAlignment="Right" VerticalAlignment="Bottom" Click="ConfirmEdit_Click" />
 
         <Button x:Name="DeleteUserButton" Content="{x:Static lang:Resources.EditCycleWindowButtonDeleteUser}" Width="160" Height="35"
-                Grid.Column="1" Grid.Row="3" Margin="10,0,10,10" HorizontalAlignment="Left" VerticalAlignment="Bottom" Click="DeleteUserButton_Click" />
+                Grid.Column="1" Grid.Row="3" Margin="10,0,10,10" HorizontalAlignment="Left" VerticalAlignment="Top" Click="DeleteUserButton_Click" />
+
+        <Button x:Name="ConfirmNumberOfShelfs" Content="Confirm" Width="80" Height="35"
+                Grid.Column="2" Grid.Row="4" Margin="210,15,10,10" HorizontalAlignment="Left" VerticalAlignment="Top" Click="ConfirmNumberOfShelfs_Click" />
+
+        <TextBox x:Name="TextBoxNumberofShelfs" Grid.Row="3" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Top" Width="70" Height="28" Margin="210,60,10,0"
+                 KeyUp="TextBoxNumberofShelfs_KeyUp" PreviewTextInput="NumberValidationTextBox" />
 
         <!--Error Labels-->
 
@@ -76,25 +85,7 @@
         <!--ListBox-->
 
         <ListBox x:Name="listBoxShelfPriority" Width="100" Grid.Row="2" Grid.Column="2" Grid.RowSpan="3" Margin="100,10,10,10" FontSize="14" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Height="470" VerticalAlignment="Top">
-            <ListViewItem>1</ListViewItem>
-            <ListViewItem>2</ListViewItem>
-            <ListViewItem>3</ListViewItem>
-            <ListViewItem>4</ListViewItem>
-            <ListViewItem>5</ListViewItem>
-            <ListViewItem>6</ListViewItem>
-            <ListViewItem>7</ListViewItem>
-            <ListViewItem>8</ListViewItem>
-            <ListViewItem>9</ListViewItem>
-            <ListViewItem>10</ListViewItem>
-            <ListViewItem>11</ListViewItem>
-            <ListViewItem>12</ListViewItem>
-            <ListViewItem>13</ListViewItem>
-            <ListViewItem>14</ListViewItem>
-            <ListViewItem>15</ListViewItem>
-            <ListViewItem>16</ListViewItem>
-            <ListViewItem>17</ListViewItem>
-            <ListViewItem>18</ListViewItem>
-            <ListViewItem>19</ListViewItem>
+            
         </ListBox>
 
         <!--ListBox Buttons-->

@@ -211,9 +211,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="SortPriority.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
     <Resource Include="Assets\count-icon-26.ico.ico" />
     <Content Include="Assets\loadinganimationDone.mp4">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

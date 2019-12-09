@@ -20,12 +20,27 @@ namespace Model
             }
         }
 
+        public LocationComparer(int[] ShelfHierachyList)
+        {
+            ConvertHierachyList(ShelfHierachyList);
+        }
+
         int IComparer<Location>.Compare(Location a, Location b)
         {
             int ShelfComparison = ShelfHierarchy[a.Shelf] - ShelfHierarchy[b.Shelf];
             int x;
 
-            if(ShelfComparison != 0)
+            if (a.Shelf > HighestValueShelf || ShelfHierarchy[a.Shelf] < 0)
+            {
+                throw new Exception("Shelf " + a.Shelf + " doesn't currently exist in the shelf hierachy");
+            }
+
+            if (ShelfHierarchy[b.Shelf] > HighestValueShelf || ShelfHierarchy[b.Shelf] < 0)
+            {
+                throw new Exception("Shelf " + b.Shelf + " doesn't currently exist in the shelf hierachy");
+            }
+
+            if (ShelfComparison != 0)
             {
                 return ShelfComparison;
             }
@@ -39,6 +54,31 @@ namespace Model
                 }
 
                 return x;
+            }
+        }
+
+        private void ConvertHierachyList(int[] HierachyListArray)
+        {
+            HighestValueShelf = -1;
+
+            for(int x = 0; x < HierachyListArray.Length; x++)
+            {
+                if(HierachyListArray[x] > HighestValueShelf)
+                {
+                    HighestValueShelf = HierachyListArray[x];
+                }
+            }
+
+            ShelfHierarchy = new int[HighestValueShelf + 1];
+
+            for(int x = 0; x < ShelfHierarchy.Length; x++)
+            {
+                ShelfHierarchy[x] = -1;
+            }
+
+            for(int x = 0; x < HierachyListArray.Length; x++)
+            {
+                ShelfHierarchy[HierachyListArray[x]] = x;
             }
         }
 

@@ -8,13 +8,14 @@ namespace Model
     //public enum ItemSize { S = 0, Small = 0, M = 1, Medium = 1, L = 2, Large = 2, XL = 3, ExtraLarge = 3, XXL, XXXL, XXXXL, XXXXXL}
     [Serializable]
     public class Item : INotifyPropertyChanged
-    {   
+    {
         public int ServerQuantity { get; set; }
-        public int CountedQuantity { 
-            get { return _countedQuantity; } 
+        private int _countedQuantity = -1;
+        public int CountedQuantity {
+            get { return _countedQuantity; }
             set { _countedQuantity = value;
                 OnPropertyChanged("ItemQuantity");
-            } 
+            }
         }
         public int QuantityVariance {
             get { return Math.Abs(ServerQuantity - CountedQuantity); }
@@ -32,9 +33,6 @@ namespace Model
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-
-        public int _countedQuantity { get; set; }
-
         public Item() { } // Used for XML/JSON Deserialization.
 
         public Item(string id)
@@ -46,7 +44,7 @@ namespace Model
 
         public Item(string id, string name, string color, string size)
         {
-            ID = id;   
+            ID = id;
             Name = name;
             Color = color;
             Size = size;
@@ -72,7 +70,7 @@ namespace Model
             ID = id;
             Name = name;
             ServerQuantity = quantity;
-            Color = color;      
+            Color = color;
             Size = size;
             Barcode = barcode;
             Locations = new List<Location>();
