@@ -21,6 +21,7 @@ namespace Model
             get { return Math.Abs(ServerQuantity - CountedQuantity); }
         }
         public bool HasMultiLocation { get; set; }
+        public bool IsUPCBarcode { get; set; }
         public string ID { get; set; }
         public string Name { get; set; }
         public string Color { get; set; }
@@ -65,7 +66,7 @@ namespace Model
                 AddLocation(location);
             }
         }
-        public Item(string id, string name, int quantity, string color, string size, List<Model.Location> locations, string barcode)
+        public Item(string id, string name, int quantity, string color, string size, List<Model.Location> locations, string barcode, bool isUPCBarcode)
         {
             ID = id;
             Name = name;
@@ -73,6 +74,7 @@ namespace Model
             Color = color;
             Size = size;
             Barcode = barcode;
+            IsUPCBarcode = isUPCBarcode;
             Locations = new List<Location>();
 
             foreach (Location location in locations)
