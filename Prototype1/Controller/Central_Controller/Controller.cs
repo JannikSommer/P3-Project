@@ -7,8 +7,7 @@ using Model;
 
 namespace Central_Controller
 {
-    public partial class Controller
-    {
+    public partial class Controller {
         public int TotalNumberOfItems { get; private set; } = 0;
         public int ItemsVerified { get; private set; } = 0;
         private readonly int MaxNumLocationForVerificationPartitions = 20; //verificationPartitions can be larger then this, if the verification partition is size 19, the algorithm can add a multilocationItem of 2 or higher
