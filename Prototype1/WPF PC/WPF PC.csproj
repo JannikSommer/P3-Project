@@ -37,9 +37,26 @@
   <PropertyGroup>
     <ApplicationIcon>count-icon-26.ico.ico</ApplicationIcon>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'App|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\App\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.1.1.0\lib\net461\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="RestSharp, Version=106.6.10.0, Culture=neutral, PublicKeyToken=598062e77f915f75, processorArchitecture=MSIL">
+      <HintPath>..\packages\RestSharp.106.6.10\lib\net452\RestSharp.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
@@ -68,6 +85,7 @@
     <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
     </Reference>
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -101,6 +119,7 @@
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
     <Compile Include="Converters\DateTimeConverter.cs" />
+    <Compile Include="Converters\LocationToStringConverter.cs" />
     <Compile Include="CreateCycle.xaml.cs">
       <DependentUpon>CreateCycle.xaml</DependentUpon>
     </Compile>
@@ -170,6 +189,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Controller\Central_Controller.csproj">
+      <Project>{66201624-4c47-47b3-b056-dab6be3de5cd}</Project>
+      <Name>Central_Controller</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Language\Localization.csproj">
       <Project>{28a15257-4ce6-4074-8ad8-9d4a9a034001}</Project>
       <Name>Localization</Name>
@@ -182,8 +205,15 @@
       <Project>{26cbc6b3-3005-40d1-9d2a-3a31129578ea}</Project>
       <Name>Networking</Name>
     </ProjectReference>
+    <ProjectReference Include="..\PrestaSharpAPI\PrestaSharpAPI.csproj">
+      <Project>{041fbfc8-73cb-40b4-9f1e-2bdbfb0cc2d5}</Project>
+      <Name>PrestaSharpAPI</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="SortPriority.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Assets\count-icon-26.ico.ico" />
     <Content Include="Assets\loadinganimationDone.mp4">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

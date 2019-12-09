@@ -91,7 +91,7 @@ namespace Central_Controller
         public Partition NextPartition(Client client)
         {
             Partition ClientsNextPartition = null;
-            
+
             if(PriorityPartitions.Count != 0)
             {
                 ClientsNextPartition = PriorityPartitions[0];
@@ -100,7 +100,7 @@ namespace Central_Controller
 
                 PriorityPartitions.RemoveAt(0);
             }
-            
+
             if(ClientsNextPartition == null)
             {
                 ClientsNextPartition = NextMultiLocationPartition(client);
@@ -135,7 +135,7 @@ namespace Central_Controller
         private Partition NextMultiLocationPartition(Client client)
         {
             Partition partition = null;
-            
+
             for(int x = 0; x < MultiLocationPartitions.Count; x++)
             {
                 if(MultiLocationPartitions[x].Count <= Active_Clients.Count)
@@ -186,7 +186,7 @@ namespace Central_Controller
                 else //if no availeble shelfs assign the client to the shelf with the most room;
                 {
                     int LargestGap = -1;
-                    
+
                     for(int Counter = 0; Counter < OccopiedShelfs.Count; Counter++)
                     {
                         if (OccopiedShelfs[Counter].FindLargestGapInPartitions_size() > LargestGap)
@@ -208,7 +208,7 @@ namespace Central_Controller
 
             return OccopiedShelfs[ShelfsIndex].ClientsNextPartition(client);
         }
-        
+
         private int IndexOfClient(Client client)
         {
             int index = Active_Clients.FindIndex(x => x.ID == client.ID);
@@ -354,7 +354,7 @@ namespace Central_Controller
                     {
                         MoveElementFromListToOtherList(OccopiedShelfs, x, AvailebleShelfs);
                     }
-                    
+
                     break;
                 }
             }
@@ -393,7 +393,7 @@ namespace Central_Controller
         public void CheckPartition(Partition partition)
         //Checks an entire partitions. Going through all items to see if they've been counted, either adds items to normal rotation, verification items, partially counted item or removes it and considers it verified
         {
-            List<Item> ItemsInPartition = ConvertLocationListToItemList(partition.Locations); 
+            List<Item> ItemsInPartition = ConvertLocationListToItemList(partition.Locations);
             bool AllItemLocationsWasVisited;
             bool[] LocationsVisitedInPartition;
             int Index;
@@ -434,7 +434,7 @@ namespace Central_Controller
 
                             if (Index >= 0) //If the Item already exist in PartitallyCountedItems
                             {
-                                LocationsVisitedInPartition = CombineBoolArray(LocationsVisitedInPartition, PartiallyCountedItems[Index].Item2); 
+                                LocationsVisitedInPartition = CombineBoolArray(LocationsVisitedInPartition, PartiallyCountedItems[Index].Item2);
                                 item.CountedQuantity += PartiallyCountedItems[Index].Item1.CountedQuantity; //item is combined with its matching item from partiallyCountedItems
 
                                 if (IsEverythingTrue(LocationsVisitedInPartition)) //If all the items was visited after the combinations
@@ -483,7 +483,7 @@ namespace Central_Controller
                         else //if all items wasn't visited
                         {
                             List<List<Location>> LocationLists = new List<List<Location>>();
-                            
+
                             LocationLists.Add(new List<Location>());
 
                             for (int n = 0; n < item.Locations.Count; n++) //adds visited locations to LocationLists
@@ -703,7 +703,7 @@ namespace Central_Controller
         {
             VerificationPartition verificationPartition = new VerificationPartition();
             int Distance;
-            int ShortestMultiLocDistance; 
+            int ShortestMultiLocDistance;
             int ShortestSingleLocDistance;
             int IndexOfMultiLoc;
             int IndexOfSingleLoc;
@@ -850,7 +850,7 @@ namespace Central_Controller
             int ConnectionCut;
             int LeastConnectionCut;
             int Index = -1;
-            
+
             for(int x = 0; x < Paths.Count; x++)
             {
                 DevidedPath = new List<List<Location>>();
@@ -862,7 +862,7 @@ namespace Central_Controller
                     for(int y = MaxSizeForPartitions - (MaxSizeForPartitions / 4); y <= MaxSizeForPartitions; y++)
                     {
                         ConnectionCut = HowManyConnectionsSevered(Paths[x][0], y);
-                        
+
                         if(ConnectionCut < LeastConnectionCut)
                         {
                             Index = y;
@@ -900,7 +900,7 @@ namespace Central_Controller
                     if (!(ItemIDs.Exists(x => x == item.ID)))
                     {
                         ItemIDs.Add(item.ID);
-                        
+
                         foreach (Location location in item.Locations)
                         {
                             if (!(LocationIDs.Exists(x => x == location.ID)))
@@ -962,7 +962,7 @@ namespace Central_Controller
             {
                 ShelfIndex = -1;
                 ClosestDistanceToShelf = int.MaxValue;
-                
+
                 foreach(Location location in Path)
                 {
                     for(x = 0; x < AvailebleShelfs.Count; x++)
@@ -1023,7 +1023,7 @@ namespace Central_Controller
                     if(AvailebleShelfs[ShelfIndex].Partitions[PartitionIndex].Locations.Count == 0)
                     {
                         AvailebleShelfs[ShelfIndex].Partitions.RemoveAt(PartitionIndex);
-                        
+
                         if(AvailebleShelfs[ShelfIndex].Partitions.Count == 0)
                         {
                             AvailebleShelfs.RemoveAt(ShelfIndex);
@@ -1037,8 +1037,8 @@ namespace Central_Controller
             Path.Sort(Location_Comparer);
         }
 
-        /* original private void CombineShorterPaths(List<List<Location>> Paths) 
-        //combines paths of linked MultiLocationItemLocations containted within Paths, 
+        /* original private void CombineShorterPaths(List<List<Location>> Paths)
+        //combines paths of linked MultiLocationItemLocations containted within Paths,
         //as long as they don't become longer then MaxSizeForPartitions
         {
             for(int x = 0; x < Paths.Count; x++)
@@ -1168,7 +1168,7 @@ namespace Central_Controller
             return num;
         }
 
-        private bool PathsIsCombinable(List<Location> PathA, List<Location> PathB) 
+        private bool PathsIsCombinable(List<Location> PathA, List<Location> PathB)
         //tests 2 list of locations, to test if PathA only contain locations with Shelves also contained in PathB, or vise versa
         {
             bool PathA_HasAShelfOutsideB = false;
@@ -1233,7 +1233,7 @@ namespace Central_Controller
             for(int n = 0; n < ListB.Count; n++)
             {
                 LocationInB = ListB[n];
-                
+
                 if(ListA.Exists(x => x.ID == LocationInB.ID))
                 {
                     ListB.RemoveAt(n);
@@ -1250,7 +1250,7 @@ namespace Central_Controller
         private List<Item> ConvertLocationListToItemList(List<Location> LocationList) //Runs 3 nested loops
         {
             List<Item> ItemList = new List<Item>();
-            
+
             foreach(Location location in LocationList)
             {
                 foreach(Item item in location.Items)

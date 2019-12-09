@@ -6,6 +6,7 @@ namespace Model
 {
     public class Cycle
     {
+        public string Id { get; set; }
         public bool DataFormatted { get; set; }
         public bool CycleState { get; set; }
         public List<Partition> UncountedPartitions { get; set; }

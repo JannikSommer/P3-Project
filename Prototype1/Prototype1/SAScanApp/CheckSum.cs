@@ -1,0 +1,68 @@
+﻿namespace SAScanApp
+{
+    using System;
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
+    using System.Linq;
+    using System.Text;
+       
+    public class CheckSum
+    {
+        public bool CheckSumValidation(string _Barcode)
+        {
+            ulong SumOfOdds = 0;
+            ulong SumOfEvens = 0;
+            ulong checkSum = 0;
+            int CheckDigit = 0;
+            List<ulong> CheckSumCalculation = new List<ulong>();
+            
+            foreach(char c in _Barcode)
+            {
+                CheckSumCalculation.Add(c);
+            }
+
+            int count = CheckSumCalculation.Count;
+            
+            if (count != 12)
+            {
+                Console.WriteLine("Invalid barcode");
+            }
+            else
+            {
+                SumOfOdds += CheckSumCalculation[0];
+                SumOfEvens += CheckSumCalculation[1];
+
+                CheckDigit = _Barcode.Last();
+                
+                for (int i = 2; i < count; i++)
+                {
+
+                    /* 0 is an even number, but since we'd usually start from 1,
+                    then the evens represent odds and vice versa */
+                    if (i % 2 == 0)
+                    {
+                        SumOfOdds += CheckSumCalculation[i];
+                    }
+                    else
+                    {
+                        SumOfEvens += CheckSumCalculation[i];
+                    }
+                }
+            }
+
+            checkSum = ((3 * SumOfOdds) + SumOfEvens);
+
+            ulong NearestMultipleOf10 = (((10 - (checkSum % 10)) + checkSum) - checkSum);
+
+            // Finds nearest multiple of 10
+            if (NearestMultipleOf10 == (ulong)CheckDigit){
+                return true;
+            }
+
+            return false;
+
+        }
+    }
+
+    // Der mangler kode for at tjekke om koden er UPC-A, måske bare være dovne og læse ind fra ZXing
+}

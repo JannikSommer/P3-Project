@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <Configurations>Debug;Release;App</Configurations>
   </PropertyGroup>
 
   <ItemGroup>
@@ -22,7 +23,7 @@
     <EmbeddedResource Update="Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-      <CustomToolNamespace>Language</CustomToolNamespace>
+      <CustomToolNamespace>Localization</CustomToolNamespace>
     </EmbeddedResource>
   </ItemGroup>
 

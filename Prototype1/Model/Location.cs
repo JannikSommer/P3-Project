@@ -1,18 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Xml.Serialization;
 
 namespace Model
 {
+    [Serializable]
     public class Location
     {
-        public string ID { get; private set; }
-        public bool IsEmpty { get; private set; }
-        public int Shelf { get; private set; }
-        public char Row { get; private set; }
-        public int Position { get; private set; }
+        public string ID { get; set; }
+        public bool IsEmpty { get; set; }
+
+        public int Shelf { get; set; }
+        public char Row { get; set; }
+        public int Position { get; set; }
         public bool HasMultilocationItem { get; set; }
-        public List<Item> Items { get; private set; }
+        public List<Item> Items { get; set; }
 
         public Location() { } // Used for JSON Deserialization.
 

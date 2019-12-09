@@ -7,18 +7,7 @@ namespace Model
     public enum PartitionState { NotCounted, Counted, Verified}
     public enum PartitionRequsitionState { Requested, Uploaded, Recieved}
 
-    public struct PartitionSpan
-    {
-        public int Shelf;
-        public int Position;
-
-        public PartitionSpan(int shelf, int position)
-        {
-            Shelf = shelf;
-            Position = position;
-        }
-    }
-
+    
     public class Partition : IComparable
     {
         public PartitionState State { get; set; }
@@ -115,5 +104,27 @@ namespace Model
 
             return x;
         }
+
+        public bool ContainsBarcode(string barcode) {
+            if(char.IsLetter(barcode[3])) { 
+                foreach(var location in Locations) {
+                    if(location.ID == barcode) {
+                        return true;
+                    }
+                }
+            } else if(char.IsDigit(barcode[3])) {
+                foreach(var location in Locations) {
+                    foreach(var item in location.Items) {
+                        if(item.CheckSum == barcode) {
+                            return true;
+                        }
+                    }
+                }
+            }
+
+            return false;
+        }
+
+
     }
 }
