@@ -79,7 +79,16 @@ namespace Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Please select the wanted function.
+        ///   Looks up a localized string similar to Cycle Name:.
+        /// </summary>
+        public static string CreateCycleWindowLabelChooseCycleName {
+            get {
+                return ResourceManager.GetString("CreateCycleWindowLabelChooseCycleName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Not Correct.
         /// </summary>
         public static string CreateCycleWindowLabelWarning {
             get {
@@ -93,6 +102,60 @@ namespace Localization {
         public static string CreateCycleWindowTitle {
             get {
                 return ResourceManager.GetString("CreateCycleWindowTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The whole storage.
+        /// </summary>
+        public static string CreateCycleXAMLComboBox_1 {
+            get {
+                return ResourceManager.GetString("CreateCycleXAMLComboBox_1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to T-shirts.
+        /// </summary>
+        public static string CreateCycleXAMLComboBox_2 {
+            get {
+                return ResourceManager.GetString("CreateCycleXAMLComboBox_2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pants.
+        /// </summary>
+        public static string CreateCycleXAMLComboBox_3 {
+            get {
+                return ResourceManager.GetString("CreateCycleXAMLComboBox_3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Skateboards.
+        /// </summary>
+        public static string CreateCycleXAMLComboBox_4 {
+            get {
+                return ResourceManager.GetString("CreateCycleXAMLComboBox_4", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Shoes.
+        /// </summary>
+        public static string CreateCycleXAMLComboBox_5 {
+            get {
+                return ResourceManager.GetString("CreateCycleXAMLComboBox_5", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hoodies.
+        /// </summary>
+        public static string CreateCycleXAMLComboBox_6 {
+            get {
+                return ResourceManager.GetString("CreateCycleXAMLComboBox_6", resourceCulture);
             }
         }
         
@@ -111,6 +174,15 @@ namespace Localization {
         public static string EditCycleWindowButtonConfirm {
             get {
                 return ResourceManager.GetString("EditCycleWindowButtonConfirm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit shelf.
+        /// </summary>
+        public static string EditCycleWindowButtonContentEdit {
+            get {
+                return ResourceManager.GetString("EditCycleWindowButtonContentEdit", resourceCulture);
             }
         }
         

@@ -25,10 +25,6 @@ using PrestaSharpAPI;
 
 namespace WPF_PC
 {
-    public enum Language
-    {
-        Danish, English
-    }
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>

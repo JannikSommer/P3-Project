@@ -42,7 +42,10 @@
         <Label x:Name="chooseThePriority" Content="{x:Static lang:Resources.EditCycleWindowLabelPriority}" Grid.Column="2" Grid.Row="1"
                HorizontalAlignment="Left" VerticalAlignment="Top" Margin="100,10,10,0" FontSize="16" />
 
-        <Label x:Name="inputShelfNumber" Content="Input number of shelfs:" Grid.Column="2" Grid.Row="3"
+        <Label x:Name="inputShelfNumber" Content="Input number of shelfs:" Grid.Column="2" Grid.Row="2"
+               HorizontalAlignment="Left" VerticalAlignment="Top" Margin="205,0,0,0" FontSize="16" />
+
+        <Label x:Name="editShelfNumber" Content="Edit shelf number:" Grid.Column="2" Grid.Row="4"
                HorizontalAlignment="Left" VerticalAlignment="Top" Margin="205,20,0,0" FontSize="16" />
 
         <!--Buttons-->
@@ -59,11 +62,25 @@
         <Button x:Name="DeleteUserButton" Content="{x:Static lang:Resources.EditCycleWindowButtonDeleteUser}" Width="160" Height="35"
                 Grid.Column="1" Grid.Row="3" Margin="10,0,10,10" HorizontalAlignment="Left" VerticalAlignment="Top" Click="DeleteUserButton_Click" />
 
-        <Button x:Name="ConfirmNumberOfShelfs" Content="Confirm" Width="80" Height="35"
-                Grid.Column="2" Grid.Row="4" Margin="210,15,10,10" HorizontalAlignment="Left" VerticalAlignment="Top" Click="ConfirmNumberOfShelfs_Click" />
+        <Button x:Name="ConfirmNumberOfShelfs" Content="Confirm" Width="100" Height="35"
+                Grid.Column="2" Grid.Row="2" Margin="210,70,10,10" HorizontalAlignment="Left" VerticalAlignment="Top" Click="ConfirmNumberOfShelfs_Click" />
 
-        <TextBox x:Name="TextBoxNumberofShelfs" Grid.Row="3" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Top" Width="70" Height="28" Margin="210,60,10,0"
+        <Button x:Name="MoveUpButton" Content="{x:Static lang:Resources.EditCycleWindowButtonMoveUp}" Width="100" Height="35"
+                Grid.Column="2" Grid.Row="3" Margin="210,20,10,10" HorizontalAlignment="Left" VerticalAlignment="Top" Click="MoveUpButton_Click" />
+
+        <Button x:Name="MoveDownButton" Content="{x:Static lang:Resources.EditCycleWindowButtonMoveDown}" Width="100" Height="35"
+                Grid.Column="2" Grid.Row="3" Margin="210,65,10,10" HorizontalAlignment="Left" VerticalAlignment="Top" Click="MoveDownButton_Click" />
+
+        <Button x:Name="EditContentButton" Content="{x:Static lang:Resources.EditCycleWindowButtonContentEdit}" Width="100" Height="35"
+                Grid.Column="2" Grid.Row="4" Margin="210,50,10,10" HorizontalAlignment="Left" VerticalAlignment="Top" Click="EditContentButton_Click"  />
+
+        <!--TextBoxes-->
+        
+        <TextBox x:Name="TextBoxNumberofShelfs" Grid.Row="2" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Top" Width="70" Height="28" Margin="210,30,10,0"
                  KeyUp="TextBoxNumberofShelfs_KeyUp" PreviewTextInput="NumberValidationTextBox" />
+
+        <TextBox x:Name="TextBoxEditShelfNumber" Grid.Row="4" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Top" Width="70" Height="28" 
+                 Margin="210,95,10,0"  PreviewTextInput="NumberValidationTextBox" KeyUp="TextBoxEditShelfNumber_KeyUp" />
 
         <!--Error Labels-->
 
@@ -85,16 +102,7 @@
         <!--ListBox-->
 
         <ListBox x:Name="listBoxShelfPriority" Width="100" Grid.Row="2" Grid.Column="2" Grid.RowSpan="3" Margin="100,10,10,10" FontSize="14" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Height="470" VerticalAlignment="Top">
-            
         </ListBox>
-
-        <!--ListBox Buttons-->
-
-        <Button x:Name="MoveUpButton" Content="{x:Static lang:Resources.EditCycleWindowButtonMoveUp}" Width="95" Height="35"
-                Grid.Column="2" Grid.Row="2" Margin="210,30,10,10" HorizontalAlignment="Left" VerticalAlignment="Top" Click="MoveUpButton_Click" />
-
-        <Button x:Name="MoveDownButton" Content="{x:Static lang:Resources.EditCycleWindowButtonMoveDown}" Width="95" Height="35"
-                Grid.Column="2" Grid.Row="2" Margin="210,75,10,10" HorizontalAlignment="Left" VerticalAlignment="Top" Click="MoveDownButton_Click" />
 
     </Grid>
 </Window>

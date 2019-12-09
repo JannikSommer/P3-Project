@@ -247,7 +247,7 @@
     <value>Choose how the cycle will be created:</value>
   </data>
   <data name="CreateCycleWindowLabelWarning" xml:space="preserve">
-    <value>Please select the wanted function</value>
+    <value>Not Correct</value>
   </data>
   <data name="CreateCycleWindowButtonCreateCycle" xml:space="preserve">
     <value>Create Cycle</value>
@@ -338,5 +338,29 @@
   </data>
   <data name="MainWindowButtonSwitchLanguage" xml:space="preserve">
     <value>Switch Language</value>
+  </data>
+  <data name="CreateCycleXAMLComboBox_1" xml:space="preserve">
+    <value>The whole storage</value>
+  </data>
+  <data name="CreateCycleXAMLComboBox_2" xml:space="preserve">
+    <value>T-shirts</value>
+  </data>
+  <data name="CreateCycleXAMLComboBox_3" xml:space="preserve">
+    <value>Pants</value>
+  </data>
+  <data name="CreateCycleXAMLComboBox_4" xml:space="preserve">
+    <value>Skateboards</value>
+  </data>
+  <data name="CreateCycleXAMLComboBox_5" xml:space="preserve">
+    <value>Shoes</value>
+  </data>
+  <data name="CreateCycleXAMLComboBox_6" xml:space="preserve">
+    <value>Hoodies</value>
+  </data>
+  <data name="CreateCycleWindowLabelChooseCycleName" xml:space="preserve">
+    <value>Cycle Name:</value>
+  </data>
+  <data name="EditCycleWindowButtonContentEdit" xml:space="preserve">
+    <value>Edit shelf</value>
   </data>
 </root>

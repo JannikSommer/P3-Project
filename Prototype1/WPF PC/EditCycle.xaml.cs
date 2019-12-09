@@ -59,9 +59,6 @@ namespace WPF_PC
 
                 //Select index
                 listBoxShelfPriority.SelectedIndex = selectedindex - 1;
-
-                //Mimics change in controller
-                controller.Location_Comparer.DecreasePriority(Int32.Parse(text));
             }
         }
 
@@ -85,9 +82,6 @@ namespace WPF_PC
 
                 //Select index
                 listBoxShelfPriority.SelectedIndex = selectedindex + 1;
-
-                //Mimics change in controller
-                controller.Location_Comparer.IncreasePriority(Int32.Parse(text));
             }
         }
 
@@ -102,7 +96,7 @@ namespace WPF_PC
             comboBoxChooseEdit.ItemsSource = settings;
         }
 
-        public void getSortPriority()
+        public void SaveSortPriority()
         {
             //Get sorting priority and load into list.
 
@@ -212,7 +206,9 @@ namespace WPF_PC
 
         private void ConfirmEdit_Click(object sender, RoutedEventArgs e)
         {
-            getSortPriority();
+            SaveSortPriority();
+            ShelfArray = RetrieveSortingPriorityFromFile();
+            controller.Location_Comparer = new LocationComparer(ShelfArray);
             this.Close();
         }
 
@@ -245,7 +241,6 @@ namespace WPF_PC
             if (e.Key == System.Windows.Input.Key.Enter)
             {
                 ChangeNumberOfShelves();
-
             }
         }
         private void NumberValidationTextBox(object sender, TextCompositionEventArgs e)
@@ -253,5 +248,39 @@ namespace WPF_PC
             Regex regex = new Regex("[^0-9]+");
             e.Handled = regex.IsMatch(e.Text);
         }
+
+        #region EditShelfNumber
+
+        private void EditContentButton_Click(object sender, RoutedEventArgs e)
+        {
+            //Check if anything is selected
+            if (listBoxShelfPriority.SelectedIndex != -1)
+            {
+                EditShelfNumber();
+            }
+            else { }
+        }
+
+        private void TextBoxEditShelfNumber_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.Key == System.Windows.Input.Key.Enter)
+            {
+                EditShelfNumber();
+            }
+        }
+
+        public void EditShelfNumber()
+        {
+            if (TextBoxEditShelfNumber.Text != "")
+            {
+                //Insert the new shelf number.
+                ((ListViewItem)listBoxShelfPriority.SelectedItem).Content = TextBoxEditShelfNumber.Text;
+
+                TextBoxEditShelfNumber.Clear();
+            }
+        }
+
+        #endregion
+
     }
 }
