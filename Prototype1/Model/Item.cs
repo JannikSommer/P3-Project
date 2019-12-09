@@ -33,9 +33,6 @@ namespace Model
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-
-        private int _countedQuantity;
-
         public Item() { } // Used for XML/JSON Deserialization.
 
         public Item(string id)
