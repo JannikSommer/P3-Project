@@ -21,12 +21,11 @@ namespace Central_Controller
         private List<Shelf> OccopiedShelfs = new List<Shelf>();
         private List<Item> ItemsForVerification = new List<Item>();
         private List<Item> MultiLocationItemsForVerification = new List<Item>();
-        public LocationComparer Location_Comparer;
+        public LocationComparer Location_Comparer = new LocationComparer(19);
         public List<List<Partition>> MultiLocationPartitions { get; private set; } = new List<List<Partition>>();
         public List<Partition> PriorityPartitions { get; private set; } = new List<Partition>();
         public List<Tuple<Item, bool[]>> PartiallyCountedItems { get; private set; } = new List<Tuple<Item, bool[]>>();
         public List<Item> VerifiedItems = new List<Item>();
-        private bool LocationComparerHasBeenInitialized = false;
 
         /* first Send Next Partition Implimentation
         public Partition SendNextPartition(Client client)
@@ -249,8 +248,6 @@ namespace Central_Controller
         public void InitilizeLocationComparer(int[] ShelfHierachy) //THIS MIGHT NEED TO BE REWORKED AND REMOVED, + remember that its called in InitialPartitionUnpartitionedLocations when/if reworking this.
         {
             Location_Comparer = new LocationComparer(ShelfHierachy);
-
-            LocationComparerHasBeenInitialized = true;
         }
 
         private void SortMultiLocationItem_Locations()
@@ -268,11 +265,6 @@ namespace Central_Controller
 
         public void InitialPartitioningOfLocations()
         {
-            if (!LocationComparerHasBeenInitialized)
-            {
-                throw new Exception("LocationComparer has to be initialized");
-            }
-            
             SortMultiLocationItem_Locations();
 
             InitialPartitioningOfSingleLocations();
