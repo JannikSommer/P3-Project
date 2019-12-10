@@ -8,6 +8,7 @@ using Model;
 namespace Central_Controller
 {
     public partial class Controller {
+        
         public int TotalNumberOfItems { get; private set; } = 0;
         public int ItemsVerified { get; private set; } = 0;
         public int MaxSizeForPartitions = 20; //MaxSizeForPartitions is a lie, anything adding multiple locations at once can exceed this limit
@@ -25,67 +26,6 @@ namespace Central_Controller
         public List<Partition> PriorityPartitions { get; private set; } = new List<Partition>();
         public List<Tuple<Item, bool[]>> PartiallyCountedItems { get; private set; } = new List<Tuple<Item, bool[]>>();
         public List<Item> VerifiedItems = new List<Item>();
-
-        /* first Send Next Partition Implimentation
-        public Partition SendNextPartition(Client client)
-        {
-            int Index;
-
-            Index = HasAssignedShelf(client);
-
-            if(Index < 0)
-            {
-                AssignUserNewShelf(client);
-                return NextPartition(OccopiedShelfs.Count - 1, client);
-            }
-            else
-            {
-                return NextPartition(Index, client);
-            }
-        }
-
-        private Partition NextPartition(int index, Client client)
-        {
-            if(OccopiedShelfs[index].Partitions.Count != 0)
-            {
-                client.CurrentPartition = OccopiedShelfs[index].Partitions[0];
-                OccopiedShelfs[index].Partitions.RemoveAt(0);
-                return client.CurrentPartition;
-            }
-            else
-            {
-                OccopiedShelfs.RemoveAt(index);
-                AssignUserNewShelf(client);
-
-                client.CurrentPartition = OccopiedShelfs[OccopiedShelfs.Count - 1].Partitions[0];
-                OccopiedShelfs[OccopiedShelfs.Count - 1].Partitions.RemoveAt(0);
-                return client.CurrentPartition;
-            }
-        }
-
-        private void AssignUserNewShelf(Client client)
-        {
-            OccopiedShelfs.Add(AvailebleShelfs[0]);
-            OccopiedShelfs[OccopiedShelfs.Count - 1].BeingCountedByUser = client;
-            AvailebleShelfs.RemoveAt(0);
-        }
-
-        private int HasAssignedShelf(Client client)
-        {
-            int x = 0;
-
-            foreach(Shelf shelf in OccopiedShelfs)
-            {
-                if(shelf.BeingCountedByUser == client)
-                {
-                    return x;
-                }
-                x++;
-            }
-
-            return -1;
-        }
-        */
 
         public Partition NextPartition(Client client)
         {
@@ -244,7 +184,7 @@ namespace Central_Controller
             TotalNumberOfItems++;
         }
 
-        public void InitilizeLocationComparer(int[] ShelfHierachy) //THIS MIGHT NEED TO BE REWORKED AND REMOVED, + remember that its called in InitialPartitionUnpartitionedLocations when/if reworking this.
+        public void InitilizeLocationComparer(int[] ShelfHierachy)
         {
             Location_Comparer = new LocationComparer(ShelfHierachy);
         }
@@ -1034,36 +974,6 @@ namespace Central_Controller
             Path.Sort(Location_Comparer);
         }
 
-        /* original private void CombineShorterPaths(List<List<Location>> Paths)
-        //combines paths of linked MultiLocationItemLocations containted within Paths,
-        //as long as they don't become longer then MaxSizeForPartitions
-        {
-            for(int x = 0; x < Paths.Count; x++)
-            {
-                if (Paths[x].Count < MaxSizeForPartitions - 1)
-                {
-                    for (int y = x + 1; y < Paths.Count; y++)
-                    {
-                        if (Paths[x].Count + Paths[y].Count <= MaxSizeForPartitions && PathsIsCombinable(Paths[x], Paths[y]))
-                        {
-                            foreach (Location location in Paths[y])
-                            {
-                                Paths[x].Add(location);
-                            }
-
-                            Paths.RemoveAt(y);
-                            y--;
-
-                            if(Paths[x].Count >= MaxSizeForPartitions - 1)
-                            {
-                                break;
-                            }
-                        }
-                    }
-                }
-            }
-        } */
-
         private void CombineShorterPaths(List<List<List<Location>>> Paths)
         {
             int NumOfPaths = NumberOfPaths(Paths);
@@ -1279,49 +1189,5 @@ namespace Central_Controller
 
             return LocationList;
         }
-
-        /*public void AddItem(Item item, List<string> Location_IDs)
-        {
-            Location location;
-            ShelfSearch shelfSearch = new ShelfSearch(-1);
-            int index;
-
-            if (Location_IDs.Count == 1)
-            {
-                foreach (string Location_ID in Location_IDs)
-                {
-                    location = new Location(Location_ID, new List<Item> { item });
-                    shelfSearch.Index = location.Shelf;
-                    index = AvailebleShelfs.FindIndex(shelfSearch.HasIndex);
-
-                    if (index < 0)
-                    {
-                        AvailebleShelfs.Add(new Shelf(index));
-
-                        AvailebleShelfs[AvailebleShelfs.Count - 1].Partitions.Add(new Partition());
-
-                        AvailebleShelfs[AvailebleShelfs.Count - 1].Partitions[0].AddLocation(location);
-
-                        AvailebleShelfs.Sort();
-                    }
-                    else
-                    {
-                        AvailebleShelfs[index].AddLocation(location);
-                    }
-
-                }
-            }
-            //else{ }
-        }*/
-
-        /*private char NextLetter(char Letter)
-        {
-            if (Letter == 'z')
-                return 'A';
-            else if (Letter == 'Z')
-                return 'a';
-            else
-                return (char) ((int)Letter + 1);
-        }*/
     }
 }
