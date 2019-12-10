@@ -132,22 +132,24 @@ namespace WPF_PC
 
         public int[] RetrieveSortingPriorityFromFile()
         {
-            int[] priority = new int[listBoxShelfPriority.Items.Count];
+            int[] priority = new int[0];
             string filePath = Environment.CurrentDirectory + @"\SortPriority.txt";
 
-            if (!File.Exists(filePath))
+            if (File.Exists(filePath))
             {
-                File.CreateText(filePath);
+                List<string> lines = File.ReadAllLines(filePath).ToList();
+
+                foreach (string line in lines)
+                {
+                    priority = Array.ConvertAll(line.Split(','), int.Parse);
+                }
+
+                return priority;
             }
-
-            List<string> lines = File.ReadAllLines(filePath).ToList();
-
-            foreach (string line in lines)
+            else
             {
-                priority = Array.ConvertAll(line.Split(','), int.Parse);
+                return priority;
             }
-
-            return priority;
         }
 
         private void DeleteUserButton_Click(object sender, RoutedEventArgs e)
@@ -155,7 +157,6 @@ namespace WPF_PC
             if (comboBoxChooseEdit.SelectedIndex == -1)
             {
                 labelWarningNoUserSelected.Visibility = Visibility.Visible;
-
             }
             else
             {
@@ -164,8 +165,6 @@ namespace WPF_PC
                 string userChosen = comboBoxChooseEdit.SelectedItem.ToString();
 
                 MessageBox.Show(userChosen);
-
-
             }
         }
 
