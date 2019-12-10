@@ -30,7 +30,7 @@ namespace SAScanApp
             Model.Partition partition = new Model.Partition();
             CommunicationHandler handler = client.UploadPartitionAsync(partition).Result;
 
-            DependencyService.Get<IBluetoothHandler>().closeBluetoothConnection();
+            //DependencyService.Get<IBluetoothHandler>().closeBluetoothConnection();
 
             // Der skal addes noget typesafety her, så hvis eventet fyrer igen, imens man er igang med at uploade en partition, så sker der ikke noget
             // Ligeledes er ens partition ikke done, (mangler en location/item som slet ikke er scannet) så kan den ikke uploades (måske med overrule funktion??)
@@ -51,7 +51,7 @@ namespace SAScanApp
                 DisplayAlert(handler.ToString(), partition.Locations[0].ID , "You fixed your shit!");
             }
 
-            DependencyService.Get<IBluetoothHandler>().enableBluetooth();
+            //DependencyService.Get<IBluetoothHandler>().enableBluetooth();
 
             // Typesafety, samme som ovenstående, plus at hvis ens partition pt. ikke er uploaded, kan man ikke få en ny
            

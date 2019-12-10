@@ -59,5 +59,7 @@ namespace SAScanApp
             Navigation.PopAsync();
         }
 
+      
+
     }
 }
