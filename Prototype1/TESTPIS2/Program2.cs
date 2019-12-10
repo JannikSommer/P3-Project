@@ -45,8 +45,8 @@ namespace TESTPIS2
             //test_name = Console.ReadLine();
             //Console.WriteLine("give table string");
             //test2 = Console.ReadLine();
-            List<string>[] testList = new List<string>[3];
-            testList = connector.Select("select * from ps_cent_control_data");
+            //List<string>[] testList = new List<string>[3];
+            //testList = connector.Select("select * from ps_cent_control_data");
             //int highest = 0;
             //foreach (var str in testList[0])
             //{
@@ -63,8 +63,8 @@ namespace TESTPIS2
             //}
 
             //Console.WriteLine("L1: " + testList[0].Count);
-            List<string>[] testList2 = new List<string>[3];
-            testList2 = sorter.createCombinedList(testList);
+            //List<string>[] testList2 = new List<string>[3];
+            //testList2 = sorter.createCombinedList(testList);
             //Console.ReadKey();
             //int highest2 = 0;
             //foreach (var str in testList2[0])
@@ -127,52 +127,53 @@ namespace TESTPIS2
             //    }
             //    x++;
             //}
-            //List<Item> items = new List<Item>();
-            //items = presta.GetAllItems();
-            //int maxquan = 0;
-            //int totalquan = 0;
-            //int emptylocations = 0;
-            //int nonemptylocations = 0;
-            //int negativequan = 0;
-            //string itemidlast = string.Empty;
-            //foreach (var itemmm in items)
-            //{
-            //    totalquan += itemmm.ServerQuantity;
-            //    Console.WriteLine("ID: " + itemmm.ID+ " | QA: " + itemmm.ServerQuantity + " | CO: " + itemmm.Color + " | SI: " + itemmm.Size + " | LO: " + itemmm.Locations[0].ID + " | IM: " + itemmm.ImageUrl);
-            //    if (maxquan < itemmm.ServerQuantity)
-            //    {
-            //        maxquan = itemmm.ServerQuantity;
-            //    }
-            //    if (itemmm.Locations.Count == 0)
-            //    {
-            //        emptylocations++;
-            //    }
-            //    if (itemmm.ServerQuantity > 0)
-            //    {
-            //        nonemptylocations++;
-            //    }
-            //    if (itemmm.ServerQuantity < 0)
-            //    {
-            //        //Console.ReadKey();
-            //        negativequan++;
-            //    }
-            //    if (itemmm.Locations.Count > 1)
-            //    {
-            //        Console.ReadKey();
-            //    }
-            //    if (itemidlast == itemmm.ID)
-            //    {
-            //        Console.ReadKey();
-            //    }
-            //    itemidlast = itemmm.ID;
-            //}
-            //Console.WriteLine("maxquan: " + maxquan);
-            //Console.WriteLine("total: " + totalquan);
-            //Console.WriteLine("empty: " + emptylocations);
-            //Console.WriteLine("!empty: " + nonemptylocations);
-            //Console.WriteLine("Negative quan: " + negativequan);
-            //Console.WriteLine("Done1!");
-            //controller.InitialPartitionUnpartitionedLocations();
+            List<Item> items = new List<Item>();
+            items = presta.GetAllItems();
+            int maxquan = 0;
+            int totalquan = 0;
+            int emptylocations = 0;
+            int nonemptylocations = 0;
+            int negativequan = 0;
+            string itemidlast = string.Empty;
+            foreach (var itemmm in items)
+            {
+                totalquan += itemmm.ServerQuantity;
+                Console.WriteLine("ID: " + itemmm.ID + " | QA: " + itemmm.ServerQuantity + " | CO: " + itemmm.Color + " | SI: " + itemmm.Size + " | LO: " + itemmm.Locations[0].ID + " | IM: " + itemmm.ImageUrl);
+                if (maxquan < itemmm.ServerQuantity)
+                {
+                    maxquan = itemmm.ServerQuantity;
+                }
+                if (itemmm.Locations.Count == 0)
+                {
+                    emptylocations++;
+                }
+                if (itemmm.ServerQuantity > 0)
+                {
+                    nonemptylocations++;
+                }
+                if (itemmm.ServerQuantity < 0)
+                {
+                    //Console.ReadKey();
+                    negativequan++;
+                }
+                if (itemmm.Locations.Count > 1)
+                {
+                    Console.ReadKey();
+                }
+                if (itemidlast == itemmm.ID)
+                {
+                    Console.ReadKey();
+                }
+                itemidlast = itemmm.ID;
+            }
+            Console.WriteLine("maxquan: " + maxquan);
+            Console.WriteLine("total: " + totalquan);
+            Console.WriteLine("empty: " + emptylocations);
+            Console.WriteLine("!empty: " + nonemptylocations);
+            Console.WriteLine("Negative quan: " + negativequan);
+            Console.WriteLine("Done1!");
+
+            controller.InitialPartitionUnpartitionedLocations();
 
             Central_Controller.Client client = new Central_Controller.Client("01");
             Console.WriteLine("Done2!");
@@ -181,17 +182,29 @@ namespace TESTPIS2
             //Console.WriteLine("TestPartition Count: " + TestPartition.Locations[0].Items.Count);
             Console.WriteLine("Done3!");
             Server server = new Server(controller);
-            Thread NetworkingThread = new Thread(new ThreadStart(server.StartServer));
-            NetworkingThread.Start();
+            //Thread NetworkingThread = new Thread(new ThreadStart(server.StartServer));
+            //NetworkingThread.Start();
+
+            List<string> temp = new List<string>();
+            foreach (Item _item in items)
+            {
+
+                foreach (Location _location in _item.Locations)
+                {
+                    temp.Add(_location.ID);
+                }
+                controller.InitialAddItem(_item, temp);
+                temp.Clear();
+                _item.Locations.Clear();
+            }
+            controller.InitialPartitionUnpartitionedLocations();
+
+
             server.StartServer();
             Console.WriteLine("Done4!");
 
 
-            //foreach (Item _item in items)
-            //{
-            //    controller.InitialAddItem(_item, new List<string> {"000A00"});       
-            //}
-            //controller.InitialPartitionUnpartitionedLocations();
+
 
 
             //server.SendPartition(TestPartion);
