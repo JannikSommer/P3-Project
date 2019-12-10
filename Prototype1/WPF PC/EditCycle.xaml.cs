@@ -265,7 +265,11 @@ namespace WPF_PC
         {
             if (e.Key == System.Windows.Input.Key.Enter)
             {
-                EditShelfNumber();
+                //Check if anything is selected
+                if (listBoxShelfPriority.SelectedIndex != -1)
+                {
+                    EditShelfNumber();
+                }
             }
         }
 
