@@ -40,7 +40,6 @@ namespace Model
         {
             ID = id;
             Locations = new List<Location>();
-            _countedQuantity = 0;
         }
 
         public Item(string id, string name, string color, string size)

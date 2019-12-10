@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Model;
 using Central_Controller;
+using System.Collections.Generic;
 
 namespace Unit_Tests.Controller_Tests
 {
@@ -292,6 +293,60 @@ namespace Unit_Tests.Controller_Tests
             Assert.AreEqual(Expected_VerifiedItems, TestController.ItemsVerified);
             Assert.AreEqual(Expected_PartitallyCountedItemsCount, TestController.PartiallyCountedItems.Count);
             Assert.AreEqual(Expected_PriorityPartionsCount, TestController.PriorityPartitions.Count);
+        }
+
+        [TestMethod]
+        public void CheckPartition_Test10__MultiLocationItemTest_NotCounted()
+        {
+            // Arrange
+            Client TestClient1 = new Client("01");
+
+            Controller TestController = new Controller();
+            TestController.TimeBeforeAFK = new TimeSpan(0, 0, 0);
+
+            Item TestItem1 = new Item("001");
+            List<string> TestLocation1 = new List<string> { "001A01", "002A01" };
+
+            Item TestItem2 = new Item("002");
+            List<string> TestLocation2 = new List<string> { "001B01", "002A01" };
+
+            Item TestItem3 = new Item("003");
+            List<string> TestLocation3 = new List<string> { "001C01" };
+
+            Item TestItem4 = new Item("004");
+            List<string> TestLocation4 = new List<string> { "001D01" };
+
+            Item TestItem5 = new Item("005");
+            List<string> TestLocation5 = new List<string> { "001E01" };
+
+            //Expected
+            int Expected_Partition2Size = 6;
+            int Expected_ActiveClientCount = 1;
+
+            string Expected_Partition_Location1 = "001A01";
+            string Expected_Partition_Location3 = "001C01";
+
+            // Act
+            TestController.InitialAddItem(TestItem1, TestLocation1);
+            TestController.InitialAddItem(TestItem2, TestLocation2);
+            TestController.InitialAddItem(TestItem3, TestLocation3);
+            TestController.InitialAddItem(TestItem4, TestLocation4);
+            TestController.InitialAddItem(TestItem5, TestLocation5);
+
+            TestController.InitialPartitioningOfLocations();
+
+            TestController.AddClient(TestClient1);
+            Partition DumbPartition = TestController.NextPartition(TestClient1);
+
+            TestController.CheckPartition(DumbPartition);
+            Partition Actual_Partition = TestController.NextPartition(TestClient1);
+
+            // Assert
+            Assert.AreEqual(Expected_Partition2Size, Actual_Partition.Locations.Count);
+            Assert.AreEqual(Expected_ActiveClientCount, TestController.Active_Clients.Count);
+
+            Assert.AreEqual(Expected_Partition_Location1, Actual_Partition.Locations[0].ID);
+            Assert.AreEqual(Expected_Partition_Location3, Actual_Partition.Locations[2].ID);
         }
     }
 }

@@ -12,7 +12,7 @@ namespace Central_Controller
         public int TotalNumberOfItems { get; private set; } = 0;
         public int ItemsVerified { get; private set; } = 0;
         public int MaxSizeForPartitions = 20; //MaxSizeForPartitions is a lie, anything adding multiple locations at once can exceed this limit
-        private readonly TimeSpan TimeBeforeAFK = new TimeSpan(0, 30, 0);
+        public TimeSpan TimeBeforeAFK = new TimeSpan(0, 30, 0);
         public SortedList<string, Location> UnPartitionedLocations { get; private set; } = new SortedList<string, Location>();
         private List<Location> MultiLocationsItem_Locations = new List<Location>();
         //private List<Item> MultilocationItems = new List<Item>();
@@ -274,19 +274,22 @@ namespace Central_Controller
             {
                 if (Active_Clients[x].IsAFK(TimeBeforeAFK))
                 {
-                    RemoveInactiveClient(x);
+                    RemoveClient(x);
                 }
             }
         }
 
-        public void RemoveInactiveClient(int UsersIndex)
+        public void RemoveClient(int UsersIndex)
         {
-            if (!(Active_Clients[UsersIndex].CurrentPartition == null))
+            if (Active_Clients[UsersIndex].CurrentPartition != null)
             {
+                bool ClientFoundOnActiveShelf = false;
+                
                 for (int x = 0; x < OccopiedShelfs.Count; x++)
                 {
                     if (OccopiedShelfs[x].HasClient(Active_Clients[UsersIndex]))
                     {
+                        ClientFoundOnActiveShelf = true;
                         OccopiedShelfs[x].RemoveInactiveClients(Active_Clients[UsersIndex]);
 
                         if (OccopiedShelfs[x].NumberOfClients == 0)
@@ -296,6 +299,11 @@ namespace Central_Controller
 
                         break;
                     }
+                }
+
+                if (!ClientFoundOnActiveShelf)
+                {
+                    CheckPartition(Active_Clients[UsersIndex].CurrentPartition);
                 }
             }
 
