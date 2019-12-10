@@ -8,11 +8,11 @@ using Model;
 using Central_Controller;
 using Networking;
 using System.Threading;
-using PrestaSharpAPI;
+using SQL_DB_test_Frame;
 
-namespace SQL_DB_test_Frame
+namespace TESTPIS2
 {
-    class Program2
+    class Program
     {
         static void Main(string[] args)
         {
@@ -22,7 +22,6 @@ namespace SQL_DB_test_Frame
             Item item = new Item();
             Location location = new Location();
             Controller controller = new Controller();
-            ProductAPI presta = new ProductAPI();
             //Server server = new Server();
             
             timer.Start();
@@ -46,45 +45,23 @@ namespace SQL_DB_test_Frame
             //test2 = Console.ReadLine();
             List<string>[] testList = new List<string>[3];
             testList = connector.Select("select * from ps_cent_control_data");
-            //int highest = 0;
-            //foreach (var str in testList[0])
-            //{
-            //    if (highest < Convert.ToInt32(str))
-            //    {
-            //        highest = Convert.ToInt32(str);
-            //    }
-            //}
-            //Console.WriteLine("highest: " + highest);
-            //Console.ReadKey();
-            //for (int index = 0; index < testList[2].Count; index++)
-            //{
-            //    Console.WriteLine(testList[0][index] + " | " + testList[1][index] + " | " + testList[2][index]);
-            //}
+            for (int index = 0; index < testList[2].Count - 1; index++)
+            {
+                Console.WriteLine(testList[0][index] + " | " + testList[1][index] + " | " + testList[2][index]);
+                //Console.ReadKey();
+            }
 
-            //Console.WriteLine("L1: " + testList[0].Count);
+
             List<string>[] testList2 = new List<string>[3];
             testList2 = sorter.createCombinedList(testList);
-            //Console.ReadKey();
-            //int highest2 = 0;
-            //foreach (var str in testList2[0])
-            //{
-            //    if (highest2 < Convert.ToInt32(str))
-            //    {
-            //        highest2 = Convert.ToInt32(str);
-            //    }
-            //}
-            //Console.WriteLine("highest: " + highest2);
-            //Console.ReadKey();
+            Console.ReadKey();
             //Console.WriteLine("Done1!");
             //Console.ReadKey();
             //Console.WriteLine("index: "+ testList2[2].Count);
-            //Console.WriteLine("LÆNGDE! " + testList2[2].Count);
-
-            //for (int index = 0; index < testList2[0].Count; index++)
+            //for (int index = 0; index < testList2[2].Count - 1; index++)
             //{
             //    Console.WriteLine(testList2[0][index] + " | " + testList2[1][index] + " | " + testList2[2][index]);
             //}
-            //Console.WriteLine("L2: " + testList2[0].Count);
             //Console.WriteLine("Done2!");
             //Console.ReadKey();
             //string temp = "test";
@@ -110,7 +87,7 @@ namespace SQL_DB_test_Frame
             //Console.WriteLine("Count locations: " + controller.UnPartitionedLocations.Count);
             //foreach (Location itemss in controller.UnPartitionedLocations.Values)
             //{
-            //    Console.WriteLine("name locations: " + itemss.ID);
+            //    Console.WriteLine("name locations: " + itemss.ID); 
             //}
             //int x = 0;
             //foreach (string stringthing in testList2[2])
@@ -121,14 +98,8 @@ namespace SQL_DB_test_Frame
             //    }
             //    x++;
             //}
-            List<Item> items = new List<Item>();
-            items = presta.GetAllItems();
-            foreach (var itemmm in items)
-            {
-                Console.WriteLine("ID: " + itemmm.ID+ " | QA: " + itemmm.ServerQuantity + " | CO: " + itemmm.Color + " | SI: " + itemmm.Size + " | LO: " + itemmm.Locations.Count + " | IM: " + itemmm.ImageUrl);
-            }
             Console.WriteLine("Done1!");
-            //controller.InitialPartitionUnpartitionedLocations();
+            controller.InitialPartitionUnpartitionedLocations();
 
             Central_Controller.Client client = new Central_Controller.Client("01");
             Console.WriteLine("Done2!");
@@ -136,7 +107,12 @@ namespace SQL_DB_test_Frame
 
             //Console.WriteLine("TestPartition Count: " + TestPartition.Locations[0].Items.Count);
             Console.WriteLine("Done3!");
-            
+            Server server = new Server(controller);
+            Thread NetworkingThread = new Thread(new ThreadStart(server.StartServer));
+            NetworkingThread.Start();
+            // server.StartServer();
+            // Console.WriteLine("Done4!");
+            //server.SendPartition(testPartition2);
 
 
 

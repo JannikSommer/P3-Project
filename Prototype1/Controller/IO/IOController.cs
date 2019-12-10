@@ -19,6 +19,7 @@ namespace Central_Controller.IO {
         private string _countedItemsPath;
 
         public IOController(string cycleId) {
+            CountedItems = new List<string>();
             _chosenCycleId = cycleId;
             Setup();
         }

@@ -33,7 +33,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>SQL_DB_test_Frame.Program2</StartupObject>
+    <StartupObject>
+    </StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="BouncyCastle.Crypto, Version=1.8.5.0, Culture=neutral, PublicKeyToken=0e99375e54769942">
@@ -106,7 +107,6 @@
   <ItemGroup>
     <Compile Include="DB_connector.cs" />
     <Compile Include="Program.cs" />
-    <Compile Include="Program2.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Sorting.cs" />
   </ItemGroup>
@@ -115,29 +115,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Controller\Central_Controller.csproj">
-      <Project>{66201624-4c47-47b3-b056-dab6be3de5cd}</Project>
-      <Name>Central_Controller</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Language\Localization.csproj">
-      <Project>{28a15257-4ce6-4074-8ad8-9d4a9a034001}</Project>
-      <Name>Localization</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Model\Model.csproj">
       <Project>{486dfbc0-2b7d-4c56-940c-150e673f643a}</Project>
       <Name>Model</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Networking\Networking.csproj">
-      <Project>{26cbc6b3-3005-40d1-9d2a-3a31129578ea}</Project>
-      <Name>Networking</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\PrestaSharpAPI\PrestaSharpAPI.csproj">
-      <Project>{041fbfc8-73cb-40b4-9f1e-2bdbfb0cc2d5}</Project>
-      <Name>PrestaSharpAPI</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\WPF PC\WPF PC.csproj">
-      <Project>{2e37ada4-7348-48e4-b8e1-d4c72492c4df}</Project>
-      <Name>WPF PC</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
