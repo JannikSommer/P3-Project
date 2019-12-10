@@ -10,7 +10,7 @@ namespace PrestaSharpAPI
     {
         private readonly string APIKey = "RS9K8F6XLQRKCL51Y3U9TZ7NY39CPMJM";
         private readonly string URL = "http://streetammo.dk/api/";
-        private readonly string Password = ""; // Passwords are not used
+        private readonly string Password = ""; // Password is not used
 
         public Item GetItem(long id)
         {
