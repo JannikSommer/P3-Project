@@ -11,6 +11,7 @@ namespace Central_Controller
     {
         public string ID { get; }
         private Partition _CurrentPartition;
+        private VerificationPartition _CurrentVerificationPartition;
         private DateTime LastActivity;
 
         public Partition CurrentPartition
@@ -25,7 +26,20 @@ namespace Central_Controller
                 _CurrentPartition = value;
             }
         }
-        
+
+        public VerificationPartition CurrentVerificationPartition
+        {
+            get
+            {
+                return _CurrentVerificationPartition;
+            }
+            set
+            {
+                LastActivity = DateTime.Now;
+                _CurrentVerificationPartition = value;
+            }
+        }
+
         public Client(string _ID)
         {
             ID = _ID;

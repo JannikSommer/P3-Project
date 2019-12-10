@@ -281,19 +281,27 @@ namespace Central_Controller
 
         public void RemoveInactiveClient(int UsersIndex)
         {
-            for(int x = 0; x < OccopiedShelfs.Count; x++)
+            if (!(Active_Clients[UsersIndex].CurrentPartition == null))
             {
-                if(OccopiedShelfs[x].HasClient(Active_Clients[UsersIndex]))
+                for (int x = 0; x < OccopiedShelfs.Count; x++)
                 {
-                    OccopiedShelfs[x].RemoveInactiveClients(Active_Clients[UsersIndex]);
-
-                    if(OccopiedShelfs[x].NumberOfClients == 0)
+                    if (OccopiedShelfs[x].HasClient(Active_Clients[UsersIndex]))
                     {
-                        MoveElementFromListToOtherList(OccopiedShelfs, x, AvailebleShelfs);
-                    }
+                        OccopiedShelfs[x].RemoveInactiveClients(Active_Clients[UsersIndex]);
 
-                    break;
+                        if (OccopiedShelfs[x].NumberOfClients == 0)
+                        {
+                            MoveElementFromListToOtherList(OccopiedShelfs, x, AvailebleShelfs);
+                        }
+
+                        break;
+                    }
                 }
+            }
+
+            if(!(Active_Clients[UsersIndex].CurrentVerificationPartition == null))
+            {
+                CheckVerificationPartition(Active_Clients[UsersIndex].CurrentVerificationPartition);
             }
 
             Active_Clients.RemoveAt(UsersIndex);
@@ -623,10 +631,12 @@ namespace Central_Controller
             {
                 if (item.HasMultiLocation)
                 {
+                    item.CountedQuantity = -1;
                     MultiLocationItemsForVerification.Add(item);
                 }
                 else
                 {
+                    item.CountedQuantity = -1;
                     ItemsForVerification.Add(item);
                 }
             }
@@ -636,7 +646,7 @@ namespace Central_Controller
             }
         }
 
-        public VerificationPartition CreateVerificationPartition()
+        public VerificationPartition CreateVerificationPartition(Client client)
         {
             VerificationPartition verificationPartition = new VerificationPartition();
             int Distance;
@@ -716,6 +726,8 @@ namespace Central_Controller
             }
 
             verificationPartition.Locations.Sort(Location_Comparer);
+
+            client.CurrentVerificationPartition = verificationPartition;
 
             return verificationPartition;
         }
