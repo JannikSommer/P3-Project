@@ -81,10 +81,15 @@ namespace TESTPIS2
             //Console.WriteLine("index: "+ testList2[2].Count);
             //Console.WriteLine("LÆNGDE! " + testList2[2].Count);
 
-            for (int index = 0; index < testList2[0].Count; index++)
-            {
-                Console.WriteLine(testList2[0][index] + " | " + testList2[1][index] + " | " + testList2[2][index]);
-            }
+
+
+            //for (int index = 0; index < testList2[0].Count; index++)
+            //{
+            //    Console.WriteLine(testList2[0][index] + " | " + testList2[1][index] + " | " + testList2[2][index]);
+            //}
+
+
+
             //Console.WriteLine("L2: " + testList2[0].Count);
             //Console.WriteLine("Done2!");
             //Console.ReadKey();
@@ -175,10 +180,10 @@ namespace TESTPIS2
 
             //Console.WriteLine("TestPartition Count: " + TestPartition.Locations[0].Items.Count);
             Console.WriteLine("Done3!");
-            //Server server = new Server(controller);
-            //Thread NetworkingThread = new Thread(new ThreadStart(server.StartServer));
-            //NetworkingThread.Start();
-            //server.StartServer();
+            Server server = new Server(controller);
+            Thread NetworkingThread = new Thread(new ThreadStart(server.StartServer));
+            NetworkingThread.Start();
+            server.StartServer();
             Console.WriteLine("Done4!");
 
 
