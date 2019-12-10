@@ -36,7 +36,6 @@ namespace WPF_PC
         public EditCycle EditCycleWindow;
         private Server Server { get; set; }
         //private Thread NetworkingThread; // Used to keep socket connection open for clients. 
-        private IOController _ioController = new IOController("TestCycle");
 
 
         public MainWindow()
@@ -69,11 +68,7 @@ namespace WPF_PC
 
         public void LoadIntoDataGrid()
         {
-            if(false) {
-                ProductAPI psAPI = new ProductAPI();
-                //_ioController.CountedItems = psAPI.GetAllItems();
-            }
-            dataGridMain.ItemsSource = _ioController.CountedItems;
+            dataGridMain.ItemsSource = Controller.Cycle.CountedItems;
         }
 
         public void UpdateMainWindow()
@@ -82,7 +77,7 @@ namespace WPF_PC
             acticeClients.Content = Controller.Active_Clients.Count;
 
             //Counted Items overview:
-            double countedInt = _ioController.CountedItems.Count;
+            double countedInt = Controller.Cycle.CountedItems.Count;
             double totalItemsInt = 80000;
             double percentageCounted = ((countedInt / totalItemsInt) * 100);
             double percentageCountedRoundedDown = Math.Round(percentageCounted, 1);
@@ -115,7 +110,7 @@ namespace WPF_PC
         {
             
 
-            LogWindow logWindow = new LogWindow(_ioController.Log);
+            LogWindow logWindow = new LogWindow(Controller.Cycle.Log);
             logWindow.Show();
         }
 
@@ -179,7 +174,7 @@ namespace WPF_PC
             //Load everything to log.
             //Server.ShutdownServer();
 
-            _ioController.Save();
+            new IOController(Controller.Cycle.Id).Save(Controller.Cycle, Controller.Location_Comparer.ShelfHierarchy);
             Application.Current.Shutdown();
         }
 

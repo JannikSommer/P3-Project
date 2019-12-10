@@ -34,7 +34,7 @@ namespace WPF_PC
 
             controller = _controller;
 
-            ShelfArray = RetrieveSortingPriorityFromFile();
+            ShelfArray = controller.Location_Comparer.ShelfHierarchy;
 
             LoadSortPriority();
         }

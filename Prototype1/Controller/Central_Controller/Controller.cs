@@ -4,10 +4,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Model;
+using Central_Controller.IO;
+using PrestaSharpAPI;
 
 namespace Central_Controller
 {
     public partial class Controller {
+
+        public Controller() {
+            IOController io = new IOController();
+            List<Item> items = DownloadFromServer();
+            Cycle = io.LoadCycle(items);
+            Location_Comparer = new LocationComparer(io.LoadShelves());
+        }
+
+        public Cycle Cycle { get; set; }
+
         public int TotalNumberOfItems { get; private set; } = 0;
         public int ItemsVerified { get; private set; } = 0;
         public int MaxSizeForPartitions = 20; //MaxSizeForPartitions is a lie, anything adding multiple locations at once can exceed this limit
@@ -25,6 +37,14 @@ namespace Central_Controller
         public List<Partition> PriorityPartitions { get; private set; } = new List<Partition>();
         public List<Tuple<Item, bool[]>> PartiallyCountedItems { get; private set; } = new List<Tuple<Item, bool[]>>();
         public List<Item> VerifiedItems = new List<Item>();
+
+
+
+        private List<Item> DownloadFromServer() {
+            return new List<Item>();
+            return new ProductAPI().GetAllItems();
+        }
+
 
         /* first Send Next Partition Implimentation
         public Partition SendNextPartition(Client client)
