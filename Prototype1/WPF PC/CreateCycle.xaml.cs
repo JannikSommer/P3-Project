@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Model;
 
 namespace WPF_PC
 {
@@ -22,42 +23,11 @@ namespace WPF_PC
         public CreateCycleWindow()
         {
             InitializeComponent();
-
-            CreateCycleWindowLanguage();
-            LoadIntoChooseBox();
-        }
-
-        public void LoadIntoChooseBox()
-        {
-            List<string> createCycleTypes = new List<string>();
-
-            ////Danish:
-            //if (Language.Danish == language)
-            //{
-            //    createCycleTypes.Add("Hele lageret");
-            //    createCycleTypes.Add("T-shirts");
-            //    createCycleTypes.Add("Bukser");
-            //    createCycleTypes.Add("Skateboards");
-            //    createCycleTypes.Add("Sko");
-            //    createCycleTypes.Add("Hoodies");
-            //}
-
-            ////English:
-            //else if (Language.English == language)
-            //{
-            //    createCycleTypes.Add("The whole storage");
-            //    createCycleTypes.Add("T-shirts");
-            //    createCycleTypes.Add("Pants");
-            //    createCycleTypes.Add("Skateboards");
-            //    createCycleTypes.Add("Shoes");
-            //    createCycleTypes.Add("Hoodies");
-            //}
-            comboBoxChooseCycleCountTypes.ItemsSource = createCycleTypes;
         }
 
         private void CreateCycleCountButton_Click(object sender, RoutedEventArgs e)
         {
-            if (comboBoxChooseCycleCountTypes.SelectedIndex == -1)
+            if (comboBoxChooseCycleCountTypes.SelectedIndex == -1 || TextBoxCycleName.Text == "")
             {
                 labelWarningTwo.Visibility = Visibility.Visible;
             }
@@ -65,38 +35,10 @@ namespace WPF_PC
             {
                 labelWarningTwo.Visibility = Visibility.Hidden;
 
+                //Cycle newCycle = new Cycle(TextBoxCycleName.Text);
+
                 this.Close();
             }
-        }
-
-        public void CreateCycleWindowLanguage()
-        {
-
-            //Danish:
-            //if (Language.Danish == language)
-            //{
-            //    //Window name:
-            //    CreateCycle.Title = "Opret Optællings Cyklus";
-
-            //    //Labels:
-            //    chooseCycle.Content = "Vælg hvordan cyklus'en skal oprettes:";
-
-            //    //Buttons:
-            //    CreateCycleCountButton.Content = "Opret cyklus";
-            //}
-
-            ////English:
-            //else if (Language.English == language)
-            //{
-            //    //Window name:
-            //    CreateCycle.Title = "Create Cycle Count";
-
-            //    //Labels:
-            //    chooseCycle.Content = "Choose how to create the cycle:";
-
-            //    //Buttons:
-            //    CreateCycleCountButton.Content = "Create cycle";
-            //}
         }
     }
 }

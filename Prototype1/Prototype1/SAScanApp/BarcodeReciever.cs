@@ -9,7 +9,7 @@ namespace SAScanApp
 {
    public class BarcodeReciever
     {
-        private string barc { get; set; }
+        private string Barcode { get; set; }
         public ObservableCollection<string> barcodes { get; set; } = new ObservableCollection<string>();
 
         public bool RecieveBarcode(Partition partition)
@@ -47,7 +47,14 @@ namespace SAScanApp
 
             if (Checker.CheckSumValidation(barc) == true)
             {
+            Barcode = "xxxxxxxxxx";
+            CheckSum Checker = new CheckSum();
+            MessagingCenter.Subscribe<Object, string> (this, "Barcode", (a, s) => {
+                Barcode = a.ToString();
+                barcodes.Add(a.ToString());
+            });
 
+            if (Checker.CheckSumValidation(Barcode) == true) {
                 List<Item> currentItems = new List<Item>();
                 int j = 0;
 

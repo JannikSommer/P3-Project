@@ -21,7 +21,7 @@ namespace Unit_Tests.Controller_Tests
             TestController.InitialAddItem(TestItem1, new List<string> { "001A01" });
             TestController.InitialAddItem(TestItem2, new List<string> { "010A01" }); 
 
-            TestController.InitialPartitionUnpartitionedLocations(); //makes sure LocationComparer is created with MaxValueShelf = 10
+            TestController.InitialPartitioningOfLocations(); //makes sure LocationComparer is created with MaxValueShelf = 10
 
             TestItem1.ServerQuantity = 10;
             TestItem1.CountedQuantity = 10;
@@ -56,7 +56,7 @@ namespace Unit_Tests.Controller_Tests
             TestController.InitialAddItem(TestItem1, new List<string> { "001A01" });
             TestController.InitialAddItem(TestItem2, new List<string> { "010A01" });
 
-            TestController.InitialPartitionUnpartitionedLocations(); //makes sure LocationComparer is created with MaxValueShelf = 10
+            TestController.InitialPartitioningOfLocations(); //makes sure LocationComparer is created with MaxValueShelf = 10
 
             TestItem1.ServerQuantity = 10;
             TestItem1.CountedQuantity = 10;
@@ -89,7 +89,7 @@ namespace Unit_Tests.Controller_Tests
             TestController.InitialAddItem(TestItem1, new List<string> { "001A01" });
             TestController.InitialAddItem(TestItem2, new List<string> { "010A01" });
 
-            TestController.InitialPartitionUnpartitionedLocations(); //makes sure LocationComparer is created with MaxValueShelf = 10
+            TestController.InitialPartitioningOfLocations(); //makes sure LocationComparer is created with MaxValueShelf = 10
 
             TestItem1.ServerQuantity = 10;
             TestItem1.CountedQuantity = 9;
@@ -162,7 +162,7 @@ namespace Unit_Tests.Controller_Tests
 
             TestController.InitialAddItem(DumpItem1, new List<string> { "005A01" });
 
-            TestController.InitialPartitionUnpartitionedLocations(); //makes sure LocationComparer is created with MaxValueShelf = 5
+            TestController.InitialPartitioningOfLocations(); //makes sure LocationComparer is created with MaxValueShelf = 5
 
             TestItem1.AddLocation(TestLocation1);
             TestItem1.AddLocation(TestLocation8);
@@ -316,7 +316,7 @@ namespace Unit_Tests.Controller_Tests
 
             TestController.InitialAddItem(DumpItem1, new List<string> { "005A01" });
 
-            TestController.InitialPartitionUnpartitionedLocations(); //makes sure LocationComparer is created with MaxValueShelf = 5
+            TestController.InitialPartitioningOfLocations(); //makes sure LocationComparer is created with MaxValueShelf = 5
 
             TestItem1.AddLocation(TestLocation1);
             TestItem1.AddLocation(TestLocation8);
@@ -500,7 +500,7 @@ namespace Unit_Tests.Controller_Tests
 
             TestController.InitialAddItem(DumpItem1, new List<string> { "005A01" });
 
-            TestController.InitialPartitionUnpartitionedLocations(); //makes sure LocationComparer is created with MaxValueShelf = 5
+            TestController.InitialPartitioningOfLocations(); //makes sure LocationComparer is created with MaxValueShelf = 5
 
             TestItem1.AddLocation(TestLocation1);
             TestItem1.AddLocation(TestLocation8);
@@ -685,7 +685,7 @@ namespace Unit_Tests.Controller_Tests
 
             TestController.InitialAddItem(DumpItem1, new List<string> { "005A01" });
 
-            TestController.InitialPartitionUnpartitionedLocations(); //makes sure LocationComparer is created with MaxValueShelf = 5
+            TestController.InitialPartitioningOfLocations(); //makes sure LocationComparer is created with MaxValueShelf = 5
 
             TestItem1.AddLocation(TestLocation1);
             TestItem1.AddLocation(TestLocation8);
@@ -871,7 +871,7 @@ namespace Unit_Tests.Controller_Tests
 
             TestController.InitialAddItem(DumpItem1, new List<string> { "005A01" });
 
-            TestController.InitialPartitionUnpartitionedLocations(); //makes sure LocationComparer is initialized with MaxValueShelf = 5
+            TestController.InitialPartitioningOfLocations(); //makes sure LocationComparer is initialized with MaxValueShelf = 5
 
             TestItem1.AddLocation(TestLocation1);
             TestItem1.AddLocation(TestLocation8);

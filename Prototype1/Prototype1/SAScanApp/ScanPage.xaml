@@ -117,8 +117,8 @@
 
                 <Grid x:Name="Grid2" Grid.Row="2">
                     <ListView x:Name="displayList" BackgroundColor="White"
-                              ItemSelected="displayList_ItemSelected"
-                              ItemTapped="displayList_ItemTapped">
+                              ItemSelected="DisplayList_ItemSelected"
+                              ItemTapped="DisplayList_ItemTapped">
                         <ListView.ItemTemplate>
                             <DataTemplate>
 

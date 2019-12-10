@@ -8,18 +8,20 @@ namespace Model
     //public enum ItemSize { S = 0, Small = 0, M = 1, Medium = 1, L = 2, Large = 2, XL = 3, ExtraLarge = 3, XXL, XXXL, XXXXL, XXXXXL}
     [Serializable]
     public class Item : INotifyPropertyChanged
-    {   
+    {
         public int ServerQuantity { get; set; }
-        public int CountedQuantity { 
-            get { return _countedQuantity; } 
+        private int _countedQuantity = -1;
+        public int CountedQuantity {
+            get { return _countedQuantity; }
             set { _countedQuantity = value;
                 OnPropertyChanged("ItemQuantity");
-            } 
+            }
         }
         public int QuantityVariance {
             get { return Math.Abs(ServerQuantity - CountedQuantity); }
         }
         public bool HasMultiLocation { get; set; }
+        public bool IsUPCBarcode { get; set; }
         public string ID { get; set; }
         public string Name { get; set; }
         public string Color { get; set; }
@@ -27,13 +29,11 @@ namespace Model
         public string ImageUrl { get; set; }
         public string CheckSum { get; set; }
         public List<Location> Locations { get; set; }
+
         public string Barcode { get; set; }
 
 
         public event PropertyChangedEventHandler PropertyChanged;
-
-
-        public int _countedQuantity { get; set; }
 
         public Item() { } // Used for XML/JSON Deserialization.
 
@@ -46,7 +46,7 @@ namespace Model
 
         public Item(string id, string name, string color, string size)
         {
-            ID = id;   
+            ID = id;
             Name = name;
             Color = color;
             Size = size;
@@ -67,22 +67,21 @@ namespace Model
                 AddLocation(location);
             }
         }
-        public Item(string id, string name, int quantity, string color, string size, List<Model.Location> locations, string barcode)
+        public Item(string id, string name, int quantity, string color, string size, List<Location> locations, string barcode)
         {
             ID = id;
             Name = name;
             ServerQuantity = quantity;
-            Color = color;      
+            Color = color;
             Size = size;
             Barcode = barcode;
-            Locations = new List<Location>();
+            Locations = locations;
 
             foreach (Location location in locations)
             {
                 AddLocation(location);
             }
         }
-
         public void AddLocation(Location location)
         {
             if(!HasLocation(location))

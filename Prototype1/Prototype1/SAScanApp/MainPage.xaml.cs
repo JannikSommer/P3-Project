@@ -12,12 +12,9 @@ namespace SAScanApp
     public partial class MainPage : ContentPage
     {
         //Skal have en constructor der læser partition ind så den kan bruges i ScanPage instansiering i ScanPage_Selected
-        public MainPage()
-        {
+        public MainPage() {
             InitializeComponent();
             logo.Source = ImageSource.FromResource("SAScanApp.images.salogo.JPG");
-
-
         }
 
         private void ScanPage_Selected(object sender, EventArgs e)

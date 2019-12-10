@@ -25,10 +25,6 @@ using PrestaSharpAPI;
 
 namespace WPF_PC
 {
-    public enum Language
-    {
-        Danish, English
-    }
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
@@ -36,7 +32,8 @@ namespace WPF_PC
     {
 
         private Thread NetworkingThread { get; set; }
-        private Controller Controller { get; set; }
+        private Controller Controller { get; set; } = new Controller();
+        public EditCycle EditCycleWindow;
         private Server Server { get; set; }
         //private Thread NetworkingThread; // Used to keep socket connection open for clients. 
         private IOController _ioController = new IOController("TestCycle");
@@ -44,7 +41,8 @@ namespace WPF_PC
 
         public MainWindow()
         {
-            Controller = new Controller();
+            EditCycleWindow = new EditCycle(Controller);
+            Controller.InitilizeLocationComparer(EditCycleWindow.ShelfArray);
 
             InitializeComponent();
             // StartServer();
@@ -53,19 +51,6 @@ namespace WPF_PC
             LoadIntoChooseBox();
 
             // Add eksample data to save files.
-            if(false) {
-                List<LogMessage> list = new List<LogMessage> {
-                new VerificationLogMessage(new DateTime(2019, 11, 12, 10, 21, 9), "Polle", "5709216007104", true),
-                new LocationLogMessage(new DateTime(2019, 11, 12, 10, 21, 9), "Ole", "001C27", new List<(string itemId, string countedQuantity)>{("5709216007104", "5"), ("5849225908104", "2")}),
-                new TextLogMessage(DateTime.Now, "Hello Bob!")
-                };
-                _ioController.CountedItems.AddRange(new List<Item> { new Item("135424", "Ugly T-Shirt", "Purple", "XL", new List <Location> { new Location("002F01") }), new Item("19753", "Nice T-Shirt", "Blue", "M", new List<Location> { new Location("002F01"), new Location("022D07") }) });
-                _ioController.Log.AddMultipleMessages(list);
-            }
-
-
-
-
         }
 
         private void StartServer()
@@ -86,7 +71,7 @@ namespace WPF_PC
         {
             if(false) {
                 ProductAPI psAPI = new ProductAPI();
-                _ioController.CountedItems = psAPI.GetAllItems();
+                //_ioController.CountedItems = psAPI.GetAllItems();
             }
             dataGridMain.ItemsSource = _ioController.CountedItems;
         }
@@ -97,19 +82,19 @@ namespace WPF_PC
             acticeClients.Content = Controller.Active_Clients.Count;
 
             //Counted Items overview:
-            double countedInt = 19843;
+            double countedInt = _ioController.CountedItems.Count;
             double totalItemsInt = 80000;
-            double persentageCounted = ((countedInt / totalItemsInt) * 100);
-            double persentageCountedRoundedDown = Math.Round(persentageCounted, 1);
+            double percentageCounted = ((countedInt / totalItemsInt) * 100);
+            double percentageCountedRoundedDown = Math.Round(percentageCounted, 1);
 
-            overviewTotalCounted.Content = (countedInt + " / " + totalItemsInt + "   (" + persentageCountedRoundedDown + "%)");
+            overviewTotalCounted.Content = (countedInt + " / " + totalItemsInt + "   (" + percentageCountedRoundedDown + "%)");
 
             //Counted with difference overview:
             double countedIntWithDifference = 340;
-            double persentageCountedWithDifference = ((countedIntWithDifference / totalItemsInt) * 100);
-            double persentageCountedWithDifferenceRoundedDown = Math.Round(persentageCountedWithDifference, 1);
+            double percentageCountedWithDifference = ((countedIntWithDifference / totalItemsInt) * 100);
+            double percentageCountedWithDifferenceRoundedDown = Math.Round(percentageCountedWithDifference, 1);
 
-            overviewTotalCountedWithDifference.Content = (countedIntWithDifference + " / " + totalItemsInt + "   (" + persentageCountedWithDifferenceRoundedDown + "%)");
+            overviewTotalCountedWithDifference.Content = (countedIntWithDifference + " / " + totalItemsInt + "   (" + percentageCountedWithDifferenceRoundedDown + "%)");
         }
 
         private void createCycleCount_Click(object sender, RoutedEventArgs e)
@@ -121,7 +106,7 @@ namespace WPF_PC
 
         private void editCycle_Click(object sender, RoutedEventArgs e)
         {
-            EditCycle EditCycle = new EditCycle();
+            EditCycle EditCycle = new EditCycle(Controller);
             EditCycle.Show();
 
         }
@@ -195,6 +180,7 @@ namespace WPF_PC
             //Server.ShutdownServer();
 
             _ioController.Save();
+            Application.Current.Shutdown();
         }
 
         private void comboBoxChooseGet_SelectionChanged(object sender, SelectionChangedEventArgs e)

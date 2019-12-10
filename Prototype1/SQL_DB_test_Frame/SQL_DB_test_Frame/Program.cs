@@ -5,9 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Diagnostics;
 using Model;
-using Central_Controller;
-using Networking;
+//using Central_Controller;
+//using Networking;
 using System.Threading;
+using SQL_DB_test_Frame;
 
 namespace SQL_DB_test_Frame
 {
@@ -20,7 +21,7 @@ namespace SQL_DB_test_Frame
             Sorting sorter = new Sorting();
             Item item = new Item();
             Location location = new Location();
-            Controller controller = new Controller();
+            //Controller controller = new Controller();
             //Server server = new Server();
             
             timer.Start();
@@ -77,10 +78,10 @@ namespace SQL_DB_test_Frame
             //Console.WriteLine("Done3!");
             //Console.ReadKey();
 
-            for (int i = 0; i < testList2[2].Count; i++)
-            {
-                controller.InitialAddItem(new Item(testList2[0][i]), sorter.locationStringToList(testList2[2][i]));
-            }
+            //for (int i = 0; i < testList2[2].Count; i++)
+            //{
+            //    controller.InitialAddItem(new Item(testList2[0][i]), sorter.locationStringToList(testList2[2][i]));
+            //}
 
             //Console.WriteLine("Count items: " + controller.UnPartitionedLocations["000A00"].Items.Count);
             //Console.WriteLine("Count locations: " + controller.UnPartitionedLocations.Count);
@@ -97,21 +98,21 @@ namespace SQL_DB_test_Frame
             //    }
             //    x++;
             //}
-            Console.WriteLine("Done1!");
-            controller.InitialPartitionUnpartitionedLocations();
+            //Console.WriteLine("Done1!");
+            //controller.InitialPartitionUnpartitionedLocations();
 
-            Central_Controller.Client client = new Central_Controller.Client("01");
-            Console.WriteLine("Done2!");
-            controller.AddClient(client);
+            //Central_Controller.Client client = new Central_Controller.Client("01");
+            //Console.WriteLine("Done2!");
+            //controller.AddClient(client);
 
-            //Console.WriteLine("TestPartition Count: " + TestPartition.Locations[0].Items.Count);
-            Console.WriteLine("Done3!");
-            Server server = new Server(controller);
-            Thread NetworkingThread = new Thread(new ThreadStart(server.StartServer));
-            NetworkingThread.Start();
+            ////Console.WriteLine("TestPartition Count: " + TestPartition.Locations[0].Items.Count);
+            //Console.WriteLine("Done3!");
+            //Server server = new Server(controller);
+            //Thread NetworkingThread = new Thread(new ThreadStart(server.StartServer));
+            //NetworkingThread.Start();
             // server.StartServer();
             // Console.WriteLine("Done4!");
-            // server.SendPartition(TestPartition);
+            //server.SendPartition(testPartition2);
 
 
 

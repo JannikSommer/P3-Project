@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Model;
 
 namespace SQL_DB_test_Frame
 {
-    class Sorting
+    public class Sorting
     {
         public List<string>[] createCombinedList(List<string>[] list)
         {
@@ -17,10 +18,6 @@ namespace SQL_DB_test_Frame
             combinedList[2] = new List<string>();
 
             int longestIndex = findLargestList(list);
-
-            //combinedList[0].Add(list[0][0]);
-            //combinedList[1].Add(list[1][0]);
-            //combinedList[2].Add(list[2][0]);
 
             bool found = false;
 
@@ -64,12 +61,12 @@ namespace SQL_DB_test_Frame
             }
             return longestIndex;
         }
-        public List<string> locationStringToList(string locationString)
+        public List<Location> locationStringToList(string locationString)
         {
-            List<string> locationList = new List<string>();
+            List<Location> locationList = new List<Location>();
             foreach (var location in locationString.Split(';'))
             {
-                locationList.Add(location);
+                locationList.Add(new Location (location));
             }
             return locationList;
         }
@@ -78,7 +75,7 @@ namespace SQL_DB_test_Frame
             org += ";" + locationChecker(add);
             return org;
         }
-        private string locationChecker(string location)
+        public string locationChecker(string location)
         {
             if (location == " ")
             {
@@ -130,7 +127,7 @@ namespace SQL_DB_test_Frame
             }
             throw new Exception("Error! Unable to handle location:" + location);
         }
-        private string locationCleaner(string locationString)
+        public string locationCleaner(string locationString)
         {
             List<string> locationList = new List<string>();
             List<string> returnLocationList = new List<string>();
