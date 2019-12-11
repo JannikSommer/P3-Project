@@ -36,25 +36,20 @@ namespace Networking
             // Get IP-Address from cmd -> ipconfig IPv4 address from Ethernet adapter.
             IPAddress ipAddress = IPAddress.Parse(ip);
             IPEndPoint localEndPoint = new IPEndPoint(ipAddress, 6969);
-
             
-                // Create a Socket that will use Tcp protocol      
-                Socket Listener = new Socket(ipAddress.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
-                // A Socket must be associated with an endpoint using the Bind method  
-                Listener.Bind(localEndPoint);
+            // Create a Socket that will use Tcp protocol      
+            Socket Listener = new Socket(ipAddress.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
+            // A Socket must be associated with an endpoint using the Bind method  
+            Listener.Bind(localEndPoint);
 
-                // Specify how many requests a Socket can listen before it gives Server busy response
-                Listener.Listen(15); // Specified wish from StreetAmmo. A total number of 15 people can be 
+            // Specify how many requests a Socket can listen before it gives Server busy response
+            Listener.Listen(15); // Specified wish from StreetAmmo. A total number of 15 people can be 
 
-                while (true)
-                {
-                Handler = Listener.Accept();
-                HandleConnection();
-                
-                }
-                    
-                
-           
+            while (true)
+            {
+            Handler = Listener.Accept();
+            HandleConnection();
+            }           
         }
 
         private void HandleConnection() // Handles the connection of the socket. 
@@ -83,8 +78,7 @@ namespace Networking
             }
             else if (data == CommunicationFlag.VerificationRequest.ToString())
             {
-                VerificationPartition verificationPartition = Controller.CreateVerificationPartition();
-                SendVerificationPartition(verificationPartition);
+                SendVerificationPartition();
             }
             else if (data == CommunicationFlag.VerificationUpload.ToString())
             {
@@ -119,9 +113,8 @@ namespace Networking
 
         public void SendPartition(Central_Controller.Client client)
         {
-            Partition partition = new Partition();
-            partition.Locations.Add(new Location("001A01"));
-                //Controller.NextPartition(client);
+            Partition partition = new Partition(); //Controller.NextPartition(client);
+            partition.Locations.Add(new Location("001A01")); 
             // Send partition to client
             string json = JsonConvert.SerializeObject(partition, settings);
             Handler.Send(Encoding.UTF8.GetBytes(json));
@@ -137,8 +130,9 @@ namespace Networking
             }
         }
 
-        private void SendVerificationPartition(VerificationPartition verificationPartition)
+        private void SendVerificationPartition()
         {
+            VerificationPartition verificationPartition = new VerificationPartition(); //Controller.CreateVerificationPartition();
             // Send partition to client
             string json = JsonConvert.SerializeObject(verificationPartition, settings);
             Handler.Send(Encoding.UTF8.GetBytes(json));

@@ -20,7 +20,8 @@ namespace SAScanApp {
 
         }
         
-        private async void UploadPartition(object sender, EventArgs e) {
+        private async void UploadPartition(object sender, EventArgs e) 
+        {
             Client client = new Client();
             Partition partition = new Model.Partition();
             partition.Locations.Add(new Model.Location("001A01"));
@@ -41,14 +42,18 @@ namespace SAScanApp {
         }
 
         // TODO: make async event
-        private async void DownloadPartition(object sender, EventArgs e) {
+        private async void DownloadPartition(object sender, EventArgs e) 
+        {
             Client networkingClient = new Client();
             Central_Controller.Client DeviceClient = new Central_Controller.Client("Anders");
             (Partition partition,  CommunicationHandler handler) = await networkingClient.DownloadPartitionAsync(DeviceClient);
 
-            if (handler != CommunicationHandler.Success) {
+            if (handler != CommunicationHandler.Success) 
+            {
                 await DisplayAlert("Error", "An error occured", "Fix your shit!");
-            } else {
+            } 
+            else 
+            {
                 await DisplayAlert(handler.ToString(), partition.Locations[0].ID , "You fixed your shit!");
             }
 
