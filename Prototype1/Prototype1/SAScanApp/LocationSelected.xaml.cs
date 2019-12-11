@@ -93,7 +93,7 @@ namespace SAScanApp {
 
             else
             {
-                DisplayAlert("Error", "Incorrect barcode - please scan again!!", "Rescan");
+                await DisplayAlert("Error", "Incorrect barcode - please scan again!!", "Rescan");
                 ScanEditorFocus();
             }
         }
