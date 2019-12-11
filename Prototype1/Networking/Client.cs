@@ -12,6 +12,7 @@ namespace Networking
     public class Client
     {
         private Socket Sender;
+        private string ip = "192.168.1.2";
         private readonly int FlagMessageSize = 25;
         private readonly int HandlerSize = 15;
         private readonly long MessageSize = 536870912; // 512 MB
@@ -201,7 +202,7 @@ namespace Networking
                 // Get Host IP Address that is used to establish a connection  
                 // In this case, we get one IP address of localhost that is IP : 127.0.0.1  
                 // If a host has multiple addresses, you will get a list of addresses  
-                IPAddress ipAddress = IPAddress.Parse("192.168.1.3");
+                IPAddress ipAddress = IPAddress.Parse(ip);
                 IPEndPoint remoteEP = new IPEndPoint(ipAddress, 6969);
 
                 // Create a TCP/IP socket
@@ -415,7 +416,7 @@ namespace Networking
                 // Get Host IP Address that is used to establish a connection  
                 // In this case, we get one IP address of localhost that is IP : 127.0.0.1  
                 // If a host has multiple addresses, you will get a list of addresses  
-                IPAddress ipAddress = IPAddress.Parse("192.168.1.3");
+                IPAddress ipAddress = IPAddress.Parse(ip);
                 IPEndPoint remoteEP = new IPEndPoint(ipAddress, 6969);
 
                 // Create a TCP/IP  socket.    

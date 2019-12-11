@@ -46,8 +46,6 @@ namespace SAScanApp {
 
 
 
-        public LocationSelected()
-        { }
 
         public LocationSelected(ScanPage startPage) : this() {
 

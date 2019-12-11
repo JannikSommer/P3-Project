@@ -12,6 +12,7 @@ namespace Networking
     public class Server
     {
         private Socket Handler;
+        private string ip = "192.168.1.2";
         private Controller Controller { get; set; }
         private readonly int FlagMessageSize = 25;
         private readonly long MessageSize = 536870912; // 512 MB
@@ -33,7 +34,7 @@ namespace Networking
             // In this case, we get one IP address of localhost that is IP : 127.0.0.1
             // If a host has multiple addresses, you will get a list of addresses  
             // Get IP-Address from cmd -> ipconfig IPv4 address from Ethernet adapter. 
-            IPAddress ipAddress = IPAddress.Parse("192.168.1.2");
+            IPAddress ipAddress = IPAddress.Parse(ip);
             IPEndPoint localEndPoint = new IPEndPoint(ipAddress, 6969);
 
             
