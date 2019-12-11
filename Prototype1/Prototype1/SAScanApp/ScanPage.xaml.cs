@@ -16,7 +16,14 @@ namespace SAScanApp
         public ObservableCollection<Model.Location> LocationList { get; set; }
         public List<Item> ItemList { get; set; }
         public Partition Partition { get; set; }
-
+        Partition _partition = new Partition(new Model.Location("000A01",
+                                                                        new List<Item> {
+                                                                            new Item("5701872203005"),
+                                                                            new Item("64747"),
+                                                                            new Item ("8979878"),
+                                                                            new Item ("78789"),
+                                                                            new Item ("878979")
+                                                                            }));
         private bool lightOn = false;
 
         public ScanPage()
@@ -25,14 +32,14 @@ namespace SAScanApp
 
             DependencyService.Get<IBluetoothHandler>().EnableBluetooth();
 
-            Partition _partition = new Partition(new Model.Location("000A01",
-                                                                        new List<Item> {
-                                                                            new Item("5701872203005"),
-                                                                            new Item("64747"),
-                                                                            new Item ("8979878"),
-                                                                            new Item ("78789"),
-                                                                            new Item ("878979")
-                                                                            })); 
+            //Partition _partition = new Partition(new Model.Location("000A01",
+            //                                                            new List<Item> {
+            //                                                                new Item("5701872203005"),
+            //                                                                new Item("64747"),
+            //                                                                new Item ("8979878"),
+            //                                                                new Item ("78789"),
+            //                                                                new Item ("878979")
+            //                                                                })); 
 
             ObservableCollection<Model.Location> _locationList = new ObservableCollection<Model.Location>(); // instanser
             

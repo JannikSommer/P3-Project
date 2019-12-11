@@ -16,6 +16,7 @@ namespace SAScanApp
         {
             char[] input = new char[13];
             string tempBc = string.Empty;
+            string barc = "";
             
             for(int i = 0; i < 13; i++)
             {
@@ -43,37 +44,39 @@ namespace SAScanApp
                 
             }); */
 
-            var Checker = new CheckSum(); 
+            var Checker = new CheckSum();
 
             if (Checker.CheckSumValidation(barc) == true)
             {
-            Barcode = "xxxxxxxxxx";
-            CheckSum Checker = new CheckSum();
-            MessagingCenter.Subscribe<Object, string> (this, "Barcode", (a, s) => {
-                Barcode = a.ToString();
-                barcodes.Add(a.ToString());
-            });
-
-            if (Checker.CheckSumValidation(Barcode) == true) {
-                List<Item> currentItems = new List<Item>();
-                int j = 0;
-
-                for (int i = 0; i < partition.Locations.Count; i++)
+                Barcode = "xxxxxxxxxx";
+                //CheckSum Checker = new CheckSum();
+                MessagingCenter.Subscribe<Object, string>(this, "Barcode", (a, s) =>
                 {
-                    for(j = 0; j < partition.Locations[i].Items.Count; j++)
+                    Barcode = a.ToString();
+                    barcodes.Add(a.ToString());
+                });
+
+                if (Checker.CheckSumValidation(Barcode) == true)
+                {
+                    List<Item> currentItems = new List<Item>();
+                    int j = 0;
+
+                    for (int i = 0; i < partition.Locations.Count; i++)
                     {
-                        if (partition.Locations[i].Items[j].ID == barc)
+                        for (j = 0; j < partition.Locations[i].Items.Count; j++)
                         {
-                            partition.Locations[i].Items[j].CountedQuantity++;
+                            if (partition.Locations[i].Items[j].ID == barc)
+                            {
+                                partition.Locations[i].Items[j].CountedQuantity++;
 
-                            return true;
+                                return true;
+                            }
                         }
-                    }
 
-                    
+
+                    }
                 }
             }
-
             return false;
         }
     }
