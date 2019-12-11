@@ -172,7 +172,7 @@ namespace TESTPIS2
             Console.WriteLine("!empty: " + nonemptylocations);
             Console.WriteLine("Negative quan: " + negativequan);
             Console.WriteLine("Done1!");
-            // Console.ReadKey();
+            Console.ReadKey();
             //controller.InitialPartitioningOfLocations();
 
             Central_Controller.Client client = new Central_Controller.Client("01");
