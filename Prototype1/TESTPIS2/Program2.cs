@@ -172,8 +172,8 @@ namespace TESTPIS2
             Console.WriteLine("!empty: " + nonemptylocations);
             Console.WriteLine("Negative quan: " + negativequan);
             Console.WriteLine("Done1!");
-
-            controller.InitialPartitionUnpartitionedLocations();
+            Console.ReadKey();
+            //controller.InitialPartitioningOfLocations();
 
             Central_Controller.Client client = new Central_Controller.Client("01");
             Console.WriteLine("Done2!");
@@ -197,7 +197,7 @@ namespace TESTPIS2
                 temp.Clear();
                 _item.Locations.Clear();
             }
-            controller.InitialPartitionUnpartitionedLocations();
+            controller.InitialPartitioningOfLocations();
 
 
             server.StartServer();
