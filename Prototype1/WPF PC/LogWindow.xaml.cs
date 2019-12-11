@@ -27,16 +27,13 @@ namespace WPF_PC {
 
         public LogWindow(string logPath) {
             InitializeComponent();
-            LogReader logReader = new LogReader();
-            _log = logReader.GetLogFromFile(logPath);
+            _log = new LogReader().GetLogFromFile(logPath);
             PrepareWindow();
         }
 
         private LogFile _log;
 
         private void PrepareWindow() {
-            Title = _log.Name;
-
             // Prepare datagrid
             _dataGrid.ItemsSource = _log.Messages;
 
@@ -47,6 +44,10 @@ namespace WPF_PC {
 
 
         private void buttonSearch_Click(object sender, RoutedEventArgs e) {
+            Search();
+        }
+
+        private void Search() {
             _dataGrid.ItemsSource = _log.Search(GetFilter());
         }
 
@@ -58,6 +59,12 @@ namespace WPF_PC {
                 textboxLocation.Text, 
                 textboxItem.Text
                 );
+        }
+
+        private void EnterKeySearch(object sender, KeyEventArgs e) {
+            if(e.Key == Key.Enter) {
+                Search();
+            }
         }
     }
 }

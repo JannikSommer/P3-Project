@@ -264,10 +264,10 @@ namespace Central_Controller
             TotalNumberOfItems++;
         }
 
-        public void InitilizeLocationComparer(int[] ShelfHierachy) //THIS MIGHT NEED TO BE REWORKED AND REMOVED, + remember that its called in InitialPartitionUnpartitionedLocations when/if reworking this.
-        {
-            Location_Comparer = new LocationComparer(ShelfHierachy);
-        }
+        //public void InitilizeLocationComparer(int[] ShelfHierachy) //THIS MIGHT NEED TO BE REWORKED AND REMOVED, + remember that its called in InitialPartitionUnpartitionedLocations when/if reworking this.
+        //{
+        //    Location_Comparer = new LocationComparer(ShelfHierachy);
+        //}
 
         private void SortMultiLocationItem_Locations()
         {

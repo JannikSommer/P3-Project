@@ -13,7 +13,7 @@ namespace Model.Log {
 
         public LogFile GetLogFromFile(string path) {
             StreamReader streamReader = new StreamReader(path);
-            LogFile result = new LogFile(GetName(path), ParseDate(streamReader.ReadLine()), GetMessages(streamReader)); ;
+            LogFile result = new LogFile(ParseDate(streamReader.ReadLine()), GetMessages(streamReader)); ;
             streamReader.Dispose();
             return result;
         }

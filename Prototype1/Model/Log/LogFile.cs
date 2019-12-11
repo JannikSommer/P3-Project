@@ -4,17 +4,13 @@ using System.Linq;
 
 namespace Model.Log {
     public class LogFile {
-
-        public LogFile(string name, DateTime startDate) : this(name, startDate, new List<LogMessage>()) {}
-
-        public LogFile(string name, DateTime startDate, List<LogMessage> messages) {
-            Name = name;
+        public LogFile(DateTime startDate) : this(startDate, new List<LogMessage>()) {}
+        public LogFile(DateTime startDate, List<LogMessage> messages) {
             StartDate = startDate;
             Messages = messages;
             UnsavedMessages = new Queue<LogMessage>();
         }
 
-        public string Name { get; }
         public DateTime StartDate { get; }
         public DateTime EndDate {
             get {

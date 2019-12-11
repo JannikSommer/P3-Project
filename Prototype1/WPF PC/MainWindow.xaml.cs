@@ -1,17 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using Networking;
 using System.Threading;
 using Model.Log;
@@ -40,15 +30,15 @@ namespace WPF_PC
         public MainWindow()
         {
             EditCycleWindow = new EditCycle(Controller);
-            Controller.InitilizeLocationComparer(EditCycleWindow.ShelfArray);
 
             InitializeComponent();
-            StartServer();
+            //StartServer();
             UpdateAllUI();
             LoadIntoDataGrid();
-            LoadIntoChooseBox();
+            LoadIntoComboBox();
 
-            // Add eksample data to save files.
+            Controller.Cycle.Log.AddMessage(new VerificationLogMessage(DateTime.Now, "Bob", "564738920", true));
+
         }
 
         private void StartServer()
@@ -62,7 +52,7 @@ namespace WPF_PC
         {
             UpdateMainWindow();
             LoadIntoDataGrid();
-            LoadIntoChooseBox();
+            LoadIntoComboBox();
         }
 
         public void LoadIntoDataGrid()
@@ -77,7 +67,7 @@ namespace WPF_PC
 
             //Counted Items overview:
             double countedInt = Controller.Cycle.CountedItems.Count;
-            double totalItemsInt = 80000;
+            double totalItemsInt = 80000; 
             double percentageCounted = ((countedInt / totalItemsInt) * 100);
             double percentageCountedRoundedDown = Math.Round(percentageCounted, 1);
 
@@ -91,45 +81,22 @@ namespace WPF_PC
             overviewTotalCountedWithDifference.Content = (countedIntWithDifference + " / " + totalItemsInt + "   (" + percentageCountedWithDifferenceRoundedDown + "%)");
         }
 
-        private void createCycleCount_Click(object sender, RoutedEventArgs e)
-        {
-            CreateCycleWindow CreateCycle = new CreateCycleWindow();
+        private void CreateCycleCount_Click(object sender, RoutedEventArgs e) {
+            CreateCycleWindow CreateCycle = new CreateCycleWindow(Controller);
             CreateCycle.Show();
-
         }
 
-        private void editCycle_Click(object sender, RoutedEventArgs e)
-        {
+        private void EditCycle_Click(object sender, RoutedEventArgs e) {
             EditCycle EditCycle = new EditCycle(Controller);
             EditCycle.Show();
-
         }
 
-        private void showLog_Click(object sender, RoutedEventArgs e)
-        {
-            
-
+        private void ShowLog_Click(object sender, RoutedEventArgs e) {
             LogWindow logWindow = new LogWindow(Controller.Cycle.Log);
             logWindow.Show();
         }
 
-        private void finishCycle_Click(object sender, RoutedEventArgs e)
-        {
-            if (MessageBox.Show("ARE YOU SURE?", "Finish the cycle?", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
-            {
-                //do no stuff
-                
-            }
-            else
-            {
-                //do yes stuff
-
-            }
-
-        }
-
-        public void LoadIntoChooseBox()
-        {
+        public void LoadIntoComboBox() {
             List<string> settings = new List<string> { 
                 Localization.Resources.MainWindowComboboxCountedToday, 
                 Localization.Resources.MainWindowComboboxCountedThisCycle, 
@@ -140,49 +107,29 @@ namespace WPF_PC
             comboBoxChooseGet.SelectedIndex = 0;
         }
 
-        private void showChosenType_Click(object sender, RoutedEventArgs e)
-        {
-            if (comboBoxChooseGet.SelectedIndex == -1)
-            {
-                labelWarning.Visibility = Visibility.Visible;
-            }
-            else
-            {
-                labelWarning.Visibility = Visibility.Hidden;
+        private void ShowChosenType_Click(object sender, RoutedEventArgs e) {
+            if(comboBoxChooseGet.SelectedIndex == 0) { //Todays Counted
 
-                //Todays Counted
-                if (comboBoxChooseGet.SelectedIndex == 0)
-                {
+            } else if(comboBoxChooseGet.SelectedIndex == 1) { //Counted in this cycle
 
-                }
-                //Counted in this cycle
-                else if(comboBoxChooseGet.SelectedIndex == 1)
-                {
+            } else if(comboBoxChooseGet.SelectedIndex == 2) { //Counted with difference
 
-                }
-                //Counted with difference
-                else if (comboBoxChooseGet.SelectedIndex == 2)
-                {
-
-                }
             }
         }
 
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            //Load everything to log.
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e) {
             //Server.ShutdownServer();
 
             new IOController(Controller.Cycle.Id).Save(Controller.Cycle, Controller.Location_Comparer.ShelfHierarchy);
             Application.Current.Shutdown();
         }
 
-        private void comboBoxChooseGet_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void ComboBoxChooseGet_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             //e.AddedItems[0].ToString()
         }
 
-        private void changeLanguage_Click(object sender, RoutedEventArgs e) {
+        private void ChangeLanguage_Click(object sender, RoutedEventArgs e) {
             var danishCultureInfo = new CultureInfo("da-DK", true);
             var englishCultureInfo = new CultureInfo("en-GB", true);
 
