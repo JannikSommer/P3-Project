@@ -10,7 +10,9 @@ using System.Xml.Serialization;
 namespace Central_Controller.IO {
     public class IOController {
         public IOController() {
-            if(Directory.GetDirectories(_savesPath).Length == 0) {
+            if (!Directory.Exists(_savesPath)) { Directory.CreateDirectory(_savesPath); }
+
+            if (Directory.GetDirectories(_savesPath).Length == 0) {
                 _chosenCycleId = DateTime.Now.ToString("yyyy-MM-dd");
             } else {
                 _chosenCycleId = LoadPreviousCycleId();
@@ -50,7 +52,7 @@ namespace Central_Controller.IO {
             _logPath = _chosenCyclePath + @"\Log";
             _countedItemsPath = _chosenCyclePath + @"\CountedItems";
             _shelfPath = _chosenCyclePath + @"\SortPriority";
-            if(!Directory.Exists(_chosenCyclePath)) { Directory.CreateDirectory(_chosenCyclePath); }
+            if (!Directory.Exists(_chosenCyclePath)) { Directory.CreateDirectory(_chosenCyclePath); }
         }
 
 
