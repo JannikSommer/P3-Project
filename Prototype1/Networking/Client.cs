@@ -12,7 +12,7 @@ namespace Networking
     public class Client
     {
         private Socket Sender;
-        private string ip = "192.168.1.5";
+        private string ip = "192.168.0.23";
         private readonly int FlagMessageSize = 25;
         private readonly int HandlerSize = 15;
         private readonly long MessageSize = 536870912; // 512 MB
@@ -373,7 +373,7 @@ namespace Networking
             int handlerBytesRec = Sender.Receive(handlerBytes);
             string serverResponse = Encoding.UTF8.GetString(handlerBytes, 0, handlerBytesRec);
 
-            if (serverResponse != CommunicationHandler.Accept.ToString())
+            if (serverResponse != CommunicationHandler.Success.ToString())
             {
                 handler = CommunicationHandler.Error;
                 ClientShutdown();

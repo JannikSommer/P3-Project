@@ -32,18 +32,18 @@ namespace SAScanApp {
         }
 
         // TODO: make async event
-        private void DownloadPartition(object sender, EventArgs e) {
+        private async void DownloadPartition(object sender, EventArgs e) {
             Client networkingClient = new Client();
             Central_Controller.Client DeviceClient = new Central_Controller.Client("Anders");
-            (Partition partition,  CommunicationHandler handler) = networkingClient.DownloadPartition(DeviceClient);
+            (Partition partition,  CommunicationHandler handler) = await networkingClient.DownloadPartitionAsync(DeviceClient);
 
             if (handler != CommunicationHandler.Success) {
-                DisplayAlert("Error", "An error occured", "Fix your shit!");
+                await DisplayAlert("Error", "An error occured", "Fix your shit!");
             } else {
-                DisplayAlert(handler.ToString(), partition.Locations[0].ID , "You fixed your shit!");
+                await DisplayAlert(handler.ToString(), partition.Locations[0].ID , "You fixed your shit!");
             }
 
-            DependencyService.Get<IBluetoothHandler>().EnableBluetooth();
+            // DependencyService.Get<IBluetoothHandler>().EnableBluetooth();
 
             // Typesafety, samme som ovenstående, plus at hvis ens partition pt. ikke er uploaded, kan man ikke få en ny
         }

@@ -35,7 +35,6 @@ namespace WPF_PC
         private Controller Controller { get; set; } = new Controller();
         public EditCycle EditCycleWindow;
         private Server Server { get; set; }
-        //private Thread NetworkingThread; // Used to keep socket connection open for clients. 
 
 
         public MainWindow()
@@ -44,7 +43,7 @@ namespace WPF_PC
             Controller.InitilizeLocationComparer(EditCycleWindow.ShelfArray);
 
             InitializeComponent();
-            // StartServer();
+            StartServer();
             UpdateAllUI();
             LoadIntoDataGrid();
             LoadIntoChooseBox();
