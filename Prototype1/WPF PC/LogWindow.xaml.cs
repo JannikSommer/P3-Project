@@ -23,6 +23,7 @@ namespace WPF_PC {
             InitializeComponent();
             _log = log;
             PrepareWindow();
+            datePickerAfter.Focus();
         }
 
         public LogWindow(string logPath) {

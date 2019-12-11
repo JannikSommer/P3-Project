@@ -36,7 +36,6 @@ namespace WPF_PC
             UpdateAllUI();
             LoadIntoDataGrid();
             LoadIntoComboBox();
-
             Controller.Cycle.Log.AddMessage(new VerificationLogMessage(DateTime.Now, "Bob", "564738920", true));
 
         }
@@ -52,11 +51,9 @@ namespace WPF_PC
         {
             UpdateMainWindow();
             LoadIntoDataGrid();
-            LoadIntoComboBox();
         }
 
-        public void LoadIntoDataGrid()
-        {
+        public void LoadIntoDataGrid() {
             dataGridMain.ItemsSource = Controller.Cycle.CountedItems;
         }
 
@@ -103,18 +100,8 @@ namespace WPF_PC
                 Localization.Resources.MainWindowComboboxCountedDifference
             };
            
-            comboBoxChooseGet.ItemsSource = settings;
-            comboBoxChooseGet.SelectedIndex = 0;
-        }
-
-        private void ShowChosenType_Click(object sender, RoutedEventArgs e) {
-            if(comboBoxChooseGet.SelectedIndex == 0) { //Todays Counted
-
-            } else if(comboBoxChooseGet.SelectedIndex == 1) { //Counted in this cycle
-
-            } else if(comboBoxChooseGet.SelectedIndex == 2) { //Counted with difference
-
-            }
+            ComboBoxDataSelection.ItemsSource = settings;
+            ComboBoxDataSelection.SelectedIndex = 0;
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e) {
@@ -124,9 +111,16 @@ namespace WPF_PC
             Application.Current.Shutdown();
         }
 
-        private void ComboBoxChooseGet_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            //e.AddedItems[0].ToString()
+        private void ComboBoxDataSelection_SelectionChanged(object sender, SelectionChangedEventArgs e) {
+            if(ComboBoxDataSelection.SelectedIndex == 0) { //Todays Counted
+                dataGridMain.ItemsSource = Controller.Cycle.CountedItems;
+            } else if(ComboBoxDataSelection.SelectedIndex == 1) { //Counted in this cycle
+                List<Item> newList = new List<Item>(Controller.Cycle.CountedItems);
+                newList.AddRange(Controller.Cycle.VerifiedItems);
+                dataGridMain.ItemsSource = newList;
+            } else if(ComboBoxDataSelection.SelectedIndex == 2) { //Counted with difference
+
+            }
         }
 
         private void ChangeLanguage_Click(object sender, RoutedEventArgs e) {

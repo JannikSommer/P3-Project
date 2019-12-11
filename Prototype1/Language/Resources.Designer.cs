@@ -439,7 +439,7 @@ namespace Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Counted with difference:.
+        ///   Looks up a localized string similar to Counted with difference.
         /// </summary>
         public static string MainWindowComboboxCountedDifference {
             get {

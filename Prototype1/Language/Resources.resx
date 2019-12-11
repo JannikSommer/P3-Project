@@ -334,7 +334,7 @@
     <value>User password</value>
     </data>
   <data name="MainWindowComboboxCountedDifference" xml:space="preserve">
-    <value>Counted with difference:</value>
+    <value>Counted with difference</value>
   </data>
   <data name="MainWindowButtonSwitchLanguage" xml:space="preserve">
     <value>Switch Language</value>
