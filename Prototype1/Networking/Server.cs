@@ -50,6 +50,7 @@ namespace Networking
                 {
                 Handler = Listener.Accept();
                 HandleConnection();
+                
                 }
                     
                 
@@ -118,7 +119,9 @@ namespace Networking
 
         public void SendPartition(Central_Controller.Client client)
         {
-            Partition partition = Controller.NextPartition(client);
+            Partition partition = new Partition();
+            partition.Locations.Add(new Location("001A01"));
+                //Controller.NextPartition(client);
             // Send partition to client
             string json = JsonConvert.SerializeObject(partition, settings);
             Handler.Send(Encoding.UTF8.GetBytes(json));
