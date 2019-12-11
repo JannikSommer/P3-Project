@@ -33,6 +33,7 @@ namespace SAScanApp {
         private int _value { get; set; }
         public string _scanText { get; set; }
         public Partition _partition { get; set; }
+        private string barcode { get; set; }
 
 
         public LocationSelected() {
@@ -73,12 +74,12 @@ namespace SAScanApp {
             return false;
         }
 
-        public void scanEditorChanged(object sender, TextChangedEventArgs e)
+        public  async void scanEditorChanged(object sender, TextChangedEventArgs e)
         {
-            private string barcode { get; set; }
+            
 
-            while(((string) e.NewTextValue) != "\n" ){
-            barcode += (string) e.NewTextValue;
+            while((string) e.NewTextValue != "\n" ){
+                barcode += (string) e.NewTextValue;
             }
 
             BarcodeVerifier bcr = new BarcodeVerifier();
