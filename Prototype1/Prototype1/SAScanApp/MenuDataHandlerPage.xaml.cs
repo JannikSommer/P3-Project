@@ -12,30 +12,38 @@ using Model;
 namespace SAScanApp {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class MenuDataHandlerPage : ContentPage {
-        private MenuStartPage _mStartPage;
+        private MainPage _mPage { get; set; }
+        private MenuStartPage _mStartPage { get; set; }
 
-        public MenuDataHandlerPage(MenuStartPage mStartPage) { 
+        private bool IsPartitionDownloaded { get; set; } = false;
+
+        public MenuDataHandlerPage(MainPage mPage) { 
         InitializeComponent();
-        _mStartPage = mStartPage;
-
+        _mPage = mPage;
         }
-        
-        private async void UploadPartition(object sender, EventArgs e) 
+
+        public MenuDataHandlerPage(MenuStartPage mStartPage)
         {
-            Client client = new Client();
-            Partition partition = new Model.Partition();
-            partition.Locations.Add(new Model.Location("001A01"));
-            CommunicationHandler handler = await client.UploadPartitionAsync(partition);
-            DependencyService.Get<IBluetoothHandler>().CloseBluetoothConnection();
-            if (handler != CommunicationHandler.Success)
+            _mStartPage = mStartPage;
+        }
+            private void UploadPartition(object sender, EventArgs e) {
+
+            if (IsPartitionDownloaded != true)
             {
-                await DisplayAlert("Error", handler == CommunicationHandler.SocketError ? 
-                                   "Make sure the phone is connected to the correct network and try again." : "An error occured while connected. Try again.", "OK");
+                Client client = new Client();
+                Partition partition = new Model.Partition();
+                CommunicationHandler handler = client.UploadPartitionAsync(partition).Result;
+                if( handler == CommunicationHandler.Success)
+                {
+                    IsPartitionDownloaded = false;
+                }
+
+                else
+                {
+                    DisplayAlert("Error", "You have no active partition", "Okay");
+                }
             }
-            else
-            {
-                await DisplayAlert(handler.ToString(), "Partition has been uploaded", "OK");
-            }
+
 
 
             // Der skal addes noget typesafety her, så hvis eventet fyrer igen, imens man er igang med at uploade en partition, så sker der ikke noget
@@ -48,19 +56,19 @@ namespace SAScanApp {
             Central_Controller.Client DeviceClient = new Central_Controller.Client("Anders");
             (Partition partition,  CommunicationHandler handler) = await networkingClient.DownloadPartitionAsync(DeviceClient);
 
-            if (handler != CommunicationHandler.Success) 
-            {
-                await DisplayAlert("Error", handler == CommunicationHandler.SocketError ? 
-                                   "Make sure the phone is connected to the correct network and try again." : "An error occured while connected. Try again.", "OK");
+            if (handler != CommunicationHandler.Success) {
+                await DisplayAlert("Error", "An error occured", "Fix your shit!");
+            } else {
+
+                IsPartitionDownloaded = true;
+                await Navigation.PushAsync(new ScanPage(partition));
             }
-            else 
-            {
-                await DisplayAlert(handler.ToString(), "Partition has been downloaded" , "OK");
-            }
+
 
             // DependencyService.Get<IBluetoothHandler>().EnableBluetooth();
-
             // Typesafety, samme som ovenstående, plus at hvis ens partition pt. ikke er uploaded, kan man ikke få en ny
         }
+
+
     }
 }

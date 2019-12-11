@@ -33,8 +33,9 @@ namespace SAScanApp {
         private int _value { get; set; }
         public string _scanText { get; set; }
         public Partition _partition { get; set; }
+        private string barcode { get; set; }
 
-        
+
         public LocationSelected() {
             InitializeComponent();
             quantity.Text = Convert.ToString(Value);
@@ -56,7 +57,7 @@ namespace SAScanApp {
         public LocationSelected(ScanPage startPage, List<Item> itemList, Partition partition) : this(startPage)
         {
             _returnItems = itemList;
-            _itemList =  new ObservableCollection<Item>(itemList);
+            _itemList = new ObservableCollection<Item>(itemList);
             _itemList.CollectionChanged += _itemList_CollectionChanged;
             itemDisplayList.ItemsSource = _itemList;
             _partition = partition;
@@ -73,14 +74,20 @@ namespace SAScanApp {
             return false;
         }
 
-        public void scanEditorChanged(object sender, TextChangedEventArgs e)
+        public  async void scanEditorChanged(object sender, TextChangedEventArgs e)
         {
+            
 
-            BarcodeReciever bcr = new BarcodeReciever();
-            if (bcr.RecieveBarcode(_partition) == true)
+            while((string) e.NewTextValue != "\n" ){
+                barcode += (string) e.NewTextValue;
+            }
+
+            BarcodeVerifier bcr = new BarcodeVerifier();
+            if (bcr.VerifyBarcode(_partition, barcode)== true)
             {
-                Value++;
+                IncrementValue();
                 ScanEditorFocus();
+                
                 
             }
 
@@ -120,18 +127,14 @@ namespace SAScanApp {
 
         private void dec_item_count_Clicked(object sender, EventArgs e)
         {
-
             DecrementValue();
             ScanEditorFocus();
-
         }
 
         private void inc_item_count_Clicked(object sender, EventArgs e)
         {
-
             IncrementValue();
             ScanEditorFocus();
-
         }
 
      
