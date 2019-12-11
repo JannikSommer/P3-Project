@@ -26,13 +26,13 @@ namespace SAScanApp {
         {
             _mStartPage = mStartPage;
         }
-            private void UploadPartition(object sender, EventArgs e) {
+            private async void UploadPartition(object sender, EventArgs e) {
 
             if (IsPartitionDownloaded != true)
             {
                 Client client = new Client();
                 Partition partition = new Model.Partition();
-                CommunicationHandler handler = client.UploadPartitionAsync(partition).Result;
+                CommunicationHandler handler = await client.UploadPartitionAsync(partition);
                 if( handler == CommunicationHandler.Success)
                 {
                     IsPartitionDownloaded = false;
@@ -40,7 +40,7 @@ namespace SAScanApp {
 
                 else
                 {
-                    DisplayAlert("Error", "You have no active partition", "Okay");
+                    await DisplayAlert("Error", "You have no active partition", "Okay");
                 }
             }
 

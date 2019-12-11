@@ -32,7 +32,7 @@ namespace WPF_PC
             EditCycleWindow = new EditCycle(Controller);
 
             InitializeComponent();
-            //StartServer();
+            StartServer();
             UpdateAllUI();
             LoadIntoDataGrid();
             LoadIntoComboBox();
