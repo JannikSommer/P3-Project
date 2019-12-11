@@ -34,7 +34,7 @@ namespace SAScanApp
             this._startPage = startPage;
         }
 
-        public void Entry_Completed(object sender, EventArgs e)
+        public async void Entry_Completed(object sender, EventArgs e)
         {
             var usrNme = userLogin.Text;
             var pssWrd = userPassword.Text;
@@ -43,23 +43,18 @@ namespace SAScanApp
             if (usrNme == "Admin" && pssWrd == "Admin")
             {
                 // Her skal den sætte Admin = true, og logge ind på scanpage (lav polymorphism)
-                DisplayAlert("Admin Login Correct", "Your password was correct", "Ok,");
+                await DisplayAlert("Admin Login Correct", "Your password was correct", "Ok,");
                 adminLoggedIn = true;
+
+                
             }
 
             else
             {
-                DisplayAlert("Error!", "Wrong password, please try again", "Ok");
+                await DisplayAlert("Error!", "Wrong password, please try again", "Ok");
             }
 
-        }
-
-        private void BackButton_Clicked(object sender, EventArgs e)
-        {
-            Navigation.PopAsync();
-        }
-
-      
+        }    
 
     }
 }

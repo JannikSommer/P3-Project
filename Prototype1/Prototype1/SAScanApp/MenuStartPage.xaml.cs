@@ -26,29 +26,24 @@ namespace SAScanApp
             _locSelPage = locSelPage;
         }
 
-        private void Terminate_Button_Clicked(object sender, EventArgs e)
-        {
-            DisplayAlert("WARNING!!", "Are you sure you want terminate? All data will be lost", "Yes");
-        }
+       
 
         private async void AdminLogin_Button_Clicked(object sender, EventArgs e)
         {
             await Navigation.PushAsync(new AdminLoginPage(this));
         }
 
-        private async void UploadData_Button_Clicked(object sender, EventArgs e)
+        private async void GetData_Button_Clicked(object sender, EventArgs e)
         {
             await Navigation.PushAsync(new MenuDataHandlerPage(this));
         }
 
-        private void Back_Button_Clicked(object sender, EventArgs e)
+        private void Terminate_Button_Clicked(object sender, EventArgs e)
         {
-            Navigation.PopAsync();
+            // Hvad skal vi returnere til serveren? En partition med værdien 'terminated' sat til true/false ?
+
         }
 
-        private void Switch_Button_Clicked(object sender, EventArgs e)
-        {
-            DisplayAlert("Hej", "hej", "Hej");
-        }
+
     }
 }

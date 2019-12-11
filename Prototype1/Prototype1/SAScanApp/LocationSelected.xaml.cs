@@ -75,12 +75,16 @@ namespace SAScanApp {
 
         public void scanEditorChanged(object sender, TextChangedEventArgs e)
         {
+            while((string)e.NewTextValue != )
+            var barcode = (string)e.NewTextValue;
 
-            BarcodeReciever bcr = new BarcodeReciever();
-            if (bcr.RecieveBarcode(_partition) == true)
+
+            BarcodeVerifier bcr = new BarcodeVerifier();
+            if (bcr.VerifyBarcode(_partition, barcode)== true)
             {
-                Value++;
+                IncrementValue();
                 ScanEditorFocus();
+                
                 
             }
 
@@ -120,18 +124,14 @@ namespace SAScanApp {
 
         private void dec_item_count_Clicked(object sender, EventArgs e)
         {
-
             DecrementValue();
             ScanEditorFocus();
-
         }
 
         private void inc_item_count_Clicked(object sender, EventArgs e)
         {
-
             IncrementValue();
             ScanEditorFocus();
-
         }
 
      

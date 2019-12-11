@@ -12,19 +12,39 @@ using Model;
 namespace SAScanApp {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class MenuDataHandlerPage : ContentPage {
-        private MenuStartPage _mStartPage;
+        private MainPage _mPage { get; set; }
+        private MenuStartPage _mStartPage { get; set; }
 
-        public MenuDataHandlerPage(MenuStartPage mStartPage) { 
+        private bool IsPartitionDownloaded { get; set; } = false;
+
+        public MenuDataHandlerPage(MainPage mPage) { 
         InitializeComponent();
-        _mStartPage = mStartPage;
+        _mPage = mPage;
+        }
 
+        public MenuDataHandlerPage(MenuStartPage mStartPage)
+        {
+            _mStartPage = mStartPage;
         }
         
         private void UploadPartition(object sender, EventArgs e) {
-            Client client = new Client();
-            Partition partition = new Model.Partition();
-            CommunicationHandler handler = client.UploadPartitionAsync(partition).Result;
-            DependencyService.Get<IBluetoothHandler>().CloseBluetoothConnection();
+
+            if (IsPartitionDownloaded != true)
+            {
+                Client client = new Client();
+                Partition partition = new Model.Partition();
+                CommunicationHandler handler = client.UploadPartitionAsync(partition).Result;
+                if( handler == CommunicationHandler.Success)
+                {
+                    IsPartitionDownloaded = false;
+                }
+
+                else
+                {
+                    DisplayAlert("Error", "You have no active partition", "Okay");
+                }
+            }
+            //DependencyService.Get<IBluetoothHandler>().CloseBluetoothConnection();
 
 
             // Der skal addes noget typesafety her, så hvis eventet fyrer igen, imens man er igang med at uploade en partition, så sker der ikke noget
@@ -32,20 +52,26 @@ namespace SAScanApp {
         }
 
         // TODO: make async event
-        private void DownloadPartition(object sender, EventArgs e) {
+        private async void DownloadPartition(object sender, EventArgs e) {
             Client networkingClient = new Client();
             Central_Controller.Client DeviceClient = new Central_Controller.Client("Anders");
             (Partition partition,  CommunicationHandler handler) = networkingClient.DownloadPartition(DeviceClient);
 
             if (handler != CommunicationHandler.Success) {
-                DisplayAlert("Error", "An error occured", "Fix your shit!");
+                await DisplayAlert("Error", "An error occured", "Fix your shit!");
             } else {
-                DisplayAlert(handler.ToString(), partition.Locations[0].ID , "You fixed your shit!");
+                IsPartitionDownloaded = true;
+                await Navigation.PushAsync(new ScanPage(partition));
             }
 
-            DependencyService.Get<IBluetoothHandler>().EnableBluetooth();
+
+
+            
+
 
             // Typesafety, samme som ovenstående, plus at hvis ens partition pt. ikke er uploaded, kan man ikke få en ny
         }
+
+
     }
 }

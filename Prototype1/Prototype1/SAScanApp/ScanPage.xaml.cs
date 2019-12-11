@@ -16,29 +16,22 @@ namespace SAScanApp
         public ObservableCollection<Model.Location> LocationList { get; set; }
         public List<Item> ItemList { get; set; }
         public Partition Partition { get; set; }
+        public VerificationPartition VerificationPartition { get; set; }
 
         private bool lightOn = false;
 
         public ScanPage()
         {
             InitializeComponent();
+            
+            //DependencyService.Get<IBluetoothHandler>().EnableBluetooth();
 
-            DependencyService.Get<IBluetoothHandler>().EnableBluetooth();
-
-            Partition _partition = new Partition(new Model.Location("000A01",
-                                                                        new List<Item> {
-                                                                            new Item("5701872203005"),
-                                                                            new Item("64747"),
-                                                                            new Item ("8979878"),
-                                                                            new Item ("78789"),
-                                                                            new Item ("878979")
-                                                                            })); 
-
+            
             ObservableCollection<Model.Location> _locationList = new ObservableCollection<Model.Location>(); // instanser
             
-            for (int i = 0; i < _partition.Locations.Count; i++)
+            for (int i = 0; i < Partition.Locations.Count; i++)
             {
-                _locationList.Add(_partition.Locations[i]);
+                _locationList.Add(Partition.Locations[i]);
             }
 
             _locationList.CollectionChanged += LocationList_CollectionChanged;
@@ -50,12 +43,12 @@ namespace SAScanApp
         public ScanPage(Model.Partition partition)
         {
             Partition = partition;
-            
+
             InitializeComponent();
-            LocationList = new ObservableCollection<Model.Location>();          
+            LocationList = new ObservableCollection<Model.Location>();
 
             // temp
-            for(int i = 0; i < partition.Locations.Count; i++)
+            for (int i = 0; i < partition.Locations.Count; i++)
             {
                 LocationList.Add(partition.Locations[i]);
             }
@@ -63,7 +56,28 @@ namespace SAScanApp
             LocationList.CollectionChanged += LocationList_CollectionChanged;
             displayList.ItemsSource = LocationList;
 
+        }
+
+        public ScanPage(Model.VerificationPartition VPartition)
+        {
+            VerificationPartition = VPartition;
+            
+            InitializeComponent();
+            LocationList = new ObservableCollection<Model.Location>();          
+
+            // temp
+            for(int i = 0; i < VerificationPartition.Locations.Count; i++)
+            {
+                LocationList.Add(VerificationPartition.Locations[i]);
             }
+
+            LocationList.CollectionChanged += LocationList_CollectionChanged;
+            displayList.ItemsSource = LocationList;
+
+            
+        }
+
+            
 
         private void LocationList_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e) {
             displayList.BeginRefresh();
@@ -110,7 +124,7 @@ namespace SAScanApp
         private void MenuItem_Clicked(object sender, EventArgs e)
         {
             // Add a Observable Collection List that pops down with the paired devices recieved
-            DependencyService.Get<IBluetoothHandler>().GetPairedDevices();
+            //DependencyService.Get<IBluetoothHandler>().GetPairedDevices();
         }
 
         private void DisplayList_ItemSelected(object sender, SelectedItemChangedEventArgs e)
@@ -120,19 +134,11 @@ namespace SAScanApp
 
         private async void DisplayList_ItemTapped(object sender, ItemTappedEventArgs e)
         {
-            await Navigation.PushAsync(new LocationSelected(this, ((Model.Location)e.Item).Items, _partition));
+            await Navigation.PushAsync(new LocationSelected(this, ((Model.Location)e.Item).Items, Partition));
         }
 
         private void ButtonV_Clicked(object sender, EventArgs e) {
 
-            LocationList.Add(
-                new Model.Location("003B23",
-                                   new List<Item> {
-                                   new Item("item1"),
-                                   new Item("item2"),
-                                   new Item("item3"),
-                                   new Item("item4")
-                                   }));
         }
     }
 }
