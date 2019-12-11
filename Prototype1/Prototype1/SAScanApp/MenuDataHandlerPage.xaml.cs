@@ -29,11 +29,12 @@ namespace SAScanApp {
             DependencyService.Get<IBluetoothHandler>().CloseBluetoothConnection();
             if (handler != CommunicationHandler.Success)
             {
-                await DisplayAlert("Error", "An error occured", "Fix your shit!");
+                await DisplayAlert("Error", handler == CommunicationHandler.SocketError ? 
+                                   "Make sure the phone is connected to the correct network and try again." : "An error occured while connected. Try again.", "OK");
             }
             else
             {
-                await DisplayAlert(handler.ToString(), partition.Locations[0].ID, "You fixed your shit!");
+                await DisplayAlert(handler.ToString(), "Partition has been uploaded", "OK");
             }
 
 
@@ -41,7 +42,6 @@ namespace SAScanApp {
             // Ligeledes er ens partition ikke done, (mangler en location/item som slet ikke er scannet) så kan den ikke uploades (måske med overrule funktion??)
         }
 
-        // TODO: make async event
         private async void DownloadPartition(object sender, EventArgs e) 
         {
             Client networkingClient = new Client();
@@ -50,11 +50,12 @@ namespace SAScanApp {
 
             if (handler != CommunicationHandler.Success) 
             {
-                await DisplayAlert("Error", "An error occured", "Fix your shit!");
-            } 
+                await DisplayAlert("Error", handler == CommunicationHandler.SocketError ? 
+                                   "Make sure the phone is connected to the correct network and try again." : "An error occured while connected. Try again.", "OK");
+            }
             else 
             {
-                await DisplayAlert(handler.ToString(), partition.Locations[0].ID , "You fixed your shit!");
+                await DisplayAlert(handler.ToString(), "Partition has been downloaded" , "OK");
             }
 
             // DependencyService.Get<IBluetoothHandler>().EnableBluetooth();
