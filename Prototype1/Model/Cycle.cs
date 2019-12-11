@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
+using Model.Log;
 namespace Model
 {
     public class Cycle
@@ -9,9 +9,19 @@ namespace Model
         public string Id { get; set; }
         public bool DataFormatted { get; set; }
         public bool CycleState { get; set; }
+
         public List<Partition> UncountedPartitions { get; set; }
         public List<Partition> CountedPartitions { get; set; }
         public List<Partition> VerifiedPartitions { get; set; }
+
+        public List<Item> CountedItems { get; set; } = new List<Item>();
+        public List<Item> VerifiedItems { get; set; }
+        public List<Item> AllItems { get; set; }
+
+        public LogFile Log { get; set; }
+
+
+
 
         public Partition GetPartitionForClient()
         {

@@ -22,7 +22,9 @@ namespace SAScanApp
         public ScanPage()
         {
             InitializeComponent();
+
             DependencyService.Get<IBluetoothHandler>().EnableBluetooth();
+
             Partition _partition = new Partition(new Model.Location("000A01",
                                                                         new List<Item> {
                                                                             new Item("5701872203005"),
@@ -41,8 +43,7 @@ namespace SAScanApp
 
             _locationList.CollectionChanged += LocationList_CollectionChanged;
             displayList.ItemsSource = _locationList;
-            BarcodeReciever reciever = new BarcodeReciever();
-            reciever.RecieveBarcode(_partition);
+            
 
         }
 
@@ -119,10 +120,11 @@ namespace SAScanApp
 
         private async void DisplayList_ItemTapped(object sender, ItemTappedEventArgs e)
         {
-            await Navigation.PushAsync(new LocationSelected(this, ((Model.Location)e.Item).Items));
+            await Navigation.PushAsync(new LocationSelected(this, ((Model.Location)e.Item).Items, _partition));
         }
 
         private void ButtonV_Clicked(object sender, EventArgs e) {
+
             LocationList.Add(
                 new Model.Location("003B23",
                                    new List<Item> {

@@ -52,7 +52,7 @@
                 Grid.Column="2" Grid.Row="3" FontSize="16"  Margin="10,10,10,10" HorizontalAlignment="Left" Click="showChosenType_Click" />
 
         <Button x:Name="changeLanguage" Content="{x:Static lang:Resources.MainWindowButtonSwitchLanguage}" Width="140" Height="35"
-                Grid.Column="4" Grid.Row="1" FontSize="16" Margin="10,10,130,10" HorizontalAlignment="Right" Click="changeLanguage_Click" />
+                Grid.Column="4" Grid.Row="1" FontSize="16" Margin="10,10,130,10" HorizontalAlignment="Right" Visibility="Hidden" Click="changeLanguage_Click" />
 
         <!--Combobox-->
         <ComboBox x:Name="comboBoxChooseGet" Grid.Column="1" Grid.Row="3" Width="250" Margin="10" HorizontalAlignment="Center" SelectionChanged="comboBoxChooseGet_SelectionChanged" >

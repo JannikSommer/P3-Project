@@ -13,6 +13,7 @@ using Model;
 
 
 namespace SAScanApp {
+
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class LocationSelected : ContentPage {
         public int Value {
@@ -29,24 +30,89 @@ namespace SAScanApp {
         private Item _prevItem;
         private bool _counterEnabled;
         private bool lightOn = false;
-        private int _value;
+        private int _value { get; set; }
+        public string _scanText { get; set; }
+        public Partition _partition { get; set; }
+
         
         public LocationSelected() {
             InitializeComponent();
             quantity.Text = Convert.ToString(Value);
             _counterEnabled = false;
-            BarcodeReciever reciever = new BarcodeReciever();
+
+
+            //BarcodeReciever reciever = new BarcodeReciever();
         }
+
+
+
+        public LocationSelected()
+        { }
 
         public LocationSelected(ScanPage startPage) : this() {
+
             _scanPage = startPage;
+
         }
 
-        public LocationSelected(ScanPage startPage, List<Item> itemList) : this(startPage) {
+        public LocationSelected(ScanPage startPage, List<Item> itemList, Partition partition) : this(startPage)
+        {
             _returnItems = itemList;
             _itemList =  new ObservableCollection<Item>(itemList);
             _itemList.CollectionChanged += _itemList_CollectionChanged;
             itemDisplayList.ItemsSource = _itemList;
+            _partition = partition;
+        }
+        public bool ScanEditorFocus()
+        {
+
+            if (!ScanEditor.IsFocused)
+            {
+                ScanEditor.Focus();
+                return true;
+            }
+
+            return false;
+        }
+
+        public void scanEditorChanged(object sender, TextChangedEventArgs e)
+        {
+
+            BarcodeReciever bcr = new BarcodeReciever();
+            if (bcr.RecieveBarcode(_partition) == true)
+            {
+                Value++;
+                ScanEditorFocus();
+                
+            }
+
+            else
+            {
+                DisplayAlert("Error", "Incorrect barcode - please scan again!!", "Rescan");
+                ScanEditorFocus();
+            }
+        }
+
+        public void DecrementValue()
+        {
+            if (_counterEnabled == true && Value > 0)
+            {
+                Value--;
+            }
+        }
+        public void IncrementValue()
+        {
+            if (_counterEnabled == true)
+            {
+                Value++;
+            }
+        }
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            ScanEditorFocus();
+
         }
 
         private void _itemList_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e) {
@@ -54,17 +120,23 @@ namespace SAScanApp {
             itemDisplayList.EndRefresh();
         }
 
-        private void dec_item_count_Clicked(object sender, EventArgs e) {
-            if (_counterEnabled == true && Value > 0) {
-                Value--;
-            }
+        private void dec_item_count_Clicked(object sender, EventArgs e)
+        {
+
+            DecrementValue();
+            ScanEditorFocus();
+
         }
 
-        private void inc_item_count_Clicked(object sender, EventArgs e) {
-            if (_counterEnabled == true) {
-                Value++;
-            }
+        private void inc_item_count_Clicked(object sender, EventArgs e)
+        {
+
+            IncrementValue();
+            ScanEditorFocus();
+
         }
+
+     
 
         private async void Light_Button_Clicked(object sender, EventArgs e) {
             try {
@@ -87,6 +159,8 @@ namespace SAScanApp {
             catch (Exception) {
                 await DisplayAlert("Error", "There has been an error", "Okay");
             }
+
+
         }
 
         private async void Menu_Button_Clicked(object sender, EventArgs e) {
@@ -101,12 +175,14 @@ namespace SAScanApp {
                 inc_item_count.IsEnabled = false;
                 dec_item_count.IsEnabled = false;
                 _prevItem = null;
+                ScanEditorFocus();
             } else {
                 // Save previous quantity
                 SaveQuantity(_prevItem);
 
                 _prevItem = (Item)e.Item;
                 Value = ((Item)itemDisplayList.SelectedItem).CountedQuantity;
+                ScanEditorFocus();
             }
         }
 
@@ -115,7 +191,10 @@ namespace SAScanApp {
                 _counterEnabled = true;
                 inc_item_count.IsEnabled = true;
                 dec_item_count.IsEnabled = true;
+                ScanEditorFocus();
             }
+            ScanEditorFocus();
+
         }
 
         private void ContentPage_Disappearing(object sender, EventArgs e) {

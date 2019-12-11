@@ -11,9 +11,42 @@ namespace SAScanApp
     {
         private string Barcode { get; set; }
         public ObservableCollection<string> barcodes { get; set; } = new ObservableCollection<string>();
-        
-        public string RecieveBarcode(Partition partition)
+
+        public bool RecieveBarcode(Partition partition)
         {
+            char[] input = new char[13];
+            string tempBc = string.Empty;
+            
+            for(int i = 0; i < 13; i++)
+            {
+                if(Console.Read() != '\n')
+                {
+                    input[i] = Console.ReadKey().KeyChar;
+                }
+            }
+
+            foreach(var element in input)
+            {
+                 tempBc += element;
+            }
+
+            if(tempBc.Length == 13)
+            {
+                barc = tempBc;
+            }
+
+            /*MessagingCenter.Subscribe<Object, string> (this, "Barcode", (a, s) =>
+            {
+
+                barc = a.ToString();
+                barcodes.Add(a.ToString());                           
+                
+            }); */
+
+            var Checker = new CheckSum(); 
+
+            if (Checker.CheckSumValidation(barc) == true)
+            {
             Barcode = "xxxxxxxxxx";
             CheckSum Checker = new CheckSum();
             MessagingCenter.Subscribe<Object, string> (this, "Barcode", (a, s) => {
@@ -21,25 +54,27 @@ namespace SAScanApp
                 barcodes.Add(a.ToString());
             });
 
-
             if (Checker.CheckSumValidation(Barcode) == true) {
                 List<Item> currentItems = new List<Item>();
                 int j = 0;
 
                 for (int i = 0; i < partition.Locations.Count; i++)
                 {
-                    if (partition.Locations[i].Items[j].ID == Barcode)
+                    for(j = 0; j < partition.Locations[i].Items.Count; j++)
                     {
-                        partition.Locations[i].Items[j].CountedQuantity++;
+                        if (partition.Locations[i].Items[j].ID == barc)
+                        {
+                            partition.Locations[i].Items[j].CountedQuantity++;
 
-                        return Barcode;
+                            return true;
+                        }
                     }
 
                     
                 }
             }
 
-            return null;
+            return false;
         }
     }
 }

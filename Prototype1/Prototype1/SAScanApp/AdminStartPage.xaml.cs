@@ -31,5 +31,7 @@ namespace SAScanApp
         {
             DisplayAlert("Hej", "Hej", "Hej");
         }
+
+
     }
 }

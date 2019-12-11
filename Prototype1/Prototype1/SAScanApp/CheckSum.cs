@@ -13,7 +13,7 @@
         {
             ulong SumOfOdds = 0;
             ulong SumOfEvens = 0;
-            ulong checkSum = 0;
+            int checkSum = 0;
             int CheckDigit = 0;
             if(_barcode != "xxxxxxxxxx") { _barcode = barcode; }          
             List<ulong> CheckSumCalculation = new List<ulong>();
@@ -25,7 +25,7 @@
 
             int count = CheckSumCalculation.Count;
             
-            if (count != 12)
+            if (count != 13)
             {
                 Console.WriteLine("Invalid barcode");
             }
@@ -52,12 +52,12 @@
                 }
             }
 
-            checkSum = ((3 * SumOfOdds) + SumOfEvens);
+            checkSum = Convert.ToInt32(((3 * SumOfOdds) + SumOfEvens));
 
-            ulong NearestMultipleOf10 = (((10 - (checkSum % 10)) + checkSum) - checkSum);
+            int NearestMultipleOf10 = (((10 - (checkSum % 10)) + checkSum));
 
             // Finds nearest multiple of 10
-            if (NearestMultipleOf10 == (ulong)CheckDigit){
+            if ((NearestMultipleOf10 - checkSum) == CheckDigit){
                 return true;
             }
 
