@@ -10,7 +10,7 @@ namespace Model
     {
         public string ID { get; set; }
         public bool IsEmpty { get; set; }
-
+        public bool Visited { get; set; } = false;
         public int Shelf { get; set; }
         public char Row { get; set; }
         public int Position { get; set; }

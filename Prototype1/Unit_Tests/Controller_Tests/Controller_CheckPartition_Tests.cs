@@ -32,7 +32,7 @@ namespace Unit_Tests.Controller_Tests
             TestController.CheckPartition(TestPartition);
 
             // Assert
-            Assert.AreEqual(ExpectedVerifiedItems, TestController.ItemsVerified);
+            Assert.AreEqual(ExpectedVerifiedItems, TestController.NumOfItemsVerified);
         }
 
         [TestMethod]
@@ -58,7 +58,7 @@ namespace Unit_Tests.Controller_Tests
             TestController.CheckPartition(TestPartition);
 
             // Assert
-            Assert.AreEqual(ExpectedVerifiedItems, TestController.ItemsVerified);
+            Assert.AreEqual(ExpectedVerifiedItems, TestController.NumOfItemsVerified);
         }
 
         [TestMethod]
@@ -84,7 +84,7 @@ namespace Unit_Tests.Controller_Tests
             TestController.CheckPartition(TestPartition);
 
             // Assert
-            Assert.AreEqual(ExpectedVerifiedItems, TestController.ItemsVerified);
+            Assert.AreEqual(ExpectedVerifiedItems, TestController.NumOfItemsVerified);
         }
         [TestMethod]
         public void CheckPartition_Test4_MultiLocationItemTest_partiallyCounted()
@@ -113,7 +113,7 @@ namespace Unit_Tests.Controller_Tests
             TestController.CheckPartition(TestPartition);
 
             // Assert
-            Assert.AreEqual(Expected_VerifiedItems, TestController.ItemsVerified);
+            Assert.AreEqual(Expected_VerifiedItems, TestController.NumOfItemsVerified);
             Assert.AreEqual(Expected_PartitallyCountedItemsCount, TestController.PartiallyCountedItems.Count);
         }
 
@@ -144,7 +144,7 @@ namespace Unit_Tests.Controller_Tests
             TestController.CheckPartition(TestPartition);
 
             // Assert
-            Assert.AreEqual(Expected_VerifiedItems, TestController.ItemsVerified);
+            Assert.AreEqual(Expected_VerifiedItems, TestController.NumOfItemsVerified);
             Assert.AreEqual(Expected_PartitallyCountedItemsCount, TestController.PartiallyCountedItems.Count);
         }
 
@@ -176,7 +176,7 @@ namespace Unit_Tests.Controller_Tests
             TestController.CheckPartition(TestPartition);
 
             // Assert
-            Assert.AreEqual(Expected_VerifiedItems, TestController.ItemsVerified);
+            Assert.AreEqual(Expected_VerifiedItems, TestController.NumOfItemsVerified);
             Assert.AreEqual(Expected_PartitallyCountedItemsCount, TestController.PartiallyCountedItems.Count);
         }
 
@@ -209,7 +209,7 @@ namespace Unit_Tests.Controller_Tests
             TestController.CheckPartition(TestPartition);
 
             // Assert
-            Assert.AreEqual(Expected_VerifiedItems, TestController.ItemsVerified);
+            Assert.AreEqual(Expected_VerifiedItems, TestController.NumOfItemsVerified);
             Assert.AreEqual(Expected_PartitallyCountedItemsCount, TestController.PartiallyCountedItems.Count);
             Assert.AreEqual(Expected_MultiLocationPartitions, TestController.MultiLocationPartitions[0].Count);
         }
@@ -242,7 +242,7 @@ namespace Unit_Tests.Controller_Tests
             TestController.CheckPartition(TestPartition);
 
             // Assert
-            Assert.AreEqual(Expected_VerifiedItems, TestController.ItemsVerified);
+            Assert.AreEqual(Expected_VerifiedItems, TestController.NumOfItemsVerified);
             Assert.AreEqual(Expected_PartitallyCountedItemsCount, TestController.PartiallyCountedItems.Count);
             Assert.AreEqual(Expected_PriorityPartionsCount, TestController.PriorityPartitions.Count);
         }
@@ -290,7 +290,7 @@ namespace Unit_Tests.Controller_Tests
             TestController.CheckPartition(TestPartition1);
 
             // Assert
-            Assert.AreEqual(Expected_VerifiedItems, TestController.ItemsVerified);
+            Assert.AreEqual(Expected_VerifiedItems, TestController.NumOfItemsVerified);
             Assert.AreEqual(Expected_PartitallyCountedItemsCount, TestController.PartiallyCountedItems.Count);
             Assert.AreEqual(Expected_PriorityPartionsCount, TestController.PriorityPartitions.Count);
         }

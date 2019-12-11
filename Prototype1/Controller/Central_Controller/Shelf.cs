@@ -328,6 +328,36 @@ namespace Central_Controller
                 return partition;
             }
 
+            public void AddPartition(Partition partition)
+            {
+                int index = Partitions.Count / 2;
+                int increment = index / 2;
+
+                while(!(Partitions[index].Span.Position > partition.Span.Position && Partitions[index - 1].Span.Position < partition.Span.Position))
+                {
+                    if(partition.Span.Shelf > Partitions[index].Span.Shelf)
+                    {
+                        index += increment;
+                        increment /= 2;
+                    }
+                    else
+                    {
+                        index -= increment;
+                        increment /= 2;
+                    }
+                }
+
+                Partitions.Insert(index, partition);
+
+                foreach(ClientInfo client in Clients)
+                {
+                    if (client.PartitionIndex >= index)
+                    {
+                        client.PartitionIndex++;
+                    }
+                }
+            }
+
             private class ClientInfo : IComparable
             {
                 public Client Client;

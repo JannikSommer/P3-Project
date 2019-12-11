@@ -10,7 +10,7 @@ namespace Central_Controller
     public partial class Controller {
         
         public int TotalNumberOfItems { get; private set; } = 0;
-        public int ItemsVerified { get; private set; } = 0;
+        public int NumOfItemsVerified { get; private set; } = 0;
         public int MaxSizeForPartitions = 20; //MaxSizeForPartitions is a lie, anything adding multiple locations at once can exceed this limit
         public TimeSpan TimeBeforeAFK = new TimeSpan(0, 30, 0);
         public SortedList<string, Location> UnPartitionedLocations { get; private set; } = new SortedList<string, Location>();
@@ -334,13 +334,216 @@ namespace Central_Controller
                 }
                 if(item.CountedQuantity == item.ServerQuantity)
                 {
-                    ItemsVerified++;
+                    NumOfItemsVerified++;
                 }
                 else
                 {
                     VerifiedItems.Add(item);
                 }
             }
+        }
+
+        public void NewCheckPartition(Partition partition)
+        {
+            List<Location> UncountedLocations = new List<Location>();
+            List<string> ItemIDsSeen = new List<string>();
+            Partition NewPartition;
+
+            if (partition.IsMultiLocationItemPartition)
+            {
+                foreach(Location location in partition.Locations)
+                {
+                    if (location.Visited)
+                    {
+                        foreach (Item item in location.Items)
+                        {
+                            if(!(ItemIDsSeen.Exists(x => x == item.ID)))
+                            {
+                                ItemIDsSeen.Add(item.ID);
+
+                                if (item.AllLocationsVisited)
+                                {
+                                    if(item.ServerQuantity == item.CountedQuantity)
+                                    {
+                                        NumOfItemsVerified++;
+                                    }
+                                    else
+                                    {
+                                        ItemsForVerification.Add(item);
+                                    }
+                                }
+                                else
+                                {
+                                    bool[] LocationsVisitedInPartition = WhichItemLocationsVisitedInPartition(item, partition);
+                                    int PartiallyCountedItemIndex = PartiallyCountedItems.FindIndex(x => x.Item1.ID == item.ID);
+
+                                    if(PartiallyCountedItemIndex >= 0)
+                                    {
+                                        LocationsVisitedInPartition = CombineBoolArray(LocationsVisitedInPartition, PartiallyCountedItems[PartiallyCountedItemIndex].Item2);
+                                        item.CountedQuantity += PartiallyCountedItems[PartiallyCountedItemIndex].Item1.CountedQuantity;
+                                        PartiallyCountedItems.RemoveAt(PartiallyCountedItemIndex);
+
+                                        if (IsEverythingTrue(LocationsVisitedInPartition))
+                                        {
+                                            if(item.CountedQuantity == item.ServerQuantity)
+                                            {
+                                                NumOfItemsVerified++;
+                                            }
+                                            else
+                                            {
+                                                ItemsForVerification.Add(item);
+                                            }
+                                        }
+                                        else
+                                        {
+                                            PartiallyCountedItems.Add(new Tuple<Item, bool[]>(item, LocationsVisitedInPartition));
+                                        }
+                                    }
+                                    else
+                                    {
+                                        PartiallyCountedItems.Add(new Tuple<Item, bool[]>(item, LocationsVisitedInPartition));
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        UncountedLocations.Add(location);
+                    }
+                }
+
+                if(UncountedLocations.Count != 0)
+                {
+                    bool AllLocationsVisited = true;
+
+                    foreach(Location location in UncountedLocations) //tests if all the items-locations is contained withing List<Location> UncountedLocations
+                    {
+                        foreach(Item item in location.Items)
+                        {
+                            foreach(Location ItemsLocation in item.Locations)
+                            {
+                                if(!(UncountedLocations.Exists(x => x.ID == ItemsLocation.ID)))
+                                {
+                                    AllLocationsVisited = false;
+                                }
+
+                                if (!AllLocationsVisited)
+                                {
+                                    break;
+                                }
+                            }
+
+                            if (!AllLocationsVisited)
+                            {
+                                break;
+                            }
+                        }
+
+                        if (!AllLocationsVisited)
+                        {
+                            break;
+                        }
+                    }
+
+                    foreach(List<Partition> PartitionChain in MultiLocationPartitions)
+                    {
+                        if ((PartitionChain.Count == 1 && !AllLocationsVisited) || AllLocationsVisited)
+                        {
+                            foreach (Partition MultiLocationPartition in PartitionChain)
+                            {
+                                //############################## Need work here!!! ########################################
+                                //############################## Need work here!!! ########################################
+                                //############################## Need work here!!! ########################################
+                                //############################## Need work here!!! ########################################
+                                //############################## Need work here!!! ########################################
+                                //############################## Need work here!!! ########################################
+                                //############################## Need work here!!! ########################################
+                            }
+                        }
+                    }
+
+                    //############################## Need work here!!! ########################################
+                    //############################## Need work here!!! ########################################
+                    //############################## Need work here!!! ########################################
+                    //############################## Need work here!!! ########################################
+                    //############################## Need work here!!! ########################################
+                    //############################## Need work here!!! ########################################
+                    //############################## Need work here!!! ########################################
+
+                    throw new NotImplementedException();
+                }
+            }
+            else //if partition isn't a multiLocationPartition
+            {
+                foreach(Location location in partition.Locations)
+                {
+                    if (location.Visited)
+                    {
+                        foreach (Item item in location.Items)
+                        {
+                            if (item.CountedQuantity == item.ServerQuantity)
+                            {
+                                NumOfItemsVerified++;
+                            }
+                            else
+                            {
+                                ItemsForVerification.Add(item);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        UncountedLocations.Add(location);
+                    }
+                }
+
+                if(UncountedLocations.Count != 0)
+                {
+                    NewPartition = new Partition(false);
+
+                    foreach(Location location in UncountedLocations)
+                    {
+                        NewPartition.AddLocation(location);
+                    }
+
+                    AddPartitionToShelfs(NewPartition);
+                }
+            }
+        }
+
+        private bool[] WhichItemLocationsVisitedInPartition(Item item, Partition partition)
+        {
+            bool[] LocationsVisited = new bool[item.Locations.Count];
+
+            for(int n = 0; n < item.Locations.Count; n++)
+            {
+                LocationsVisited[n] = partition.Locations.Exists(x => x.ID == item.Locations[n].ID && x.Visited);
+            }
+
+            return LocationsVisited;
+        }
+
+        private void AddPartitionToShelfs(Partition partition) 
+        {
+            int Index = -1;
+
+            Index = AvailebleShelfs.FindIndex(x => x.ShelfIndex == partition.Span.Shelf);
+
+            if(Index >= 0)
+            {
+                AvailebleShelfs[Index].AddPartition(partition);
+            }
+
+            Index = OccopiedShelfs.FindIndex(x => x.ShelfIndex == partition.Span.Shelf);
+
+            if(Index >= 0)
+            {
+                OccopiedShelfs[Index].AddPartition(partition);
+            }
+
+            AvailebleShelfs.Add(new Shelf(partition.Span.Shelf));
+            AvailebleShelfs.Sort();
         }
 
         public void CheckPartition(Partition partition)
@@ -650,7 +853,7 @@ namespace Central_Controller
             }
             else
             {
-                ItemsVerified++;
+                NumOfItemsVerified++;
             }
         }
 
