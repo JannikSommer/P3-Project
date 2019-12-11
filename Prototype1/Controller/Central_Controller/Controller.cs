@@ -41,7 +41,7 @@ namespace Central_Controller
 
 
         private List<Item> DownloadFromServer() {
-            return new List<Item>();
+            //return new List<Item>();
             return new ProductAPI().GetAllItems();
         }
 
