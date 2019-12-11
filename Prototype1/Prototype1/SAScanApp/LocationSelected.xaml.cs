@@ -34,7 +34,7 @@ namespace SAScanApp {
         public string _scanText { get; set; }
         public Partition _partition { get; set; }
 
-        
+
         public LocationSelected() {
             InitializeComponent();
             quantity.Text = Convert.ToString(Value);
@@ -56,7 +56,7 @@ namespace SAScanApp {
         public LocationSelected(ScanPage startPage, List<Item> itemList, Partition partition) : this(startPage)
         {
             _returnItems = itemList;
-            _itemList =  new ObservableCollection<Item>(itemList);
+            _itemList = new ObservableCollection<Item>(itemList);
             _itemList.CollectionChanged += _itemList_CollectionChanged;
             itemDisplayList.ItemsSource = _itemList;
             _partition = partition;
@@ -75,9 +75,11 @@ namespace SAScanApp {
 
         public void scanEditorChanged(object sender, TextChangedEventArgs e)
         {
-            while((string)e.NewTextValue != )
-            var barcode = (string)e.NewTextValue;
+            private string barcode { get; set; }
 
+            while(((string) e.NewTextValue) != "\n" ){
+            barcode += (string) e.NewTextValue;
+            }
 
             BarcodeVerifier bcr = new BarcodeVerifier();
             if (bcr.VerifyBarcode(_partition, barcode)== true)
