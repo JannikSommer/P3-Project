@@ -373,7 +373,7 @@ namespace Networking
             int handlerBytesRec = Sender.Receive(handlerBytes);
             string serverResponse = Encoding.UTF8.GetString(handlerBytes, 0, handlerBytesRec);
 
-            if (serverResponse != CommunicationHandler.Success.ToString())
+            if (serverResponse != CommunicationHandler.Accept.ToString())
             {
                 handler = CommunicationHandler.Error;
                 ClientShutdown();
