@@ -25,7 +25,6 @@
         </Grid.ColumnDefinitions>
 
         <!-- Data Grid -->
-
         <DataGrid x:Name="_dataGrid" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" AutoGenerateColumns="False" IsReadOnly="True" Margin="20,20,20,10" HorizontalAlignment="Left" CanUserReorderColumns="False" CanUserResizeColumns="False" >
             <DataGrid.Columns>
                 <DataGridTextColumn Header="{x:Static lang:Resources.LogWindowHeaderTime}" Binding="{Binding Time, Converter={StaticResource DateTimeConverter}}" CanUserReorder="False" Width="150"/>
