@@ -26,8 +26,7 @@ namespace SAScanApp {
         {
             _mStartPage = mStartPage;
         }
-        
-        private void UploadPartition(object sender, EventArgs e) {
+            private void UploadPartition(object sender, EventArgs e) {
 
             if (IsPartitionDownloaded != true)
             {
@@ -44,7 +43,7 @@ namespace SAScanApp {
                     DisplayAlert("Error", "You have no active partition", "Okay");
                 }
             }
-            //DependencyService.Get<IBluetoothHandler>().CloseBluetoothConnection();
+
 
 
             // Der skal addes noget typesafety her, så hvis eventet fyrer igen, imens man er igang med at uploade en partition, så sker der ikke noget
@@ -55,20 +54,18 @@ namespace SAScanApp {
         private async void DownloadPartition(object sender, EventArgs e) {
             Client networkingClient = new Client();
             Central_Controller.Client DeviceClient = new Central_Controller.Client("Anders");
-            (Partition partition,  CommunicationHandler handler) = networkingClient.DownloadPartition(DeviceClient);
+            (Partition partition,  CommunicationHandler handler) = await networkingClient.DownloadPartitionAsync(DeviceClient);
 
             if (handler != CommunicationHandler.Success) {
                 await DisplayAlert("Error", "An error occured", "Fix your shit!");
             } else {
+
                 IsPartitionDownloaded = true;
                 await Navigation.PushAsync(new ScanPage(partition));
             }
 
 
-
-            
-
-
+            // DependencyService.Get<IBluetoothHandler>().EnableBluetooth();
             // Typesafety, samme som ovenstående, plus at hvis ens partition pt. ikke er uploaded, kan man ikke få en ny
         }
 

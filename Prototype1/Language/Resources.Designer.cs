@@ -61,6 +61,24 @@ namespace Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This will conclude the current cycle count. Are you sure you want to create a new one?.
+        /// </summary>
+        public static string CreateCycleMsgBoxText {
+            get {
+                return ResourceManager.GetString("CreateCycleMsgBoxText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure?.
+        /// </summary>
+        public static string CreateCycleMsgBoxTitle {
+            get {
+                return ResourceManager.GetString("CreateCycleMsgBoxTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Create Cycle.
         /// </summary>
         public static string CreateCycleWindowButtonCreateCycle {
@@ -421,7 +439,7 @@ namespace Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Counted with difference:.
+        ///   Looks up a localized string similar to Counted with difference.
         /// </summary>
         public static string MainWindowComboboxCountedDifference {
             get {

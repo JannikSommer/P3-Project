@@ -12,32 +12,29 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Model;
+using Central_Controller;
 
-namespace WPF_PC
-{
-    /// <summary>
-    /// Interaction logic for Window1.xaml
-    /// </summary>
-    public partial class CreateCycleWindow : Window
-    {
-        public CreateCycleWindow()
-        {
+namespace WPF_PC {
+    public partial class CreateCycleWindow : Window {
+        private Controller _controller;
+
+        public CreateCycleWindow(Controller controller) {
             InitializeComponent();
+            _controller = controller;
         }
 
-        private void CreateCycleCountButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (comboBoxChooseCycleCountTypes.SelectedIndex == -1 || TextBoxCycleName.Text == "")
-            {
-                labelWarningTwo.Visibility = Visibility.Visible;
+        private void CreateCycleCountButton_Click(object sender, RoutedEventArgs e) {
+            if(MessageBox.Show(Localization.Resources.CreateCycleMsgBoxText, Localization.Resources.CreateCycleMsgBoxTitle, MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No) {
+                return;
             }
-            else
-            {
+
+            if (comboBoxChooseCycleCountTypes.SelectedIndex == -1 || TextBoxCycleName.Text == "") {
+                labelWarningTwo.Visibility = Visibility.Visible;
+            } else {
                 labelWarningTwo.Visibility = Visibility.Hidden;
-
-                //Cycle newCycle = new Cycle(TextBoxCycleName.Text);
-
-                this.Close();
+                Cycle result = new Cycle(TextBoxCycleName.Text) { AllItems = _controller.Cycle.AllItems};
+                _controller.Cycle = result;
+                Close();
             }
         }
     }

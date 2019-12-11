@@ -49,9 +49,9 @@ namespace Central_Controller.IO {
 
         private void Setup() {
             _chosenCyclePath = _savesPath + _chosenCycleId;
-            _logPath = _chosenCyclePath + @"\Log";
-            _countedItemsPath = _chosenCyclePath + @"\CountedItems";
-            _shelfPath = _chosenCyclePath + @"\SortPriority";
+            _logPath = _chosenCyclePath + @"\" + _chosenCycleId + ".log";
+            _countedItemsPath = _chosenCyclePath + @"\CountedItems.txt";
+            _shelfPath = _chosenCyclePath + @"\SortPriority.txt";
             if (!Directory.Exists(_chosenCyclePath)) { Directory.CreateDirectory(_chosenCyclePath); }
         }
 
@@ -68,7 +68,7 @@ namespace Central_Controller.IO {
             result.Id = _chosenCycleId;
 
             if(File.Exists(_logPath)) { result.Log = new LogReader().GetLogFromFile(_logPath); } 
-            else { result.Log = new LogFile(_logPath, DateTime.Now); }
+            else { result.Log = new LogFile( DateTime.Now); }
                 
             if(File.Exists(_countedItemsPath)) { result.VerifiedItems = GetVerifiedItems(allItems, File.ReadAllLines(_countedItemsPath)); } 
             else { result.VerifiedItems = new List<Item>(); }
@@ -95,10 +95,5 @@ namespace Central_Controller.IO {
             File.WriteAllLines(_countedItemsPath, from item in cycle.VerifiedItems select item.ID);
             File.WriteAllLines(_shelfPath, Array.ConvertAll(shelves, Convert.ToString));
         }
-
-
-        
-       
-
     }
 }

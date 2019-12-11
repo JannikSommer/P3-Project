@@ -14,6 +14,5 @@ namespace Model
             this._locations = locations;
             this._quantity = quantity;
         }
-        //.
     }
 }

@@ -10,19 +10,19 @@ namespace Central_Controller
     public class Client : IComparable
     {
         public string ID { get; }
-        private Partition _CurrentPartition;
+        private Partition _currentPartition;
         private DateTime LastActivity;
 
         public Partition CurrentPartition
         {
             get
             {
-                return _CurrentPartition;
+                return _currentPartition;
             }
             set
             {
                 LastActivity = DateTime.Now;
-                _CurrentPartition = value;
+                _currentPartition = value;
             }
         }
         

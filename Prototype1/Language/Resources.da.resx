@@ -334,7 +334,7 @@
     <value>Adgangskode</value>
   </data>
   <data name="MainWindowComboboxCountedDifference" xml:space="preserve">
-    <value>Optalt med difference:</value>
+    <value>Optalt med difference</value>
   </data>
   <data name="MainWindowButtonSwitchLanguage" xml:space="preserve">
     <value>Skift Sprog</value>
@@ -362,5 +362,11 @@
   </data>
   <data name="EditCycleWindowButtonContentEdit" xml:space="preserve">
     <value>Rediger hylde</value>
+  </data>
+  <data name="CreateCycleMsgBoxText" xml:space="preserve">
+    <value>Dette vil konkludere den nuværende optælling. Er du sikker på at du vil oprette en ny?</value>
+  </data>
+  <data name="CreateCycleMsgBoxTitle" xml:space="preserve">
+    <value>Er du sikker?</value>
   </data>
 </root>

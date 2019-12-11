@@ -16,6 +16,7 @@ namespace Central_Controller
             List<Item> items = DownloadFromServer();
             Cycle = io.LoadCycle(items);
             Location_Comparer = new LocationComparer(io.LoadShelves());
+            //InitialAddItems(Cycle.AllItems, );
         }
 
         public Cycle Cycle { get; set; }
@@ -45,6 +46,13 @@ namespace Central_Controller
             return new ProductAPI().GetAllItems();
         }
 
+
+
+        public void InitialAddItems(List<Item> allItems, List<string> locationIds) {
+            foreach(Item item in allItems) {
+                InitialAddItem(item, locationIds);
+            }
+        }
 
         /* first Send Next Partition Implimentation
         public Partition SendNextPartition(Client client)
@@ -264,10 +272,10 @@ namespace Central_Controller
             TotalNumberOfItems++;
         }
 
-        public void InitilizeLocationComparer(int[] ShelfHierachy) //THIS MIGHT NEED TO BE REWORKED AND REMOVED, + remember that its called in InitialPartitionUnpartitionedLocations when/if reworking this.
-        {
-            Location_Comparer = new LocationComparer(ShelfHierachy);
-        }
+        //public void InitilizeLocationComparer(int[] ShelfHierachy) //THIS MIGHT NEED TO BE REWORKED AND REMOVED, + remember that its called in InitialPartitionUnpartitionedLocations when/if reworking this.
+        //{
+        //    Location_Comparer = new LocationComparer(ShelfHierachy);
+        //}
 
         private void SortMultiLocationItem_Locations()
         {

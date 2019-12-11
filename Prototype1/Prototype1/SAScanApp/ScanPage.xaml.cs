@@ -18,6 +18,15 @@ namespace SAScanApp
         public Partition Partition { get; set; }
         public VerificationPartition VerificationPartition { get; set; }
 
+        Partition _partition = new Partition(new Model.Location("000A01",
+                                                                        new List<Item> {
+                                                                            new Item("5701872203005"),
+                                                                            new Item("64747"),
+                                                                            new Item ("8979878"),
+                                                                            new Item ("78789"),
+                                                                            new Item ("878979")
+                                                                            }));
+
         private bool lightOn = false;
 
         public ScanPage()
@@ -26,7 +35,7 @@ namespace SAScanApp
             
             //DependencyService.Get<IBluetoothHandler>().EnableBluetooth();
 
-            
+
             ObservableCollection<Model.Location> _locationList = new ObservableCollection<Model.Location>(); // instanser
             
             for (int i = 0; i < Partition.Locations.Count; i++)

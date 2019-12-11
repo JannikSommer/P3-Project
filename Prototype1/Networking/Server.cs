@@ -12,7 +12,7 @@ namespace Networking
     public class Server
     {
         private Socket Handler;
-        private string ip = "192.168.1.2";
+        private string ip = "192.168.0.22";
         private Controller Controller { get; set; }
         private readonly int FlagMessageSize = 25;
         private readonly long MessageSize = 536870912; // 512 MB
@@ -33,7 +33,7 @@ namespace Networking
             // Get Host IP Address that is used to establish a connection  
             // In this case, we get one IP address of localhost that is IP : 127.0.0.1
             // If a host has multiple addresses, you will get a list of addresses  
-            // Get IP-Address from cmd -> ipconfig IPv4 address from Ethernet adapter. 
+            // Get IP-Address from cmd -> ipconfig IPv4 address from Ethernet adapter.
             IPAddress ipAddress = IPAddress.Parse(ip);
             IPEndPoint localEndPoint = new IPEndPoint(ipAddress, 6969);
 
@@ -47,10 +47,11 @@ namespace Networking
                 Listener.Listen(15); // Specified wish from StreetAmmo. A total number of 15 people can be 
 
                 while (true)
-            {
+                {
                 Handler = Listener.Accept();
                 HandleConnection();
-            }
+                
+                }
                     
                 
            
@@ -118,7 +119,9 @@ namespace Networking
 
         public void SendPartition(Central_Controller.Client client)
         {
-            Partition partition = Controller.NextPartition(client);
+            Partition partition = new Partition();
+            partition.Locations.Add(new Location("001A01"));
+                //Controller.NextPartition(client);
             // Send partition to client
             string json = JsonConvert.SerializeObject(partition, settings);
             Handler.Send(Encoding.UTF8.GetBytes(json));

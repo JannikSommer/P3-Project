@@ -6,7 +6,7 @@
         xmlns:lang="clr-namespace:Localization;assembly=Localization"
         xmlns:conv="clr-namespace:WPF_PC.Converters"
         mc:Ignorable="d" FontSize="16" FontFamily="Segoe UI Light"
-        Title="{x:Static lang:Resources.MainWindowTitle}" Height="550" Width="960" Icon="Assets\count-icon-26.ico.ico"
+        Title="Controller" Height="550" Width="960" Icon="Assets\count-icon-26.ico.ico"
         WindowStartupLocation="CenterScreen" MinWidth="960" MinHeight="550" Closing="Window_Closing">
 
     <Window.Resources>
@@ -16,7 +16,6 @@
     <Grid>
 
         <!--Grid Definition-->
-
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20" />
             <ColumnDefinition Width="auto" />
@@ -25,7 +24,6 @@
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="20" />
         </Grid.ColumnDefinitions>
-
         <Grid.RowDefinitions>
             <RowDefinition Height="20" />
             <RowDefinition Height="auto" />
@@ -37,25 +35,24 @@
 
         <!--Buttons-->
         <Button x:Name="createCycleCount" Content="{x:Static lang:Resources.MainWindowButtonCreateCycle}" Width="250" Height="35"
-                Grid.Column="1" Grid.Row="1" FontSize="16" Margin="10" HorizontalAlignment="Center" Click="createCycleCount_Click" />
+                Grid.Column="1" Grid.Row="1" FontSize="16" Margin="10" HorizontalAlignment="Center" Click="CreateCycleCount_Click" />
 
         <Button x:Name="showLog" Content="{x:Static lang:Resources.MainWindowButtonShowLog}" Width="100" Height="35"
-                Grid.Column="4" Grid.Row="1" FontSize="16" Margin="10" HorizontalAlignment="Right" Click="showLog_Click" />
+                Grid.Column="4" Grid.Row="1" FontSize="16" Margin="10" HorizontalAlignment="Right" Click="ShowLog_Click" />
 
         <Button x:Name="editCycle" Content="{x:Static lang:Resources.MainWindowButtonEditCycle}" Width="150" Height="35"
-                Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="2" FontSize="16" Margin="10" HorizontalAlignment="Left" VerticalAlignment="Center" Click="editCycle_Click" />
-
-        <Button x:Name="finishCycle" Content="{x:Static lang:Resources.MainWindowButtonFinishCycle}" Width="160" Height="35"
-                Grid.Column="2" Grid.Row="1" FontSize="16" Margin="180,10,10,10" HorizontalAlignment="Left" Click="finishCycle_Click" VerticalAlignment="Center" />
-
-        <Button x:Name="showChosenType" Content="{x:Static lang:Resources.MainWindowButtonShowChosenType}" Width="60"
-                Grid.Column="2" Grid.Row="3" FontSize="16"  Margin="10,10,10,10" HorizontalAlignment="Left" Click="showChosenType_Click" />
+                Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="2" FontSize="16" Margin="10" HorizontalAlignment="Left" VerticalAlignment="Center" Click="EditCycle_Click" />
 
         <Button x:Name="changeLanguage" Content="{x:Static lang:Resources.MainWindowButtonSwitchLanguage}" Width="140" Height="35"
-                Grid.Column="4" Grid.Row="1" FontSize="16" Margin="10,10,130,10" HorizontalAlignment="Right" Visibility="Hidden" Click="changeLanguage_Click" />
+                Grid.Column="4" Grid.Row="1" FontSize="16" Margin="10,10,130,10" HorizontalAlignment="Right" Visibility="Hidden" Click="ChangeLanguage_Click" />
 
         <!--Combobox-->
-        <ComboBox x:Name="comboBoxChooseGet" Grid.Column="1" Grid.Row="3" Width="250" Margin="10" HorizontalAlignment="Center" SelectionChanged="comboBoxChooseGet_SelectionChanged" >
+        <ComboBox x:Name="ComboBoxDataSelection" Grid.Column="1" Grid.Row="3" Width="250" Margin="10" HorizontalAlignment="Center" SelectionChanged="ComboBoxDataSelection_SelectionChanged" SelectedIndex="0" >
+            <!--
+            <ComboBoxItem Content="{x:Static lang:Resources.MainWindowComboboxCountedToday}" />
+            <ComboBoxItem Content="{x:Static lang:Resources.MainWindowComboboxCountedThisCycle}" />
+            <ComboBoxItem Content="{x:Static lang:Resources.MainWindowComboboxCountedDifference}" />
+-->
             <ComboBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Vertical">
@@ -89,11 +86,8 @@
                Grid.ColumnSpan="3" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="260,50,10,5" Width="180" />
 
         <!--Datagrid, Where items is shown-->
-
         <DataGrid x:Name="dataGridMain" Grid.Column="1" AutoGenerateColumns="False" Grid.Row="4" Grid.ColumnSpan="4" IsReadOnly="True" Margin="10,0,10,0" FontSize="14" CanUserReorderColumns="False" CanUserResizeColumns="False" >
-
             <!--Datagrid, Header Color and style-->
-
             <DataGrid.Resources>
                 <Style TargetType="{x:Type DataGridColumnHeader}">
                     <Setter Property="Background" Value="LightGray" />
@@ -103,19 +97,14 @@
             </DataGrid.Resources>
 
             <!--Datagrid, Column header and text bindings-->
-
             <DataGrid.Columns>
-
                 <DataGridTextColumn Header="{x:Static lang:Resources.MainWindowHeaderId}" Binding="{Binding ID}" Width="90" CanUserResize="False" />
                 <DataGridTextColumn Header="{x:Static lang:Resources.MainWindowHeaderName}" Binding="{Binding Name}" Width="130" CanUserResize="False" />
                 <DataGridTextColumn Header="{x:Static lang:Resources.MainWindowHeaderLocations}" Binding="{Binding Locations, Converter={StaticResource LocationToStringConverter}}" Width="*" CanUserResize="False" />
                 <DataGridTextColumn Header="{x:Static lang:Resources.MainWindowHeaderStorageCount}" Binding="{Binding CountedQuantity}" Width="140" CanUserResize="False" />
                 <DataGridTextColumn Header="{x:Static lang:Resources.MainWindowHeaderServerCount}" Binding="{Binding ServerQuantity}" Width="135" CanUserResize="False" />
                 <DataGridTextColumn Header="{x:Static lang:Resources.MainWindowHeaderCountVariance}" Binding="{Binding QuantityVariance}" Width="80" CanUserResize="False" />
-
             </DataGrid.Columns>
-
         </DataGrid>
-
     </Grid>
 </Window>

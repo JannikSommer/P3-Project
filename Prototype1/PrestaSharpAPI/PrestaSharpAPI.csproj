@@ -13,7 +13,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Model\Model.csproj" />
-    <ProjectReference Include="..\SQL_DB_test_Frame\SQL_DB_test_Frame\SQL_DB_test_Frame.csproj" />
   </ItemGroup>
 
 </Project>

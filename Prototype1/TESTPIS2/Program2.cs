@@ -186,6 +186,7 @@ namespace TESTPIS2
             //NetworkingThread.Start();
 
             List<string> temp = new List<string>();
+            int index = 0;
             foreach (Item _item in items)
             {
 
@@ -196,7 +197,13 @@ namespace TESTPIS2
                 controller.InitialAddItem(_item, temp);
                 temp.Clear();
                 _item.Locations.Clear();
+                if (index > 10)
+                {
+                    break;
+                }
+                index++;
             }
+
             controller.InitialPartitioningOfLocations();
 
 
