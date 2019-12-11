@@ -20,11 +20,20 @@ namespace SAScanApp {
 
         }
         
-        private void UploadPartition(object sender, EventArgs e) {
+        private async void UploadPartition(object sender, EventArgs e) {
             Client client = new Client();
             Partition partition = new Model.Partition();
-            CommunicationHandler handler = client.UploadPartitionAsync(partition).Result;
+            partition.Locations.Add(new Model.Location("001A01"));
+            CommunicationHandler handler = await client.UploadPartitionAsync(partition);
             DependencyService.Get<IBluetoothHandler>().CloseBluetoothConnection();
+            if (handler != CommunicationHandler.Success)
+            {
+                await DisplayAlert("Error", "An error occured", "Fix your shit!");
+            }
+            else
+            {
+                await DisplayAlert(handler.ToString(), partition.Locations[0].ID, "You fixed your shit!");
+            }
 
 
             // Der skal addes noget typesafety her, så hvis eventet fyrer igen, imens man er igang med at uploade en partition, så sker der ikke noget
