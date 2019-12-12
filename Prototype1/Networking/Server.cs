@@ -78,7 +78,12 @@ namespace Networking
             }
             else if (data == CommunicationFlag.VerificationRequest.ToString())
             {
-                SendVerificationPartition();
+                byte[] clinetBytes = new byte[1024]; //Size of a CentralController.Client
+                bytesRec = Handler.Receive(clinetBytes);
+                string Client = Encoding.UTF8.GetString(clinetBytes, 0, bytesRec);
+                Central_Controller.Client client = JsonConvert.DeserializeObject<Central_Controller.Client>(Client, settings);
+
+                SendVerificationPartition(client);
             }
             else if (data == CommunicationFlag.VerificationUpload.ToString())
             {
@@ -129,7 +134,7 @@ namespace Networking
             }
         }
 
-        private void SendVerificationPartition()
+        private void SendVerificationPartition(Central_Controller.Client client)
         {
             VerificationPartition verificationPartition = new VerificationPartition(); //Controller.CreateVerificationPartition();
             // Send partition to client

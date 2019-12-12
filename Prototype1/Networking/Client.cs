@@ -64,7 +64,7 @@ namespace Networking
             return CommunicationHandler.Success;
         }
 
-        public async Task<Tuple<VerificationPartition, CommunicationHandler>> DownloadVerificationPartitionasync()
+        public async Task<Tuple<VerificationPartition, CommunicationHandler>> DownloadVerificationPartitionasync(Central_Controller.Client client)
         {
             CommunicationHandler handler;
             CommunicationHandler socketHandler = await StartClientAsync();
@@ -77,10 +77,24 @@ namespace Networking
                 return Tuple.Create(emptyPartition, handler);
             }
             // Send signal to get partition
-            Sender.Send(Encoding.UTF8.GetBytes(CommunicationFlag.VerificationRequest.ToString()));
+            Sender.Send(Encoding.UTF8.GetBytes(CommunicationFlag.PartitionRequest.ToString()));
+
+            byte[] handlerBytes = new byte[MessageSize];
+            int handlerBytesRec = Sender.Receive(handlerBytes);
+            string serverResponse = Encoding.UTF8.GetString(handlerBytes, 0, handlerBytesRec);
+
+            if (serverResponse != CommunicationHandler.Success.ToString())
+            {
+                handler = CommunicationHandler.Error;
+                ClientShutdown();
+                VerificationPartition emptyPartition = null;
+                return Tuple.Create(emptyPartition, handler);
+            }
+
+            Sender.Send(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(client, Settings)));
 
             // Incoming data from server
-            byte[] bytes = new byte[MessageSize]; // TODO: Make size fit. Is 1 MB now
+            byte[] bytes = new byte[MessageSize];
             int bytesRec = Sender.Receive(bytes);
             string data = Encoding.UTF8.GetString(bytes, 0, bytesRec);
             if (data == CommunicationHandler.Error.ToString())
@@ -274,7 +288,7 @@ namespace Networking
             return CommunicationHandler.Success;
         }
 
-        public Tuple<VerificationPartition, CommunicationHandler> DownloadVerificationPartition()
+        public Tuple<VerificationPartition, CommunicationHandler> DownloadVerificationPartition(Central_Controller.Client client)
         {
             CommunicationHandler handler;
             CommunicationHandler socketHandler = StartClient();
@@ -287,10 +301,24 @@ namespace Networking
                 return Tuple.Create(emptyPartition, handler);
             }
             // Send signal to get partition
-            Sender.Send(Encoding.UTF8.GetBytes(CommunicationFlag.VerificationRequest.ToString()));
+            Sender.Send(Encoding.UTF8.GetBytes(CommunicationFlag.PartitionRequest.ToString()));
+
+            byte[] handlerBytes = new byte[MessageSize]; // TODO: Make size fit
+            int handlerBytesRec = Sender.Receive(handlerBytes);
+            string serverResponse = Encoding.UTF8.GetString(handlerBytes, 0, handlerBytesRec);
+
+            if (serverResponse != CommunicationHandler.Success.ToString())
+            {
+                handler = CommunicationHandler.Error;
+                ClientShutdown();
+                VerificationPartition emptyPartition = null;
+                return Tuple.Create(emptyPartition, handler);
+            }
+
+            Sender.Send(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(client, Settings)));
 
             // Incoming data from server
-            byte[] bytes = new byte[MessageSize]; 
+            byte[] bytes = new byte[MessageSize]; // TODO: Make size fit
             int bytesRec = Sender.Receive(bytes);
             string data = Encoding.UTF8.GetString(bytes, 0, bytesRec);
             if (data == CommunicationHandler.Error.ToString())
@@ -301,8 +329,10 @@ namespace Networking
                 VerificationPartition emptyPartition = null;
                 return Tuple.Create(emptyPartition, handler);
             }
-            else handler = CommunicationHandler.Success;
-
+            else
+            {
+                handler = CommunicationHandler.Success;
+            }
             VerificationPartition partition = DeserializeDataAsVerificationPartition(bytes, bytesRec);
 
             // Respons to server to close connection
