@@ -28,19 +28,19 @@ namespace Unit_Tests.IOController_Tests
             List<string> Expected_List2 = new List<string> { "001A00", "000A00", "002A00" };
             List<string> Expected_List3 = new List<string> { "000A00", "002A00", "001A00" };
 
-            // Act save 1
+            // Act part 1
             new IOController(TestController.Cycle.Id).Save(TestController.Cycle, TestController.Location_Comparer.ShelfHierarchy);
             TestController = new Controller();
 
             TestLocationList.Sort(TestController.Location_Comparer);
 
-            // Assert save 1
-            for(int x = 0; x <= 2; x++)
+            // Assert part 1
+            for (int x = 0; x <= 2; x++)
             {
                 Assert.AreEqual(Expected_List1[x], TestLocationList[x].ID);
             }
 
-            // Act save 2
+            // Act part 2
             TestController.Location_Comparer.DecreasePriority(1);
 
             new IOController(TestController.Cycle.Id).Save(TestController.Cycle, TestController.Location_Comparer.ShelfHierarchy);
@@ -48,13 +48,13 @@ namespace Unit_Tests.IOController_Tests
 
             TestLocationList.Sort(TestController.Location_Comparer);
 
-            // Assert save 2
+            // Assert part 2
             for (int x = 0; x <= 2; x++)
             {
                 Assert.AreEqual(Expected_List2[x], TestLocationList[x].ID);
             }
 
-            // Act save 3
+            // Act part 3
             TestController.Location_Comparer.IncreasePriority(1);
             TestController.Location_Comparer.IncreasePriority(1);
 
@@ -63,7 +63,7 @@ namespace Unit_Tests.IOController_Tests
 
             TestLocationList.Sort(TestController.Location_Comparer);
 
-            // Assert save 3
+            // Assert part 3
             for (int x = 0; x <= 2; x++)
             {
                 Assert.AreEqual(Expected_List3[x], TestLocationList[x].ID);
