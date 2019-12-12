@@ -12,7 +12,7 @@ namespace Networking
     public class Server
     {
         private Socket Handler;
-        private string ip = "192.168.1.5";
+        private string ip = "192.168.1.4";
         private Controller Controller { get; set; }
         private readonly int FlagMessageSize = 25;
         private readonly long MessageSize = 536870912; // 512 MB
@@ -106,15 +106,14 @@ namespace Networking
             int bytesRec = Handler.Receive(bytes);
             string data = Encoding.UTF8.GetString(bytes, 0, bytesRec);
             Partition uploadedPartition = JsonConvert.DeserializeObject<Partition>(data, settings);
-            Console.WriteLine(data);
+            Controller.CheckPartition(uploadedPartition);
             // Signal OK to client and shutdown socket
             Handler.Send(Encoding.UTF8.GetBytes(CommunicationFlag.ConversationCompleted.ToString()));
         }
 
         public void SendPartition(Central_Controller.Client client)
         {
-            Partition partition = new Partition(); //Controller.NextPartition(client);
-            partition.Locations.Add(new Location("001A01")); 
+            Partition partition = Controller.NextPartition(client);
             // Send partition to client
             string json = JsonConvert.SerializeObject(partition, settings);
             Handler.Send(Encoding.UTF8.GetBytes(json));
