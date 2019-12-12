@@ -210,5 +210,10 @@ namespace SAScanApp {
                 item.CountedQuantity = Value;
             }
         }
+
+        private void ScanEditor_Completed(object sender, EventArgs e)
+        {
+            barcode = ScanEditor.Text;
+        }
     }
 }
