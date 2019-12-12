@@ -23,6 +23,7 @@ namespace TESTPIS2
             Item item = new Item();
             Location location = new Location();
             Controller controller = new Controller();
+            controller.Location_Comparer = new LocationComparer(19);
             ProductAPI presta = new ProductAPI();
             //Server server = new Server();
             
@@ -171,42 +172,50 @@ namespace TESTPIS2
             Console.WriteLine("empty: " + emptylocations);
             Console.WriteLine("!empty: " + nonemptylocations);
             Console.WriteLine("Negative quan: " + negativequan);
-            Console.WriteLine("Done1!");
+            Console.WriteLine("Download done");
             Console.ReadKey();
             //controller.InitialPartitioningOfLocations();
 
             Central_Controller.Client client = new Central_Controller.Client("01");
-            Console.WriteLine("Done2!");
             controller.AddClient(client);
 
             //Console.WriteLine("TestPartition Count: " + TestPartition.Locations[0].Items.Count);
-            Console.WriteLine("Done3!");
             Server server = new Server(controller);
-            //Thread NetworkingThread = new Thread(new ThreadStart(server.StartServer));
-            //NetworkingThread.Start();
+            
+            
 
             List<string> temp = new List<string>();
             int index = 0;
+            string Locationerand = "";
+            string j_letter = "";
+            var rand = new Random();
             foreach (Item _item in items)
             {
 
                 foreach (Location _location in _item.Locations)
                 {
-                    temp.Add(_location.ID);
+                    int value = rand.Next(0,19);
+                    string text = value.ToString("000");
+                    Locationerand = text + "A" + rand.Next(10,99);
                 }
+
+                temp.Add(Locationerand);
+                Console.WriteLine("Shit: " + Locationerand);
                 controller.InitialAddItem(_item, temp);
                 temp.Clear();
                 _item.Locations.Clear();
-                if (index > 10)
-                {
-                    break;
-                }
-                index++;
-            }
+                //if (index > 10)
+                //{
+                //    break;
+                //}
+                //index++;
+                 }
 
             controller.InitialPartitioningOfLocations();
 
-
+            Console.WriteLine("Server Open");
+            //Thread NetworkingThread = new Thread(new ThreadStart(server.StartServer));
+            //NetworkingThread.Start();
             server.StartServer();
             Console.WriteLine("Done4!");
 

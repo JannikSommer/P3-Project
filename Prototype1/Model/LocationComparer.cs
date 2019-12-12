@@ -27,6 +27,7 @@ namespace Model
 
         int IComparer<Location>.Compare(Location a, Location b)
         {
+            
             int ShelfComparison = ShelfHierarchy[a.Shelf] - ShelfHierarchy[b.Shelf];
             int x;
 
