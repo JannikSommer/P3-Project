@@ -204,9 +204,6 @@
   <data name="MainWindowComboboxCountedThisCycle" xml:space="preserve">
     <value>Counted in this cycle</value>
   </data>
-  <data name="MainWindowComboboxCountedDifference" xml:space="preserve">
-    <value>Counted with difference</value>
-  </data>
   <data name="EditCycleWindowTitle" xml:space="preserve">
     <value>Edit Cycle</value>
   </data>
@@ -250,9 +247,126 @@
     <value>Choose how the cycle will be created:</value>
   </data>
   <data name="CreateCycleWindowLabelWarning" xml:space="preserve">
-    <value>Please select the wanted function</value>
+    <value>Not Correct</value>
   </data>
   <data name="CreateCycleWindowButtonCreateCycle" xml:space="preserve">
     <value>Create Cycle</value>
+  </data>
+  <data name="PhoneMainPageButtonBTScan" xml:space="preserve">
+    <value>Bluetooth Scan</value>
+  </data>
+  <data name="PhoneMainPageButtonCameraScan" xml:space="preserve">
+    <value>Camera Scan</value>
+  </data>
+  <data name="PhoneMainPageButtonAdmin" xml:space="preserve">
+    <value>Admin Login</value>
+  </data>
+  <data name="PhoneMainPageLabelScanner" xml:space="preserve">
+    <value>SCANNER</value>
+  </data>
+  <data name="PhoneUploadDataButtonUpload" xml:space="preserve">
+    <value>Upload Partition</value>
+  </data>
+  <data name="PhoneUploadDataButtonDownload" xml:space="preserve">
+    <value>Download Partition</value>
+  </data>
+  <data name="PhoneStartPageLabelMenu" xml:space="preserve">
+    <value>MENU</value>
+  </data>
+  <data name="PhoneStartPageButtonTerminate" xml:space="preserve">
+    <value>Terminate Scan</value>
+  </data>
+  <data name="PhoneStartPageButtonLogin" xml:space="preserve">
+    <value>Admin Login</value>
+  </data>
+  <data name="PhoneStartPageButtonUpload" xml:space="preserve">
+    <value>Upload data</value>
+  </data>
+  <data name="PhoneStartPageButtonSwitch" xml:space="preserve">
+    <value>Switch scan type</value>
+  </data>
+  <data name="PhoneStartPageButtonBack" xml:space="preserve">
+    <value>Back</value>
+  </data>
+  <data name="PhoneInventoryPageLabelMenu" xml:space="preserve">
+    <value>MENU</value>
+  </data>
+  <data name="PhoneInventoryPageLabelManageLocation" xml:space="preserve">
+    <value>Manage item location:</value>
+  </data>
+  <data name="PhoneInventoryPageButtonAddItem" xml:space="preserve">
+    <value>Add item</value>
+  </data>
+  <data name="PhoneInventoryPageButtonRemoveItem" xml:space="preserve">
+    <value>Remove item</value>
+  </data>
+  <data name="PhoneLocationSelelectButtonLight" xml:space="preserve">
+    <value>Light</value>
+  </data>
+  <data name="PhoneLocationSelectedButtonMenu" xml:space="preserve">
+    <value>Menu</value>
+  </data>
+  <data name="PhoneAdminStartPageButtonBTScan" xml:space="preserve">
+    <value>Bluetooth Scan</value>
+  </data>
+  <data name="PhoneAdminStartPageButtonCameraScan" xml:space="preserve">
+    <value>Camera Scan</value>
+  </data>
+  <data name="PhoneAdminStartPageButtonLogOut" xml:space="preserve">
+    <value>Logout</value>
+  </data>
+  <data name="PhoneAdminStartPageLabelScanner" xml:space="preserve">
+    <value>Scanner</value>
+  </data>
+  <data name="PhoneAdminLoginButtonBack" xml:space="preserve">
+    <value>Back</value>
+  </data>
+  <data name="PhoneAdminLoginStackLayoutLabelAdminLogin" xml:space="preserve">
+    <value>Admin Login</value>
+  </data>
+  <data name="PhoneAdminLoginStackLayoutLabelEnterPW" xml:space="preserve">
+    <value>Please enter your password:</value>
+  </data>
+  <data name="PhoneAdminLoginStackLayoutEntryUserName" xml:space="preserve">
+    <value>User name</value>
+  </data>
+  <data name="PhoneAdminLoginStackLayoutEntryUserPW" xml:space="preserve">
+    <value>User password</value>
+    </data>
+  <data name="MainWindowComboboxCountedDifference" xml:space="preserve">
+    <value>Counted with difference</value>
+  </data>
+  <data name="MainWindowButtonSwitchLanguage" xml:space="preserve">
+    <value>Switch Language</value>
+  </data>
+  <data name="CreateCycleXAMLComboBox_1" xml:space="preserve">
+    <value>The whole storage</value>
+  </data>
+  <data name="CreateCycleXAMLComboBox_2" xml:space="preserve">
+    <value>T-shirts</value>
+  </data>
+  <data name="CreateCycleXAMLComboBox_3" xml:space="preserve">
+    <value>Pants</value>
+  </data>
+  <data name="CreateCycleXAMLComboBox_4" xml:space="preserve">
+    <value>Skateboards</value>
+  </data>
+  <data name="CreateCycleXAMLComboBox_5" xml:space="preserve">
+    <value>Shoes</value>
+  </data>
+  <data name="CreateCycleXAMLComboBox_6" xml:space="preserve">
+    <value>Hoodies</value>
+  </data>
+  <data name="CreateCycleWindowLabelChooseCycleName" xml:space="preserve">
+    <value>Cycle Name:</value>
+  </data>
+  <data name="EditCycleWindowButtonContentEdit" xml:space="preserve">
+    <value>Edit shelf</value>
+  </data>
+  <data name="CreateCycleMsgBoxTitle" xml:space="preserve">
+    <value>Are you sure?</value>
+  </data>
+  <data name="CreateCycleMsgBoxText" xml:space="preserve">
+    <value>This will conclude the current cycle count. Are you sure you want to create a new one?</value>
   </data>
 </root>

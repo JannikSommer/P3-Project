@@ -61,6 +61,24 @@ namespace Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This will conclude the current cycle count. Are you sure you want to create a new one?.
+        /// </summary>
+        public static string CreateCycleMsgBoxText {
+            get {
+                return ResourceManager.GetString("CreateCycleMsgBoxText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Are you sure?.
+        /// </summary>
+        public static string CreateCycleMsgBoxTitle {
+            get {
+                return ResourceManager.GetString("CreateCycleMsgBoxTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Create Cycle.
         /// </summary>
         public static string CreateCycleWindowButtonCreateCycle {
@@ -79,7 +97,16 @@ namespace Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Please select the wanted function.
+        ///   Looks up a localized string similar to Cycle Name:.
+        /// </summary>
+        public static string CreateCycleWindowLabelChooseCycleName {
+            get {
+                return ResourceManager.GetString("CreateCycleWindowLabelChooseCycleName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Not Correct.
         /// </summary>
         public static string CreateCycleWindowLabelWarning {
             get {
@@ -93,6 +120,60 @@ namespace Localization {
         public static string CreateCycleWindowTitle {
             get {
                 return ResourceManager.GetString("CreateCycleWindowTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The whole storage.
+        /// </summary>
+        public static string CreateCycleXAMLComboBox_1 {
+            get {
+                return ResourceManager.GetString("CreateCycleXAMLComboBox_1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to T-shirts.
+        /// </summary>
+        public static string CreateCycleXAMLComboBox_2 {
+            get {
+                return ResourceManager.GetString("CreateCycleXAMLComboBox_2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pants.
+        /// </summary>
+        public static string CreateCycleXAMLComboBox_3 {
+            get {
+                return ResourceManager.GetString("CreateCycleXAMLComboBox_3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Skateboards.
+        /// </summary>
+        public static string CreateCycleXAMLComboBox_4 {
+            get {
+                return ResourceManager.GetString("CreateCycleXAMLComboBox_4", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Shoes.
+        /// </summary>
+        public static string CreateCycleXAMLComboBox_5 {
+            get {
+                return ResourceManager.GetString("CreateCycleXAMLComboBox_5", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hoodies.
+        /// </summary>
+        public static string CreateCycleXAMLComboBox_6 {
+            get {
+                return ResourceManager.GetString("CreateCycleXAMLComboBox_6", resourceCulture);
             }
         }
         
@@ -111,6 +192,15 @@ namespace Localization {
         public static string EditCycleWindowButtonConfirm {
             get {
                 return ResourceManager.GetString("EditCycleWindowButtonConfirm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit shelf.
+        /// </summary>
+        public static string EditCycleWindowButtonContentEdit {
+            get {
+                return ResourceManager.GetString("EditCycleWindowButtonContentEdit", resourceCulture);
             }
         }
         
@@ -340,6 +430,15 @@ namespace Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Switch Language.
+        /// </summary>
+        public static string MainWindowButtonSwitchLanguage {
+            get {
+                return ResourceManager.GetString("MainWindowButtonSwitchLanguage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Counted with difference.
         /// </summary>
         public static string MainWindowComboboxCountedDifference {
@@ -471,6 +570,249 @@ namespace Localization {
         public static string MainWindowTitle {
             get {
                 return ResourceManager.GetString("MainWindowTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Back.
+        /// </summary>
+        public static string PhoneAdminLoginButtonBack {
+            get {
+                return ResourceManager.GetString("PhoneAdminLoginButtonBack", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User name.
+        /// </summary>
+        public static string PhoneAdminLoginStackLayoutEntryUserName {
+            get {
+                return ResourceManager.GetString("PhoneAdminLoginStackLayoutEntryUserName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User password.
+        /// </summary>
+        public static string PhoneAdminLoginStackLayoutEntryUserPW {
+            get {
+                return ResourceManager.GetString("PhoneAdminLoginStackLayoutEntryUserPW", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Admin Login.
+        /// </summary>
+        public static string PhoneAdminLoginStackLayoutLabelAdminLogin {
+            get {
+                return ResourceManager.GetString("PhoneAdminLoginStackLayoutLabelAdminLogin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please enter your password:.
+        /// </summary>
+        public static string PhoneAdminLoginStackLayoutLabelEnterPW {
+            get {
+                return ResourceManager.GetString("PhoneAdminLoginStackLayoutLabelEnterPW", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bluetooth Scan.
+        /// </summary>
+        public static string PhoneAdminStartPageButtonBTScan {
+            get {
+                return ResourceManager.GetString("PhoneAdminStartPageButtonBTScan", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Camera Scan.
+        /// </summary>
+        public static string PhoneAdminStartPageButtonCameraScan {
+            get {
+                return ResourceManager.GetString("PhoneAdminStartPageButtonCameraScan", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Logout.
+        /// </summary>
+        public static string PhoneAdminStartPageButtonLogOut {
+            get {
+                return ResourceManager.GetString("PhoneAdminStartPageButtonLogOut", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Scanner.
+        /// </summary>
+        public static string PhoneAdminStartPageLabelScanner {
+            get {
+                return ResourceManager.GetString("PhoneAdminStartPageLabelScanner", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add item.
+        /// </summary>
+        public static string PhoneInventoryPageButtonAddItem {
+            get {
+                return ResourceManager.GetString("PhoneInventoryPageButtonAddItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remove item.
+        /// </summary>
+        public static string PhoneInventoryPageButtonRemoveItem {
+            get {
+                return ResourceManager.GetString("PhoneInventoryPageButtonRemoveItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Manage item location:.
+        /// </summary>
+        public static string PhoneInventoryPageLabelManageLocation {
+            get {
+                return ResourceManager.GetString("PhoneInventoryPageLabelManageLocation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to MENU.
+        /// </summary>
+        public static string PhoneInventoryPageLabelMenu {
+            get {
+                return ResourceManager.GetString("PhoneInventoryPageLabelMenu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Menu.
+        /// </summary>
+        public static string PhoneLocationSelectedButtonMenu {
+            get {
+                return ResourceManager.GetString("PhoneLocationSelectedButtonMenu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Light.
+        /// </summary>
+        public static string PhoneLocationSelelectButtonLight {
+            get {
+                return ResourceManager.GetString("PhoneLocationSelelectButtonLight", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Admin Login.
+        /// </summary>
+        public static string PhoneMainPageButtonAdmin {
+            get {
+                return ResourceManager.GetString("PhoneMainPageButtonAdmin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bluetooth Scan.
+        /// </summary>
+        public static string PhoneMainPageButtonBTScan {
+            get {
+                return ResourceManager.GetString("PhoneMainPageButtonBTScan", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Camera Scan.
+        /// </summary>
+        public static string PhoneMainPageButtonCameraScan {
+            get {
+                return ResourceManager.GetString("PhoneMainPageButtonCameraScan", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SCANNER.
+        /// </summary>
+        public static string PhoneMainPageLabelScanner {
+            get {
+                return ResourceManager.GetString("PhoneMainPageLabelScanner", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Back.
+        /// </summary>
+        public static string PhoneStartPageButtonBack {
+            get {
+                return ResourceManager.GetString("PhoneStartPageButtonBack", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Admin Login.
+        /// </summary>
+        public static string PhoneStartPageButtonLogin {
+            get {
+                return ResourceManager.GetString("PhoneStartPageButtonLogin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Switch scan type.
+        /// </summary>
+        public static string PhoneStartPageButtonSwitch {
+            get {
+                return ResourceManager.GetString("PhoneStartPageButtonSwitch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Terminate Scan.
+        /// </summary>
+        public static string PhoneStartPageButtonTerminate {
+            get {
+                return ResourceManager.GetString("PhoneStartPageButtonTerminate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Upload data.
+        /// </summary>
+        public static string PhoneStartPageButtonUpload {
+            get {
+                return ResourceManager.GetString("PhoneStartPageButtonUpload", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to MENU.
+        /// </summary>
+        public static string PhoneStartPageLabelMenu {
+            get {
+                return ResourceManager.GetString("PhoneStartPageLabelMenu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Download Partition.
+        /// </summary>
+        public static string PhoneUploadDataButtonDownload {
+            get {
+                return ResourceManager.GetString("PhoneUploadDataButtonDownload", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Upload Partition.
+        /// </summary>
+        public static string PhoneUploadDataButtonUpload {
+            get {
+                return ResourceManager.GetString("PhoneUploadDataButtonUpload", resourceCulture);
             }
         }
     }

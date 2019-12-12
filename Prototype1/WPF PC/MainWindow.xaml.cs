@@ -1,289 +1,140 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using Networking;
 using System.Threading;
 using Model.Log;
 using Localization;
+using Central_Controller;
+using Model;
+using Central_Controller.IO;
+using System.Globalization;
+using PrestaSharpAPI;
 
 
 namespace WPF_PC
 {
-    public enum Language
-    {
-        Danish, English
-    }
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
     {
-        public class Item // remember to use item class from model
-        {
-            public string itemID { get; set; }
-            public string itemName { get; set; }
-            public string itemLocation { get; set; }
-            public bool itemHasBeenCounted { get; set; }
-            public int itemInStorageCount { get; set; }
-            public int itemServerCount { get; set; }
-            public int itemCountVariation { get; set; }
-        }
 
-        private Thread NetworkingThread; // Used to keep socket connection open for clients. 
+        private Thread NetworkingThread { get; set; }
+        private Controller Controller { get; set; } = new Controller();
+        public EditCycle EditCycleWindow;
+        private Server Server { get; set; }
 
-        private new Language Language;
 
         public MainWindow()
         {
+            EditCycleWindow = new EditCycle(Controller);
+
             InitializeComponent();
-
-            StartServer();
-
-            UpdateMainWindow();
-
+            //StartServer();
+            UpdateAllUI();
             LoadIntoDataGrid();
-            LoadIntoChooseBox();
+            LoadIntoComboBox();
+            Controller.Cycle.Log.AddMessage(new VerificationLogMessage(DateTime.Now, "Bob", "564738920", true));
+
         }
 
         private void StartServer()
         {
-            Server server = new Server();
-            NetworkingThread = new Thread(new ThreadStart(server.StartServer));
+            Server = new Server(Controller);
+            Thread NetworkingThread = new Thread(new ThreadStart(Server.StartServer));
             NetworkingThread.Start();
         }
 
-        public void LoadIntoDataGrid()
+        public void UpdateAllUI()
         {
-            Item itemOne = new Item();
+            UpdateMainWindow();
+            LoadIntoDataGrid();
+        }
 
-            itemOne.itemID = "12345";
-            itemOne.itemName = "Hvid T-Shirt";
-            itemOne.itemLocation = "001E002, 001F002";
-            itemOne.itemHasBeenCounted = true;
-            itemOne.itemInStorageCount = 34;
-            itemOne.itemServerCount = 35;
-            itemOne.itemCountVariation = 1;
-
-            Item itemTwo = new Item();
-            itemTwo.itemID = "12344";
-            itemTwo.itemName = "Sort T-Shirt";
-            itemTwo.itemLocation = "001E003, 001F003";
-            itemTwo.itemHasBeenCounted = true;
-            itemTwo.itemInStorageCount = 23;
-            itemTwo.itemServerCount = 23;
-            itemTwo.itemCountVariation = 0;
-            dataGridMain.Items.Add(itemTwo);
-
-            dataGridMain.Items.Add(itemOne);
-
+        public void LoadIntoDataGrid() {
+            dataGridMain.ItemsSource = Controller.Cycle.CountedItems;
         }
 
         public void UpdateMainWindow()
         {
             //Active Clients:
-            int activeClientsInt = 1;
-
-            acticeClients.Content = (activeClientsInt);
+            acticeClients.Content = Controller.Active_Clients.Count;
 
             //Counted Items overview:
-            double countedInt = 19843;
-            double totalItemsInt = 80000;
-            double persentageCounted = ((countedInt / totalItemsInt) * 100);
-            double persentageCountedRoundedDown = Math.Round(persentageCounted, 1);
+            double countedInt = Controller.Cycle.CountedItems.Count;
+            double totalItemsInt = 80000; 
+            double percentageCounted = ((countedInt / totalItemsInt) * 100);
+            double percentageCountedRoundedDown = Math.Round(percentageCounted, 1);
 
-            overviewTotalCounted.Content = (countedInt + " / " + totalItemsInt + "   (" + persentageCountedRoundedDown + "%)");
+            overviewTotalCounted.Content = (countedInt + " / " + totalItemsInt + "   (" + percentageCountedRoundedDown + "%)");
 
             //Counted with difference overview:
             double countedIntWithDifference = 340;
-            double persentageCountedWithDifference = ((countedIntWithDifference / totalItemsInt) * 100);
-            double persentageCountedWithDifferenceRoundedDown = Math.Round(persentageCountedWithDifference, 1);
+            double percentageCountedWithDifference = ((countedIntWithDifference / totalItemsInt) * 100);
+            double percentageCountedWithDifferenceRoundedDown = Math.Round(percentageCountedWithDifference, 1);
 
-            overviewTotalCountedWithDifference.Content = (countedIntWithDifference + " / " + totalItemsInt + "   (" + persentageCountedWithDifferenceRoundedDown + "%)");
+            overviewTotalCountedWithDifference.Content = (countedIntWithDifference + " / " + totalItemsInt + "   (" + percentageCountedWithDifferenceRoundedDown + "%)");
         }
 
-        private void createCycleCount_Click(object sender, RoutedEventArgs e)
-        {
-            CreateCycleWindow CreateCycle = new CreateCycleWindow();
+        private void CreateCycleCount_Click(object sender, RoutedEventArgs e) {
+            CreateCycleWindow CreateCycle = new CreateCycleWindow(Controller);
             CreateCycle.Show();
-
         }
 
-        private void editCycle_Click(object sender, RoutedEventArgs e)
-        {
-            EditCycle EditCycle = new EditCycle(Language);
+        private void EditCycle_Click(object sender, RoutedEventArgs e) {
+            EditCycle EditCycle = new EditCycle(Controller);
             EditCycle.Show();
-
         }
 
-        private void showLog_Click(object sender, RoutedEventArgs e)
-        {
-            List<LogMessage> list = new List<LogMessage> {
-                new VerificationLogMessage(new DateTime(2019, 11, 12, 10, 21, 9), "Polle", "5709216007104", true),
-                new LocationLogMessage(new DateTime(2019, 11, 12, 10, 21, 9), "Ole", "001C27", new List<(string itemId, string countedQuantity)>{("5709216007104", "5"), ("5849225908104", "2")}),
-                new TextLogMessage(DateTime.Now, "Hello Bob!")
-            };
-
-            LogFile logFile = new LogFile("TestLog", DateTime.Now, list);
-
-            LogWindow logWindow = new LogWindow(logFile);
+        private void ShowLog_Click(object sender, RoutedEventArgs e) {
+            LogWindow logWindow = new LogWindow(Controller.Cycle.Log);
             logWindow.Show();
         }
 
-        private void finishCycle_Click(object sender, RoutedEventArgs e)
-        {
-            if (MessageBox.Show(((Language.Danish == Language) ? "ER DU SIKKER?" : "ARE YOU SURE?"), ((Language.Danish == Language) ? "Færdiggør cyklus'en?" : "Finish the cycle?"), MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
-            {
-                //do no stuff
-                
-            }
-            else
-            {
-                //do yes stuff
-
-            }
-
-        }
-
-        public void LoadIntoChooseBox()
-        {
+        public void LoadIntoComboBox() {
             List<string> settings = new List<string> { 
                 Localization.Resources.MainWindowComboboxCountedToday, 
                 Localization.Resources.MainWindowComboboxCountedThisCycle, 
                 Localization.Resources.MainWindowComboboxCountedDifference
             };
            
-            comboBoxChooseGet.ItemsSource = settings;
-            comboBoxChooseGet.SelectedIndex = 0;
+            ComboBoxDataSelection.ItemsSource = settings;
+            ComboBoxDataSelection.SelectedIndex = 0;
         }
 
-        private void showChosenType_Click(object sender, RoutedEventArgs e)
-        {
-            if (comboBoxChooseGet.SelectedIndex == -1)
-            {
-                labelWarning.Visibility = Visibility.Visible;
-            }
-            else
-            {
-                labelWarning.Visibility = Visibility.Hidden;
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e) {
+            //Server.ShutdownServer();
 
-                //Todays Counted
-                if (comboBoxChooseGet.SelectedIndex == 0)
-                {
+            new IOController(Controller.Cycle.Id).Save(Controller.Cycle, Controller.Location_Comparer.ShelfHierarchy);
+            Application.Current.Shutdown();
+        }
 
-                }
-                //Counted in this cycle
-                else if(comboBoxChooseGet.SelectedIndex == 1)
-                {
+        private void ComboBoxDataSelection_SelectionChanged(object sender, SelectionChangedEventArgs e) {
+            if(ComboBoxDataSelection.SelectedIndex == 0) { //Todays Counted
+                dataGridMain.ItemsSource = Controller.Cycle.CountedItems;
+            } else if(ComboBoxDataSelection.SelectedIndex == 1) { //Counted in this cycle
+                List<Item> newList = new List<Item>(Controller.Cycle.CountedItems);
+                newList.AddRange(Controller.Cycle.VerifiedItems);
+                dataGridMain.ItemsSource = newList;
+            } else if(ComboBoxDataSelection.SelectedIndex == 2) { //Counted with difference
 
-                }
-                //Counted with difference
-                else if (comboBoxChooseGet.SelectedIndex == 2)
-                {
-
-                }
             }
         }
 
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            //Load everything to log.
-        }
+        private void ChangeLanguage_Click(object sender, RoutedEventArgs e) {
+            var danishCultureInfo = new CultureInfo("da-DK", true);
+            var englishCultureInfo = new CultureInfo("en-GB", true);
 
-        private void comboBoxChooseGet_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            //e.AddedItems[0].ToString()
-        }
-
-        private void changeLanguage_Click(object sender, RoutedEventArgs e)
-        {
-
-            System.Globalization.CultureInfo.CurrentUICulture = new System.Globalization.CultureInfo("da-DK", true);
-            InitializeComponent();
-            //if (Language == Language.Danish)
-            //{
-            //    Language = Language.English;
-            //}
-            //else
-            //{
-            //    Language = Language.Danish;
-            //}
-            //MainWindowLanguage();
-            //LoadIntoChooseBox();
-        }  
-        
-        public void MainWindowLanguage()
-        {
-
-            //Danish:
-            if (Language.Danish == Language)
-            {
-                //Buttons
-
-                changeLanguage.Content = ("English");
-                createCycleCount.Content = ("Opret Optællings Cyklus");
-                editCycle.Content = ("Rediger Cyklus");
-                showChosenType.Content = ("Vis");
-                showLog.Content = ("Vis log");
-                finishCycle.Content = ("Færdiggør Cyklus");
-
-                //Label
-
-                labelWarning.Content = ("Vælg venligst den ønskede funktion");
-                activeClients.Content = ("Aktive klienter:");
-                totalCount.Content = ("Total Optalt:");
-                totalCountDifference.Content = ("Optalte med difference:");
-
-                // Datagrid
-
-                dataGridMain.Columns[0].Header = " ID";
-                dataGridMain.Columns[1].Header = " Navn";
-                dataGridMain.Columns[2].Header = " Lokationer";
-                dataGridMain.Columns[3].Header = " Optalt";
-                dataGridMain.Columns[4].Header = " Optalt Fra Lageret";
-                dataGridMain.Columns[5].Header = " Antal Fra Serveren";
-                dataGridMain.Columns[6].Header = " Difference";
+            if(CultureInfo.CurrentUICulture.Name == danishCultureInfo.Name) {
+                CultureInfo.CurrentUICulture = englishCultureInfo;
+            } else {
+                CultureInfo.CurrentUICulture = danishCultureInfo;
             }
 
-            //English:
-            else if (Language.English == Language)
-            {
-                //Buttons
-
-                changeLanguage.Content = ("Dansk");
-                createCycleCount.Content = ("Create Cycle Count");
-                editCycle.Content = ("Edit Cycle");
-                showChosenType.Content = ("Show");
-                showLog.Content = ("Show Log");
-                finishCycle.Content = ("Finish Cycle");
-
-                //Label
-
-                labelWarning.Content = ("Please choose the desired function");
-                activeClients.Content = ("Active clients:");
-                totalCount.Content = ("Total Counted:");
-                totalCountDifference.Content = ("Counted with difference:");
-
-                // Datagrid
-
-                dataGridMain.Columns[0].Header = " ID";
-                dataGridMain.Columns[1].Header = " Name";
-                dataGridMain.Columns[2].Header = " Locations";
-                dataGridMain.Columns[3].Header = " Counted";
-                dataGridMain.Columns[4].Header = " Counted from storage";
-                dataGridMain.Columns[5].Header = " Count from server";
-                dataGridMain.Columns[6].Header = " Difference";
-            }
+            Application.Current.MainWindow.UpdateLayout();
         }
+
     }
 }

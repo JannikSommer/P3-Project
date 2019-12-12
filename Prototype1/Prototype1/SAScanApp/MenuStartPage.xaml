@@ -1,0 +1,110 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:lang="clr-namespace:Localization;assembly=Localization"
+             mc:Ignorable="d"
+             x:Class="SAScanApp.MenuStartPage">
+    <ContentPage.Content>
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="20*"/>
+                <RowDefinition Height="60*"/>
+                <RowDefinition Height="20*"/>
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Row="0"
+                  VerticalOptions="EndAndExpand">
+                <Label Text="{x:Static lang:Resources.PhoneStartPageLabelMenu}"
+                       FontSize="30"
+                       TextColor="Blue"
+                       HorizontalOptions="CenterAndExpand"
+                       BackgroundColor="White"
+                       Margin="0,0,0,0"/>
+            </Grid>
+
+            <Grid Grid.Row="1"
+              VerticalOptions="CenterAndExpand">
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="20*"/>
+                    <RowDefinition Height="20*"/>
+                    <RowDefinition Height="20*"/>
+                    <RowDefinition Height="20*"/>
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                
+                <Button 
+                Margin="50, 10, 50, 10"
+                BackgroundColor="White"
+                BorderColor="Blue"
+                BorderWidth="2"
+                Text="{x:Static lang:Resources.PhoneStartPageButtonLogin}"
+                TextColor="Blue"
+                FontSize="20"
+                BorderRadius="40"
+                Grid.Row="1"
+                Clicked="AdminLogin_Button_Clicked"
+                VerticalOptions="Center"
+                HorizontalOptions="FillAndExpand"/>
+
+                <Button 
+                Margin="50, 10, 50, 10"
+                BackgroundColor="White"
+                BorderColor="Blue"
+                BorderWidth="2"
+                Text="{x:Static lang:Resources.PhoneStartPageButtonUpload}"
+                TextColor="Blue"
+                FontSize="20"
+                BorderRadius="40"
+                Grid.Row="0"
+                Clicked="GetData_Button_Clicked"
+                VerticalOptions="Center"
+                HorizontalOptions="FillAndExpand"/>
+
+                <Button 
+                Margin="50, 10, 50, 10"
+                BackgroundColor="White"
+                BorderColor="Red"
+                BorderWidth="2"
+                Text="{x:Static lang:Resources.PhoneStartPageButtonTerminate}"
+                TextColor="Red"
+                FontSize="20"
+                BorderRadius="40"
+                Grid.Row="2"
+                Clicked="Terminate_Button_Clicked"
+                VerticalOptions="Center"
+                HorizontalOptions="FillAndExpand"/>
+
+
+
+            </Grid>
+
+            <Grid Grid.Row="2">
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                
+            </Grid>
+
+
+
+
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

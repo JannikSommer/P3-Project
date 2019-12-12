@@ -6,91 +6,131 @@ namespace Model
 {
     public class LocationComparer : IComparer<Location>
     {
-        public int[] ShelfHierakyi { get; private set; }
+        public int[] ShelfHierarchy { get; private set; }
         private int HighestValueShelf;
 
         public LocationComparer(int highestShelfNumber)
         {
-            ShelfHierakyi = new int[highestShelfNumber];
+            ShelfHierarchy = new int[highestShelfNumber + 1];
             HighestValueShelf = highestShelfNumber;
 
-            for(int x = 0; x <= highestShelfNumber + 1; x++)
+            for(int x = 0; x <= highestShelfNumber; x++)
             {
-                ShelfHierakyi[x - 1] = x;
+                ShelfHierarchy[x] = x;
             }
+        }
+
+        public LocationComparer(int[] ShelfHierachyList)
+        {
+            ConvertHierachyList(ShelfHierachyList);
         }
 
         int IComparer<Location>.Compare(Location a, Location b)
         {
-            int ShelfHierakyi_a = ShelfHierakyi[a.Shelf];
-            int ShelfHierakyi_b = ShelfHierakyi[b.Shelf];
+            int ShelfComparison = ShelfHierarchy[a.Shelf] - ShelfHierarchy[b.Shelf];
             int x;
 
-            if(ShelfHierakyi_a > ShelfHierakyi_b)
+            if (a.Shelf > HighestValueShelf || ShelfHierarchy[a.Shelf] < 0)
             {
-                return -1;
+                throw new Exception("Shelf " + a.Shelf + " doesn't currently exist in the shelf hierachy");
             }
-            else if(ShelfHierakyi_a < ShelfHierakyi_b)
+
+            if (ShelfHierarchy[b.Shelf] > HighestValueShelf || ShelfHierarchy[b.Shelf] < 0)
             {
-                return 1;
+                throw new Exception("Shelf " + b.Shelf + " doesn't currently exist in the shelf hierachy");
+            }
+
+            if (ShelfComparison != 0)
+            {
+                return ShelfComparison;
             }
             else
             {
-                x = a.Row.CompareTo(b.Row);
+                x = a.Position.CompareTo(b.Position);
 
                 if (x == 0)
                 {
-                    return a.Position.CompareTo(b.Position);
+                    return a.Row.CompareTo(b.Row);
                 }
 
                 return x;
             }
         }
 
-        public void IncreasePriority(int PosistionOfElement)
+        private void ConvertHierachyList(int[] HierachyListArray)
+        {
+            HighestValueShelf = -1;
+
+            for(int x = 0; x < HierachyListArray.Length; x++)
+            {
+                if(HierachyListArray[x] > HighestValueShelf)
+                {
+                    HighestValueShelf = HierachyListArray[x];
+                }
+            }
+
+            ShelfHierarchy = new int[HighestValueShelf + 1];
+
+            for(int x = 0; x < ShelfHierarchy.Length; x++)
+            {
+                ShelfHierarchy[x] = -1;
+            }
+
+            for(int x = 0; x < HierachyListArray.Length; x++)
+            {
+                ShelfHierarchy[HierachyListArray[x]] = x;
+            }
+        }
+
+        public void IncreasePriority(int PositionOfElement)
         {
             int temp;
 
-            if (ShelfHierakyi[PosistionOfElement] < HighestValueShelf)
-                temp = ++ShelfHierakyi[PosistionOfElement];
+            if (ShelfHierarchy[PositionOfElement] < HighestValueShelf)
+                temp = ++ShelfHierarchy[PositionOfElement];
             else
                 throw new Exception("Can't increase priority further");
 
             for(int x = 0; x < HighestValueShelf; x++)
             {
-                if (ShelfHierakyi[x] == temp)
+                if (ShelfHierarchy[x] == temp)
                 {
-                    if (x == PosistionOfElement) { }
+                    if (x == PositionOfElement) { }
                     else
                     {
-                        ShelfHierakyi[x]--;
+                        ShelfHierarchy[x]--;
                         break;
                     }
                 }
             }
         }
 
-        public void DecreasePriority(int PosistionOfElement)
+        public void DecreasePriority(int PositionOfElement)
         {
             int temp;
 
-            if (ShelfHierakyi[PosistionOfElement] > 0)
-                temp = --ShelfHierakyi[PosistionOfElement];
+            if (ShelfHierarchy[PositionOfElement] > 0)
+                temp = --ShelfHierarchy[PositionOfElement];
             else
                 throw new Exception("Can't decrease priority further");
 
             for (int x = 0; x < HighestValueShelf; x++)
             {
-                if (ShelfHierakyi[x] == temp)
+                if (ShelfHierarchy[x] == temp)
                 {
-                    if (x == PosistionOfElement) { }
+                    if (x == PositionOfElement) { }
                     else
                     {
-                        ShelfHierakyi[x]++;
+                        ShelfHierarchy[x]++;
                         break;
                     }
                 }
             }
+        }
+
+        public int ShelfHierarchyOf(int shelfIndex)
+        {
+            return ShelfHierarchy[shelfIndex];
         }
 
         /*int IComparer<Location>.Compare(Location a, Location b)
@@ -111,7 +151,7 @@ namespace Model
 
                     if(x == 0)
                     {
-                        return a.Posistion.CompareTo(b.Posistion);
+                        return a.Position.CompareTo(b.Position);
                     }
 
                     return x;
@@ -119,38 +159,6 @@ namespace Model
             }
 
             throw new Exception("Shelfs doesn't exist in hierarki array");
-        }*/
-
-        /*public void IncreasePriority(int PosistionOfElement)
-        {
-            int temp;
-
-            if (PosistionOfElement > 0)
-            {
-                temp = ShelfHierakyi[PosistionOfElement];
-                ShelfHierakyi[PosistionOfElement] = ShelfHierakyi[PosistionOfElement - 1];
-                ShelfHierakyi[PosistionOfElement - 1] = temp;
-            }
-            else
-            {
-                throw new Exception("Can't increase priority further");
-            }
-        }*/
-
-        /*public void DecreasePriority(int PosistionOfElement)
-        {
-            int temp;
-
-            if (PosistionOfElement < HighestValueShelf)
-            {
-                temp = ShelfHierakyi[PosistionOfElement];
-                ShelfHierakyi[PosistionOfElement] = ShelfHierakyi[PosistionOfElement + 1];
-                ShelfHierakyi[PosistionOfElement + 1] = temp;
-            }
-            else
-            {
-                throw new Exception("Can't decrease priority further");
-            }
         }*/
     }
 }
