@@ -17,6 +17,7 @@ namespace Unit_Tests.Controller_Tests
             Client TestClient2 = new Client("02");
 
             Controller TestController = new Controller();
+            TestController.Location_Comparer = new LocationComparer(19);
             TestController.TimeBeforeAFK = new TimeSpan(0, 0, 0);
 
             Item TestItem1 = new Item("001");
@@ -77,6 +78,7 @@ namespace Unit_Tests.Controller_Tests
             Client TestClient2 = new Client("02");
 
             Controller TestController = new Controller();
+            TestController.Location_Comparer = new LocationComparer(19);
             TestController.TimeBeforeAFK = new TimeSpan(0, 0, 0);
 
             Item TestItem1 = new Item("001");
