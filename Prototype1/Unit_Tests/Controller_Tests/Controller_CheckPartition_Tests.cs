@@ -315,7 +315,6 @@ namespace Unit_Tests.Controller_Tests
             Client TestClient1 = new Client("01");
 
             Controller TestController = new Controller();
-            TestController.TimeBeforeAFK = new TimeSpan(0, 0, 0);
 
             Item TestItem1 = new Item("001");
             List<string> TestLocation1 = new List<string> { "001A01", "002A01" };
@@ -360,6 +359,54 @@ namespace Unit_Tests.Controller_Tests
 
             Assert.AreEqual(Expected_Partition_Location1, Actual_Partition.Locations[0].ID);
             Assert.AreEqual(Expected_Partition_Location3, Actual_Partition.Locations[2].ID);
+        }
+
+        [TestMethod]
+        public void CheckPartition_Test11_MultiLocationItemTest_NotCounted()
+        {
+            // Arrange
+            Client TestClient1 = new Client("01");
+
+            Controller TestController = new Controller();
+
+            Item TestItem1 = new Item("001");
+            TestItem1.ServerQuantity = 10;
+
+            Item TestItem2 = new Item("001");
+            TestItem2.ServerQuantity = 10;
+
+            Location TestLocation1 = new Location("001A01");
+            Location TestLocation2 = new Location("002A01");
+
+            TestItem1.AddLocation(TestLocation1);
+            TestItem1.AddLocation(TestLocation2);
+
+            //Expected
+            int Expected_VerifiedItemsCount = 1;
+
+            // Act
+            Partition DumpPartition = new Partition(true);
+            DumpPartition.AddLocation(TestLocation1);
+            TestLocation1.Visited = true;
+            TestItem1.CountedQuantity = 6;
+
+            TestController.CheckPartition(DumpPartition);
+
+            TestLocation1.Items.Clear();
+            TestLocation2.Items.Clear();
+
+            TestItem2.AddLocation(TestLocation1);
+            TestItem2.AddLocation(TestLocation2);
+
+            DumpPartition = new Partition(true);
+            DumpPartition.AddLocation(TestLocation2);
+            TestLocation2.Visited = true;
+            TestItem2.CountedQuantity = 4;
+
+            TestController.CheckPartition(DumpPartition);
+
+            // Assert
+            Assert.AreEqual(Expected_VerifiedItemsCount, TestController.NumOfItemsVerified);
         }
     }
 }
