@@ -343,7 +343,7 @@ namespace Central_Controller
             }
         }
 
-        public void NewCheckPartition(Partition partition)
+        public void CheckPartition(Partition partition)
         {
             List<Location> UncountedLocations = new List<Location>();
             List<string> ItemIDsSeen = new List<string>();
@@ -446,32 +446,61 @@ namespace Central_Controller
                         }
                     }
 
+                    bool LocationsAddedToPartition = false;
+
                     foreach(List<Partition> PartitionChain in MultiLocationPartitions)
                     {
-                        if ((PartitionChain.Count == 1 && !AllLocationsVisited) || AllLocationsVisited)
+                        if ((PartitionChain.Count == 1 && !AllLocationsVisited) || AllLocationsVisited) //If all item locations wasn't contained within UncountedLocations, the partition chain in MultiLocationPartitions can't be larger then 1
                         {
                             foreach (Partition MultiLocationPartition in PartitionChain)
                             {
-                                //############################## Need work here!!! ########################################
-                                //############################## Need work here!!! ########################################
-                                //############################## Need work here!!! ########################################
-                                //############################## Need work here!!! ########################################
-                                //############################## Need work here!!! ########################################
-                                //############################## Need work here!!! ########################################
-                                //############################## Need work here!!! ########################################
+                                if(MultiLocationPartition.Locations.Count + UncountedLocations.Count <= MaxSizeForPartitions && PathsIsCombinable(UncountedLocations, MultiLocationPartition.Locations))
+                                {
+                                    foreach(Location location in UncountedLocations)
+                                    {
+                                        MultiLocationPartition.AddLocation(location);
+                                    }
+
+                                    FillAllPaths(new List<List<List<Location>>> { new List<List<Location>> { MultiLocationPartition.Locations } });
+
+                                    break;
+                                }
                             }
+                        }
+
+                        if (LocationsAddedToPartition)
+                        {
+                            break;
                         }
                     }
 
-                    //############################## Need work here!!! ########################################
-                    //############################## Need work here!!! ########################################
-                    //############################## Need work here!!! ########################################
-                    //############################## Need work here!!! ########################################
-                    //############################## Need work here!!! ########################################
-                    //############################## Need work here!!! ########################################
-                    //############################## Need work here!!! ########################################
+                    if (!LocationsAddedToPartition)
+                    {
+                        if(UncountedLocations.Exists(x => x.HasMultilocationItem))
+                        {
+                            NewPartition = new Partition(true);
+                        }
+                        else
+                        {
+                            NewPartition = new Partition(false);
+                        }
 
-                    throw new NotImplementedException();
+                        foreach (Location location in UncountedLocations)
+                        {
+                            NewPartition.AddLocation(location);
+                        }
+
+                        FillAllPaths(new List<List<List<Location>>> { new List<List<Location>> { NewPartition.Locations } });
+
+                        if (NewPartition.IsMultiLocationItemPartition)
+                        {
+                            MultiLocationPartitions.Add(new List<Partition> { NewPartition });
+                        }
+                        else
+                        {
+                            AddPartitionToShelfs(NewPartition);
+                        }
+                    }
                 }
             }
             else //if partition isn't a multiLocationPartition
@@ -546,7 +575,7 @@ namespace Central_Controller
             AvailebleShelfs.Sort();
         }
 
-        public void CheckPartition(Partition partition)
+        public void OldCheckPartition(Partition partition)
         //Checks an entire partitions. Going through all items to see if they've been counted, either adds items to normal rotation, verification items, partially counted item or removes it and considers it verified
         {
             List<Item> ItemsInPartition = ConvertLocationListToItemList(partition.Locations);
