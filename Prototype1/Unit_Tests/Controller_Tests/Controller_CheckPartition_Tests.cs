@@ -20,6 +20,7 @@ namespace Unit_Tests.Controller_Tests
             TestItem.CountedQuantity = 10;
 
             Location TestLocation = new Location("001A01");
+            TestLocation.Visited = true;
             TestLocation.AddItem(TestItem);
 
             Partition TestPartition = new Partition(false);
@@ -97,7 +98,9 @@ namespace Unit_Tests.Controller_Tests
             TestItem.CountedQuantity = 8;
 
             Location TestLocation1 = new Location("001A01");
+            TestLocation1.Visited = true;
             Location TestLocation2 = new Location("002A01");
+            TestLocation2.Visited = true;
 
             TestItem.AddLocation(TestLocation1);
             TestItem.AddLocation(TestLocation2);
@@ -128,7 +131,9 @@ namespace Unit_Tests.Controller_Tests
             TestItem.CountedQuantity = 10;
 
             Location TestLocation1 = new Location("001A01");
+            TestLocation1.Visited = true;
             Location TestLocation2 = new Location("002A01");
+            TestLocation2.Visited = true;
 
             TestItem.AddLocation(TestLocation1);
             TestItem.AddLocation(TestLocation2);
@@ -160,6 +165,8 @@ namespace Unit_Tests.Controller_Tests
 
             Location TestLocation1 = new Location("001A01");
             Location TestLocation2 = new Location("002A01");
+            TestLocation1.Visited = true;
+            TestLocation2.Visited = true;
 
             TestItem.AddLocation(TestLocation1);
             TestItem.AddLocation(TestLocation2);
@@ -188,13 +195,14 @@ namespace Unit_Tests.Controller_Tests
 
             Item TestItem = new Item("001", "T-Shirt", "White", "Large");
             TestItem.ServerQuantity = 10;
-            TestItem.CountedQuantity = -1;
 
             Location TestLocation1 = new Location("001A01");
             Location TestLocation2 = new Location("002A01");
 
             TestItem.AddLocation(TestLocation1);
             TestItem.AddLocation(TestLocation2);
+            TestLocation1.Visited = false;
+            TestLocation2.Visited = false;
 
             Partition TestPartition = new Partition(true);
             TestPartition.AddLocation(TestLocation1);
@@ -229,6 +237,8 @@ namespace Unit_Tests.Controller_Tests
 
             TestItem.AddLocation(TestLocation1);
             TestItem.AddLocation(TestLocation2);
+            TestLocation1.Visited = false;
+            TestLocation2.Visited = false;
 
             Partition TestPartition = new Partition(true);
             TestPartition.AddLocation(TestLocation1);
@@ -255,17 +265,20 @@ namespace Unit_Tests.Controller_Tests
 
             Item TestItem1 = new Item("001", "T-Shirt", "White", "Large");
             TestItem1.ServerQuantity = 10;
-            TestItem1.CountedQuantity = -1;
 
             Item TestItem2 = new Item("002", "Pants", "black", "Small");
             TestItem2.ServerQuantity = 10;
-            TestItem2.CountedQuantity = -1;
 
             Location TestLocation1 = new Location("001A01");
             Location TestLocation2 = new Location("002A01");
             Location TestLocation3 = new Location("001B01");
             Location TestLocation4 = new Location("002B01");
             Location TestLocation5 = new Location("003B01");
+            TestLocation1.Visited = false;
+            TestLocation2.Visited = false;
+            TestLocation3.Visited = false;
+            TestLocation4.Visited = false;
+            TestLocation5.Visited = false;
 
             TestItem1.AddLocation(TestLocation1);
             TestItem1.AddLocation(TestLocation2);

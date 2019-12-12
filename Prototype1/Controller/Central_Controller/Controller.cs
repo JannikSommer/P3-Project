@@ -361,7 +361,7 @@ namespace Central_Controller
                             {
                                 ItemIDsSeen.Add(item.ID);
 
-                                if (item.AllLocationsVisited)
+                                if (item.AllLocationsVisited && IsEverythingTrue(WhichItemLocationsVisitedInPartition(item, partition)))
                                 {
                                     if(item.ServerQuantity == item.CountedQuantity)
                                     {
@@ -448,20 +448,29 @@ namespace Central_Controller
 
                     bool LocationsAddedToPartition = false;
 
-                    foreach(List<Partition> PartitionChain in MultiLocationPartitions)
+                    for(int x = 0; x < MultiLocationPartitions.Count; x++)
                     {
-                        if ((PartitionChain.Count == 1 && !AllLocationsVisited) || AllLocationsVisited) //If all item locations wasn't contained within UncountedLocations, the partition chain in MultiLocationPartitions can't be larger then 1
+                        if ((MultiLocationPartitions[x].Count == 1 && !AllLocationsVisited) || AllLocationsVisited) //If all item locations wasn't contained within UncountedLocations, the partition chain in MultiLocationPartitions can't be larger then 1
                         {
-                            foreach (Partition MultiLocationPartition in PartitionChain)
+                            for(int y = 0; y < MultiLocationPartitions[x].Count; y++)
                             {
-                                if(MultiLocationPartition.Locations.Count + UncountedLocations.Count <= MaxSizeForPartitions && PathsIsCombinable(UncountedLocations, MultiLocationPartition.Locations))
+                                if(MultiLocationPartitions[x][y].Locations.Count + UncountedLocations.Count <= MaxSizeForPartitions && PathsIsCombinable(UncountedLocations, MultiLocationPartitions[x][y].Locations))
                                 {
                                     foreach(Location location in UncountedLocations)
                                     {
-                                        MultiLocationPartition.AddLocation(location);
+                                        MultiLocationPartitions[x][y].AddLocation(location);
                                     }
 
-                                    FillAllPaths(new List<List<List<Location>>> { new List<List<Location>> { MultiLocationPartition.Locations } });
+                                    FillAllPaths(new List<List<List<Location>>> { new List<List<Location>> { MultiLocationPartitions[x][y].Locations } });
+
+                                    LocationsAddedToPartition = true;
+
+                                    if (!AllLocationsVisited)
+                                    {
+                                        PriorityPartitions.Add(MultiLocationPartitions[x][y]);
+
+                                        MultiLocationPartitions.RemoveAt(x);
+                                    }
 
                                     break;
                                 }
@@ -492,7 +501,11 @@ namespace Central_Controller
 
                         FillAllPaths(new List<List<List<Location>>> { new List<List<Location>> { NewPartition.Locations } });
 
-                        if (NewPartition.IsMultiLocationItemPartition)
+                        if(!AllLocationsVisited)
+                        {
+                            PriorityPartitions.Add(NewPartition);
+                        }
+                        else if (NewPartition.IsMultiLocationItemPartition)
                         {
                             MultiLocationPartitions.Add(new List<Partition> { NewPartition });
                         }
