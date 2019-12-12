@@ -14,6 +14,7 @@ namespace Unit_Tests.Controller_Tests
         {
             // Arrange
             Controller TestController = new Controller();
+            TestController.Location_Comparer = new LocationComparer(19);
 
             Item TestItem = new Item("001", "T-Shirt", "White", "Large");
             TestItem.ServerQuantity = 10;
@@ -41,6 +42,7 @@ namespace Unit_Tests.Controller_Tests
         {
             // Arrange
             Controller TestController = new Controller();
+            TestController.Location_Comparer = new LocationComparer(19);
 
             Item TestItem = new Item("001", "T-Shirt", "White", "Large");
             TestItem.ServerQuantity = 10;
@@ -67,6 +69,7 @@ namespace Unit_Tests.Controller_Tests
         {
             // Arrange
             Controller TestController = new Controller();
+            TestController.Location_Comparer = new LocationComparer(19);
 
             Item TestItem = new Item("001", "T-Shirt", "White", "Large");
             TestItem.ServerQuantity = 10;
@@ -92,6 +95,7 @@ namespace Unit_Tests.Controller_Tests
         {
             // Arrange
             Controller TestController = new Controller();
+            TestController.Location_Comparer = new LocationComparer(19);
 
             Item TestItem = new Item("001", "T-Shirt", "White", "Large");
             TestItem.ServerQuantity = 10;
@@ -125,6 +129,7 @@ namespace Unit_Tests.Controller_Tests
         {
             // Arrange
             Controller TestController = new Controller();
+            TestController.Location_Comparer = new LocationComparer(19);
 
             Item TestItem = new Item("001", "T-Shirt", "White", "Large");
             TestItem.ServerQuantity = 10;
@@ -158,6 +163,7 @@ namespace Unit_Tests.Controller_Tests
         {
             // Arrange
             Controller TestController = new Controller();
+            TestController.Location_Comparer = new LocationComparer(19);
 
             Item TestItem = new Item("001", "T-Shirt", "White", "Large");
             TestItem.ServerQuantity = 10;
@@ -192,6 +198,7 @@ namespace Unit_Tests.Controller_Tests
         {
             // Arrange
             Controller TestController = new Controller();
+            TestController.Location_Comparer = new LocationComparer(19);
 
             Item TestItem = new Item("001", "T-Shirt", "White", "Large");
             TestItem.ServerQuantity = 10;
@@ -227,6 +234,7 @@ namespace Unit_Tests.Controller_Tests
         {
             // Arrange
             Controller TestController = new Controller();
+            TestController.Location_Comparer = new LocationComparer(19);
 
             Item TestItem = new Item("001", "T-Shirt", "White", "Large");
             TestItem.ServerQuantity = 10;
@@ -262,6 +270,7 @@ namespace Unit_Tests.Controller_Tests
         {
             // Arrange
             Controller TestController = new Controller();
+            TestController.Location_Comparer = new LocationComparer(19);
 
             Item TestItem1 = new Item("001", "T-Shirt", "White", "Large");
             TestItem1.ServerQuantity = 10;
@@ -315,6 +324,7 @@ namespace Unit_Tests.Controller_Tests
             Client TestClient1 = new Client("01");
 
             Controller TestController = new Controller();
+            TestController.Location_Comparer = new LocationComparer(19);
 
             Item TestItem1 = new Item("001");
             List<string> TestLocation1 = new List<string> { "001A01", "002A01" };
@@ -368,6 +378,7 @@ namespace Unit_Tests.Controller_Tests
             Client TestClient1 = new Client("01");
 
             Controller TestController = new Controller();
+            TestController.Location_Comparer = new LocationComparer(19);
 
             Item TestItem1 = new Item("001");
             TestItem1.ServerQuantity = 10;
