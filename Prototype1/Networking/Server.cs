@@ -84,19 +84,6 @@ namespace Networking
                 Central_Controller.Client client = JsonConvert.DeserializeObject<Central_Controller.Client>(Client, settings);
 
                 SendVerificationPartition(client);
-                // HERE!!! HERE!!! HERE!!! HERE!!!
-                // HERE!!! HERE!!! HERE!!! HERE!!!
-
-                // HERE!!! HERE!!! HERE!!! HERE!!!
-                // HERE!!! HERE!!! HERE!!! HERE!!!
-
-                // HERE!!! HERE!!! HERE!!! HERE!!!
-                // HERE!!! HERE!!! HERE!!! HERE!!!
-
-                //CreateVerificationPartitions now need to know which client is requesting it
-
-                //VerificationPartition verificationPartition = Controller.CreateVerificationPartition();
-                //SendVerificationPartition(verificationPartition);
             }
             else if (data == CommunicationFlag.VerificationUpload.ToString())
             {
@@ -149,7 +136,7 @@ namespace Networking
 
         private void SendVerificationPartition(Central_Controller.Client client)
         {
-            VerificationPartition verificationPartition = new VerificationPartition(); //Controller.CreateVerificationPartition();
+            VerificationPartition verificationPartition = Controller.CreateVerificationPartition(client);
             // Send partition to client
             string json = JsonConvert.SerializeObject(verificationPartition, settings);
             Handler.Send(Encoding.UTF8.GetBytes(json));
