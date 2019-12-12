@@ -261,7 +261,7 @@ namespace Networking
             Sender.Send(Encoding.UTF8.GetBytes(CommunicationFlag.VerificationUpload.ToString()));
 
             // Receive confirmation to upload
-            byte[] bytes = new byte[HandlerSize]; 
+            byte[] bytes = new byte[HandlerSize]; // Fits longest CommunicationHandler with some change
             int bytesRec = Sender.Receive(bytes);
             string serverFlag = Encoding.UTF8.GetString(bytes, 0, bytesRec);
             if (serverFlag == CommunicationHandler.Accept.ToString())
@@ -272,19 +272,19 @@ namespace Networking
             {
                 return CommunicationHandler.Error;
             }
-
+            bytes = new byte[FlagMessageSize];
             // Receive signal to dispose data and close socket
             bytesRec = Sender.Receive(bytes);
-            serverFlag += Encoding.UTF8.GetString(bytes, 0, bytesRec);
+            serverFlag = Encoding.UTF8.GetString(bytes, 0, bytesRec);
             if (serverFlag == CommunicationFlag.ConversationCompleted.ToString())
             {
                 ClientShutdown();
             }
             else
             {
+                ClientShutdown();
                 return CommunicationHandler.Error;
             }
-
             return CommunicationHandler.Success;
         }
 
@@ -301,9 +301,9 @@ namespace Networking
                 return Tuple.Create(emptyPartition, handler);
             }
             // Send signal to get partition
-            Sender.Send(Encoding.UTF8.GetBytes(CommunicationFlag.PartitionRequest.ToString()));
+            Sender.Send(Encoding.UTF8.GetBytes(CommunicationFlag.VerificationRequest.ToString()));
 
-            byte[] handlerBytes = new byte[MessageSize]; // TODO: Make size fit
+            byte[] handlerBytes = new byte[MessageSize];
             int handlerBytesRec = Sender.Receive(handlerBytes);
             string serverResponse = Encoding.UTF8.GetString(handlerBytes, 0, handlerBytesRec);
 
@@ -318,7 +318,7 @@ namespace Networking
             Sender.Send(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(client, Settings)));
 
             // Incoming data from server
-            byte[] bytes = new byte[MessageSize]; // TODO: Make size fit
+            byte[] bytes = new byte[MessageSize];
             int bytesRec = Sender.Receive(bytes);
             string data = Encoding.UTF8.GetString(bytes, 0, bytesRec);
             if (data == CommunicationHandler.Error.ToString())
@@ -329,10 +329,8 @@ namespace Networking
                 VerificationPartition emptyPartition = null;
                 return Tuple.Create(emptyPartition, handler);
             }
-            else
-            {
-                handler = CommunicationHandler.Success;
-            }
+            else handler = CommunicationHandler.Success;
+
             VerificationPartition partition = DeserializeDataAsVerificationPartition(bytes, bytesRec);
 
             // Respons to server to close connection
