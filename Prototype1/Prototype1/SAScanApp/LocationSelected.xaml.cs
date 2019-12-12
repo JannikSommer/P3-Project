@@ -74,29 +74,7 @@ namespace SAScanApp {
             return false;
         }
 
-        public  async void scanEditorChanged(object sender, TextChangedEventArgs e)
-        {
-            
-
-            while((string) e.NewTextValue != "\n" ){
-                barcode += (string) e.NewTextValue;
-            }
-
-            BarcodeVerifier bcr = new BarcodeVerifier();
-            if (bcr.VerifyBarcode(_partition, barcode)== true)
-            {
-                IncrementValue();
-                ScanEditorFocus();
-                
-                
-            }
-
-            else
-            {
-                await DisplayAlert("Error", "Incorrect barcode - please scan again!!", "Rescan");
-                ScanEditorFocus();
-            }
-        }
+        
 
         public void DecrementValue()
         {
