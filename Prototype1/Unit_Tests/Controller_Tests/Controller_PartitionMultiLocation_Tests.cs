@@ -14,6 +14,7 @@ namespace Unit_Tests.Controller_Tests
         {
             // Arrange
             Controller TestController = new Controller();
+            TestController.Location_Comparer = new LocationComparer(19);
             TestController.MaxSizeForPartitions = 5;
 
             Item TestItem1 = new Item("001", "T-shirt", "White", "Large");
@@ -95,6 +96,7 @@ namespace Unit_Tests.Controller_Tests
         {
             // Arrange
             Controller TestController = new Controller();
+            TestController.Location_Comparer = new LocationComparer(19);
             TestController.MaxSizeForPartitions = 5;
 
             Item TestItem1 = new Item("001", "T-shirt", "White", "Large");
@@ -175,6 +177,7 @@ namespace Unit_Tests.Controller_Tests
         {
             // Arrange
             Controller TestController = new Controller();
+            TestController.Location_Comparer = new LocationComparer(19);
             TestController.MaxSizeForPartitions = 5;
 
             Item TestItem1 = new Item("001", "T-shirt", "White", "Large");
@@ -283,6 +286,7 @@ namespace Unit_Tests.Controller_Tests
         {
             // Arrange
             Controller TestController = new Controller();
+            TestController.Location_Comparer = new LocationComparer(19);
             TestController.MaxSizeForPartitions = 8;
 
             Item TestItem1 = new Item("001", "T-shirt", "White", "Large");
@@ -348,6 +352,7 @@ namespace Unit_Tests.Controller_Tests
         {
             // Arrange
             Controller TestController = new Controller();
+            TestController.Location_Comparer = new LocationComparer(19);
             TestController.MaxSizeForPartitions = 12;
 
             Item TestItem1 = new Item("001", "T-shirt", "White", "Large");
@@ -417,6 +422,7 @@ namespace Unit_Tests.Controller_Tests
         {
             // Arrange
             Controller TestController = new Controller();
+            TestController.Location_Comparer = new LocationComparer(19);
             TestController.MaxSizeForPartitions = 5;
 
             Item TestItem1 = new Item("001", "T-shirt", "White", "Large");
@@ -576,6 +582,7 @@ namespace Unit_Tests.Controller_Tests
         {
             // Arrange
             Controller TestController = new Controller();
+            TestController.Location_Comparer = new LocationComparer(19);
             TestController.MaxSizeForPartitions = 5;
 
             Item TestItem1 = new Item("001", "T-shirt", "White", "Large");

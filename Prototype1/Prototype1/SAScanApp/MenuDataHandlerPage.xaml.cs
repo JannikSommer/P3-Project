@@ -26,13 +26,13 @@ namespace SAScanApp {
         {
             _mStartPage = mStartPage;
         }
-            private async void UploadPartition(object sender, EventArgs e) {
+            private void UploadPartition(object sender, EventArgs e) {
 
             if (IsPartitionDownloaded != true)
             {
                 Client client = new Client();
                 Partition partition = new Model.Partition();
-                CommunicationHandler handler = await client.UploadPartitionAsync(partition);
+                CommunicationHandler handler = client.UploadPartition(partition);
                 if( handler == CommunicationHandler.Success)
                 {
                     IsPartitionDownloaded = false;
@@ -40,7 +40,7 @@ namespace SAScanApp {
 
                 else
                 {
-                    await DisplayAlert("Error", "You have no active partition", "Okay");
+                    DisplayAlert("Error", "You have no active partition", "Okay");
                 }
             }
 
@@ -50,18 +50,18 @@ namespace SAScanApp {
             // Ligeledes er ens partition ikke done, (mangler en location/item som slet ikke er scannet) så kan den ikke uploades (måske med overrule funktion??)
         }
 
-        private async void DownloadPartition(object sender, EventArgs e) 
+        private void DownloadPartition(object sender, EventArgs e) 
         {
             Client networkingClient = new Client();
             Central_Controller.Client DeviceClient = new Central_Controller.Client("Anders");
-            (Partition partition,  CommunicationHandler handler) = await networkingClient.DownloadPartitionAsync(DeviceClient);
+            (Partition partition,  CommunicationHandler handler) = networkingClient.DownloadPartition(DeviceClient);
 
             if (handler != CommunicationHandler.Success) {
-                await DisplayAlert("Error", "An error occured", "Fix your shit!");
+                DisplayAlert("Error", "An error occured", "Fix your shit!");
             } else {
 
                 IsPartitionDownloaded = true;
-                await Navigation.PushAsync(new ScanPage(partition));
+                Navigation.PushAsync(new ScanPage(partition));
             }
 
 

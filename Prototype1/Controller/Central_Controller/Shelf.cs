@@ -13,7 +13,6 @@ namespace Central_Controller
         {
             public int ShelfIndex;
             public List<Partition> Partitions { get; private set; } = new List<Partition>();
-            // public Client BeingCountedByUser = null; //needed for first implimentation of send next partition
             private List<ClientInfo> Clients = new List<ClientInfo>();
             public int NumberOfClients { get { return Clients.Count; } }
 
@@ -40,7 +39,7 @@ namespace Central_Controller
                         {
                             PositionExistsInPartitions = true;
                             partition.AddLocation(location);
-                            partition.Locations.Sort();
+                            partition.Locations.Sort((x,y) => x.Row.CompareTo(y.Row));
                             break;
                         }
                     }
@@ -60,6 +59,12 @@ namespace Central_Controller
             public bool HasClient(Client client)
             {
                 return Clients.Exists(x => x.Client.ID == client.ID);
+            }
+
+            public void RemoveClient(Client client)
+            {
+                int ClientIndex = Clients.FindIndex(x => x.Client.ID == client.ID);
+                Clients.RemoveAt(ClientIndex);
             }
 
             public void AddClient(Client client)
@@ -321,6 +326,36 @@ namespace Central_Controller
                 }
 
                 return partition;
+            }
+
+            public void AddPartition(Partition partition)
+            {
+                int index = Partitions.Count / 2;
+                int increment = index / 2;
+
+                while(!(Partitions[index].Span.Position > partition.Span.Position && Partitions[index - 1].Span.Position < partition.Span.Position))
+                {
+                    if(partition.Span.Shelf > Partitions[index].Span.Shelf)
+                    {
+                        index += increment;
+                        increment /= 2;
+                    }
+                    else
+                    {
+                        index -= increment;
+                        increment /= 2;
+                    }
+                }
+
+                Partitions.Insert(index, partition);
+
+                foreach(ClientInfo client in Clients)
+                {
+                    if (client.PartitionIndex >= index)
+                    {
+                        client.PartitionIndex++;
+                    }
+                }
             }
 
             private class ClientInfo : IComparable

@@ -14,6 +14,7 @@ namespace Unit_Tests.Controller_Tests
         {
             // Arrange
             Controller TestController = new Controller();
+            TestController.Location_Comparer = new LocationComparer(19);
 
             Item TestItem1 = new Item("001", "T-shirt", "White", "Large");
             List<string> TestItem1_Locations = new List<string> { "001A01" };
@@ -71,6 +72,7 @@ namespace Unit_Tests.Controller_Tests
         {
             // Arrange
             Controller TestController = new Controller();
+            TestController.Location_Comparer = new LocationComparer(19);
 
             Item TestItem1 = new Item("001", "T-shirt", "White", "Large");
             List<string> TestItem1_Locations = new List<string> { "001A01" };
@@ -132,6 +134,7 @@ namespace Unit_Tests.Controller_Tests
         {
             // Arrange
             Controller TestController = new Controller();
+            TestController.Location_Comparer = new LocationComparer(19);
 
             Item TestItem1 = new Item("001", "T-shirt", "White", "Large");
             List<string> TestItem1_Locations = new List<string> { "001A01" };
@@ -204,6 +207,7 @@ namespace Unit_Tests.Controller_Tests
         {
             // Arrange
             Controller TestController = new Controller();
+            TestController.Location_Comparer = new LocationComparer(19);
 
             Item TestItem1 = new Item("001", "T-shirt", "White", "Large");
             List<string> TestItem1_Locations = new List<string> { "001A01" };
@@ -258,7 +262,7 @@ namespace Unit_Tests.Controller_Tests
             Partition DumpPartition = TestController.NextPartition(TestClient1);
             DumpPartition = TestController.NextPartition(TestClient2);
 
-            TestController.RemoveInactiveClient(0);
+            TestController.RemoveClient(0);
 
             Partition ActualPartition = TestController.NextPartition(TestClient3); //expected test item 1
 
@@ -278,6 +282,7 @@ namespace Unit_Tests.Controller_Tests
         {
             // Arrange
             Controller TestController = new Controller();
+            TestController.Location_Comparer = new LocationComparer(19);
 
             Item TestItem1 = new Item("001", "T-shirt", "White", "Large");
             List<string> TestItem1_Locations = new List<string> { "001A01" };
@@ -332,7 +337,7 @@ namespace Unit_Tests.Controller_Tests
             Partition DumpPartition = TestController.NextPartition(TestClient1);
             DumpPartition = TestController.NextPartition(TestClient2);
 
-            TestController.RemoveInactiveClient(1);
+            TestController.RemoveClient(1);
 
             Partition ActualPartition = TestController.NextPartition(TestClient3); //expected test item 7
 
@@ -351,6 +356,7 @@ namespace Unit_Tests.Controller_Tests
         {
             // Arrange
             Controller TestController = new Controller();
+            TestController.Location_Comparer = new LocationComparer(19);
 
             Item TestItem1 = new Item("001", "T-shirt", "White", "Large");
             List<string> TestItem1_Locations = new List<string> { "001A01" };
@@ -420,6 +426,7 @@ namespace Unit_Tests.Controller_Tests
         {
             // Arrange
             Controller TestController = new Controller();
+            TestController.Location_Comparer = new LocationComparer(19);
 
             Item TestItem1 = new Item("001", "T-shirt", "White", "Large");
             List<string> TestItem1_Locations = new List<string> { "001A01" };
@@ -492,6 +499,7 @@ namespace Unit_Tests.Controller_Tests
         {
             // Arrange
             Controller TestController = new Controller();
+            TestController.Location_Comparer = new LocationComparer(19);
 
             Item TestItem1 = new Item("001", "T-shirt", "White", "Large");
             List<string> TestItem1_Locations = new List<string> { "001A01" };
@@ -561,6 +569,7 @@ namespace Unit_Tests.Controller_Tests
         {
             // Arrange
             Controller TestController = new Controller();
+            TestController.Location_Comparer = new LocationComparer(19);
 
             Item TestItem1 = new Item("001", "T-shirt", "White", "Large");
             List<string> TestItem1_Locations = new List<string> { "001A01" };
