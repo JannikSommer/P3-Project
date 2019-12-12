@@ -35,7 +35,7 @@ namespace Model
                 throw new Exception("Shelf " + a.Shelf + " doesn't currently exist in the shelf hierachy");
             }
 
-            if (ShelfHierarchy[b.Shelf] > HighestValueShelf || ShelfHierarchy[b.Shelf] < 0)
+            if (b.Shelf > HighestValueShelf || ShelfHierarchy[b.Shelf] < 0)
             {
                 throw new Exception("Shelf " + b.Shelf + " doesn't currently exist in the shelf hierachy");
             }
@@ -91,12 +91,11 @@ namespace Model
             else
                 throw new Exception("Can't increase priority further");
 
-            for(int x = 0; x < HighestValueShelf; x++)
+            for(int x = 0; x <= HighestValueShelf; x++)
             {
                 if (ShelfHierarchy[x] == temp)
                 {
-                    if (x == PositionOfElement) { }
-                    else
+                    if (x != PositionOfElement)
                     {
                         ShelfHierarchy[x]--;
                         break;
@@ -114,12 +113,11 @@ namespace Model
             else
                 throw new Exception("Can't decrease priority further");
 
-            for (int x = 0; x < HighestValueShelf; x++)
+            for (int x = 0; x <= HighestValueShelf; x++)
             {
                 if (ShelfHierarchy[x] == temp)
                 {
-                    if (x == PositionOfElement) { }
-                    else
+                    if (x != PositionOfElement)
                     {
                         ShelfHierarchy[x]++;
                         break;
