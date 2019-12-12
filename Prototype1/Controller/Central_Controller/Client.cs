@@ -10,7 +10,7 @@ namespace Central_Controller
     public class Client : IComparable
     {
         public string ID { get; }
-        private Partition _CurrentPartition;
+        private Partition _currentPartition;
         private VerificationPartition _CurrentVerificationPartition;
         private DateTime LastActivity;
 
