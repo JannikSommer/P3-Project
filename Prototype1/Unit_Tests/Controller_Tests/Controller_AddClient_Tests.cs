@@ -258,7 +258,7 @@ namespace Unit_Tests.Controller_Tests
             Partition DumpPartition = TestController.NextPartition(TestClient1);
             DumpPartition = TestController.NextPartition(TestClient2);
 
-            TestController.RemoveInactiveClient(0);
+            TestController.RemoveClient(0);
 
             Partition ActualPartition = TestController.NextPartition(TestClient3); //expected test item 1
 
@@ -332,7 +332,7 @@ namespace Unit_Tests.Controller_Tests
             Partition DumpPartition = TestController.NextPartition(TestClient1);
             DumpPartition = TestController.NextPartition(TestClient2);
 
-            TestController.RemoveInactiveClient(1);
+            TestController.RemoveClient(1);
 
             Partition ActualPartition = TestController.NextPartition(TestClient3); //expected test item 7
 

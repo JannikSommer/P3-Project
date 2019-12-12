@@ -10,7 +10,7 @@ namespace Model
     public class Item : INotifyPropertyChanged
     {
         public int ServerQuantity { get; set; }
-        private int _countedQuantity = -1;
+        private int _countedQuantity = 0;
         public int CountedQuantity {
             get { return _countedQuantity; }
             set { _countedQuantity = value;
@@ -19,6 +19,9 @@ namespace Model
         }
         public int QuantityVariance {
             get { return Math.Abs(ServerQuantity - CountedQuantity); }
+        }
+        public bool AllLocationsVisited {
+            get { return !(Locations.Exists(x => x.Visited == false)); }
         }
         public bool HasMultiLocation { get; set; }
         public bool IsUPCBarcode { get; set; }
@@ -41,7 +44,6 @@ namespace Model
         {
             ID = id;
             Locations = new List<Location>();
-            _countedQuantity = 0;
         }
 
         public Item(string id, string name, string color, string size)

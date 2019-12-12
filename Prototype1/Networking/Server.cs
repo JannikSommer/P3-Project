@@ -20,7 +20,7 @@ namespace Networking
         {
             PreserveReferencesHandling = PreserveReferencesHandling.Objects,
             ReferenceLoopHandling = ReferenceLoopHandling.Ignore
-            
+
         };
         public Server(Controller controller)
         {
@@ -30,29 +30,29 @@ namespace Networking
 
         public void StartServer()
         {
-            // Get Host IP Address that is used to establish a connection  
+            // Get Host IP Address that is used to establish a connection
             // In this case, we get one IP address of localhost that is IP : 127.0.0.1
-            // If a host has multiple addresses, you will get a list of addresses  
+            // If a host has multiple addresses, you will get a list of addresses
             // Get IP-Address from cmd -> ipconfig IPv4 address from Ethernet adapter.
             IPAddress ipAddress = IPAddress.Parse(ip);
             IPEndPoint localEndPoint = new IPEndPoint(ipAddress, 6969);
-            
-            // Create a Socket that will use Tcp protocol      
+
+            // Create a Socket that will use Tcp protocol
             Socket Listener = new Socket(ipAddress.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
-            // A Socket must be associated with an endpoint using the Bind method  
+            // A Socket must be associated with an endpoint using the Bind method
             Listener.Bind(localEndPoint);
 
             // Specify how many requests a Socket can listen before it gives Server busy response
-            Listener.Listen(15); // Specified wish from StreetAmmo. A total number of 15 people can be 
+            Listener.Listen(15); // Specified wish from StreetAmmo. A total number of 15 people can be
 
             while (true)
             {
             Handler = Listener.Accept();
             HandleConnection();
-            }           
+            }
         }
 
-        private void HandleConnection() // Handles the connection of the socket. 
+        private void HandleConnection() // Handles the connection of the socket.
         {
             // Incoming data from the client
             byte[] bytes = new byte[FlagMessageSize];
@@ -66,14 +66,14 @@ namespace Networking
 
                 byte[] clinetBytes = new byte[1024]; //Size of a CentralController.Client
                 bytesRec = Handler.Receive(clinetBytes);
-                string Client = Encoding.UTF8.GetString(clinetBytes, 0, bytesRec); 
+                string Client = Encoding.UTF8.GetString(clinetBytes, 0, bytesRec);
                 Central_Controller.Client client = JsonConvert.DeserializeObject<Central_Controller.Client>(Client, settings);
 
                 SendPartition(client);
 
             }
-            else if (data == CommunicationFlag.PartitionUpload.ToString()) 
-            { 
+            else if (data == CommunicationFlag.PartitionUpload.ToString())
+            {
                 AcceptPartitionUpload();
             }
             else if (data == CommunicationFlag.VerificationRequest.ToString())
@@ -84,6 +84,19 @@ namespace Networking
                 Central_Controller.Client client = JsonConvert.DeserializeObject<Central_Controller.Client>(Client, settings);
 
                 SendVerificationPartition(client);
+                // HERE!!! HERE!!! HERE!!! HERE!!!
+                // HERE!!! HERE!!! HERE!!! HERE!!!
+
+                // HERE!!! HERE!!! HERE!!! HERE!!!
+                // HERE!!! HERE!!! HERE!!! HERE!!!
+
+                // HERE!!! HERE!!! HERE!!! HERE!!!
+                // HERE!!! HERE!!! HERE!!! HERE!!!
+
+                //CreateVerificationPartitions now need to know which client is requesting it
+
+                //VerificationPartition verificationPartition = Controller.CreateVerificationPartition();
+                //SendVerificationPartition(verificationPartition);
             }
             else if (data == CommunicationFlag.VerificationUpload.ToString())
             {
@@ -166,11 +179,11 @@ namespace Networking
 
             // Signal OK to client and shutdown socket
             Handler.Send(Encoding.UTF8.GetBytes(CommunicationFlag.ConversationCompleted.ToString()));
-        }    
+        }
 
         public void ShutdownServer()
         {
-            Handler.Shutdown(SocketShutdown.Both); 
+            Handler.Shutdown(SocketShutdown.Both);
             Handler.Close();
         }
     }
