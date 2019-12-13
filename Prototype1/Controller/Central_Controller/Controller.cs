@@ -395,11 +395,11 @@ namespace Central_Controller
                 {
                     foreach (Item item in location.Items)
                     {
-                        if (!(ItemIDsSeen.Exists(x => x == item.ID)))
+                        if (item.HasMultiLocation && !(ItemIDsSeen.Exists(x => x == item.ID))) //checks if the items hasn't already been seen in a differen't location
                         {
                             ItemIDsSeen.Add(item.ID);
 
-                            if (item.AllLocationsVisited && IsEverythingTrue(WhichItemLocationsVisitedInPartition(item, partition)))
+                            if (item.AllLocationsVisited && IsEverythingTrue(WhichItemLocationsVisitedInPartition(item, partition))) //checks if all locations has been visited, in partition
                             {
                                 if (item.ServerQuantity == item.CountedQuantity)
                                 {
@@ -410,12 +410,12 @@ namespace Central_Controller
                                     ItemsForVerification.Add(item);
                                 }
                             }
-                            else
+                            else //if all locations wasn't visited
                             {
                                 bool[] LocationsVisitedInPartition = WhichItemLocationsVisitedInPartition(item, partition);
                                 int PartiallyCountedItemIndex = PartiallyCountedItems.FindIndex(x => x.Item1.ID == item.ID);
 
-                                if (PartiallyCountedItemIndex >= 0)
+                                if (PartiallyCountedItemIndex >= 0) //If item already exsisted in Partially counted items
                                 {
                                     LocationsVisitedInPartition = CombineBoolArray(LocationsVisitedInPartition, PartiallyCountedItems[PartiallyCountedItemIndex].Item2);
                                     item.CountedQuantity += PartiallyCountedItems[PartiallyCountedItemIndex].Item1.CountedQuantity;
@@ -437,7 +437,7 @@ namespace Central_Controller
                                         PartiallyCountedItems.Add(new Tuple<Item, bool[]>(item, LocationsVisitedInPartition));
                                     }
                                 }
-                                else
+                                else //if item didn't exist in partially counted items
                                 {
                                     PartiallyCountedItems.Add(new Tuple<Item, bool[]>(item, LocationsVisitedInPartition));
                                 }
@@ -445,13 +445,13 @@ namespace Central_Controller
                         }
                     }
                 }
-                else
+                else //if the location being tested wasn't visited
                 {
                     UncountedLocations.Add(location);
                 }
             }
 
-            if (UncountedLocations.Count != 0)
+            if (UncountedLocations.Count != 0) // if there was any locations that wasn't visited
             {
                 bool AllLocationsVisited = true;
 
@@ -493,6 +493,7 @@ namespace Central_Controller
                         for (int y = 0; y < MultiLocationPartitions[x].Count; y++)
                         {
                             if (MultiLocationPartitions[x][y].Locations.Count + UncountedLocations.Count <= MaxSizeForPartitions && PathsIsCombinable(UncountedLocations, MultiLocationPartitions[x][y].Locations))
+                                //Checks if the partiton and uncounted locations can be combined
                             {
                                 foreach (Location location in UncountedLocations)
                                 {
@@ -503,7 +504,7 @@ namespace Central_Controller
 
                                 LocationsAddedToPartition = true;
 
-                                if (!AllLocationsVisited)
+                                if (!AllLocationsVisited) // if all locations wasn't visited the partition the locations was added to is moved to priority partitions
                                 {
                                     PriorityPartitions.Add(MultiLocationPartitions[x][y]);
 
@@ -515,13 +516,13 @@ namespace Central_Controller
                         }
                     }
 
-                    if (LocationsAddedToPartition)
+                    if (LocationsAddedToPartition) // breaks the loop if uncounted locations was added to a partition
                     {
                         break;
                     }
                 }
 
-                if (!LocationsAddedToPartition)
+                if (!LocationsAddedToPartition) //if UncountedLocations coundn't be added to an existing partitions, a new is created
                 {
                     if (UncountedLocations.Exists(x => x.HasMultilocationItem))
                     {
@@ -537,7 +538,7 @@ namespace Central_Controller
                         NewPartition.AddLocation(location);
                     }
 
-                    FillAllPaths(new List<List<List<Location>>> { new List<List<Location>> { NewPartition.Locations } });
+                    FillAllPaths(new List<List<List<Location>>> { new List<List<Location>> { NewPartition.Locations } }); //adds single locations to the new partition, if able.
 
                     if (!AllLocationsVisited)
                     {
