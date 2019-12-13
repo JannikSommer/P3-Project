@@ -79,8 +79,6 @@ namespace SQL_DB_test_Frame
         {
             if (location == " ")
             {
-                Console.WriteLine("FUCKUP1:" + location + "|");
-                Console.ReadKey();
                 return "999Z99";
             }
             if (location == "")
@@ -89,7 +87,6 @@ namespace SQL_DB_test_Frame
             }
             if (location == null)
             {
-                Console.ReadKey();
                 return "999Z99";
             }
             if (location.Length == 6)
