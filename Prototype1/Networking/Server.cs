@@ -12,7 +12,7 @@ namespace Networking
     public class Server
     {
         private Socket Handler;
-        private string ip = "192.168.1.4";
+        private string ip = "192.168.1.81";
         private Controller Controller { get; set; }
         private readonly int FlagMessageSize = 25;
         private readonly long MessageSize = 536870912; // 512 MB

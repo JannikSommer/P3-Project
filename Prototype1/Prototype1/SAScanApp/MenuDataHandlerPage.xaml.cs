@@ -15,7 +15,7 @@ namespace SAScanApp {
         private MainPage _mPage { get; set; }
         private MenuStartPage _mStartPage { get; set; }
 
-        private bool IsPartitionDownloaded { get; set; } = false;
+        public bool IsPartitionDownloaded { get; set; } = false;
 
         public MenuDataHandlerPage()
         {
