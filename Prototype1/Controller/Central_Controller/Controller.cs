@@ -538,8 +538,9 @@ namespace Central_Controller
                         NewPartition.AddLocation(location);
                     }
 
-                    FillAllPaths(new List<List<List<Location>>> { new List<List<Location>> { NewPartition.Locations } }); //adds single locations to the new partition, if able.
+                    FillAllPaths(new List<List<List<Location>>> { new List<List<Location>> { NewPartition.Locations } }); //adds single locations to the new partition, if contained within the same shelves already in the new partition.
 
+                    //Adds the new partition to the appopriate place
                     if (!AllLocationsVisited)
                     {
                         PriorityPartitions.Add(NewPartition);
@@ -952,6 +953,11 @@ namespace Central_Controller
             int ShortestSingleLocDistance;
             int IndexOfMultiLoc;
             int IndexOfSingleLoc;
+
+            if (!client.IsAdmin)
+            {
+                throw new Exception("Client requesting a verification partition isn't an admin");
+            }
 
             if (MultiLocationItemsForVerification.Count != 0)
             {
