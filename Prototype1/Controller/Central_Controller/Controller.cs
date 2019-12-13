@@ -359,13 +359,14 @@ namespace Central_Controller
                 {
                     ItemsForVerification.Add(item);
                 }
-                if(item.CountedQuantity == item.ServerQuantity)
+                else if(item.CountedQuantity == item.ServerQuantity)
                 {
                     NumOfItemsVerified++;
                 }
                 else
                 {
                     VerifiedItems.Add(item);
+                    NumOfItemsVerified++;
                 }
             }
         }
