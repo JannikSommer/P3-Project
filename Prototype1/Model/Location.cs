@@ -9,7 +9,6 @@ namespace Model
     public class Location
     {
         public string ID { get; set; }
-        public bool IsEmpty { get; set; }
         public bool Visited { get; set; } = false;
         public int Shelf { get; set; }
         public char Row { get; set; }
@@ -22,7 +21,6 @@ namespace Model
         public Location(string _ID)
         {
             ID = _ID;
-            IsEmpty = true;
             Items = new List<Item>();
 
             if (_ID.Length == 6)
@@ -57,10 +55,6 @@ namespace Model
                     AddItem(item);
                 }
             }
-            else
-            {
-                IsEmpty = true;
-            }
         }
 
         private void ConvertID(string ID)
@@ -80,7 +74,6 @@ namespace Model
             if (!HasItem(_Item))
             {
                 Items.Add(_Item);
-                IsEmpty = false;
 
                 if (!_Item.HasLocation(this))
                 {
