@@ -615,6 +615,7 @@ namespace Central_Controller
             AvailebleShelfs.Sort();
         }
 
+        /*
         public void OldCheckPartition(Partition partition)
         //Checks an entire partitions. Going through all items to see if they've been counted, either adds items to normal rotation, verification items, partially counted item or removes it and considers it verified
         {
@@ -774,6 +775,7 @@ namespace Central_Controller
                 }
             }
         }
+        */
 
         private bool IsEverythingTrue(bool[] BoolArray)
         {
@@ -807,7 +809,8 @@ namespace Central_Controller
             return BoolArrayA;
         }
 
-        public void CheckCountedItem(Item item)
+        public void CheckCountedItem(Item item) //Only used in testing
+
         //Checks a fully counted item, if it's counted and the same as expected then the item is verified, else if it didn't match its added to verification items
         //Lastly if the item was returned but not counted its added into the normal rotation
         {
