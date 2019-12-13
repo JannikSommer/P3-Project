@@ -36,7 +36,7 @@ namespace SAScanApp
                     {
                         if (partition.Locations[i].Items[j].ID == barc)
                         {
-                            partition.Locations[i].Items[j].CountedQuantity++;
+                            //partition.Locations[i].Items[j].CountedQuantity++;
                             return true;
                         }
                     }

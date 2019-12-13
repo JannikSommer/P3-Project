@@ -125,5 +125,54 @@ namespace Unit_Tests
             Assert.AreEqual(ExpectedLoc6, ActualSortedLocations[5].ID);
             Assert.AreEqual(ExpectedLoc7, ActualSortedLocations[6].ID);
         }
+
+        [TestMethod]
+        public void LocationComparer_test4_ChangePriority()
+        {
+            // Arrange
+            Location TestLocation1 = new Location("000A00");
+            Location TestLocation2 = new Location("001A00");
+            Location TestLocation3 = new Location("002A00");
+
+            List<Location> TestLocationList = new List<Location> { TestLocation2, TestLocation1, TestLocation3 };
+            LocationComparer TestLocationComparer = new LocationComparer(2);
+
+            //Expected
+            List<string> Expected_List1 = new List<string> { "000A00", "001A00", "002A00" };
+            List<string> Expected_List2 = new List<string> { "001A00", "000A00", "002A00" };
+            List<string> Expected_List3 = new List<string> { "000A00", "002A00", "001A00" };
+
+            // Act part 1
+            TestLocationList.Sort(TestLocationComparer);
+            List<Location> Actual_LocationList = TestLocationList;
+
+            // Assert part 1
+            Assert.AreEqual(Expected_List1[0], Actual_LocationList[0].ID);
+            Assert.AreEqual(Expected_List1[1], Actual_LocationList[1].ID);
+            Assert.AreEqual(Expected_List1[2], Actual_LocationList[2].ID);
+
+            // Act part 2
+            TestLocationComparer.DecreasePriority(1);
+
+            TestLocationList.Sort(TestLocationComparer);
+            Actual_LocationList = TestLocationList;
+
+            // Assert part 2
+            Assert.AreEqual(Expected_List2[0], Actual_LocationList[0].ID);
+            Assert.AreEqual(Expected_List2[1], Actual_LocationList[1].ID);
+            Assert.AreEqual(Expected_List2[2], Actual_LocationList[2].ID);
+
+            // Act part 3
+            TestLocationComparer.IncreasePriority(1);
+            TestLocationComparer.IncreasePriority(1);
+
+            TestLocationList.Sort(TestLocationComparer);
+            Actual_LocationList = TestLocationList;
+
+            // Assert part 3
+            Assert.AreEqual(Expected_List3[0], Actual_LocationList[0].ID);
+            Assert.AreEqual(Expected_List3[1], Actual_LocationList[1].ID);
+            Assert.AreEqual(Expected_List3[2], Actual_LocationList[2].ID);
+        }
     }
 }

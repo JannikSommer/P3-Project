@@ -84,7 +84,7 @@
                         <ColumnDefinition Width="20*"/>
                     </Grid.ColumnDefinitions>
 
-                    <Editor x:Name="ScanEditor" Text="{Binding _scanText}" TextColor="Blue" FontSize="Micro" TextChanged="scanEditorChanged"/>
+                    <Editor x:Name="ScanEditor" Text="{Binding _scanText}" TextColor="Blue" FontSize="Micro" TextChanged="ScanEditor_TextChanged" />
 
                     <Button x:Name="dec_item_count"
                             Text="&lt;"

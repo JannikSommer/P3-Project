@@ -64,38 +64,13 @@ namespace SAScanApp {
         }
         public bool ScanEditorFocus()
         {
-
-            if (!ScanEditor.IsFocused)
+            if(!ScanEditor.IsFocused)
             {
                 ScanEditor.Focus();
                 return true;
             }
 
-            return false;
-        }
-
-        public  async void scanEditorChanged(object sender, TextChangedEventArgs e)
-        {
-            
-
-            while((string) e.NewTextValue != "\n" ){
-                barcode += (string) e.NewTextValue;
-            }
-
-            BarcodeVerifier bcr = new BarcodeVerifier();
-            if (bcr.VerifyBarcode(_partition, barcode)== true)
-            {
-                IncrementValue();
-                ScanEditorFocus();
-                
-                
-            }
-
-            else
-            {
-                DisplayAlert("Error", "Incorrect barcode - please scan again!!", "Rescan");
-                ScanEditorFocus();
-            }
+            return true;
         }
 
         public void DecrementValue()
@@ -210,5 +185,29 @@ namespace SAScanApp {
                 item.CountedQuantity = Value;
             }
         }
+
+        private void ScanEditor_Completed(object sender, EventArgs e) {
+            barcode = ScanEditor.Text;
+            DependencyService.Get<IEditorCleaner>().CleanText(ScanEditor);
+            DisplayAlert("Barcode", barcode, "OK");
+            ScanEditorFocus();
+        }
+
+        private void ScanEditor_TextChanged(object sender, TextChangedEventArgs e) {
+            if(ScanEditor.Text != null && ScanEditor.Text != string.Empty && ScanEditor.Text[ScanEditor.Text.Length - 1] == '\n') {
+                string barcode = ScanEditor.Text.Substring(0, ScanEditor.Text.Length - 1);
+                DependencyService.Get<IEditorCleaner>().CleanText(ScanEditor);
+                UpdateItem(barcode);
+                ScanEditorFocus();
+            }
+        }
+
+        private void UpdateItem(string barcode) {
+            if(new BarcodeVerifier().VerifyBarcode(_partition, barcode)) {
+                IncrementValue();
+            }  
+                
+        }
+
     }
 }

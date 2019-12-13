@@ -204,12 +204,12 @@ namespace TESTPIS2
                 controller.InitialAddItem(_item, temp);
                 temp.Clear();
                 _item.Locations.Clear();
-                //if (index > 10)
-                //{
-                //    break;
-                //}
-                //index++;
-                 }
+                if (index > 10)
+                {
+                    break;
+                }
+                index++;
+            }
 
             controller.InitialPartitioningOfLocations();
 
