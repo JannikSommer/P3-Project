@@ -25,7 +25,7 @@ namespace MVC_Controller
 
         public void InitializeStatus()
         {
-            Status = new Status();
+            Status.StartStatus();
         }
         
         public void StartServer() 

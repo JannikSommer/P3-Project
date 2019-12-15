@@ -44,6 +44,7 @@ namespace WPF_PC
             if (MainController.Status.IsInitialized == true)
             {
                 initializeStatusButton.IsEnabled = false;
+                endStatusButton.IsEnabled = true;
             }
         }
 
@@ -53,8 +54,16 @@ namespace WPF_PC
             LoadIntoDataGrid();
         }
 
-        public void LoadIntoDataGrid() {
-            dataGridMain.ItemsSource = Controller.Cycle.CountedItems;
+        public void LoadIntoDataGrid() 
+        {
+            if (MainController.Status.IsInitialized == true)
+            {
+                dataGridMain.ItemsSource = MainController.Status.CountedItems;
+            }
+            else
+            {
+                dataGridMain.ItemsSource = Controller.Cycle.CountedItems;
+            }
         }
 
         public void UpdateMainWindow()
@@ -141,6 +150,20 @@ namespace WPF_PC
         private void InitializeStatusButton_Click(object sender, RoutedEventArgs e)
         {
             MainController.InitializeStatus();
+            initializeStatusButton.IsEnabled = false;
+            endStatusButton.IsEnabled = true;
+        }
+
+        private void EndStatus_Click(object sender, RoutedEventArgs e)
+        {
+            if (MessageBox.Show("This action cannot be undone. Are you sure you want to end status?", "WARNING!", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
+            {
+                // Nothing
+            }
+            else
+            {
+                MainController.Status.FinishStatus();
+            }
         }
     }
 }

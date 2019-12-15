@@ -87,7 +87,7 @@ namespace Networking
                 }
                 else if (data == CommunicationFlag.VerificationRequest.ToString())
                 {
-                    byte[] clinetBytes = new byte[1024]; //Size of a CentralController.Client
+                    byte[] clinetBytes = new byte[MessageSize]; 
                     bytesRec = Handler.Receive(clinetBytes);
                     string Client = Encoding.UTF8.GetString(clinetBytes, 0, bytesRec);
                     Central_Controller.Client device = JsonConvert.DeserializeObject<Central_Controller.Client>(Client, settings);

@@ -9,9 +9,10 @@ namespace StatusController
 {
     public class Status
     {
-        public List<Item> Items { get; set; }
-        public List<Location> Locations { get; set; }
-        public bool IsInitialized { get; set; } 
+        public List<Item> CountedItems { get; set; } = new List<Item>();
+        public List<Location> CountedLocations { get; set; }
+        public bool IsInitialized { get; set; }
+        ProductAPI ProductAPI = new ProductAPI();
 
         private readonly JsonSerializerSettings Settings = new JsonSerializerSettings
         {
@@ -23,6 +24,10 @@ namespace StatusController
 
         public Status()
         {
+            //Locations = new List<Location>();
+            //Locations.Add(new Location());
+            //Locations[0].Items = ProductAPI.GetAllItems();
+
             try
             {
                 LoadProgressFromFile();
@@ -33,7 +38,7 @@ namespace StatusController
             }
             finally
             {
-                if (Locations == null)
+                if (CountedLocations == null)
                 {
                     IsInitialized = false;
                 }
@@ -48,18 +53,24 @@ namespace StatusController
         {
             foreach (Location location in locations)
             {
-                Locations.Add(location);
+                CountedLocations.Add(location);
             }
             SaveProgressToFile(); // Saves data each time the data gets updated
         }
 
-        public void FinishStatus()
+        public void StartStatus()
         {
-            foreach (Location location in Locations)
+            CountedLocations = new List<Location>();
+            IsInitialized = true;
+        }
+
+        public void GetItemsFromCountedLocations()
+        {
+            foreach (Location location in CountedLocations)
             {
                 foreach (Item locationItem in location.Items)
                 {
-                    foreach (Item item in Items)
+                    foreach (Item item in CountedItems)
                     {
                         if (item.ID == locationItem.ID)
                         {
@@ -68,7 +79,7 @@ namespace StatusController
                         }
                         else
                         {
-                            Items.Add(locationItem);
+                            CountedItems.Add(locationItem);
                             break;
                         }
                     }
@@ -76,18 +87,37 @@ namespace StatusController
             }
         }
 
+        public void FinishStatus()
+        {
+            GetItemsFromCountedLocations();
+            IsInitialized = false;
+            var path = Environment.CurrentDirectory + @"\SaveData\CompletedStatus---" + DateTime.Now.ToString("M-d-yyyy") + ".txt";
+            string json = JsonConvert.SerializeObject(CountedLocations, Settings);
+            System.IO.File.WriteAllText(path, json);
+            DeleteStatusProgress();
+            // ProductAPI.UpdateItemsThroughAPI(Items); Currently not eligble for updating through Streetammo.dk/api
+        }
+
+        private void DeleteStatusProgress() // Used to erase the status progress file when the status is completed. 
+        {
+            var path = Environment.CurrentDirectory + @"\SaveData\StatusData.txt";
+            File.Delete(path);
+        }
+
         public void SaveProgressToFile()
         {
-            string json = JsonConvert.SerializeObject(Locations, Settings);
-            var path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "//StatusData.txt";
+            string json = JsonConvert.SerializeObject(CountedLocations, Settings);
+            var path = Environment.CurrentDirectory + @"\SaveData\StatusData.txt";
+            // var path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "//StatusData.txt";
             System.IO.File.WriteAllText(path, json);
         }
 
         public void LoadProgressFromFile()
         {
-            var path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "//StatusData.txt";
+            var path = Environment.CurrentDirectory + @"\SaveData\StatusData.txt";
+            // var path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "//StatusData.txt";
             string json = File.ReadAllText(path);
-            Locations = JsonConvert.DeserializeObject<List<Location>>(json, Settings);
+            CountedLocations = JsonConvert.DeserializeObject<List<Location>>(json, Settings);
         }
     }
 }
