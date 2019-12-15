@@ -32,7 +32,6 @@ namespace Model
         public string ImageUrl { get; set; }
         public string CheckSum { get; set; }
         public List<Location> Locations { get; set; }
-
         public string Barcode { get; set; }
 
 
