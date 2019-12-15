@@ -120,10 +120,10 @@
     </ApplicationDefinition>
     <Compile Include="Converters\DateTimeConverter.cs" />
     <Compile Include="Converters\LocationToStringConverter.cs" />
-    <Compile Include="CreateCycle.xaml.cs">
-      <DependentUpon>CreateCycle.xaml</DependentUpon>
+    <Compile Include="CreateCycleWindow.xaml.cs">
+      <DependentUpon>CreateCycleWindow.xaml</DependentUpon>
     </Compile>
-    <Page Include="EditCycle.xaml">
+    <Page Include="EditCycleWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -131,7 +131,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="LogWindow.xaml">
+    <Page Include="LogWindowWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -143,20 +143,20 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="EditCycle.xaml.cs">
-      <DependentUpon>EditCycle.xaml</DependentUpon>
+    <Compile Include="EditCycleWindow.xaml.cs">
+      <DependentUpon>EditCycleWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Loading.xaml.cs">
       <DependentUpon>Loading.xaml</DependentUpon>
     </Compile>
-    <Compile Include="LogWindow.xaml.cs">
-      <DependentUpon>LogWindow.xaml</DependentUpon>
+    <Compile Include="LogWindowWindow.xaml.cs">
+      <DependentUpon>LogWindowWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="CreateCycle.xaml">
+    <Page Include="CreateCycleWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

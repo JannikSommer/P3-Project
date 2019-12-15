@@ -180,7 +180,7 @@ namespace TESTPIS2
             controller.AddClient(client);
 
             //Console.WriteLine("TestPartition Count: " + TestPartition.Locations[0].Items.Count);
-            Server server = new Server(controller);
+            // Server server = new Server(controller);
             
             
 
@@ -216,7 +216,7 @@ namespace TESTPIS2
             Console.WriteLine("Server Open");
             //Thread NetworkingThread = new Thread(new ThreadStart(server.StartServer));
             //NetworkingThread.Start();
-            server.StartServer();
+            //server.StartServer();
             Console.WriteLine("Done4!");
 
 

@@ -107,9 +107,9 @@ namespace TESTPIS2
 
             //Console.WriteLine("TestPartition Count: " + TestPartition.Locations[0].Items.Count);
             Console.WriteLine("Done3!");
-            Server server = new Server(controller);
-            Thread NetworkingThread = new Thread(new ThreadStart(server.StartServer));
-            NetworkingThread.Start();
+            // Server server = new Server(controller);
+            //Thread NetworkingThread = new Thread(new ThreadStart(server.StartServer));
+            // NetworkingThread.Start();
             // server.StartServer();
             // Console.WriteLine("Done4!");
             //server.SendPartition(testPartition2);

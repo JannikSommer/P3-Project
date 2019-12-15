@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Controller\Central_Controller.csproj" />
+    <ProjectReference Include="..\Language\Localization.csproj" />
+    <ProjectReference Include="..\Model\Model.csproj" />
+    <ProjectReference Include="..\Networking\Networking.csproj" />
+    <ProjectReference Include="..\PrestaSharpAPI\PrestaSharpAPI.csproj" />
+    <ProjectReference Include="..\SQL_DB_test_Frame\SQL_DB_test_Frame\SQL_DB_test_Frame.csproj" />
+    <ProjectReference Include="..\WPF PC\WPF PC.csproj" />
+  </ItemGroup>
+
+</Project>

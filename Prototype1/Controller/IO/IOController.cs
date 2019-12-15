@@ -25,7 +25,7 @@ namespace Central_Controller.IO {
             Setup();
         }
 
-        private readonly string _savesPath = Environment.CurrentDirectory + @"\Cycles\";
+        private readonly string _savesPath = Environment.CurrentDirectory + @"\SaveData\";
         private string _chosenCycleId;
         private string _chosenCyclePath;
         private string _logPath;

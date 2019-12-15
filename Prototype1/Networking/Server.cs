@@ -20,11 +20,10 @@ namespace Networking
         {
             PreserveReferencesHandling = PreserveReferencesHandling.Objects,
             ReferenceLoopHandling = ReferenceLoopHandling.Ignore
-
         };
-        public Server(Controller controller)
+        public Server()
         {
-            Controller = controller;
+            
         }
 
 
@@ -67,9 +66,9 @@ namespace Networking
                 byte[] clinetBytes = new byte[1024]; //Size of a CentralController.Client
                 bytesRec = Handler.Receive(clinetBytes);
                 string Client = Encoding.UTF8.GetString(clinetBytes, 0, bytesRec);
-                Central_Controller.Client client = JsonConvert.DeserializeObject<Central_Controller.Client>(Client, settings);
+                Central_Controller.Client device = JsonConvert.DeserializeObject<Central_Controller.Client>(Client, settings);
 
-                SendPartition(client);
+                SendPartition(device);
 
             }
             else if (data == CommunicationFlag.PartitionUpload.ToString())
@@ -81,9 +80,9 @@ namespace Networking
                 byte[] clinetBytes = new byte[1024]; //Size of a CentralController.Client
                 bytesRec = Handler.Receive(clinetBytes);
                 string Client = Encoding.UTF8.GetString(clinetBytes, 0, bytesRec);
-                Central_Controller.Client client = JsonConvert.DeserializeObject<Central_Controller.Client>(Client, settings);
+                Central_Controller.Client device = JsonConvert.DeserializeObject<Central_Controller.Client>(Client, settings);
 
-                SendVerificationPartition(client);
+                SendVerificationPartition(device);
             }
             else if (data == CommunicationFlag.VerificationUpload.ToString())
             {
@@ -116,7 +115,7 @@ namespace Networking
             Handler.Send(Encoding.UTF8.GetBytes(CommunicationFlag.ConversationCompleted.ToString()));
         }
 
-        public void SendPartition(Central_Controller.Client client)
+        private void SendPartition(Central_Controller.Client client)
         {
             Partition partition = Controller.NextPartition(client);
             // partition.Locations.Add(new Location("001A01")); 
@@ -143,11 +142,10 @@ namespace Networking
             Handler.Send(Encoding.UTF8.GetBytes(json));
 
             // Recieve callback
-            string data = null;
             byte[] bytes = new byte[FlagMessageSize];
             int bytesRec = Handler.Receive(bytes);
-            data += Encoding.UTF8.GetString(bytes, 0, bytesRec);
-            if (!(data == CommunicationFlag.ConversationCompleted.ToString()))
+            string data = Encoding.UTF8.GetString(bytes, 0, bytesRec);
+            if (data != CommunicationFlag.ConversationCompleted.ToString())
             {
                 // DO NOT MARK PARTITION AS InProgress
             }
