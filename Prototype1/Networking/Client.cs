@@ -248,6 +248,26 @@ namespace Networking
 
         #region sync methods 
 
+        public CommunicationHandler UploadStatus(List<Location> locations)
+        {
+            CommunicationHandler socketHandler = StartClient();
+            if (socketHandler != CommunicationHandler.Success)
+            {
+                // A socket error has eccoured
+                ClientShutdown();
+                return socketHandler;
+            }
+            Sender.Send(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(locations, Settings)));
+            byte[] bytes = new byte[MessageSize];
+            int bytesRec = Sender.Receive(bytes);
+            string data = Encoding.UTF8.GetString(bytes, 0, bytesRec);
+            if (data != CommunicationFlag.ConversationCompleted.ToString())
+            {
+                return CommunicationHandler.Error;
+            }
+            return CommunicationHandler.Success;
+        }
+
         public CommunicationHandler UploadVerificationPartition(VerificationPartition verificationPartition)
         {
             CommunicationHandler socketHandler = StartClient();

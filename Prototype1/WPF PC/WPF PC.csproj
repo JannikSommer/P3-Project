@@ -131,7 +131,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="LogWindowWindow.xaml">
+    <Page Include="LogWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -149,8 +149,8 @@
     <Compile Include="Loading.xaml.cs">
       <DependentUpon>Loading.xaml</DependentUpon>
     </Compile>
-    <Compile Include="LogWindowWindow.xaml.cs">
-      <DependentUpon>LogWindowWindow.xaml</DependentUpon>
+    <Compile Include="LogWindow.xaml.cs">
+      <DependentUpon>LogWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -201,6 +201,10 @@
       <Project>{486dfbc0-2b7d-4c56-940c-150e673f643a}</Project>
       <Name>Model</Name>
     </ProjectReference>
+    <ProjectReference Include="..\MVC_Controller\MVC_Controller.csproj">
+      <Project>{02efe0e2-db96-4ca3-8e47-18d17e331ed1}</Project>
+      <Name>MVC_Controller</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Networking\Networking.csproj">
       <Project>{26cbc6b3-3005-40d1-9d2a-3a31129578ea}</Project>
       <Name>Networking</Name>
@@ -208,6 +212,10 @@
     <ProjectReference Include="..\PrestaSharpAPI\PrestaSharpAPI.csproj">
       <Project>{041fbfc8-73cb-40b4-9f1e-2bdbfb0cc2d5}</Project>
       <Name>PrestaSharpAPI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\StatusController\StatusController.csproj">
+      <Project>{85cc7882-f086-4653-aea8-abf73279861c}</Project>
+      <Name>StatusController</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

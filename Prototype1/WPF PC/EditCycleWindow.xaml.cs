@@ -23,7 +23,7 @@ namespace WPF_PC
     /// </summary>
     public partial class EditCycle : Window
     {
-        Controller controller;
+        private Controller controller;
         public int[] ShelfArray { get; private set; }
 
         public EditCycle(Controller _controller)

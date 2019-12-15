@@ -106,5 +106,6 @@
                 <DataGridTextColumn Header="{x:Static lang:Resources.MainWindowHeaderCountVariance}" Binding="{Binding QuantityVariance}" Width="80" CanUserResize="False" />
             </DataGrid.Columns>
         </DataGrid>
+        <Button x:Name="initializeStatusButton" Content="Initialize status" Grid.Column="4" HorizontalAlignment="Left" Margin="30,10,0,0" Grid.Row="1" VerticalAlignment="Top" Width="127" Height="35" Click="InitializeStatusButton_Click"/>
     </Grid>
 </Window>

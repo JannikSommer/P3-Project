@@ -15,6 +15,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Controller\Central_Controller.csproj" />
     <ProjectReference Include="..\Model\Model.csproj" />
+    <ProjectReference Include="..\StatusController\StatusController.csproj" />
   </ItemGroup>
 
 </Project>

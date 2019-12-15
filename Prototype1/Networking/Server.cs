@@ -6,6 +6,8 @@ using Model;
 using Central_Controller;
 using System.IO;
 using Newtonsoft.Json;
+using StatusController;
+using System.Collections.Generic;
 
 namespace Networking
 {
@@ -14,6 +16,7 @@ namespace Networking
         private Socket Handler;
         private string ip = "192.168.1.81";
         private Controller Controller { get; set; }
+        private Status Status { get; set; }
         private readonly int FlagMessageSize = 25;
         private readonly long MessageSize = 536870912; // 512 MB
         private readonly JsonSerializerSettings settings = new JsonSerializerSettings
@@ -21,11 +24,12 @@ namespace Networking
             PreserveReferencesHandling = PreserveReferencesHandling.Objects,
             ReferenceLoopHandling = ReferenceLoopHandling.Ignore
         };
-        public Server()
-        {
-            
-        }
 
+        public Server(Controller controller, Status status)
+        {
+            Status = status;
+            Controller = controller;
+        }
 
         public void StartServer()
         {
@@ -53,47 +57,63 @@ namespace Networking
 
         private void HandleConnection() // Handles the connection of the socket.
         {
-            // Incoming data from the client
-            byte[] bytes = new byte[FlagMessageSize];
-            int bytesRec = Handler.Receive(bytes);
-            string data = Encoding.UTF8.GetString(bytes, 0, bytesRec);
-
-
-            if (data == CommunicationFlag.PartitionRequest.ToString())
+            if (Status.IsInitialized == true) 
             {
-                Handler.Send(Encoding.UTF8.GetBytes(CommunicationHandler.Success.ToString()));
-
-                byte[] clinetBytes = new byte[1024]; //Size of a CentralController.Client
-                bytesRec = Handler.Receive(clinetBytes);
-                string Client = Encoding.UTF8.GetString(clinetBytes, 0, bytesRec);
-                Central_Controller.Client device = JsonConvert.DeserializeObject<Central_Controller.Client>(Client, settings);
-
-                SendPartition(device);
-
-            }
-            else if (data == CommunicationFlag.PartitionUpload.ToString())
-            {
-                AcceptPartitionUpload();
-            }
-            else if (data == CommunicationFlag.VerificationRequest.ToString())
-            {
-                byte[] clinetBytes = new byte[1024]; //Size of a CentralController.Client
-                bytesRec = Handler.Receive(clinetBytes);
-                string Client = Encoding.UTF8.GetString(clinetBytes, 0, bytesRec);
-                Central_Controller.Client device = JsonConvert.DeserializeObject<Central_Controller.Client>(Client, settings);
-
-                SendVerificationPartition(device);
-            }
-            else if (data == CommunicationFlag.VerificationUpload.ToString())
-            {
-                AcceptVerificationPartitionUpload();
+                AcceptStatusUpload();
             }
             else
             {
-                CommunicationError();
+                // Incoming data from the client
+                byte[] bytes = new byte[FlagMessageSize];
+                int bytesRec = Handler.Receive(bytes);
+                string data = Encoding.UTF8.GetString(bytes, 0, bytesRec);
+
+
+                if (data == CommunicationFlag.PartitionRequest.ToString())
+                {
+                    Handler.Send(Encoding.UTF8.GetBytes(CommunicationHandler.Success.ToString()));
+
+                    byte[] clinetBytes = new byte[1024]; //Size of a CentralController.Client
+                    bytesRec = Handler.Receive(clinetBytes);
+                    string Client = Encoding.UTF8.GetString(clinetBytes, 0, bytesRec);
+                    Central_Controller.Client device = JsonConvert.DeserializeObject<Central_Controller.Client>(Client, settings);
+
+                    SendPartition(device);
+
+                }
+                else if (data == CommunicationFlag.PartitionUpload.ToString())
+                {
+                    AcceptPartitionUpload();
+                }
+                else if (data == CommunicationFlag.VerificationRequest.ToString())
+                {
+                    byte[] clinetBytes = new byte[1024]; //Size of a CentralController.Client
+                    bytesRec = Handler.Receive(clinetBytes);
+                    string Client = Encoding.UTF8.GetString(clinetBytes, 0, bytesRec);
+                    Central_Controller.Client device = JsonConvert.DeserializeObject<Central_Controller.Client>(Client, settings);
+
+                    SendVerificationPartition(device);
+                }
+                else if (data == CommunicationFlag.VerificationUpload.ToString())
+                {
+                    AcceptVerificationPartitionUpload();
+                }
+                else
+                {
+                    CommunicationError();
+                }
             }
         }
 
+        private void AcceptStatusUpload()
+        {
+            byte[] bytes = new byte[MessageSize];
+            int bytesRec = Handler.Receive(bytes);
+            string data = Encoding.UTF8.GetString(bytes, 0, bytesRec);
+            List<Location> locations = JsonConvert.DeserializeObject<List<Location>>(data, settings);
+            Status.UpdateCountedLocations(locations);
+            Handler.Send(Encoding.UTF8.GetBytes(CommunicationFlag.ConversationCompleted.ToString()));
+        }
 
         private void CommunicationError()
         {

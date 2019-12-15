@@ -16,7 +16,7 @@ namespace Model
         public bool HasMultilocationItem { get; set; }
         public List<Item> Items { get; set; }
 
-        public Location() { } // Used for JSON Deserialization.
+        public Location() { } // Used for JSON/XML Deserialization.
 
         public Location(string _ID)
         {

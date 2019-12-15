@@ -11,6 +11,7 @@ using Model;
 using Central_Controller.IO;
 using System.Globalization;
 using PrestaSharpAPI;
+using MVC_Controller;
 
 
 namespace WPF_PC
@@ -20,31 +21,30 @@ namespace WPF_PC
     /// </summary>
     public partial class MainWindow : Window
     {
-
-        private Thread NetworkingThread { get; set; }
         private Controller Controller { get; set; } = new Controller();
+        private MainController MainController { get; set; }
+
         public EditCycle EditCycleWindow;
-        private Server Server { get; set; }
 
 
         public MainWindow()
         {
             EditCycleWindow = new EditCycle(Controller);
+            MainController = new MainController(Controller);
+
 
             InitializeComponent();
-            //StartServer();
+
+
+            // MainController.StartServer();
             UpdateAllUI();
             LoadIntoDataGrid();
             LoadIntoComboBox();
             Controller.Cycle.Log.AddMessage(new VerificationLogMessage(DateTime.Now, "Bob", "564738920", true));
-
-        }
-
-        private void StartServer()
-        {
-            Server = new Server(Controller);
-            Thread NetworkingThread = new Thread(new ThreadStart(Server.StartServer));
-            NetworkingThread.Start();
+            if (MainController.Status.IsInitialized == true)
+            {
+                initializeStatusButton.IsEnabled = false;
+            }
         }
 
         public void UpdateAllUI()
@@ -60,7 +60,7 @@ namespace WPF_PC
         public void UpdateMainWindow()
         {
             //Active Clients:
-            acticeClients.Content = Controller.Active_Clients.Count;
+            // acticeClients.Content = MainController.Controller.Active_Clients.Count;
 
             //Counted Items overview:
             double countedInt = Controller.Cycle.CountedItems.Count;
@@ -78,6 +78,7 @@ namespace WPF_PC
             overviewTotalCountedWithDifference.Content = (countedIntWithDifference + " / " + totalItemsInt + "   (" + percentageCountedWithDifferenceRoundedDown + "%)");
         }
 
+        #region New windows 
         private void CreateCycleCount_Click(object sender, RoutedEventArgs e) {
             CreateCycleWindow CreateCycle = new CreateCycleWindow(Controller);
             CreateCycle.Show();
@@ -103,10 +104,11 @@ namespace WPF_PC
             ComboBoxDataSelection.ItemsSource = settings;
             ComboBoxDataSelection.SelectedIndex = 0;
         }
+        #endregion
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e) {
-            //Server.ShutdownServer();
-
+            MainController.Status.SaveProgressToFile();
+            // MainController.ServerShutdown();
             new IOController(Controller.Cycle.Id).Save(Controller.Cycle, Controller.Location_Comparer.ShelfHierarchy);
             Application.Current.Shutdown();
         }
@@ -136,5 +138,9 @@ namespace WPF_PC
             Application.Current.MainWindow.UpdateLayout();
         }
 
+        private void InitializeStatusButton_Click(object sender, RoutedEventArgs e)
+        {
+            MainController.InitializeStatus();
+        }
     }
 }
