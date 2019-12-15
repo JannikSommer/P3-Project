@@ -9,8 +9,9 @@ namespace StatusController
 {
     public class Status
     {
-        public List<Location> Locations { get; private set; }
-        public bool IsInitialized { get; set; } = true;
+        public List<Item> Items { get; set; }
+        public List<Location> Locations { get; set; }
+        public bool IsInitialized { get; set; } 
 
         private readonly JsonSerializerSettings Settings = new JsonSerializerSettings
         {
@@ -18,6 +19,7 @@ namespace StatusController
             PreserveReferencesHandling = PreserveReferencesHandling.Objects,
             ReferenceLoopHandling = ReferenceLoopHandling.Ignore
         };
+
 
         public Status()
         {
@@ -47,6 +49,30 @@ namespace StatusController
             foreach (Location location in locations)
             {
                 Locations.Add(location);
+            }
+            SaveProgressToFile(); // Saves data each time the data gets updated
+        }
+
+        public void FinishStatus()
+        {
+            foreach (Location location in Locations)
+            {
+                foreach (Item locationItem in location.Items)
+                {
+                    foreach (Item item in Items)
+                    {
+                        if (item.ID == locationItem.ID)
+                        {
+                            item.CountedQuantity += locationItem.CountedQuantity; // adds the quantity
+                            item.Locations.Add(location); // adds the location
+                        }
+                        else
+                        {
+                            Items.Add(locationItem);
+                            break;
+                        }
+                    }
+                }
             }
         }
 
