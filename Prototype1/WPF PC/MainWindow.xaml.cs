@@ -139,32 +139,43 @@ namespace WPF_PC
         }
         #endregion
 
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e) {
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e) 
+        {
             MainController.Status.SaveProgressToFile();
             // MainController.ServerShutdown();
             new IOController(Controller.Cycle.Id).Save(Controller.Cycle, Controller.Location_Comparer.ShelfHierarchy);
             Application.Current.Shutdown();
         }
 
-        private void ComboBoxDataSelection_SelectionChanged(object sender, SelectionChangedEventArgs e) {
-            if(ComboBoxDataSelection.SelectedIndex == 0) { //Todays Counted
+        private void ComboBoxDataSelection_SelectionChanged(object sender, SelectionChangedEventArgs e) 
+        {
+            if(ComboBoxDataSelection.SelectedIndex == 0) 
+            { //Todays Counted
                 dataGridMain.ItemsSource = Controller.Cycle.CountedItems;
-            } else if(ComboBoxDataSelection.SelectedIndex == 1) { //Counted in this cycle
+            }
+            else if(ComboBoxDataSelection.SelectedIndex == 1) 
+            { //Counted in this cycle
                 List<Item> newList = new List<Item>(Controller.Cycle.CountedItems);
                 newList.AddRange(Controller.Cycle.VerifiedItems);
                 dataGridMain.ItemsSource = newList;
-            } else if(ComboBoxDataSelection.SelectedIndex == 2) { //Counted with difference
-
+            }
+            else if(ComboBoxDataSelection.SelectedIndex == 2) 
+            {
+                //Counted with difference
             }
         }
 
-        private void ChangeLanguage_Click(object sender, RoutedEventArgs e) {
+        private void ChangeLanguage_Click(object sender, RoutedEventArgs e) 
+        {
             var danishCultureInfo = new CultureInfo("da-DK", true);
             var englishCultureInfo = new CultureInfo("en-GB", true);
 
-            if(CultureInfo.CurrentUICulture.Name == danishCultureInfo.Name) {
+            if(CultureInfo.CurrentUICulture.Name == danishCultureInfo.Name) 
+            {
                 CultureInfo.CurrentUICulture = englishCultureInfo;
-            } else {
+            } 
+            else 
+            {
                 CultureInfo.CurrentUICulture = danishCultureInfo;
             }
 
