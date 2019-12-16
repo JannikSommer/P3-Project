@@ -29,7 +29,7 @@ namespace StatusController
         {
             try
             {
-                LoadProgressFromFile();
+                LoadProgressFromFile(); // Currently adds the locations read??
             }
             catch (System.IO.IOException e)
             {
@@ -50,6 +50,7 @@ namespace StatusController
                     {
                         NotCountedItems.Add(item);
                     }
+                    GetItemsFromCountedLocations();
                 }
             }
         }
@@ -57,6 +58,11 @@ namespace StatusController
         public void StartStatus()
         {
             CountedLocations = new List<Location>();
+            ServerItems = ProductAPI.GetAllItems();
+            foreach (Item item in ServerItems)
+            {
+                NotCountedItems.Add(item);
+            }
             IsInitialized = true;
         }
 

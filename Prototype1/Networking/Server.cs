@@ -14,12 +14,12 @@ namespace Networking
     public class Server
     {
         private Socket Handler;
-        private string ip = "192.168.1.81";
+        private string ip = "192.168.0.23";
         private Controller CycleController { get; set; }
         private Status StatusController { get; set; }
         private readonly int FlagMessageSize = 25;
         private readonly long MessageSize = 536870912; // 512 MB
-        private readonly JsonSerializerSettings settings = new JsonSerializerSettings
+        private readonly JsonSerializerSettings Settings = new JsonSerializerSettings
         {
             PreserveReferencesHandling = PreserveReferencesHandling.Objects,
             ReferenceLoopHandling = ReferenceLoopHandling.Ignore
@@ -76,7 +76,7 @@ namespace Networking
                     byte[] clinetBytes = new byte[1024]; //Size of a CentralController.Client
                     bytesRec = Handler.Receive(clinetBytes);
                     string Client = Encoding.UTF8.GetString(clinetBytes, 0, bytesRec);
-                    Central_Controller.Client device = JsonConvert.DeserializeObject<Central_Controller.Client>(Client, settings);
+                    Central_Controller.Client device = JsonConvert.DeserializeObject<Central_Controller.Client>(Client, Settings);
 
                     SendPartition(device);
 
@@ -90,7 +90,7 @@ namespace Networking
                     byte[] clinetBytes = new byte[MessageSize]; 
                     bytesRec = Handler.Receive(clinetBytes);
                     string Client = Encoding.UTF8.GetString(clinetBytes, 0, bytesRec);
-                    Central_Controller.Client device = JsonConvert.DeserializeObject<Central_Controller.Client>(Client, settings);
+                    Central_Controller.Client device = JsonConvert.DeserializeObject<Central_Controller.Client>(Client, Settings);
 
                     SendVerificationPartition(device);
                 }
@@ -110,7 +110,7 @@ namespace Networking
             byte[] bytes = new byte[MessageSize];
             int bytesRec = Handler.Receive(bytes);
             string data = Encoding.UTF8.GetString(bytes, 0, bytesRec);
-            List<Location> locations = JsonConvert.DeserializeObject<List<Location>>(data, settings);
+            List<Location> locations = JsonConvert.DeserializeObject<List<Location>>(data, Settings);
             StatusController.UpdateCountedLocations(locations);
             Handler.Send(Encoding.UTF8.GetBytes(CommunicationFlag.ConversationCompleted.ToString()));
         }
@@ -129,7 +129,7 @@ namespace Networking
             // Accept data from client
             int bytesRec = Handler.Receive(bytes);
             string data = Encoding.UTF8.GetString(bytes, 0, bytesRec);
-            Partition uploadedPartition = JsonConvert.DeserializeObject<Partition>(data, settings);
+            Partition uploadedPartition = JsonConvert.DeserializeObject<Partition>(data, Settings);
             CycleController.CheckPartition(uploadedPartition);
             // Signal OK to client and shutdown socket
             Handler.Send(Encoding.UTF8.GetBytes(CommunicationFlag.ConversationCompleted.ToString()));
@@ -140,7 +140,7 @@ namespace Networking
             Partition partition = CycleController.NextPartition(client);
             // partition.Locations.Add(new Location("001A01")); 
             // Send partition to client
-            string json = JsonConvert.SerializeObject(partition, settings);
+            string json = JsonConvert.SerializeObject(partition, Settings);
             Handler.Send(Encoding.UTF8.GetBytes(json));
 
             // Recieve callback
@@ -158,7 +158,7 @@ namespace Networking
         {
             VerificationPartition verificationPartition = CycleController.CreateVerificationPartition(client);
             // Send partition to client
-            string json = JsonConvert.SerializeObject(verificationPartition, settings);
+            string json = JsonConvert.SerializeObject(verificationPartition, Settings);
             Handler.Send(Encoding.UTF8.GetBytes(json));
 
             // Recieve callback
@@ -180,7 +180,7 @@ namespace Networking
             // Accept data from client
             int bytesRec = Handler.Receive(bytes);
             string data = Encoding.UTF8.GetString(bytes, 0, bytesRec);
-            VerificationPartition verificationPartition = JsonConvert.DeserializeObject<VerificationPartition>(data, settings);
+            VerificationPartition verificationPartition = JsonConvert.DeserializeObject<VerificationPartition>(data, Settings);
             // call method to handle data from uploadedPartition
 
             // Signal OK to client and shutdown socket

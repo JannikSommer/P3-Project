@@ -12,7 +12,7 @@ namespace Networking
     public class Client
     {
         private Socket Sender;
-        private string ip = "192.168.1.81";
+        private string ip = "192.168.0.23";
         private readonly int FlagMessageSize = 25;
         private readonly int HandlerSize = 15;
         private readonly long MessageSize = 536870912; // 512 MB
@@ -258,7 +258,7 @@ namespace Networking
                 return socketHandler;
             }
             Sender.Send(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(locations, Settings)));
-            byte[] bytes = new byte[MessageSize];
+            byte[] bytes = new byte[FlagMessageSize];
             int bytesRec = Sender.Receive(bytes);
             string data = Encoding.UTF8.GetString(bytes, 0, bytesRec);
             if (data != CommunicationFlag.ConversationCompleted.ToString())

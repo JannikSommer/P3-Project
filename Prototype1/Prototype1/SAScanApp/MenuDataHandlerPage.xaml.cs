@@ -31,28 +31,37 @@ namespace SAScanApp {
         {
             _mStartPage = mStartPage;
         }
-            private async void UploadPartition(object sender, EventArgs e) {
+        private async void UploadPartition(object sender, EventArgs e) 
+        {
+            Client client = new Client();
+            List<Model.Location> locations = new List<Model.Location>();
+            locations.Add(new Model.Location("001A02"));
+            locations.Add(new Model.Location("001B02"));
+            locations.Add(new Model.Location("001C02"));
+            locations.Add(new Model.Location("001D02"));
 
-            if (IsPartitionDownloaded != true)
-            {
-                Client client = new Client();
-                Partition partition = new Model.Partition();
-                CommunicationHandler handler = client.UploadPartition(partition);
-                if( handler != CommunicationHandler.Success)
-                {
-                    await DisplayAlert("Error", "You have no active partition", "Okay");
+            locations[0].Items.Add(new Item() { UpcBarcode = "474174", EanBarcode = "" });
+            locations[1].Items.Add(new Item() { UpcBarcode = "571425", EanBarcode = "" });
+            locations[2].Items.Add(new Item() { UpcBarcode = "637413", EanBarcode = "" });
 
-                }
+            client.UploadStatus(locations);
+            //if (IsPartitionDownloaded != true)
+            //{
+            //    Client client = new Client();
+            //    Partition partition = new Model.Partition();
+            //    CommunicationHandler handler = client.UploadPartition(partition);
+            //    if( handler != CommunicationHandler.Success)
+            //    {
+            //        await DisplayAlert("Error", "You have no active partition", "Okay");
 
-                else
-                {
-                    IsPartitionDownloaded = false;
-                    await DisplayAlert("Succes", "Partition succesfully uploaded", "Okay");
-                }
-            }
+            //    }
 
-
-
+            //    else
+            //    {
+            //        IsPartitionDownloaded = false;
+            //        await DisplayAlert("Succes", "Partition succesfully uploaded", "Okay");
+            //    }
+            //}
             // Der skal addes noget typesafety her, så hvis eventet fyrer igen, imens man er igang med at uploade en partition, så sker der ikke noget
             // Ligeledes er ens partition ikke done, (mangler en location/item som slet ikke er scannet) så kan den ikke uploades (måske med overrule funktion??)
         }

@@ -34,13 +34,11 @@ namespace WPF_PC
         {
             EditCycleWindow = new EditCycle(CycleController);
             //MainController = new MainController(Controller);
-            // StartServer();
-
+            StartServer();
             InitializeComponent();
 
 
             // MainController.StartServer();
-            UpdateAllUI();
             LoadIntoDataGrid();
             LoadIntoComboBox();
             CycleController.Cycle.Log.AddMessage(new VerificationLogMessage(DateTime.Now, "Bob", "564738920", true));
@@ -49,6 +47,7 @@ namespace WPF_PC
                 initializeStatusButton.IsEnabled = false;
                 endStatusButton.IsEnabled = true;
             }
+
         }
 
         public void UpdateAllUI()
@@ -210,8 +209,11 @@ namespace WPF_PC
         private void InitializeStatusButton_Click(object sender, RoutedEventArgs e)
         {
             // MainController.InitializeStatus();
+            dataGridMain.ItemsSource = StatusController.CountedItems;
             initializeStatusButton.IsEnabled = false;
             endStatusButton.IsEnabled = true;
+            StatusController.StartStatus();
+
         }
 
         private void EndStatus_Click(object sender, RoutedEventArgs e)
