@@ -248,7 +248,7 @@ namespace Networking
 
         #region sync methods 
 
-        public CommunicationHandler UploadStatus(List<Location> locations)
+        public CommunicationHandler UploadStatus(List<LocationBarcode> locationBarcodes)
         {
             CommunicationHandler socketHandler = StartClient();
             if (socketHandler != CommunicationHandler.Success)
@@ -257,7 +257,7 @@ namespace Networking
                 ClientShutdown();
                 return socketHandler;
             }
-            Sender.Send(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(locations, Settings)));
+            Sender.Send(Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(locationBarcodes, Settings)));
             byte[] bytes = new byte[FlagMessageSize];
             int bytesRec = Sender.Receive(bytes);
             string data = Encoding.UTF8.GetString(bytes, 0, bytesRec);

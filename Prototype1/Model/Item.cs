@@ -20,10 +20,9 @@ namespace Model
         public int QuantityVariance {
             get { return Math.Abs(ServerQuantity - CountedQuantity); }
         }
-        public bool AllLocationsVisited { get; set; }
-        //public bool AllLocationsVisited {
-        //    get { return !(Locations.Exists(x => x.Visited == false)); }
-        //}
+        public bool AllLocationsVisited {
+            get { return !(Locations.Exists(x => x.Visited == false)); }
+        }
         public bool HasMultiLocation { get; set; }
         public string ID { get; set; }
         public string Name { get; set; }

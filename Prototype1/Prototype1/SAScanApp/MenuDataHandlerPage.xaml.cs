@@ -34,17 +34,15 @@ namespace SAScanApp {
         private async void UploadPartition(object sender, EventArgs e) 
         {
             Client client = new Client();
-            List<Model.Location> locations = new List<Model.Location>();
-            locations.Add(new Model.Location("001A02"));
-            locations.Add(new Model.Location("001B02"));
-            locations.Add(new Model.Location("001C02"));
-            locations.Add(new Model.Location("001D02"));
 
-            locations[0].Items.Add(new Item() { UpcBarcode = "474174", EanBarcode = "" });
-            locations[1].Items.Add(new Item() { UpcBarcode = "571425", EanBarcode = "" });
-            locations[2].Items.Add(new Item() { UpcBarcode = "637413", EanBarcode = "" });
+            List<LocationBarcode> locationBarcodes = new List<LocationBarcode>();
+            locationBarcodes.Add(new LocationBarcode("001A02"));
+            locationBarcodes[0].AddItemBarcode("474174");
+            locationBarcodes.Add(new LocationBarcode("001B02"));
+            locationBarcodes[0].AddItemBarcode("571425");
 
-            client.UploadStatus(locations);
+            client.UploadStatus(locationBarcodes);
+            
             //if (IsPartitionDownloaded != true)
             //{
             //    Client client = new Client();

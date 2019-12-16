@@ -110,8 +110,8 @@ namespace Networking
             byte[] bytes = new byte[MessageSize];
             int bytesRec = Handler.Receive(bytes);
             string data = Encoding.UTF8.GetString(bytes, 0, bytesRec);
-            List<Location> locations = JsonConvert.DeserializeObject<List<Location>>(data, Settings);
-            StatusController.UpdateCountedLocations(locations);
+            List<LocationBarcode> locationBacodes = JsonConvert.DeserializeObject<List<LocationBarcode>>(data, Settings);
+            StatusController.UpdateCountedLocations(locationBacodes);
             Handler.Send(Encoding.UTF8.GetBytes(CommunicationFlag.ConversationCompleted.ToString()));
         }
 
