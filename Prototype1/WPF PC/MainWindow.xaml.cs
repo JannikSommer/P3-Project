@@ -22,17 +22,19 @@ namespace WPF_PC
     /// </summary>
     public partial class MainWindow : Window
     {
-        private Controller Controller { get; set; } = new Controller();
-        private MainController MainController { get; set; }
+        private Controller CycleController { get; set; } = new Controller();
+        public Status StatusController { get; set; } = new Status();
+        private Thread NetworkingThread { get; set; }
+        private Server Server { get; set; }
 
         public EditCycle EditCycleWindow;
 
 
         public MainWindow()
         {
-            EditCycleWindow = new EditCycle(Controller);
-            MainController = new MainController(Controller);
-
+            EditCycleWindow = new EditCycle(CycleController);
+            //MainController = new MainController(Controller);
+            // StartServer();
 
             InitializeComponent();
 
@@ -41,8 +43,8 @@ namespace WPF_PC
             UpdateAllUI();
             LoadIntoDataGrid();
             LoadIntoComboBox();
-            Controller.Cycle.Log.AddMessage(new VerificationLogMessage(DateTime.Now, "Bob", "564738920", true));
-            if (MainController.Status.IsInitialized == true)
+            CycleController.Cycle.Log.AddMessage(new VerificationLogMessage(DateTime.Now, "Bob", "564738920", true));
+            if (StatusController.IsInitialized == true)
             {
                 initializeStatusButton.IsEnabled = false;
                 endStatusButton.IsEnabled = true;
@@ -57,53 +59,55 @@ namespace WPF_PC
 
         public void LoadIntoDataGrid() 
         {
-            if (MainController.Status.IsInitialized == true)
+            if (StatusController.IsInitialized == true)
             {
-                dataGridMain.ItemsSource = MainController.Status.CountedItems;
+                dataGridMain.ItemsSource = StatusController.CountedItems;
             }
             else
             {
-                dataGridMain.ItemsSource = Controller.Cycle.CountedItems;
+                dataGridMain.ItemsSource = CycleController.Cycle.CountedItems;
             }
         }
 
+
+
         public void UpdateMainWindow()
         {
-            if (MainController.Status.IsInitialized == true)
+            if (StatusController.IsInitialized == true)
             {
                 //Active Clients:
-                acticeClients.Content;
+                acticeClients.Content = "N/A"; // No implementation for showing number of clients connected
 
                 //Counted Items overview:
-                double countedInt = Controller.Cycle.CountedItems.Count;
-                double totalItemsInt = 80000;
+                double countedInt = StatusController.CountedItems.Count;
+                double totalItemsInt = StatusController.ServerItems.Count;
                 double percentageCounted = ((countedInt / totalItemsInt) * 100);
                 double percentageCountedRoundedDown = Math.Round(percentageCounted, 1);
 
                 overviewTotalCounted.Content = (countedInt + " / " + totalItemsInt + "   (" + percentageCountedRoundedDown + "%)");
 
                 //Counted with difference overview:
-                double countedIntWithDifference = 340;
-                double percentageCountedWithDifference = ((countedIntWithDifference / totalItemsInt) * 100);
-                double percentageCountedWithDifferenceRoundedDown = Math.Round(percentageCountedWithDifference, 1);
+                double countedIntWithDifference = 0; // Not supported for Status
+                double percentageCountedWithDifference = 0; // ((countedIntWithDifference / totalItemsInt) * 100); ---- Not supported for status
+                double percentageCountedWithDifferenceRoundedDown = 0;// Math.Round(percentageCountedWithDifference, 1); ----- not supported for status
 
-                overviewTotalCountedWithDifference.Content = (countedIntWithDifference + " / " + totalItemsInt + "   (" + percentageCountedWithDifferenceRoundedDown + "%)");
+                overviewTotalCountedWithDifference.Content = 0; // (countedIntWithDifference + " / " + totalItemsInt + "   (" + percentageCountedWithDifferenceRoundedDown + "%)"); ----- not supported for status
             }
             else
             {
                 //Active Clients:
-                acticeClients.Content = MainController.Controller.Active_Clients.Count;
+                acticeClients.Content = CycleController.Active_Clients.Count;
 
                 //Counted Items overview:
-                double countedInt = Controller.Cycle.CountedItems.Count;
-                double totalItemsInt = 80000;
+                double countedInt = CycleController.Cycle.CountedItems.Count;
+                double totalItemsInt = CycleController.Cycle.AllItems.Count;
                 double percentageCounted = ((countedInt / totalItemsInt) * 100);
                 double percentageCountedRoundedDown = Math.Round(percentageCounted, 1);
 
                 overviewTotalCounted.Content = (countedInt + " / " + totalItemsInt + "   (" + percentageCountedRoundedDown + "%)");
 
-                //Counted with difference overview:
-                double countedIntWithDifference = 340;
+                //Counted with difference overview: HOW THE FUCK?
+                double countedIntWithDifference = 340; 
                 double percentageCountedWithDifference = ((countedIntWithDifference / totalItemsInt) * 100);
                 double percentageCountedWithDifferenceRoundedDown = Math.Round(percentageCountedWithDifference, 1);
 
@@ -113,17 +117,17 @@ namespace WPF_PC
 
         #region New windows 
         private void CreateCycleCount_Click(object sender, RoutedEventArgs e) {
-            CreateCycleWindow CreateCycle = new CreateCycleWindow(Controller);
+            CreateCycleWindow CreateCycle = new CreateCycleWindow(CycleController);
             CreateCycle.Show();
         }
 
         private void EditCycle_Click(object sender, RoutedEventArgs e) {
-            EditCycle EditCycle = new EditCycle(Controller);
+            EditCycle EditCycle = new EditCycle(CycleController);
             EditCycle.Show();
         }
 
         private void ShowLog_Click(object sender, RoutedEventArgs e) {
-            LogWindow logWindow = new LogWindow(Controller.Cycle.Log);
+            LogWindow logWindow = new LogWindow(CycleController.Cycle.Log);
             logWindow.Show();
         }
 
@@ -141,9 +145,9 @@ namespace WPF_PC
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e) 
         {
-            MainController.Status.SaveProgressToFile();
+            StatusController.SaveProgressToFile();
             // MainController.ServerShutdown();
-            new IOController(Controller.Cycle.Id).Save(Controller.Cycle, Controller.Location_Comparer.ShelfHierarchy);
+            new IOController(CycleController.Cycle.Id).Save(CycleController.Cycle, CycleController.Location_Comparer.ShelfHierarchy);
             Application.Current.Shutdown();
         }
 
@@ -151,16 +155,38 @@ namespace WPF_PC
         {
             if(ComboBoxDataSelection.SelectedIndex == 0) 
             { //Todays Counted
-                dataGridMain.ItemsSource = Controller.Cycle.CountedItems;
+                if (StatusController.IsInitialized == true)
+                {
+
+                }
+                else
+                {
+                    dataGridMain.ItemsSource = CycleController.Cycle.CountedItems;
+                }
             }
-            else if(ComboBoxDataSelection.SelectedIndex == 1) 
+            else if (ComboBoxDataSelection.SelectedIndex == 1) 
             { //Counted in this cycle
-                List<Item> newList = new List<Item>(Controller.Cycle.CountedItems);
-                newList.AddRange(Controller.Cycle.VerifiedItems);
-                dataGridMain.ItemsSource = newList;
+                if (StatusController.IsInitialized == true)
+                {
+
+                }
+                else
+                {
+                    List<Item> newList = new List<Item>(CycleController.Cycle.CountedItems);
+                    newList.AddRange(CycleController.Cycle.VerifiedItems);
+                    dataGridMain.ItemsSource = newList;
+                }
             }
-            else if(ComboBoxDataSelection.SelectedIndex == 2) 
+            else if (ComboBoxDataSelection.SelectedIndex == 2) 
             {
+                if (StatusController.IsInitialized == true)
+                {
+
+                }
+                else
+                {
+                    
+                }
                 //Counted with difference
             }
         }
@@ -178,20 +204,19 @@ namespace WPF_PC
             {
                 CultureInfo.CurrentUICulture = danishCultureInfo;
             }
-
             Application.Current.MainWindow.UpdateLayout();
         }
 
         private void InitializeStatusButton_Click(object sender, RoutedEventArgs e)
         {
-            MainController.InitializeStatus();
+            // MainController.InitializeStatus();
             initializeStatusButton.IsEnabled = false;
             endStatusButton.IsEnabled = true;
         }
 
         private void EndStatus_Click(object sender, RoutedEventArgs e)
         {
-            if (MainController.Status.NotCountedItems.Count > 0)
+            if (StatusController.NotCountedItems.Count > 0)
             {
                 if (MessageBox.Show("Not all items has been acounted for. Are you sure every location has been scanned?", "WARNING!", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
                 {
@@ -205,7 +230,7 @@ namespace WPF_PC
                     }
                     else
                     {
-                        MainController.Status.FinishStatus();
+                        StatusController.FinishStatus();
                     }
                 }
             }
@@ -217,9 +242,22 @@ namespace WPF_PC
                 }
                 else
                 {
-                    MainController.Status.FinishStatus();
+                    StatusController.FinishStatus();
                 }
             }
+        }
+
+        public void StartServer()
+        {
+            Server = new Server(CycleController, StatusController);
+            NetworkingThread = new Thread(new ThreadStart(Server.StartServer));
+            NetworkingThread.Start();
+        }
+
+        public void ServerShutdown()
+        {
+            Server.ShutdownServer();
+            NetworkingThread.Abort();
         }
     }
 }

@@ -15,11 +15,11 @@ namespace MVC_Controller
         private Thread NetworkingThread { get; set; }
         private Server Server { get; set; }
         public Central_Controller.Controller Controller { get; set; }
-        public Status Status { get; set; }
+        public StatusController.Status Status { get; set; }
 
         public MainController(Central_Controller.Controller controller)
         {
-            Status = new Status();
+            Status = new StatusController.Status();
             Controller = controller;
         }
 

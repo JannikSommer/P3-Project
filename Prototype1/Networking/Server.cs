@@ -15,8 +15,8 @@ namespace Networking
     {
         private Socket Handler;
         private string ip = "192.168.1.81";
-        private Controller Controller { get; set; }
-        private Status Status { get; set; }
+        private Controller CycleController { get; set; }
+        private Status StatusController { get; set; }
         private readonly int FlagMessageSize = 25;
         private readonly long MessageSize = 536870912; // 512 MB
         private readonly JsonSerializerSettings settings = new JsonSerializerSettings
@@ -25,10 +25,10 @@ namespace Networking
             ReferenceLoopHandling = ReferenceLoopHandling.Ignore
         };
 
-        public Server(Controller controller, Status status)
+        public Server(Controller cycleController, Status statusController)
         {
-            Status = status;
-            Controller = controller;
+            StatusController = statusController;
+            CycleController = cycleController;
         }
 
         public void StartServer()
@@ -57,7 +57,7 @@ namespace Networking
 
         private void HandleConnection() // Handles the connection of the socket.
         {
-            if (Status.IsInitialized == true) 
+            if (StatusController.IsInitialized == true) 
             {
                 AcceptStatusUpload();
             }
@@ -111,7 +111,7 @@ namespace Networking
             int bytesRec = Handler.Receive(bytes);
             string data = Encoding.UTF8.GetString(bytes, 0, bytesRec);
             List<Location> locations = JsonConvert.DeserializeObject<List<Location>>(data, settings);
-            Status.UpdateCountedLocations(locations);
+            StatusController.UpdateCountedLocations(locations);
             Handler.Send(Encoding.UTF8.GetBytes(CommunicationFlag.ConversationCompleted.ToString()));
         }
 
@@ -130,14 +130,14 @@ namespace Networking
             int bytesRec = Handler.Receive(bytes);
             string data = Encoding.UTF8.GetString(bytes, 0, bytesRec);
             Partition uploadedPartition = JsonConvert.DeserializeObject<Partition>(data, settings);
-            Controller.CheckPartition(uploadedPartition);
+            CycleController.CheckPartition(uploadedPartition);
             // Signal OK to client and shutdown socket
             Handler.Send(Encoding.UTF8.GetBytes(CommunicationFlag.ConversationCompleted.ToString()));
         }
 
         private void SendPartition(Central_Controller.Client client)
         {
-            Partition partition = Controller.NextPartition(client);
+            Partition partition = CycleController.NextPartition(client);
             // partition.Locations.Add(new Location("001A01")); 
             // Send partition to client
             string json = JsonConvert.SerializeObject(partition, settings);
@@ -156,7 +156,7 @@ namespace Networking
 
         private void SendVerificationPartition(Central_Controller.Client client)
         {
-            VerificationPartition verificationPartition = Controller.CreateVerificationPartition(client);
+            VerificationPartition verificationPartition = CycleController.CreateVerificationPartition(client);
             // Send partition to client
             string json = JsonConvert.SerializeObject(verificationPartition, settings);
             Handler.Send(Encoding.UTF8.GetBytes(json));

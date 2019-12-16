@@ -11,7 +11,7 @@ namespace StatusController
     {
         public List<Item> CountedItems { get; set; } = new List<Item>();
         public List<Item> NotCountedItems { get; set; } = new List<Item>();
-        private List<Item> ServerItems { get; set; } = new List<Item>();
+        public List<Item> ServerItems { get; set; } = new List<Item>();
         public List<Location> CountedLocations { get; set; }
         public bool IsInitialized { get; set; }
 
@@ -27,12 +27,6 @@ namespace StatusController
 
         public Status()
         {
-            
-            //ServerItems = ProductAPI.GetAllItems();
-            //foreach (Item item in ServerItems)
-            //{
-            //    NotCountedItems.Add(item);
-            //}
             try
             {
                 LoadProgressFromFile();
@@ -49,7 +43,13 @@ namespace StatusController
                 }
                 else
                 {
+                    // If there is data within the file, a status is inprogress
                     IsInitialized = true;
+                    ServerItems = ProductAPI.GetAllItems();
+                    foreach (Item item in ServerItems)
+                    {
+                        NotCountedItems.Add(item);
+                    }
                 }
             }
         }
@@ -58,6 +58,17 @@ namespace StatusController
         {
             CountedLocations = new List<Location>();
             IsInitialized = true;
+        }
+
+        public void FinishStatus()
+        {
+            GetItemsFromCountedLocations();
+            IsInitialized = false;
+            var path = Environment.CurrentDirectory + @"\SaveData\CompletedStatus---" + DateTime.Now.ToString("M-d-yyyy") + ".txt";
+            string json = JsonConvert.SerializeObject(CountedLocations, Settings);
+            System.IO.File.WriteAllText(path, json);
+            DeleteStatusProgress();
+            // ProductAPI.UpdateItemsThroughAPI(Items); Currently not eligble for updating through Streetammo.dk/api
         }
 
         public bool CheckForUncountedItems()
@@ -116,17 +127,6 @@ namespace StatusController
                     }
                 }
             }
-        }
-
-        public void FinishStatus()
-        {
-            GetItemsFromCountedLocations();
-            IsInitialized = false;
-            var path = Environment.CurrentDirectory + @"\SaveData\CompletedStatus---" + DateTime.Now.ToString("M-d-yyyy") + ".txt";
-            string json = JsonConvert.SerializeObject(CountedLocations, Settings);
-            System.IO.File.WriteAllText(path, json);
-            DeleteStatusProgress();
-            // ProductAPI.UpdateItemsThroughAPI(Items); Currently not eligble for updating through Streetammo.dk/api
         }
 
         private void DeleteStatusProgress() // Used to erase the status progress file when the status is completed. 
