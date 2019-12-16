@@ -10,9 +10,12 @@ namespace StatusController
     public class Status
     {
         public List<Item> CountedItems { get; set; } = new List<Item>();
+        public List<Item> NotCountedItems { get; set; } = new List<Item>();
+        private List<Item> ServerItems { get; set; } = new List<Item>();
         public List<Location> CountedLocations { get; set; }
         public bool IsInitialized { get; set; }
-        ProductAPI ProductAPI = new ProductAPI();
+
+        private ProductAPI ProductAPI = new ProductAPI();
 
         private readonly JsonSerializerSettings Settings = new JsonSerializerSettings
         {
@@ -24,10 +27,12 @@ namespace StatusController
 
         public Status()
         {
-            //Locations = new List<Location>();
-            //Locations.Add(new Location());
-            //Locations[0].Items = ProductAPI.GetAllItems();
-
+            
+            ServerItems = ProductAPI.GetAllItems();
+            foreach (Item item in ServerItems)
+            {
+                NotCountedItems.Add(item);
+            }
             try
             {
                 LoadProgressFromFile();
@@ -49,38 +54,64 @@ namespace StatusController
             }
         }
 
-        public void UpdateCountedLocations(List<Location> locations)
-        {
-            foreach (Location location in locations)
-            {
-                CountedLocations.Add(location);
-            }
-            SaveProgressToFile(); // Saves data each time the data gets updated
-        }
-
         public void StartStatus()
         {
             CountedLocations = new List<Location>();
             IsInitialized = true;
         }
 
+        public bool CheckForUncountedItems()
+        {
+            foreach (Item countedItem in CountedItems)
+            {
+                if (!(ServerItems.Exists(x => x.ID == countedItem.ID)))
+                {
+                    // If the server items has an item which is not in CountedItems there are remaining items which are not counted
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        public void UpdateCountedLocations(List<Location> locations)
+        {
+            foreach (Location location in locations)
+            {
+                CountedLocations.Add(location);
+            }
+            GetItemsFromCountedLocations(); // Updates the implemented model
+            SaveProgressToFile(); // Saves data each time the data gets updated
+        }
+
         public void GetItemsFromCountedLocations()
         {
-            foreach (Location location in CountedLocations)
+            // Transforms the Location structure into Item to enable easy updating of the products through API.
+            foreach (Location location in CountedLocations) // Every currently counted locations
             {
-                foreach (Item locationItem in location.Items)
+                foreach (Item locationItem in location.Items) // All the items currently counted in a counted location
                 {
-                    foreach (Item item in CountedItems)
+                    foreach (Item item in CountedItems) // All currently counted items 
                     {
-                        if (item.ID == locationItem.ID)
+                        if ((item.UpcBarcode == locationItem.UpcBarcode) || (item.EanBarcode == locationItem.EanBarcode)) 
                         {
-                            item.CountedQuantity += locationItem.CountedQuantity; // adds the quantity
-                            item.Locations.Add(location); // adds the location
+                            // If the item already exists in the counted items, the quantity gets summed and the new location is added
+                            item.CountedQuantity += locationItem.CountedQuantity; 
+                            item.Locations.Add(location); 
                         }
                         else
                         {
-                            CountedItems.Add(locationItem);
-                            break;
+                            foreach (Item serverItem in ServerItems)
+                            {
+                                if ((item.UpcBarcode == locationItem.UpcBarcode) || (item.EanBarcode == locationItem.EanBarcode))
+                                {
+                                    // If the item is the first of the a barcode, the Item form the API gets added a location. To make sure that CountedItems has all item information. 
+                                    // Then that item gets added to the list of counted items and removed from uncounted items.
+                                    serverItem.AddLocation(location); 
+                                    CountedItems.Add(serverItem);
+                                    NotCountedItems.Remove(serverItem); // might not work. 
+                                    break;
+                                }
+                            }
                         }
                     }
                 }

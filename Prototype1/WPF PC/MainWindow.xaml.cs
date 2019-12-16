@@ -12,6 +12,7 @@ using Central_Controller.IO;
 using System.Globalization;
 using PrestaSharpAPI;
 using MVC_Controller;
+using StatusController;
 
 
 namespace WPF_PC
@@ -156,13 +157,34 @@ namespace WPF_PC
 
         private void EndStatus_Click(object sender, RoutedEventArgs e)
         {
-            if (MessageBox.Show("This action cannot be undone. Are you sure you want to end status?", "WARNING!", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
+            if (MainController.Status.NotCountedItems.Count > 0)
             {
-                // Nothing
+                if (MessageBox.Show("Not all items has been acounted for. Are you sure every location has been scanned?", "WARNING!", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
+                {
+                    // Nothing happens.
+                }
+                else
+                {
+                    if (MessageBox.Show("This action cannot be undone. Are you sure you want to end status?", "WARNING!", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
+                    {
+                        // Nothing
+                    }
+                    else
+                    {
+                        MainController.Status.FinishStatus();
+                    }
+                }
             }
             else
             {
-                MainController.Status.FinishStatus();
+                if (MessageBox.Show("This action cannot be undone. Are you sure you want to end status?", "WARNING!", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
+                {
+                    // Nothing
+                }
+                else
+                {
+                    MainController.Status.FinishStatus();
+                }
             }
         }
     }

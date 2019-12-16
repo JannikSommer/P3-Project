@@ -20,7 +20,7 @@ namespace PrestaSharpAPI
             product product = ProductFactory.Get(id);
             Sorting sorter = new Sorting();
             return new Item(product.id.ToString(), product.name[1].Value, Convert.ToInt32(product.quantity), product.original_color, 
-                            null, sorter.locationStringToList(sorter.locationCleaner(sorter.locationChecker(product.location))), product.upc ?? product.ean13);
+                            null, sorter.locationStringToList(sorter.locationCleaner(sorter.locationChecker(product.location))), product.upc, product.ean13);
         }
 
         public List<Item> GetAllItems()
@@ -34,7 +34,7 @@ namespace PrestaSharpAPI
                 if (product.type != "virtual")
                 {
                     items.Add(new Item(product.id.ToString(), product.name[1].Value, Convert.ToInt32(product.quantity), product.original_color, 
-                              null, sorter.locationStringToList(sorter.locationCleaner(sorter.locationChecker(product.location))), product.upc ?? product.ean13));
+                              null, sorter.locationStringToList(sorter.locationCleaner(sorter.locationChecker(product.location))), product.upc, product.ean13));
                 }
             }
             return items;

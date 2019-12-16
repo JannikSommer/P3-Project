@@ -24,15 +24,15 @@ namespace Model
             get { return !(Locations.Exists(x => x.Visited == false)); }
         }
         public bool HasMultiLocation { get; set; }
-        public bool IsUPCBarcode { get; set; }
         public string ID { get; set; }
         public string Name { get; set; }
         public string Color { get; set; }
         public string Size { get; set; }
         public string ImageUrl { get; set; }
+        public string UpcBarcode { get; set; }
+        public string EanBarcode { get; set; }
         public string CheckSum { get; set; }
         public List<Location> Locations { get; set; }
-        public string Barcode { get; set; }
 
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -68,14 +68,15 @@ namespace Model
                 AddLocation(location);
             }
         }
-        public Item(string id, string name, int quantity, string color, string size, List<Location> locations, string barcode)
+        public Item(string id, string name, int quantity, string color, string size, List<Location> locations, string upcBarcode, string eanBarcode)
         {
             ID = id;
             Name = name;
             ServerQuantity = quantity;
             Color = color;
             Size = size;
-            Barcode = barcode;
+            UpcBarcode = upcBarcode;
+            EanBarcode = eanBarcode;
             Locations = locations;
 
             foreach (Location location in locations)
