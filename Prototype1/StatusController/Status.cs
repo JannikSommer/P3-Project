@@ -28,11 +28,11 @@ namespace StatusController
         public Status()
         {
             
-            ServerItems = ProductAPI.GetAllItems();
-            foreach (Item item in ServerItems)
-            {
-                NotCountedItems.Add(item);
-            }
+            //ServerItems = ProductAPI.GetAllItems();
+            //foreach (Item item in ServerItems)
+            //{
+            //    NotCountedItems.Add(item);
+            //}
             try
             {
                 LoadProgressFromFile();

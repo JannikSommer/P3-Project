@@ -69,23 +69,46 @@ namespace WPF_PC
 
         public void UpdateMainWindow()
         {
-            //Active Clients:
-            // acticeClients.Content = MainController.Controller.Active_Clients.Count;
+            if (MainController.Status.IsInitialized == true)
+            {
+                //Active Clients:
+                acticeClients.Content;
 
-            //Counted Items overview:
-            double countedInt = Controller.Cycle.CountedItems.Count;
-            double totalItemsInt = 80000; 
-            double percentageCounted = ((countedInt / totalItemsInt) * 100);
-            double percentageCountedRoundedDown = Math.Round(percentageCounted, 1);
+                //Counted Items overview:
+                double countedInt = Controller.Cycle.CountedItems.Count;
+                double totalItemsInt = 80000;
+                double percentageCounted = ((countedInt / totalItemsInt) * 100);
+                double percentageCountedRoundedDown = Math.Round(percentageCounted, 1);
 
-            overviewTotalCounted.Content = (countedInt + " / " + totalItemsInt + "   (" + percentageCountedRoundedDown + "%)");
+                overviewTotalCounted.Content = (countedInt + " / " + totalItemsInt + "   (" + percentageCountedRoundedDown + "%)");
 
-            //Counted with difference overview:
-            double countedIntWithDifference = 340;
-            double percentageCountedWithDifference = ((countedIntWithDifference / totalItemsInt) * 100);
-            double percentageCountedWithDifferenceRoundedDown = Math.Round(percentageCountedWithDifference, 1);
+                //Counted with difference overview:
+                double countedIntWithDifference = 340;
+                double percentageCountedWithDifference = ((countedIntWithDifference / totalItemsInt) * 100);
+                double percentageCountedWithDifferenceRoundedDown = Math.Round(percentageCountedWithDifference, 1);
 
-            overviewTotalCountedWithDifference.Content = (countedIntWithDifference + " / " + totalItemsInt + "   (" + percentageCountedWithDifferenceRoundedDown + "%)");
+                overviewTotalCountedWithDifference.Content = (countedIntWithDifference + " / " + totalItemsInt + "   (" + percentageCountedWithDifferenceRoundedDown + "%)");
+            }
+            else
+            {
+                //Active Clients:
+                acticeClients.Content = MainController.Controller.Active_Clients.Count;
+
+                //Counted Items overview:
+                double countedInt = Controller.Cycle.CountedItems.Count;
+                double totalItemsInt = 80000;
+                double percentageCounted = ((countedInt / totalItemsInt) * 100);
+                double percentageCountedRoundedDown = Math.Round(percentageCounted, 1);
+
+                overviewTotalCounted.Content = (countedInt + " / " + totalItemsInt + "   (" + percentageCountedRoundedDown + "%)");
+
+                //Counted with difference overview:
+                double countedIntWithDifference = 340;
+                double percentageCountedWithDifference = ((countedIntWithDifference / totalItemsInt) * 100);
+                double percentageCountedWithDifferenceRoundedDown = Math.Round(percentageCountedWithDifference, 1);
+
+                overviewTotalCountedWithDifference.Content = (countedIntWithDifference + " / " + totalItemsInt + "   (" + percentageCountedWithDifferenceRoundedDown + "%)");
+            }
         }
 
         #region New windows 
