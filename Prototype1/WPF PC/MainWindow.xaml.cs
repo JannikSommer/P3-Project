@@ -42,7 +42,7 @@ namespace WPF_PC
 
         private void StartServer()
         {
-            Server = new Server(Controller);
+            Server = new Server();
             Thread NetworkingThread = new Thread(new ThreadStart(Server.StartServer));
             NetworkingThread.Start();
         }
