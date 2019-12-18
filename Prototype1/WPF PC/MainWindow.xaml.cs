@@ -64,14 +64,14 @@ namespace WPF_PC
 
             //Counted Items overview:
             double countedInt = Controller.Cycle.CountedItems.Count;
-            double totalItemsInt = 80000; 
+            double totalItemsInt = Controller.TotalNumberOfItems; 
             double percentageCounted = ((countedInt / totalItemsInt) * 100);
             double percentageCountedRoundedDown = Math.Round(percentageCounted, 1);
 
             overviewTotalCounted.Content = (countedInt + " / " + totalItemsInt + "   (" + percentageCountedRoundedDown + "%)");
 
             //Counted with difference overview:
-            double countedIntWithDifference = 340;
+            double countedIntWithDifference = 0;
             double percentageCountedWithDifference = ((countedIntWithDifference / totalItemsInt) * 100);
             double percentageCountedWithDifferenceRoundedDown = Math.Round(percentageCountedWithDifference, 1);
 
@@ -112,9 +112,11 @@ namespace WPF_PC
         }
 
         private void ComboBoxDataSelection_SelectionChanged(object sender, SelectionChangedEventArgs e) {
-            if(ComboBoxDataSelection.SelectedIndex == 0) { //Todays Counted
+            if(ComboBoxDataSelection.SelectedIndex == 0)
+            { //Todays Counted
                 dataGridMain.ItemsSource = Controller.Cycle.CountedItems;
-            } else if(ComboBoxDataSelection.SelectedIndex == 1) { //Counted in this cycle
+            } else if(ComboBoxDataSelection.SelectedIndex == 1) 
+            { //Counted in this cycle
                 List<Item> newList = new List<Item>(Controller.Cycle.CountedItems);
                 newList.AddRange(Controller.Cycle.VerifiedItems);
                 dataGridMain.ItemsSource = newList;
@@ -135,6 +137,5 @@ namespace WPF_PC
 
             Application.Current.MainWindow.UpdateLayout();
         }
-
     }
 }
