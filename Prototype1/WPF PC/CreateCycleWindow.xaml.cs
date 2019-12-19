@@ -1,27 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+﻿using System.Windows;
 using Model;
-using Central_Controller;
+using Central_Controller.Central_Controller;
 
 namespace WPF_PC {
     public partial class CreateCycleWindow : Window {
-        private Controller _controller;
-
         public CreateCycleWindow(Controller controller) {
             InitializeComponent();
             _controller = controller;
         }
+
+        private Controller _controller;
 
         private void CreateCycleCountButton_Click(object sender, RoutedEventArgs e) {
             if(MessageBox.Show(Localization.Resources.CreateCycleMsgBoxText, Localization.Resources.CreateCycleMsgBoxTitle, MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No) {
@@ -32,8 +20,8 @@ namespace WPF_PC {
                 labelWarningTwo.Visibility = Visibility.Visible;
             } else {
                 labelWarningTwo.Visibility = Visibility.Hidden;
-                Cycle result = new Cycle(TextBoxCycleName.Text) { AllItems = _controller.Cycle.AllItems};
-                _controller.Cycle = result;
+                _controller.Cycle = new Cycle(TextBoxCycleName.Text) { AllItems = _controller.Cycle.AllItems};
+                _controller.Location_Comparer = new LocationComparer(19);    
                 Close();
             }
         }

@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Linq;
 using Model;
 using Model.Log;
 using System.IO;
-using System.Xml.Serialization;
 
 namespace Central_Controller.IO {
     public class IOController {
@@ -25,12 +23,12 @@ namespace Central_Controller.IO {
             Setup();
         }
 
-        private readonly string _savesPath = Environment.CurrentDirectory + @"\SaveData\";
         private string _chosenCycleId;
         private string _chosenCyclePath;
         private string _logPath;
         private string _countedItemsPath;
         private string _shelfPath;
+        private readonly string _savesPath = Environment.CurrentDirectory + @"\SaveData\";
 
 
         private string LoadPreviousCycleId() {
@@ -54,7 +52,6 @@ namespace Central_Controller.IO {
             _shelfPath = _chosenCyclePath + @"\SortPriority.txt";
             if (!Directory.Exists(_chosenCyclePath)) { Directory.CreateDirectory(_chosenCyclePath); }
         }
-
 
         public int[] LoadShelves() {
             if(File.Exists(_shelfPath)) {
@@ -86,7 +83,6 @@ namespace Central_Controller.IO {
             }
             return result;
         }
-
 
         public void Save(Cycle cycle, int[] shelves) {
             LogWriter logWriter = new LogWriter(_logPath, cycle.Log);

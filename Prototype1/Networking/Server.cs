@@ -1,34 +1,28 @@
-﻿using System;
-using System.Net.Sockets;
+﻿using System.Net.Sockets;
 using System.Net;
 using System.Text;
 using Model;
-using Central_Controller;
-using System.IO;
 using Newtonsoft.Json;
+using Central_Controller.Central_Controller;
 
 namespace Networking
 {
-    public class Server
-    {
-        private Socket Handler;
-        private string ip = "192.168.1.81";
+    public class Server {
+        public Server() { }
+
         private Controller Controller { get; set; }
+
+        private string ip = "192.168.1.81";
         private readonly int FlagMessageSize = 25;
         private readonly long MessageSize = 536870912; // 512 MB
-        private readonly JsonSerializerSettings settings = new JsonSerializerSettings
-        {
+        private Socket Handler;
+        private readonly JsonSerializerSettings settings = new JsonSerializerSettings {
             PreserveReferencesHandling = PreserveReferencesHandling.Objects,
             ReferenceLoopHandling = ReferenceLoopHandling.Ignore
         };
-        public Server()
-        {
-            
-        }
 
 
-        public void StartServer()
-        {
+        public void StartServer() {
             // Get Host IP Address that is used to establish a connection
             // In this case, we get one IP address of localhost that is IP : 127.0.0.1
             // If a host has multiple addresses, you will get a list of addresses
@@ -51,57 +45,46 @@ namespace Networking
             }
         }
 
-        private void HandleConnection() // Handles the connection of the socket.
-        {
+        // Handles the connection of the socket.
+        private void HandleConnection() {
             // Incoming data from the client
             byte[] bytes = new byte[FlagMessageSize];
             int bytesRec = Handler.Receive(bytes);
             string data = Encoding.UTF8.GetString(bytes, 0, bytesRec);
 
 
-            if (data == CommunicationFlag.PartitionRequest.ToString())
-            {
+            if (data == CommunicationFlag.PartitionRequest.ToString()) {
                 Handler.Send(Encoding.UTF8.GetBytes(CommunicationHandler.Success.ToString()));
 
                 byte[] clinetBytes = new byte[1024]; //Size of a CentralController.Client
                 bytesRec = Handler.Receive(clinetBytes);
                 string Client = Encoding.UTF8.GetString(clinetBytes, 0, bytesRec);
-                Central_Controller.Client device = JsonConvert.DeserializeObject<Central_Controller.Client>(Client, settings);
+                User device = JsonConvert.DeserializeObject<User>(Client, settings);
 
                 SendPartition(device);
 
-            }
-            else if (data == CommunicationFlag.PartitionUpload.ToString())
-            {
+            } else if (data == CommunicationFlag.PartitionUpload.ToString()) {
                 AcceptPartitionUpload();
-            }
-            else if (data == CommunicationFlag.VerificationRequest.ToString())
-            {
+            } else if(data == CommunicationFlag.VerificationRequest.ToString()) {
                 byte[] clinetBytes = new byte[1024]; //Size of a CentralController.Client
                 bytesRec = Handler.Receive(clinetBytes);
                 string Client = Encoding.UTF8.GetString(clinetBytes, 0, bytesRec);
-                Central_Controller.Client device = JsonConvert.DeserializeObject<Central_Controller.Client>(Client, settings);
+                User device = JsonConvert.DeserializeObject<User>(Client, settings);
 
                 SendVerificationPartition(device);
-            }
-            else if (data == CommunicationFlag.VerificationUpload.ToString())
-            {
+            } else if(data == CommunicationFlag.VerificationUpload.ToString()) {
                 AcceptVerificationPartitionUpload();
-            }
-            else
-            {
+            } else {
                 CommunicationError();
             }
         }
 
 
-        private void CommunicationError()
-        {
+        private void CommunicationError() {
             Handler.Send(Encoding.ASCII.GetBytes(CommunicationHandler.Error.ToString()));
         }
 
-        private void AcceptPartitionUpload()
-        {
+        private void AcceptPartitionUpload() {
             // Send permision to upload
             Handler.Send(Encoding.UTF8.GetBytes(CommunicationHandler.Accept.ToString()));
             byte[] bytes = new byte[MessageSize];
@@ -111,32 +94,29 @@ namespace Networking
             string data = Encoding.UTF8.GetString(bytes, 0, bytesRec);
             Partition uploadedPartition = JsonConvert.DeserializeObject<Partition>(data, settings);
             Controller.CheckPartition(uploadedPartition);
+
             // Signal OK to client and shutdown socket
             Handler.Send(Encoding.UTF8.GetBytes(CommunicationFlag.ConversationCompleted.ToString()));
         }
 
-        private void SendPartition(Central_Controller.Client client)
-        {
-            Partition partition = Controller.NextPartition(client);
-            // partition.Locations.Add(new Location("001A01")); 
+        private void SendPartition(User user) {
+            Partition partition = Controller.NextPartition(user);
+            // TODO: partition.Locations.Add(new Location("001A01")); 
             // Send partition to client
             string json = JsonConvert.SerializeObject(partition, settings);
             Handler.Send(Encoding.UTF8.GetBytes(json));
 
             // Recieve callback
-            string data = null;
             byte[] bytes = new byte[FlagMessageSize];
             int bytesRec = Handler.Receive(bytes);
-            data = Encoding.UTF8.GetString(bytes, 0, bytesRec);
-            if (!(data == CommunicationFlag.ConversationCompleted.ToString()))
-            {
-                // DO NOT MARK PARTITION AS InProgress
+            string data = Encoding.UTF8.GetString(bytes, 0, bytesRec);
+            if (!(data == CommunicationFlag.ConversationCompleted.ToString())) {
+                // TODO: DO NOT MARK PARTITION AS InProgress
             }
         }
 
-        private void SendVerificationPartition(Central_Controller.Client client)
-        {
-            VerificationPartition verificationPartition = Controller.CreateVerificationPartition(client);
+        private void SendVerificationPartition(User user) {
+            VerificationPartition verificationPartition = Controller.CreateVerificationPartition(user);
             // Send partition to client
             string json = JsonConvert.SerializeObject(verificationPartition, settings);
             Handler.Send(Encoding.UTF8.GetBytes(json));
@@ -145,14 +125,12 @@ namespace Networking
             byte[] bytes = new byte[FlagMessageSize];
             int bytesRec = Handler.Receive(bytes);
             string data = Encoding.UTF8.GetString(bytes, 0, bytesRec);
-            if (data != CommunicationFlag.ConversationCompleted.ToString())
-            {
+            if (data != CommunicationFlag.ConversationCompleted.ToString()) {
                 // DO NOT MARK PARTITION AS InProgress
             }
         }
 
-        private void AcceptVerificationPartitionUpload()
-        {
+        private void AcceptVerificationPartitionUpload() {
             // Send permision to upload
             Handler.Send(Encoding.UTF8.GetBytes(CommunicationHandler.Accept.ToString()));
             byte[] bytes = new byte[MessageSize];
@@ -167,8 +145,7 @@ namespace Networking
             Handler.Send(Encoding.UTF8.GetBytes(CommunicationFlag.ConversationCompleted.ToString()));
         }
 
-        public void ShutdownServer()
-        {
+        public void ShutdownServer() {
             Handler.Shutdown(SocketShutdown.Both);
             Handler.Close();
         }

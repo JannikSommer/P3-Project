@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Model;
+using Central_Controller.Central_Controller;
 
 namespace Unit_Tests
 {
@@ -120,7 +121,7 @@ namespace Unit_Tests
             //Expected
             PartitionState ExpectedState = PartitionState.NotCounted;
             PartitionRequsitionState ExpectedRequsitionState = PartitionRequsitionState.Requested;
-            //int ExpectedTotalNrOfItems = 1;
+
             int ExpectedItemsCounted = 0;
             int ExpectedLocationCount = 1;
             bool ExpectedIsMultiLocationItemPartition = true;

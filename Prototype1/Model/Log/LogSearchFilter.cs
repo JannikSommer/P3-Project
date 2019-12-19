@@ -2,7 +2,6 @@
 
 namespace Model.Log {
     public class LogSearchFilter {
-
         public LogSearchFilter(DateTime after, DateTime before, string userId, string locationId, string itemId) {
             After = after;
             Before = before;
@@ -16,6 +15,5 @@ namespace Model.Log {
         public string UserId { get; }
         public string LocationId { get; }
         public string ItemId { get; }
-
     }
 }

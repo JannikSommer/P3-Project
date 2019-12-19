@@ -529,7 +529,7 @@ namespace Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Active clients:.
+        ///   Looks up a localized string similar to Active users:.
         /// </summary>
         public static string MainWindowLabelActiveClients {
             get {

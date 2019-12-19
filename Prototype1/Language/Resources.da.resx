@@ -187,7 +187,7 @@
     <value> Optalt fra lageret</value>
   </data>
   <data name="MainWindowLabelActiveClients" xml:space="preserve">
-    <value>Aktive klienter:</value>
+    <value>Aktive brugere:</value>
   </data>
   <data name="MainWindowLabelTotalCount" xml:space="preserve">
     <value>Totalt optalt:</value>

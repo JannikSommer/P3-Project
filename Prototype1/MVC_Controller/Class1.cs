@@ -1,15 +1,10 @@
-﻿using System;
-using Networking;
-using Model;
+﻿using Networking;
 using Central_Controller;
-using PrestaSharpAPI;
-using System.Threading.Tasks;
 using System.Threading;
 using WPF_PC;
 
 
-namespace MVC_Controller
-{
+namespace MVC_Controller {
     public class Mainen
     {
         private Thread NetworkingThread { get; set; }

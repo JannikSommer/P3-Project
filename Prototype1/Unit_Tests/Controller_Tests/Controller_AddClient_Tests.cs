@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Model;
-using Central_Controller;
+using Central_Controller.Central_Controller;
 
 namespace Unit_Tests.Controller_Tests
 {
     [TestClass]
-    public class Controller_AddClient_Tests
+    public class Controller_AddUser_Tests
     {
         [TestMethod]
-        public void AddClient_Test1()
+        public void AddUser_Test1()
         {
             // Arrange
             Controller TestController = new Controller();
@@ -31,7 +31,7 @@ namespace Unit_Tests.Controller_Tests
             Item TestItem5 = new Item("005", "Shoe", "Black", "43");
             List<string> TestItem5_Locations = new List<string> { "001E01" };
 
-            Client TestClient1 = new Client("1");
+            User TestUser1 = new User("1");
 
             //Expected
             string ExpectedItem1ID = "001";
@@ -52,9 +52,9 @@ namespace Unit_Tests.Controller_Tests
 
             TestController.InitialPartitioningOfLocations();
 
-            TestController.AddClient(TestClient1);
+            TestController.AddUser(TestUser1);
 
-            Partition ActualPartition = TestController.NextPartition(TestClient1);
+            Partition ActualPartition = TestController.NextPartition(TestUser1);
 
             // Assert
             Assert.AreEqual(ExpectedPartitionSize, ActualPartition.Locations.Count);
@@ -68,7 +68,7 @@ namespace Unit_Tests.Controller_Tests
         }
 
         [TestMethod]
-        public void AddClient_Test2()
+        public void AddUser_Test2()
         {
             // Arrange
             Controller TestController = new Controller();
@@ -89,8 +89,8 @@ namespace Unit_Tests.Controller_Tests
             Item TestItem5 = new Item("005", "Shoe", "Black", "43");
             List<string> TestItem5_Locations = new List<string> { "001E05" };
 
-            Client TestClient1 = new Client("1");
-            Client TestClient2 = new Client("2");
+            User TestUser1 = new User("1");
+            User TestUser2 = new User("2");
 
             //Expected
             string ExpectedItem1ID = "005";
@@ -111,12 +111,12 @@ namespace Unit_Tests.Controller_Tests
 
             TestController.InitialPartitioningOfLocations();
 
-            TestController.AddClient(TestClient1);
-            TestController.AddClient(TestClient2);
+            TestController.AddUser(TestUser1);
+            TestController.AddUser(TestUser2);
 
-            Partition DumpPartition = TestController.NextPartition(TestClient1);
+            Partition DumpPartition = TestController.NextPartition(TestUser1);
 
-            Partition ActualPartition = TestController.NextPartition(TestClient2);
+            Partition ActualPartition = TestController.NextPartition(TestUser2);
 
             // Assert
             Assert.AreEqual(ExpectedPartitionSize, ActualPartition.Locations.Count);
@@ -130,7 +130,7 @@ namespace Unit_Tests.Controller_Tests
         }
 
         [TestMethod]
-        public void AddClient_Test3()
+        public void AddUser_Test3()
         {
             // Arrange
             Controller TestController = new Controller();
@@ -157,9 +157,9 @@ namespace Unit_Tests.Controller_Tests
             Item TestItem7 = new Item("007", "Skjorte", "Grey", "XXL");
             List<string> TestItem7_Locations = new List<string> { "001G07" };
 
-            Client TestClient1 = new Client("1");
-            Client TestClient2 = new Client("2");
-            Client TestClient3 = new Client("3");
+            User TestUser1 = new User("1");
+            User TestUser2 = new User("2");
+            User TestUser3 = new User("3");
 
             //Expected
             string ExpectedItem1ID = "003";
@@ -182,14 +182,14 @@ namespace Unit_Tests.Controller_Tests
 
             TestController.InitialPartitioningOfLocations();
 
-            TestController.AddClient(TestClient1);
-            TestController.AddClient(TestClient2);
-            TestController.AddClient(TestClient3);
+            TestController.AddUser(TestUser1);
+            TestController.AddUser(TestUser2);
+            TestController.AddUser(TestUser3);
 
-            Partition DumpPartition = TestController.NextPartition(TestClient1);
-            DumpPartition = TestController.NextPartition(TestClient2);
+            Partition DumpPartition = TestController.NextPartition(TestUser1);
+            DumpPartition = TestController.NextPartition(TestUser2);
 
-            Partition ActualPartition = TestController.NextPartition(TestClient3);
+            Partition ActualPartition = TestController.NextPartition(TestUser3);
 
             // Assert
             Assert.AreEqual(ExpectedPartitionSize, ActualPartition.Locations.Count);
@@ -203,7 +203,7 @@ namespace Unit_Tests.Controller_Tests
         }
 
         [TestMethod]
-        public void AddClient_Test4()
+        public void AddUser_Test4()
         {
             // Arrange
             Controller TestController = new Controller();
@@ -230,9 +230,9 @@ namespace Unit_Tests.Controller_Tests
             Item TestItem7 = new Item("007", "Skjorte", "Grey", "XXL");
             List<string> TestItem7_Locations = new List<string> { "001G07" };
 
-            Client TestClient1 = new Client("1");
-            Client TestClient2 = new Client("2");
-            Client TestClient3 = new Client("3");
+            User TestUser1 = new User("1");
+            User TestUser2 = new User("2");
+            User TestUser3 = new User("3");
 
             //Expected
             string ExpectedItem1ID = "001";
@@ -255,16 +255,16 @@ namespace Unit_Tests.Controller_Tests
 
             TestController.InitialPartitioningOfLocations();
 
-            TestController.AddClient(TestClient1);
-            TestController.AddClient(TestClient2);
-            TestController.AddClient(TestClient3);
+            TestController.AddUser(TestUser1);
+            TestController.AddUser(TestUser2);
+            TestController.AddUser(TestUser3);
 
-            Partition DumpPartition = TestController.NextPartition(TestClient1);
-            DumpPartition = TestController.NextPartition(TestClient2);
+            Partition DumpPartition = TestController.NextPartition(TestUser1);
+            DumpPartition = TestController.NextPartition(TestUser2);
 
-            TestController.RemoveClient(0);
+            TestController.RemoveUser(0);
 
-            Partition ActualPartition = TestController.NextPartition(TestClient3); //expected test item 1
+            Partition ActualPartition = TestController.NextPartition(TestUser3); //expected test item 1
 
             // Assert
             Assert.AreEqual(ExpectedPartitionSize, ActualPartition.Locations.Count);
@@ -278,7 +278,7 @@ namespace Unit_Tests.Controller_Tests
         }
 
         [TestMethod]
-        public void AddClient_Test5()
+        public void AddUser_Test5()
         {
             // Arrange
             Controller TestController = new Controller();
@@ -305,9 +305,9 @@ namespace Unit_Tests.Controller_Tests
             Item TestItem7 = new Item("007", "Skjorte", "Grey", "XXL");
             List<string> TestItem7_Locations = new List<string> { "001G07" };
 
-            Client TestClient1 = new Client("1");
-            Client TestClient2 = new Client("2");
-            Client TestClient3 = new Client("3");
+            User TestUser1 = new User("1");
+            User TestUser2 = new User("2");
+            User TestUser3 = new User("3");
 
             //Expected
             string ExpectedItem1ID = "007";
@@ -330,16 +330,16 @@ namespace Unit_Tests.Controller_Tests
 
             TestController.InitialPartitioningOfLocations();
 
-            TestController.AddClient(TestClient1);
-            TestController.AddClient(TestClient2);
-            TestController.AddClient(TestClient3);
+            TestController.AddUser(TestUser1);
+            TestController.AddUser(TestUser2);
+            TestController.AddUser(TestUser3);
 
-            Partition DumpPartition = TestController.NextPartition(TestClient1);
-            DumpPartition = TestController.NextPartition(TestClient2);
+            Partition DumpPartition = TestController.NextPartition(TestUser1);
+            DumpPartition = TestController.NextPartition(TestUser2);
 
-            TestController.RemoveClient(1);
+            TestController.RemoveUser(1);
 
-            Partition ActualPartition = TestController.NextPartition(TestClient3); //expected test item 7
+            Partition ActualPartition = TestController.NextPartition(TestUser3); //expected test item 7
 
             // Assert
             Assert.AreEqual(ExpectedPartitionSize, ActualPartition.Locations.Count);
@@ -352,7 +352,7 @@ namespace Unit_Tests.Controller_Tests
             Assert.AreEqual(ExpectedItem1Size, ActualPartition.Locations[0].Items[0].Size);
         }
         [TestMethod]
-        public void AddClient_Test6()
+        public void AddUser_Test6()
         {
             // Arrange
             Controller TestController = new Controller();
@@ -379,8 +379,8 @@ namespace Unit_Tests.Controller_Tests
             Item TestItem7 = new Item("007", "Skjorte", "Grey", "XXL");
             List<string> TestItem7_Locations = new List<string> { "002G07" };
 
-            Client TestClient1 = new Client("1");
-            Client TestClient2 = new Client("2");
+            User TestUser1 = new User("1");
+            User TestUser2 = new User("2");
 
             //Expected
             string ExpectedItem1ID = "006";
@@ -403,12 +403,12 @@ namespace Unit_Tests.Controller_Tests
 
             TestController.InitialPartitioningOfLocations();
 
-            TestController.AddClient(TestClient1);
-            TestController.AddClient(TestClient2);
+            TestController.AddUser(TestUser1);
+            TestController.AddUser(TestUser2);
 
-            Partition DumpPartition = TestController.NextPartition(TestClient1);
+            Partition DumpPartition = TestController.NextPartition(TestUser1);
 
-            Partition ActualPartition = TestController.NextPartition(TestClient2); //expected test item 6
+            Partition ActualPartition = TestController.NextPartition(TestUser2); //expected test item 6
 
             // Assert
             Assert.AreEqual(ExpectedPartitionSize, ActualPartition.Locations.Count);
@@ -422,7 +422,7 @@ namespace Unit_Tests.Controller_Tests
         }
 
         [TestMethod]
-        public void AddClient_Test7()
+        public void AddUser_Test7()
         {
             // Arrange
             Controller TestController = new Controller();
@@ -449,9 +449,9 @@ namespace Unit_Tests.Controller_Tests
             Item TestItem7 = new Item("007", "Skjorte", "Grey", "XXL");
             List<string> TestItem7_Locations = new List<string> { "003G07" };
 
-            Client TestClient1 = new Client("1");
-            Client TestClient2 = new Client("2");
-            Client TestClient3 = new Client("3");
+            User TestUser1 = new User("1");
+            User TestUser2 = new User("2");
+            User TestUser3 = new User("3");
 
             //Expected
             string ExpectedItem1ID = "006";
@@ -474,14 +474,14 @@ namespace Unit_Tests.Controller_Tests
 
             TestController.InitialPartitioningOfLocations();
 
-            TestController.AddClient(TestClient1);
-            TestController.AddClient(TestClient2);
-            TestController.AddClient(TestClient3);
+            TestController.AddUser(TestUser1);
+            TestController.AddUser(TestUser2);
+            TestController.AddUser(TestUser3);
 
-            Partition DumpPartition = TestController.NextPartition(TestClient1);
-            DumpPartition = TestController.NextPartition(TestClient2);
+            Partition DumpPartition = TestController.NextPartition(TestUser1);
+            DumpPartition = TestController.NextPartition(TestUser2);
 
-            Partition ActualPartition = TestController.NextPartition(TestClient3); //expected test item 6
+            Partition ActualPartition = TestController.NextPartition(TestUser3); //expected test item 6
 
             // Assert
             Assert.AreEqual(ExpectedPartitionSize, ActualPartition.Locations.Count);
@@ -495,7 +495,7 @@ namespace Unit_Tests.Controller_Tests
         }
 
         [TestMethod]
-        public void AddClient_Test8()
+        public void AddUser_Test8()
         {
             // Arrange
             Controller TestController = new Controller();
@@ -522,8 +522,8 @@ namespace Unit_Tests.Controller_Tests
             Item TestItem7 = new Item("007", "Skjorte", "Grey", "XXL");
             List<string> TestItem7_Locations = new List<string> { "003G07" };
 
-            Client TestClient1 = new Client("1");
-            Client TestClient2 = new Client("2");
+            User TestUser1 = new User("1");
+            User TestUser2 = new User("2");
 
             //Expected
             string ExpectedItem1ID = "003";
@@ -546,12 +546,12 @@ namespace Unit_Tests.Controller_Tests
 
             TestController.InitialPartitioningOfLocations();
 
-            TestController.AddClient(TestClient1);
-            TestController.AddClient(TestClient2);
+            TestController.AddUser(TestUser1);
+            TestController.AddUser(TestUser2);
 
-            Partition DumpPartition = TestController.NextPartition(TestClient1);
+            Partition DumpPartition = TestController.NextPartition(TestUser1);
 
-            Partition ActualPartition = TestController.NextPartition(TestClient2); //expected test item 3
+            Partition ActualPartition = TestController.NextPartition(TestUser2); //expected test item 3
 
             // Assert
             Assert.AreEqual(ExpectedPartitionSize, ActualPartition.Locations.Count);
@@ -565,7 +565,7 @@ namespace Unit_Tests.Controller_Tests
         }
 
         [TestMethod]
-        public void AddClient_Test9()
+        public void AddUser_Test9()
         {
             // Arrange
             Controller TestController = new Controller();
@@ -592,10 +592,10 @@ namespace Unit_Tests.Controller_Tests
             Item TestItem7 = new Item("007", "Skjorte", "Grey", "XXL");
             List<string> TestItem7_Locations = new List<string> { "002G07" };
 
-            Client TestClient1 = new Client("1");
-            Client TestClient2 = new Client("2");
-            Client TestClient3 = new Client("3");
-            Client TestClient4 = new Client("4");
+            User TestUser1 = new User("1");
+            User TestUser2 = new User("2");
+            User TestUser3 = new User("3");
+            User TestUser4 = new User("4");
 
             //Expected
             string ExpectedItem1ID = "002";
@@ -618,16 +618,16 @@ namespace Unit_Tests.Controller_Tests
 
             TestController.InitialPartitioningOfLocations();
 
-            TestController.AddClient(TestClient1);
-            TestController.AddClient(TestClient2);
-            TestController.AddClient(TestClient3);
-            TestController.AddClient(TestClient4);
+            TestController.AddUser(TestUser1);
+            TestController.AddUser(TestUser2);
+            TestController.AddUser(TestUser3);
+            TestController.AddUser(TestUser4);
 
-            Partition DumpPartition = TestController.NextPartition(TestClient1);
-            DumpPartition = TestController.NextPartition(TestClient2);
-            DumpPartition = TestController.NextPartition(TestClient3);
+            Partition DumpPartition = TestController.NextPartition(TestUser1);
+            DumpPartition = TestController.NextPartition(TestUser2);
+            DumpPartition = TestController.NextPartition(TestUser3);
 
-            Partition ActualPartition = TestController.NextPartition(TestClient4); //expected test item 2
+            Partition ActualPartition = TestController.NextPartition(TestUser4); //expected test item 2
 
             // Assert
             Assert.AreEqual(ExpectedPartitionSize, ActualPartition.Locations.Count);

@@ -2,8 +2,6 @@
 
 namespace Model.Log {
     public class VerificationLogMessage : LogMessage {
-
-        public VerificationLogMessage(string userId, string itemId, bool isVerified) : this(DateTime.Now, userId, itemId, isVerified) {}
         public VerificationLogMessage(DateTime time, string userId, string itemId, bool isVerified) {
             Time = time;
             UserId = userId;
@@ -12,6 +10,8 @@ namespace Model.Log {
             Message = GetMessageString();
             Type = LogMessageType.Verification;
         }
+        public VerificationLogMessage(string userId, string itemId, bool isVerified) : this(DateTime.Now, userId, itemId, isVerified) {}
+
 
         public bool IsVerified { get; set; }
         public string UserId {

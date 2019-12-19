@@ -15,37 +15,31 @@ using Model;
 using System.IO;
 using Central_Controller;
 using System.Text.RegularExpressions;
+using Central_Controller.Central_Controller;
 
-namespace WPF_PC
-{
+namespace WPF_PC {
     /// <summary>
     /// Interaction logic for EditCycle.xaml
     /// </summary>
-    public partial class EditCycle : Window
-    {
-        Controller controller;
-        public int[] ShelfArray { get; private set; }
-
-        public EditCycle(Controller _controller)
-        {
+    public partial class EditCycle : Window {
+        public EditCycle(Controller controller) {
             InitializeComponent();
-
-            loadAllUsersnamesIntoChooseBox();
-
-            controller = _controller;
-
-            ShelfArray = controller.Location_Comparer.ShelfHierarchy;
-
+            _controller = controller;
+            comboBoxChooseEdit.ItemsSource = _controller.ActiveUsers;
+            _shelfArray = controller.Location_Comparer.ShelfHierarchy;
+            //listBoxShelfPriority.ItemsSource = _shelfArray;
             LoadSortPriority();
         }
 
-        private void MoveUpButton_Click(object sender, RoutedEventArgs e)
-        {
+        private int[] _shelfArray;
+        private Controller _controller;
+
+
+        private void MoveUpButton_Click(object sender, RoutedEventArgs e) {
             int selectedindex = listBoxShelfPriority.SelectedIndex;
 
             //Check if a move up is possible
-            if (selectedindex > 0)
-            {
+            if (selectedindex > 0) {
                 //Copy the selected
                 var item = new ListViewItem();
                 string text = ((ListViewItem)listBoxShelfPriority.SelectedItem).Content.ToString();
@@ -62,13 +56,11 @@ namespace WPF_PC
             }
         }
 
-        private void MoveDownButton_Click(object sender, RoutedEventArgs e)
-        {
+        private void MoveDownButton_Click(object sender, RoutedEventArgs e) {
             int selectedindex = listBoxShelfPriority.SelectedIndex;
             
             //Check if a move down is possible
-            if (selectedindex < listBoxShelfPriority.Items.Count - 1 && listBoxShelfPriority.SelectedItem != null)
-            {
+            if (selectedindex < listBoxShelfPriority.Items.Count - 1 && listBoxShelfPriority.SelectedItem != null) {
                 //Copy the selected
                 var item = new ListViewItem();
                 string text = ((ListViewItem)listBoxShelfPriority.SelectedItem).Content.ToString();
@@ -85,43 +77,25 @@ namespace WPF_PC
             }
         }
 
-        public void loadAllUsersnamesIntoChooseBox()
-        {
-            List<string> settings = new List<string>();
-
-            settings.Add("Bob");
-            settings.Add("Svend");
-            settings.Add("Jørgen");
-
-            comboBoxChooseEdit.ItemsSource = settings;
-        }
-
-        public void SaveSortPriority()
-        {
+        [Obsolete]
+        public void SaveSortPriority() {
             //Get sorting priority and load into list.
-
-            List<string> sortPriority = new List<string>();
             int index;
+            List<string> sortPriority = new List<string>();
 
-            for (index = 0; index < listBoxShelfPriority.Items.Count; index++)
-            {
+            for (index = 0; index < listBoxShelfPriority.Items.Count; index++) {
                 sortPriority.Add(((ListViewItem)listBoxShelfPriority.Items.GetItemAt(index)).Content.ToString());
             }
 
             //load into text file.
-
             string filepath = Environment.CurrentDirectory + @"\SortPriority.txt";
             StringBuilder priority = new StringBuilder();
             index = 0;
 
-            foreach (string shelf in sortPriority)
-            {
-                if (index < listBoxShelfPriority.Items.Count - 1)
-                {
+            foreach(string shelf in sortPriority) {
+                if(index < listBoxShelfPriority.Items.Count - 1) {
                     priority.Append(shelf + ",");
-                }
-                else if(index == listBoxShelfPriority.Items.Count - 1)
-                {
+                } else if(index == listBoxShelfPriority.Items.Count - 1) {
                     priority.Append(shelf);
                 }
                 index++;
@@ -130,160 +104,115 @@ namespace WPF_PC
             File.WriteAllText(filepath, priority.ToString());
         }
 
-        public int[] RetrieveSortingPriorityFromFile()
-        {
+        [Obsolete]
+        public int[] RetrieveSortingPriorityFromFile() {
             int[] priority = new int[0];
             string filePath = Environment.CurrentDirectory + @"\SortPriority.txt";
-
-            if (File.Exists(filePath))
-            {
+            if (File.Exists(filePath)) {
                 List<string> lines = File.ReadAllLines(filePath).ToList();
-
-                foreach (string line in lines)
-                {
+                foreach (string line in lines) {
                     priority = Array.ConvertAll(line.Split(','), int.Parse);
                 }
-
                 return priority;
-            }
-            else
-            {
+            } else {
                 return priority;
             }
         }
 
-        private void DeleteUserButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (comboBoxChooseEdit.SelectedIndex == -1)
-            {
+        private void DeleteUserButton_Click(object sender, RoutedEventArgs e) {
+            if(comboBoxChooseEdit.SelectedIndex == -1) {
                 labelWarningNoUserSelected.Visibility = Visibility.Visible;
-            }
-            else
-            {
+            } else {
                 labelWarningNoUserSelected.Visibility = Visibility.Hidden;
-
                 string userChosen = comboBoxChooseEdit.SelectedItem.ToString();
-
-                MessageBox.Show(userChosen);
+                // TODO: Undo this users changes or something
             }
         }
 
-        private void DeleteCycleCountButton_Click(object sender, RoutedEventArgs e)
-        {
-
-            if (MessageBox.Show("ER DU SIKKER?", "Slet Cyklus'en?", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
-            {
+        [Obsolete]
+        private void DeleteCycleCountButton_Click(object sender, RoutedEventArgs e) {
+            if(MessageBox.Show("ER DU SIKKER?", "Slet Cyklus'en?", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No) {
                 //do no stuff
-            }
-            else
-            {
+            } else {
                 //do yes stuff
-
-                this.Close();
+                Close();
             }
-
-
         }
 
-        private void LoadSortPriority()
-        {
+        private void LoadSortPriority() {
             ListViewItem item;
-
-            for(int x = 0; x < ShelfArray.Length; x++)
-            {
-                item = new ListViewItem();
-                item.Content = ShelfArray[x].ToString();
-
+            for(int x = 0; x < _shelfArray.Length; x++) {
+                item = new ListViewItem {
+                    Content = _shelfArray[x].ToString()
+                };
                 listBoxShelfPriority.Items.Add(item);
             }
         }
 
-        private void CancelEdit_Click(object sender, RoutedEventArgs e)
-        {
-            this.Close();
+        private void ConfirmEdit_Click(object sender, RoutedEventArgs e) {
+            Close();
         }
 
-        private void ConfirmEdit_Click(object sender, RoutedEventArgs e)
-        {
-            SaveSortPriority();
-            ShelfArray = RetrieveSortingPriorityFromFile();
-            controller.Location_Comparer = new LocationComparer(ShelfArray);
-            this.Close();
+        private void CancelEdit_Click(object sender, RoutedEventArgs e) {
+            Close();
         }
 
-        private void ConfirmNumberOfShelfs_Click(object sender, RoutedEventArgs e)
-        {
+        private void ConfirmNumberOfShelfs_Click(object sender, RoutedEventArgs e) {
             ChangeNumberOfShelves();
         }
 
-        public void ChangeNumberOfShelves()
-        {
+        public void ChangeNumberOfShelves() {
             ListBoxItem item;
+            int numberOfShelfs = Int32.Parse(TextBoxNumberofShelfs.Text);
 
             listBoxShelfPriority.Items.Clear();
 
-            int numberOfShelfs = Int32.Parse(TextBoxNumberofShelfs.Text);
-
-            for (int index = 0; index < numberOfShelfs; index++)
-            {
+            for(int index = 0; index < numberOfShelfs; index++) {
                 item = new ListViewItem();
                 item.Content = index.ToString();
-
                 listBoxShelfPriority.Items.Add(item);
             }
 
-            controller.Location_Comparer = new LocationComparer(numberOfShelfs);
+            _controller.Location_Comparer = new LocationComparer(numberOfShelfs);
         }
 
-        private void TextBoxNumberofShelfs_KeyUp(object sender, KeyEventArgs e)
-        {
-            if (e.Key == System.Windows.Input.Key.Enter)
-            {
+        private void TextBoxNumberofShelfs_KeyUp(object sender, KeyEventArgs e) {
+            if(e.Key == Key.Enter) {
                 ChangeNumberOfShelves();
             }
         }
-        private void NumberValidationTextBox(object sender, TextCompositionEventArgs e)
-        {
+
+        private void NumberValidationTextBox(object sender, TextCompositionEventArgs e) {
             Regex regex = new Regex("[^0-9]+");
             e.Handled = regex.IsMatch(e.Text);
         }
 
         #region EditShelfNumber
 
-        private void EditContentButton_Click(object sender, RoutedEventArgs e)
-        {
+        private void EditContentButton_Click(object sender, RoutedEventArgs e) {
             //Check if anything is selected
-            if (listBoxShelfPriority.SelectedIndex != -1)
-            {
+            if (listBoxShelfPriority.SelectedIndex != -1) {
                 EditShelfNumber();
             }
-            else { }
         }
 
-        private void TextBoxEditShelfNumber_KeyUp(object sender, KeyEventArgs e)
-        {
-            if (e.Key == System.Windows.Input.Key.Enter)
-            {
+        private void TextBoxEditShelfNumber_KeyUp(object sender, KeyEventArgs e) {
+            if (e.Key == System.Windows.Input.Key.Enter) {
                 //Check if anything is selected
-                if (listBoxShelfPriority.SelectedIndex != -1)
-                {
+                if (listBoxShelfPriority.SelectedIndex != -1) {
                     EditShelfNumber();
                 }
             }
         }
 
-        public void EditShelfNumber()
-        {
-            if (TextBoxEditShelfNumber.Text != "")
-            {
+        public void EditShelfNumber() {
+            if (TextBoxEditShelfNumber.Text != "") {
                 //Insert the new shelf number.
                 ((ListViewItem)listBoxShelfPriority.SelectedItem).Content = TextBoxEditShelfNumber.Text;
-
                 TextBoxEditShelfNumber.Clear();
             }
         }
 
         #endregion
-
     }
 }

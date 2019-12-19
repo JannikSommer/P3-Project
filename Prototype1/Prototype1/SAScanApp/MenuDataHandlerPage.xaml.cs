@@ -8,6 +8,8 @@ using Xamarin.Forms.Xaml;
 using Xamarin.Essentials;
 using Networking;
 using Model;
+using Central_Controller.Central_Controller;
+
 
 namespace SAScanApp {
     [XamlCompilation(XamlCompilationOptions.Compile)]
@@ -60,13 +62,12 @@ namespace SAScanApp {
         private void DownloadPartition(object sender, EventArgs e) 
         {
             Client networkingClient = new Client();
-            Central_Controller.Client DeviceClient = new Central_Controller.Client("Anders");
-            (Partition partition,  CommunicationHandler handler) = networkingClient.DownloadPartition(DeviceClient);
+            User DeviceUser = new User("Anders");
+            (Partition partition,  CommunicationHandler handler) = networkingClient.DownloadPartition(DeviceUser);
 
             if (handler != CommunicationHandler.Success) {
                 DisplayAlert("Error", "An error occured", "Fix your shit!");
             } else {
-
                 IsPartitionDownloaded = true;
                 Navigation.PushAsync(new ScanPage(partition));
             }

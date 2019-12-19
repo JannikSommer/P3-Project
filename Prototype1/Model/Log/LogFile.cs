@@ -34,13 +34,12 @@ namespace Model.Log {
             Messages.Add(message);
         }
 
-        public void AddMultipleMessages(IEnumerable<LogMessage> messages) {
+        public void AddMessages(IEnumerable<LogMessage> messages) {
             foreach(var message in messages) {
                 AddMessage(message);
             }
         }
 
-        // TODO: Are enumerations for types more effecient?
         public List<LogMessage> Search(LogSearchFilter filter) {
             List<LogMessage> results = new List<LogMessage>();
 

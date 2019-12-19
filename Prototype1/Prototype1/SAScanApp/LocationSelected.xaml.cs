@@ -8,7 +8,6 @@ using Model;
 
 
 namespace SAScanApp {
-
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class LocationSelected : ContentPage {
         public LocationSelected() {
@@ -135,7 +134,6 @@ namespace SAScanApp {
                 dec_item_count.IsEnabled = true;
             }
             ScanEditorFocus();
-
         }
 
         private void SaveQuantity(Item item) {

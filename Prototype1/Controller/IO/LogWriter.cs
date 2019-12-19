@@ -1,10 +1,8 @@
 ﻿using System;
 using System.IO;
 
-
 namespace Model.Log {
     public class LogWriter {
-
         public LogWriter(string filePath, LogFile log) {
             Path = filePath;
             Log = log;
@@ -71,6 +69,5 @@ namespace Model.Log {
 
             streamWriter.Dispose();
         }
-
     }
 }

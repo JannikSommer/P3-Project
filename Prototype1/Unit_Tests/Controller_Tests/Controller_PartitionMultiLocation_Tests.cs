@@ -1,6 +1,6 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Central_Controller;
+using Central_Controller.Central_Controller;
 using Model;
 using System.Collections.Generic;
 
@@ -38,24 +38,24 @@ namespace Unit_Tests.Controller_Tests
             Item TestItem7 = new Item("007", "Skjorte", "Grey", "XXL");
             List<string> TestItem7_Locations = new List<string> { "001G07" };
 
-            Client TestClient1 = new Client("1");
-            Client TestClient2 = new Client("2");
+            User TestUser1 = new User("1");
+            User TestUser2 = new User("2");
 
             //Expected
-            int Expected_TestClient1PartitionCount = 5;
-            int Expected_TestClient2PartitionCount = 5;
+            int Expected_TestUser1PartitionCount = 5;
+            int Expected_TestUser2PartitionCount = 5;
 
-            string Expected_TestClient1Location1ID = "001A01";
-            string Expected_TestClient1Location2ID = "001B02";
-            string Expected_TestClient1Location3ID = "001D04";
-            string Expected_TestClient1Location4ID = "002A01";
-            string Expected_TestClient1Location5ID = "002B01";
+            string Expected_TestUser1Location1ID = "001A01";
+            string Expected_TestUser1Location2ID = "001B02";
+            string Expected_TestUser1Location3ID = "001D04";
+            string Expected_TestUser1Location4ID = "002A01";
+            string Expected_TestUser1Location5ID = "002B01";
 
-            string Expected_TestClient2Location1ID = "001C03";
-            string Expected_TestClient2Location2ID = "001E05";
-            string Expected_TestClient2Location3ID = "001F06";
-            string Expected_TestClient2Location4ID = "001G07";
-            string Expected_TestClient2Location5ID = "002C03";
+            string Expected_TestUser2Location1ID = "001C03";
+            string Expected_TestUser2Location2ID = "001E05";
+            string Expected_TestUser2Location3ID = "001F06";
+            string Expected_TestUser2Location4ID = "001G07";
+            string Expected_TestUser2Location5ID = "002C03";
 
             // Act
             TestController.InitialAddItem(TestItem1, TestItem1_Locations);
@@ -68,27 +68,27 @@ namespace Unit_Tests.Controller_Tests
 
             TestController.InitialPartitioningOfLocations();
 
-            TestController.AddClient(TestClient1);
-            TestController.AddClient(TestClient2);
+            TestController.AddUser(TestUser1);
+            TestController.AddUser(TestUser2);
 
-            Partition Actual_TestClient1Partition = TestController.NextPartition(TestClient1);
-            Partition Actual_TestClient2Partition = TestController.NextPartition(TestClient2);
+            Partition Actual_TestUser1Partition = TestController.NextPartition(TestUser1);
+            Partition Actual_TestUser2Partition = TestController.NextPartition(TestUser2);
 
             // Assert
-            Assert.AreEqual(Expected_TestClient1PartitionCount, Actual_TestClient1Partition.Locations.Count);
-            Assert.AreEqual(Expected_TestClient2PartitionCount, Actual_TestClient2Partition.Locations.Count);
+            Assert.AreEqual(Expected_TestUser1PartitionCount, Actual_TestUser1Partition.Locations.Count);
+            Assert.AreEqual(Expected_TestUser2PartitionCount, Actual_TestUser2Partition.Locations.Count);
 
-            Assert.AreEqual(Expected_TestClient1Location1ID, Actual_TestClient1Partition.Locations[0].ID);
-            Assert.AreEqual(Expected_TestClient1Location2ID, Actual_TestClient1Partition.Locations[1].ID);
-            Assert.AreEqual(Expected_TestClient1Location3ID, Actual_TestClient1Partition.Locations[2].ID);
-            Assert.AreEqual(Expected_TestClient1Location4ID, Actual_TestClient1Partition.Locations[3].ID);
-            Assert.AreEqual(Expected_TestClient1Location5ID, Actual_TestClient1Partition.Locations[4].ID);
+            Assert.AreEqual(Expected_TestUser1Location1ID, Actual_TestUser1Partition.Locations[0].ID);
+            Assert.AreEqual(Expected_TestUser1Location2ID, Actual_TestUser1Partition.Locations[1].ID);
+            Assert.AreEqual(Expected_TestUser1Location3ID, Actual_TestUser1Partition.Locations[2].ID);
+            Assert.AreEqual(Expected_TestUser1Location4ID, Actual_TestUser1Partition.Locations[3].ID);
+            Assert.AreEqual(Expected_TestUser1Location5ID, Actual_TestUser1Partition.Locations[4].ID);
 
-            Assert.AreEqual(Expected_TestClient2Location1ID, Actual_TestClient2Partition.Locations[0].ID);
-            Assert.AreEqual(Expected_TestClient2Location2ID, Actual_TestClient2Partition.Locations[1].ID);
-            Assert.AreEqual(Expected_TestClient2Location3ID, Actual_TestClient2Partition.Locations[2].ID);
-            Assert.AreEqual(Expected_TestClient2Location4ID, Actual_TestClient2Partition.Locations[3].ID);
-            Assert.AreEqual(Expected_TestClient2Location5ID, Actual_TestClient2Partition.Locations[4].ID);
+            Assert.AreEqual(Expected_TestUser2Location1ID, Actual_TestUser2Partition.Locations[0].ID);
+            Assert.AreEqual(Expected_TestUser2Location2ID, Actual_TestUser2Partition.Locations[1].ID);
+            Assert.AreEqual(Expected_TestUser2Location3ID, Actual_TestUser2Partition.Locations[2].ID);
+            Assert.AreEqual(Expected_TestUser2Location4ID, Actual_TestUser2Partition.Locations[3].ID);
+            Assert.AreEqual(Expected_TestUser2Location5ID, Actual_TestUser2Partition.Locations[4].ID);
         }
 
         [TestMethod]
@@ -120,23 +120,23 @@ namespace Unit_Tests.Controller_Tests
             //Item TestItem7 = new Item("007", "Skjorte", "Grey", "XXL");
             //List<string> TestItem7_Locations = new List<string> { "001G07" };
 
-            Client TestClient1 = new Client("1");
-            Client TestClient2 = new Client("2");
+            User TestUser1 = new User("1");
+            User TestUser2 = new User("2");
 
             //Expected
-            int Expected_TestClient1PartitionCount = 5;
-            int Expected_TestClient2PartitionCount = 4;
+            int Expected_TestUser1PartitionCount = 5;
+            int Expected_TestUser2PartitionCount = 4;
 
-            string Expected_TestClient1Location1ID = "001A01";
-            string Expected_TestClient1Location2ID = "001D04";
-            string Expected_TestClient1Location3ID = "002A01";
-            string Expected_TestClient1Location4ID = "003A01";
-            string Expected_TestClient1Location5ID = "004A01";
+            string Expected_TestUser1Location1ID = "001A01";
+            string Expected_TestUser1Location2ID = "001D04";
+            string Expected_TestUser1Location3ID = "002A01";
+            string Expected_TestUser1Location4ID = "003A01";
+            string Expected_TestUser1Location5ID = "004A01";
 
-            string Expected_TestClient2Location1ID = "001B02";
-            string Expected_TestClient2Location2ID = "001C03";
-            string Expected_TestClient2Location3ID = "001C04";
-            string Expected_TestClient2Location4ID = "002B01";
+            string Expected_TestUser2Location1ID = "001B02";
+            string Expected_TestUser2Location2ID = "001C03";
+            string Expected_TestUser2Location3ID = "001C04";
+            string Expected_TestUser2Location4ID = "002B01";
 
             // Act
             TestController.InitialAddItem(TestItem1, TestItem1_Locations);
@@ -149,27 +149,27 @@ namespace Unit_Tests.Controller_Tests
 
             TestController.InitialPartitioningOfLocations();
 
-            TestController.AddClient(TestClient1);
-            TestController.AddClient(TestClient2);
+            TestController.AddUser(TestUser1);
+            TestController.AddUser(TestUser2);
 
-            Partition Actual_TestClient1Partition = TestController.NextPartition(TestClient1);
-            Partition Actual_TestClient2Partition = TestController.NextPartition(TestClient2);
+            Partition Actual_TestUser1Partition = TestController.NextPartition(TestUser1);
+            Partition Actual_TestUser2Partition = TestController.NextPartition(TestUser2);
 
             // Assert
-            Assert.AreEqual(Expected_TestClient1PartitionCount, Actual_TestClient1Partition.Locations.Count);
-            Assert.AreEqual(Expected_TestClient2PartitionCount, Actual_TestClient2Partition.Locations.Count);
+            Assert.AreEqual(Expected_TestUser1PartitionCount, Actual_TestUser1Partition.Locations.Count);
+            Assert.AreEqual(Expected_TestUser2PartitionCount, Actual_TestUser2Partition.Locations.Count);
 
-            Assert.AreEqual(Expected_TestClient1Location1ID, Actual_TestClient1Partition.Locations[0].ID);
-            Assert.AreEqual(Expected_TestClient1Location2ID, Actual_TestClient1Partition.Locations[1].ID);
-            Assert.AreEqual(Expected_TestClient1Location3ID, Actual_TestClient1Partition.Locations[2].ID);
-            Assert.AreEqual(Expected_TestClient1Location4ID, Actual_TestClient1Partition.Locations[3].ID);
-            Assert.AreEqual(Expected_TestClient1Location5ID, Actual_TestClient1Partition.Locations[4].ID);
+            Assert.AreEqual(Expected_TestUser1Location1ID, Actual_TestUser1Partition.Locations[0].ID);
+            Assert.AreEqual(Expected_TestUser1Location2ID, Actual_TestUser1Partition.Locations[1].ID);
+            Assert.AreEqual(Expected_TestUser1Location3ID, Actual_TestUser1Partition.Locations[2].ID);
+            Assert.AreEqual(Expected_TestUser1Location4ID, Actual_TestUser1Partition.Locations[3].ID);
+            Assert.AreEqual(Expected_TestUser1Location5ID, Actual_TestUser1Partition.Locations[4].ID);
 
-            Assert.AreEqual(Expected_TestClient2Location1ID, Actual_TestClient2Partition.Locations[0].ID);
-            Assert.AreEqual(Expected_TestClient2Location2ID, Actual_TestClient2Partition.Locations[1].ID);
-            Assert.AreEqual(Expected_TestClient2Location3ID, Actual_TestClient2Partition.Locations[2].ID);
-            Assert.AreEqual(Expected_TestClient2Location4ID, Actual_TestClient2Partition.Locations[3].ID);
-            //Assert.AreEqual(Expected_TestClient2Location5ID, Actual_TestClient2Partition.Locations[4].ID);
+            Assert.AreEqual(Expected_TestUser2Location1ID, Actual_TestUser2Partition.Locations[0].ID);
+            Assert.AreEqual(Expected_TestUser2Location2ID, Actual_TestUser2Partition.Locations[1].ID);
+            Assert.AreEqual(Expected_TestUser2Location3ID, Actual_TestUser2Partition.Locations[2].ID);
+            Assert.AreEqual(Expected_TestUser2Location4ID, Actual_TestUser2Partition.Locations[3].ID);
+            //Assert.AreEqual(Expected_TestUser2Location5ID, Actual_TestUser2Partition.Locations[4].ID);
         }
 
         [TestMethod]
@@ -210,31 +210,31 @@ namespace Unit_Tests.Controller_Tests
             //Item TestItem10 = new Item("010");
             //List<string> TestItem10_Locations = new List<string> { "005A03" };
 
-            Client TestClient1 = new Client("1");
-            Client TestClient2 = new Client("2");
-            Client TestClient3 = new Client("3");
+            User TestUser1 = new User("1");
+            User TestUser2 = new User("2");
+            User TestUser3 = new User("3");
 
             //Expected
-            int Expected_TestClient1PartitionCount = 5;
-            int Expected_TestClient2PartitionCount = 5;
-            int Expected_TestClient3PartitionCount = 4;
+            int Expected_TestUser1PartitionCount = 5;
+            int Expected_TestUser2PartitionCount = 5;
+            int Expected_TestUser3PartitionCount = 4;
 
-            string Expected_TestClient1Location1ID = "001A01";
-            string Expected_TestClient1Location2ID = "001D04";
-            string Expected_TestClient1Location3ID = "002A01";
-            string Expected_TestClient1Location4ID = "003A01";
-            string Expected_TestClient1Location5ID = "004A01";
+            string Expected_TestUser1Location1ID = "001A01";
+            string Expected_TestUser1Location2ID = "001D04";
+            string Expected_TestUser1Location3ID = "002A01";
+            string Expected_TestUser1Location4ID = "003A01";
+            string Expected_TestUser1Location5ID = "004A01";
 
-            string Expected_TestClient2Location1ID = "001B02";
-            string Expected_TestClient2Location2ID = "001C03";
-            string Expected_TestClient2Location3ID = "001C04";
-            string Expected_TestClient2Location4ID = "001E05";
-            string Expected_TestClient2Location5ID = "002B01";
+            string Expected_TestUser2Location1ID = "001B02";
+            string Expected_TestUser2Location2ID = "001C03";
+            string Expected_TestUser2Location3ID = "001C04";
+            string Expected_TestUser2Location4ID = "001E05";
+            string Expected_TestUser2Location5ID = "002B01";
 
-            string Expected_TestClient3Location1ID = "005A01";
-            string Expected_TestClient3Location2ID = "005B01";
-            string Expected_TestClient3Location3ID = "005F01";
-            string Expected_TestClient3Location4ID = "005G01";
+            string Expected_TestUser3Location1ID = "005A01";
+            string Expected_TestUser3Location2ID = "005B01";
+            string Expected_TestUser3Location3ID = "005F01";
+            string Expected_TestUser3Location4ID = "005G01";
 
             // Act
             TestController.InitialAddItem(TestItem1, TestItem1_Locations);
@@ -249,36 +249,36 @@ namespace Unit_Tests.Controller_Tests
 
             TestController.InitialPartitioningOfLocations();
 
-            TestController.AddClient(TestClient1);
-            TestController.AddClient(TestClient2);
-            TestController.AddClient(TestClient3);
+            TestController.AddUser(TestUser1);
+            TestController.AddUser(TestUser2);
+            TestController.AddUser(TestUser3);
 
-            Partition Actual_TestClient1Partition = TestController.NextPartition(TestClient1);
-            Partition Actual_TestClient2Partition = TestController.NextPartition(TestClient2);
-            Partition Actual_TestClient3Partition = TestController.NextPartition(TestClient3);
+            Partition Actual_TestUser1Partition = TestController.NextPartition(TestUser1);
+            Partition Actual_TestUser2Partition = TestController.NextPartition(TestUser2);
+            Partition Actual_TestUser3Partition = TestController.NextPartition(TestUser3);
 
             // Assert
-            Assert.AreEqual(Expected_TestClient1PartitionCount, Actual_TestClient1Partition.Locations.Count);
-            Assert.AreEqual(Expected_TestClient2PartitionCount, Actual_TestClient2Partition.Locations.Count);
-            Assert.AreEqual(Expected_TestClient3PartitionCount, Actual_TestClient3Partition.Locations.Count);
+            Assert.AreEqual(Expected_TestUser1PartitionCount, Actual_TestUser1Partition.Locations.Count);
+            Assert.AreEqual(Expected_TestUser2PartitionCount, Actual_TestUser2Partition.Locations.Count);
+            Assert.AreEqual(Expected_TestUser3PartitionCount, Actual_TestUser3Partition.Locations.Count);
 
-            Assert.AreEqual(Expected_TestClient1Location1ID, Actual_TestClient1Partition.Locations[0].ID);
-            Assert.AreEqual(Expected_TestClient1Location2ID, Actual_TestClient1Partition.Locations[1].ID);
-            Assert.AreEqual(Expected_TestClient1Location3ID, Actual_TestClient1Partition.Locations[2].ID);
-            Assert.AreEqual(Expected_TestClient1Location4ID, Actual_TestClient1Partition.Locations[3].ID);
-            Assert.AreEqual(Expected_TestClient1Location5ID, Actual_TestClient1Partition.Locations[4].ID);
+            Assert.AreEqual(Expected_TestUser1Location1ID, Actual_TestUser1Partition.Locations[0].ID);
+            Assert.AreEqual(Expected_TestUser1Location2ID, Actual_TestUser1Partition.Locations[1].ID);
+            Assert.AreEqual(Expected_TestUser1Location3ID, Actual_TestUser1Partition.Locations[2].ID);
+            Assert.AreEqual(Expected_TestUser1Location4ID, Actual_TestUser1Partition.Locations[3].ID);
+            Assert.AreEqual(Expected_TestUser1Location5ID, Actual_TestUser1Partition.Locations[4].ID);
 
-            Assert.AreEqual(Expected_TestClient2Location1ID, Actual_TestClient2Partition.Locations[0].ID);
-            Assert.AreEqual(Expected_TestClient2Location2ID, Actual_TestClient2Partition.Locations[1].ID);
-            Assert.AreEqual(Expected_TestClient2Location3ID, Actual_TestClient2Partition.Locations[2].ID);
-            Assert.AreEqual(Expected_TestClient2Location4ID, Actual_TestClient2Partition.Locations[3].ID);
-            Assert.AreEqual(Expected_TestClient2Location5ID, Actual_TestClient2Partition.Locations[4].ID);
+            Assert.AreEqual(Expected_TestUser2Location1ID, Actual_TestUser2Partition.Locations[0].ID);
+            Assert.AreEqual(Expected_TestUser2Location2ID, Actual_TestUser2Partition.Locations[1].ID);
+            Assert.AreEqual(Expected_TestUser2Location3ID, Actual_TestUser2Partition.Locations[2].ID);
+            Assert.AreEqual(Expected_TestUser2Location4ID, Actual_TestUser2Partition.Locations[3].ID);
+            Assert.AreEqual(Expected_TestUser2Location5ID, Actual_TestUser2Partition.Locations[4].ID);
 
-            Assert.AreEqual(Expected_TestClient3Location1ID, Actual_TestClient3Partition.Locations[0].ID);
-            Assert.AreEqual(Expected_TestClient3Location2ID, Actual_TestClient3Partition.Locations[1].ID);
-            Assert.AreEqual(Expected_TestClient3Location3ID, Actual_TestClient3Partition.Locations[2].ID);
-            Assert.AreEqual(Expected_TestClient3Location4ID, Actual_TestClient3Partition.Locations[3].ID);
-            //Assert.AreEqual(Expected_TestClient2Location5ID, Actual_TestClient2Partition.Locations[4].ID);
+            Assert.AreEqual(Expected_TestUser3Location1ID, Actual_TestUser3Partition.Locations[0].ID);
+            Assert.AreEqual(Expected_TestUser3Location2ID, Actual_TestUser3Partition.Locations[1].ID);
+            Assert.AreEqual(Expected_TestUser3Location3ID, Actual_TestUser3Partition.Locations[2].ID);
+            Assert.AreEqual(Expected_TestUser3Location4ID, Actual_TestUser3Partition.Locations[3].ID);
+            //Assert.AreEqual(Expected_TestUser2Location5ID, Actual_TestUser2Partition.Locations[4].ID);
         }
 
         [TestMethod]
@@ -298,24 +298,24 @@ namespace Unit_Tests.Controller_Tests
             Item TestItem3 = new Item("003", "Pants", "Green", "Extra-Large");
             List<string> TestItem3_Locations = new List<string> { "006A01", "007A01", "008A01", "009A01", "010A01" };
 
-            Client TestClient1 = new Client("1");
-            Client TestClient2 = new Client("2");
+            User TestUser1 = new User("1");
+            User TestUser2 = new User("2");
 
             //Expected
-            int Expected_TestClient1PartitionCount = 7;
-            int Expected_TestClient2PartitionCount = 3;
+            int Expected_TestUser1PartitionCount = 7;
+            int Expected_TestUser2PartitionCount = 3;
 
-            string Expected_TestClient1Location1ID = "001A01";
-            string Expected_TestClient1Location2ID = "002A01";
-            string Expected_TestClient1Location3ID = "003A01";
-            string Expected_TestClient1Location4ID = "004A01";
-            string Expected_TestClient1Location5ID = "005A01";
-            string Expected_TestClient1Location6ID = "006A01";
-            string Expected_TestClient1Location7ID = "007A01";
+            string Expected_TestUser1Location1ID = "001A01";
+            string Expected_TestUser1Location2ID = "002A01";
+            string Expected_TestUser1Location3ID = "003A01";
+            string Expected_TestUser1Location4ID = "004A01";
+            string Expected_TestUser1Location5ID = "005A01";
+            string Expected_TestUser1Location6ID = "006A01";
+            string Expected_TestUser1Location7ID = "007A01";
 
-            string Expected_TestClient2Location1ID = "008A01";
-            string Expected_TestClient2Location2ID = "009A01";
-            string Expected_TestClient2Location3ID = "010A01";
+            string Expected_TestUser2Location1ID = "008A01";
+            string Expected_TestUser2Location2ID = "009A01";
+            string Expected_TestUser2Location3ID = "010A01";
 
             // Act
             TestController.InitialAddItem(TestItem1, TestItem1_Locations);
@@ -324,27 +324,27 @@ namespace Unit_Tests.Controller_Tests
 
             TestController.InitialPartitioningOfLocations();
 
-            TestController.AddClient(TestClient1);
-            TestController.AddClient(TestClient2);
+            TestController.AddUser(TestUser1);
+            TestController.AddUser(TestUser2);
 
-            Partition Actual_TestClient1Partition = TestController.NextPartition(TestClient1);
-            Partition Actual_TestClient2Partition = TestController.NextPartition(TestClient2);
+            Partition Actual_TestUser1Partition = TestController.NextPartition(TestUser1);
+            Partition Actual_TestUser2Partition = TestController.NextPartition(TestUser2);
 
             // Assert
-            Assert.AreEqual(Expected_TestClient1PartitionCount, Actual_TestClient1Partition.Locations.Count);
-            Assert.AreEqual(Expected_TestClient2PartitionCount, Actual_TestClient2Partition.Locations.Count);
+            Assert.AreEqual(Expected_TestUser1PartitionCount, Actual_TestUser1Partition.Locations.Count);
+            Assert.AreEqual(Expected_TestUser2PartitionCount, Actual_TestUser2Partition.Locations.Count);
 
-            Assert.AreEqual(Expected_TestClient1Location1ID, Actual_TestClient1Partition.Locations[0].ID);
-            Assert.AreEqual(Expected_TestClient1Location2ID, Actual_TestClient1Partition.Locations[1].ID);
-            Assert.AreEqual(Expected_TestClient1Location3ID, Actual_TestClient1Partition.Locations[2].ID);
-            Assert.AreEqual(Expected_TestClient1Location4ID, Actual_TestClient1Partition.Locations[3].ID);
-            Assert.AreEqual(Expected_TestClient1Location5ID, Actual_TestClient1Partition.Locations[4].ID);
-            Assert.AreEqual(Expected_TestClient1Location6ID, Actual_TestClient1Partition.Locations[5].ID);
-            Assert.AreEqual(Expected_TestClient1Location7ID, Actual_TestClient1Partition.Locations[6].ID);
+            Assert.AreEqual(Expected_TestUser1Location1ID, Actual_TestUser1Partition.Locations[0].ID);
+            Assert.AreEqual(Expected_TestUser1Location2ID, Actual_TestUser1Partition.Locations[1].ID);
+            Assert.AreEqual(Expected_TestUser1Location3ID, Actual_TestUser1Partition.Locations[2].ID);
+            Assert.AreEqual(Expected_TestUser1Location4ID, Actual_TestUser1Partition.Locations[3].ID);
+            Assert.AreEqual(Expected_TestUser1Location5ID, Actual_TestUser1Partition.Locations[4].ID);
+            Assert.AreEqual(Expected_TestUser1Location6ID, Actual_TestUser1Partition.Locations[5].ID);
+            Assert.AreEqual(Expected_TestUser1Location7ID, Actual_TestUser1Partition.Locations[6].ID);
 
-            Assert.AreEqual(Expected_TestClient2Location1ID, Actual_TestClient2Partition.Locations[0].ID);
-            Assert.AreEqual(Expected_TestClient2Location2ID, Actual_TestClient2Partition.Locations[1].ID);
-            Assert.AreEqual(Expected_TestClient2Location3ID, Actual_TestClient2Partition.Locations[2].ID);
+            Assert.AreEqual(Expected_TestUser2Location1ID, Actual_TestUser2Partition.Locations[0].ID);
+            Assert.AreEqual(Expected_TestUser2Location2ID, Actual_TestUser2Partition.Locations[1].ID);
+            Assert.AreEqual(Expected_TestUser2Location3ID, Actual_TestUser2Partition.Locations[2].ID);
         }
 
         [TestMethod]
@@ -361,28 +361,28 @@ namespace Unit_Tests.Controller_Tests
             Item TestItem2 = new Item("002", "Hoddie", "Blue", "Medium");
             List<string> TestItem2_Locations = new List<string> { "009A01", "010A01", "011A01", "012A01", "013A01", "014A01" };
 
-            Client TestClient1 = new Client("1");
-            Client TestClient2 = new Client("2");
+            User TestUser1 = new User("1");
+            User TestUser2 = new User("2");
 
             //Expected
-            int Expected_TestClient1PartitionCount = 10;
-            int Expected_TestClient2PartitionCount = 4;
+            int Expected_TestUser1PartitionCount = 10;
+            int Expected_TestUser2PartitionCount = 4;
 
-            string Expected_TestClient1Location1ID = "001A01";
-            string Expected_TestClient1Location2ID = "002A01";
-            string Expected_TestClient1Location3ID = "003A01";
-            string Expected_TestClient1Location4ID = "004A01";
-            string Expected_TestClient1Location5ID = "005A01";
-            string Expected_TestClient1Location6ID = "006A01";
-            string Expected_TestClient1Location7ID = "007A01";
-            string Expected_TestClient1Location8ID = "008A01";
-            string Expected_TestClient1Location9ID = "009A01";
-            string Expected_TestClient1Location10ID = "010A01";
+            string Expected_TestUser1Location1ID = "001A01";
+            string Expected_TestUser1Location2ID = "002A01";
+            string Expected_TestUser1Location3ID = "003A01";
+            string Expected_TestUser1Location4ID = "004A01";
+            string Expected_TestUser1Location5ID = "005A01";
+            string Expected_TestUser1Location6ID = "006A01";
+            string Expected_TestUser1Location7ID = "007A01";
+            string Expected_TestUser1Location8ID = "008A01";
+            string Expected_TestUser1Location9ID = "009A01";
+            string Expected_TestUser1Location10ID = "010A01";
 
-            string Expected_TestClient2Location1ID = "011A01";
-            string Expected_TestClient2Location2ID = "012A01";
-            string Expected_TestClient2Location3ID = "013A01";
-            string Expected_TestClient2Location4ID = "014A01";
+            string Expected_TestUser2Location1ID = "011A01";
+            string Expected_TestUser2Location2ID = "012A01";
+            string Expected_TestUser2Location3ID = "013A01";
+            string Expected_TestUser2Location4ID = "014A01";
 
             // Act
             TestController.InitialAddItem(TestItem1, TestItem1_Locations);
@@ -390,31 +390,31 @@ namespace Unit_Tests.Controller_Tests
 
             TestController.InitialPartitioningOfLocations();
 
-            TestController.AddClient(TestClient1);
-            TestController.AddClient(TestClient2);
+            TestController.AddUser(TestUser1);
+            TestController.AddUser(TestUser2);
 
-            Partition Actual_TestClient1Partition = TestController.NextPartition(TestClient1);
-            Partition Actual_TestClient2Partition = TestController.NextPartition(TestClient2);
+            Partition Actual_TestUser1Partition = TestController.NextPartition(TestUser1);
+            Partition Actual_TestUser2Partition = TestController.NextPartition(TestUser2);
 
             // Assert
-            Assert.AreEqual(Expected_TestClient1PartitionCount, Actual_TestClient1Partition.Locations.Count);
-            Assert.AreEqual(Expected_TestClient2PartitionCount, Actual_TestClient2Partition.Locations.Count);
+            Assert.AreEqual(Expected_TestUser1PartitionCount, Actual_TestUser1Partition.Locations.Count);
+            Assert.AreEqual(Expected_TestUser2PartitionCount, Actual_TestUser2Partition.Locations.Count);
 
-            Assert.AreEqual(Expected_TestClient1Location1ID, Actual_TestClient1Partition.Locations[0].ID);
-            Assert.AreEqual(Expected_TestClient1Location2ID, Actual_TestClient1Partition.Locations[1].ID);
-            Assert.AreEqual(Expected_TestClient1Location3ID, Actual_TestClient1Partition.Locations[2].ID);
-            Assert.AreEqual(Expected_TestClient1Location4ID, Actual_TestClient1Partition.Locations[3].ID);
-            Assert.AreEqual(Expected_TestClient1Location5ID, Actual_TestClient1Partition.Locations[4].ID);
-            Assert.AreEqual(Expected_TestClient1Location6ID, Actual_TestClient1Partition.Locations[5].ID);
-            Assert.AreEqual(Expected_TestClient1Location7ID, Actual_TestClient1Partition.Locations[6].ID);
-            Assert.AreEqual(Expected_TestClient1Location8ID, Actual_TestClient1Partition.Locations[7].ID);
-            Assert.AreEqual(Expected_TestClient1Location9ID, Actual_TestClient1Partition.Locations[8].ID);
-            Assert.AreEqual(Expected_TestClient1Location10ID, Actual_TestClient1Partition.Locations[9].ID);
+            Assert.AreEqual(Expected_TestUser1Location1ID, Actual_TestUser1Partition.Locations[0].ID);
+            Assert.AreEqual(Expected_TestUser1Location2ID, Actual_TestUser1Partition.Locations[1].ID);
+            Assert.AreEqual(Expected_TestUser1Location3ID, Actual_TestUser1Partition.Locations[2].ID);
+            Assert.AreEqual(Expected_TestUser1Location4ID, Actual_TestUser1Partition.Locations[3].ID);
+            Assert.AreEqual(Expected_TestUser1Location5ID, Actual_TestUser1Partition.Locations[4].ID);
+            Assert.AreEqual(Expected_TestUser1Location6ID, Actual_TestUser1Partition.Locations[5].ID);
+            Assert.AreEqual(Expected_TestUser1Location7ID, Actual_TestUser1Partition.Locations[6].ID);
+            Assert.AreEqual(Expected_TestUser1Location8ID, Actual_TestUser1Partition.Locations[7].ID);
+            Assert.AreEqual(Expected_TestUser1Location9ID, Actual_TestUser1Partition.Locations[8].ID);
+            Assert.AreEqual(Expected_TestUser1Location10ID, Actual_TestUser1Partition.Locations[9].ID);
 
-            Assert.AreEqual(Expected_TestClient2Location1ID, Actual_TestClient2Partition.Locations[0].ID);
-            Assert.AreEqual(Expected_TestClient2Location2ID, Actual_TestClient2Partition.Locations[1].ID);
-            Assert.AreEqual(Expected_TestClient2Location3ID, Actual_TestClient2Partition.Locations[2].ID);
-            Assert.AreEqual(Expected_TestClient2Location4ID, Actual_TestClient2Partition.Locations[3].ID);
+            Assert.AreEqual(Expected_TestUser2Location1ID, Actual_TestUser2Partition.Locations[0].ID);
+            Assert.AreEqual(Expected_TestUser2Location2ID, Actual_TestUser2Partition.Locations[1].ID);
+            Assert.AreEqual(Expected_TestUser2Location3ID, Actual_TestUser2Partition.Locations[2].ID);
+            Assert.AreEqual(Expected_TestUser2Location4ID, Actual_TestUser2Partition.Locations[3].ID);
         }
 
         [TestMethod]
@@ -470,9 +470,9 @@ namespace Unit_Tests.Controller_Tests
             Item TestItem15 = new Item("015");
             List<string> TestItem15_Locations = new List<string> { "006A12", "007A12", "008A12", "009A12", "010A12", "011A12" };
 
-            Client TestClient1 = new Client("1");
-            Client TestClient2 = new Client("2");
-            Client TestClient3 = new Client("3");
+            User TestUser1 = new User("1");
+            User TestUser2 = new User("2");
+            User TestUser3 = new User("3");
 
             //Expected
 
@@ -530,14 +530,14 @@ namespace Unit_Tests.Controller_Tests
 
             TestController.InitialPartitioningOfLocations();
 
-            TestController.AddClient(TestClient1);
-            TestController.AddClient(TestClient2);
-            TestController.AddClient(TestClient3);
+            TestController.AddUser(TestUser1);
+            TestController.AddUser(TestUser2);
+            TestController.AddUser(TestUser3);
 
-            Partition Actual_TestPartition1 = TestController.NextPartition(TestClient1);
-            Partition Actual_TestPartition2 = TestController.NextPartition(TestClient2);
-            Partition Actual_TestPartition3 = TestController.NextPartition(TestClient3);
-            Partition Actual_TestPartition4 = TestController.NextPartition(TestClient1);
+            Partition Actual_TestPartition1 = TestController.NextPartition(TestUser1);
+            Partition Actual_TestPartition2 = TestController.NextPartition(TestUser2);
+            Partition Actual_TestPartition3 = TestController.NextPartition(TestUser3);
+            Partition Actual_TestPartition4 = TestController.NextPartition(TestUser1);
 
             // Assert
 
@@ -630,9 +630,9 @@ namespace Unit_Tests.Controller_Tests
             Item TestItem15 = new Item("015");
             List<string> TestItem15_Locations = new List<string> { "006A12", "007A12", "008A12", "009A12", "010A12", "011A12" };
 
-            Client TestClient1 = new Client("1");
-            Client TestClient2 = new Client("2");
-            Client TestClient3 = new Client("3");
+            User TestUser1 = new User("1");
+            User TestUser2 = new User("2");
+            User TestUser3 = new User("3");
 
             //Expected
 
@@ -696,17 +696,17 @@ namespace Unit_Tests.Controller_Tests
 
             TestController.InitialPartitioningOfLocations();
 
-            TestController.AddClient(TestClient1);
-            TestController.AddClient(TestClient2);
+            TestController.AddUser(TestUser1);
+            TestController.AddUser(TestUser2);
 
-            Partition Actual_TestPartition1 = TestController.NextPartition(TestClient1);
-            Partition Actual_TestPartition2 = TestController.NextPartition(TestClient2);
-            Partition Actual_TestPartition3 = TestController.NextPartition(TestClient1);
+            Partition Actual_TestPartition1 = TestController.NextPartition(TestUser1);
+            Partition Actual_TestPartition2 = TestController.NextPartition(TestUser2);
+            Partition Actual_TestPartition3 = TestController.NextPartition(TestUser1);
 
-            TestController.AddClient(TestClient3);
+            TestController.AddUser(TestUser3);
 
-            Partition Actual_TestPartition4 = TestController.NextPartition(TestClient3);
-            Partition Actual_TestPartition5 = TestController.NextPartition(TestClient2);
+            Partition Actual_TestPartition4 = TestController.NextPartition(TestUser3);
+            Partition Actual_TestPartition5 = TestController.NextPartition(TestUser2);
 
             // Assert
 
