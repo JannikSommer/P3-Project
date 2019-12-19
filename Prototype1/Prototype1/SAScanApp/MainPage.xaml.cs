@@ -11,24 +11,22 @@ namespace SAScanApp
 {
     [DesignTimeVisible(false)]
     public partial class MainPage : ContentPage
-    {
-
-        public Partition Partition { get; set; }
-        //Skal have en constructor der læser partition ind så den kan bruges i ScanPage instansiering i ScanPage_Selected
-        public MainPage() {
+    {        //Skal have en constructor der læser partition ind så den kan bruges i ScanPage instansiering i ScanPage_Selected
+        public MainPage() { 
             InitializeComponent();
             logo.Source = ImageSource.FromResource("SAScanApp.images.salogo.JPG");
         }
 
-        private void ScanPage_Selected(object sender, EventArgs e)
+        private async void ScanPage_Selected(object sender, EventArgs e)
         {
-            Navigation.PushAsync(new MenuDataHandlerPage(this));
+            await Navigation.PushAsync(new MenuDataHandlerPage(this));
         }
 
-        private void Admin_Selected(object sender, EventArgs e)
+        private async void Admin_Selected(object sender, EventArgs e)
         {
-            Navigation.PushAsync(new AdminLoginPage(this));
+            await Navigation.PushAsync(new AdminLoginPage(this));
         }
+
 
         private async void Test_Button_Clicked(object sender, EventArgs e)
         {

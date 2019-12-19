@@ -9,47 +9,79 @@ using Xamarin.Essentials;
 using Networking;
 using Model;
 using Central_Controller.Central_Controller;
-
+using System.IO;
 
 namespace SAScanApp {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class MenuDataHandlerPage : ContentPage {
         private MainPage _mPage { get; set; }
+        private AdminPartitionSelection _admPSPage { get; set; }
         private MenuStartPage _mStartPage { get; set; }
-
         public bool IsPartitionDownloaded { get; set; } = false;
+        public string UserName { get; set; }
+
 
         public MenuDataHandlerPage()
         {
             InitializeComponent();
         }
 
-        public MenuDataHandlerPage(MainPage mPage):this() { 
-        
-        _mPage = mPage;
+        public MenuDataHandlerPage(MainPage mPage)
+            : this() 
+        {
+            _mPage = mPage;
         }
 
-        public MenuDataHandlerPage(MenuStartPage mStartPage):this()
+        public MenuDataHandlerPage(AdminPartitionSelection admPSPage)
+            : this()
+        {
+            _admPSPage = admPSPage;
+        }
+
+        public MenuDataHandlerPage(MenuStartPage mStartPage) 
+            : this()
         {
             _mStartPage = mStartPage;
         }
-            private async void UploadPartition(object sender, EventArgs e) {
+        
+        
+        private async void UploadPartition(object sender, EventArgs e) {
 
-            if (IsPartitionDownloaded != true)
+        if (!IsPartitionDownloaded && !_admPSPage.IsVerificationPartition)
+        {
+            Client client = new Client();
+            Partition partition = new Model.Partition();
+            CommunicationHandler handler = client.UploadPartition(partition);
+            if( handler != CommunicationHandler.Success)
             {
-                Client client = new Client();
-                Partition partition = new Model.Partition();
-                CommunicationHandler handler = client.UploadPartition(partition);
-                if( handler != CommunicationHandler.Success)
-                {
-                    await DisplayAlert("Error", "You have no active partition", "Okay");
+                await DisplayAlert("Error", "You have no active partition", "Okay");
+            }
 
-                }
+            else
+            {
+                IsPartitionDownloaded = false;
+                await DisplayAlert("Succes", "Partition succesfully uploaded", "Okay");
+            }
+        }
 
-                else
+        else if(!IsPartitionDownloaded && _admPSPage.IsVerificationPartition == true)
+            {
+                if (IsPartitionDownloaded != true)
                 {
-                    IsPartitionDownloaded = false;
-                    await DisplayAlert("Succes", "Partition succesfully uploaded", "Okay");
+                    Client client = new Client();
+                    VerificationPartition Vpartition = new Model.VerificationPartition();
+                    CommunicationHandler handler = client.UploadVerificationPartition(Vpartition);
+                    if (handler != CommunicationHandler.Success)
+                    {
+                        await DisplayAlert("Error", "You have no active Verification Partition", "Okay");
+
+                    }
+
+                    else
+                    {
+                        IsPartitionDownloaded = false;
+                        await DisplayAlert("Succes", "Verification Partition succesfully uploaded", "Okay");
+                    }
                 }
             }
 
@@ -59,24 +91,47 @@ namespace SAScanApp {
             // Ligeledes er ens partition ikke done, (mangler en location/item som slet ikke er scannet) så kan den ikke uploades (måske med overrule funktion??)
         }
 
-        private void DownloadPartition(object sender, EventArgs e) 
+        private async void DownloadPartition(object sender, EventArgs e) 
         {
-            Client networkingClient = new Client();
-            User DeviceUser = new User("Anders");
-            (Partition partition,  CommunicationHandler handler) = networkingClient.DownloadPartition(DeviceUser);
 
-            if (handler != CommunicationHandler.Success) {
-                DisplayAlert("Error", "An error occured", "Fix your shit!");
-            } else {
-                IsPartitionDownloaded = true;
-                Navigation.PushAsync(new ScanPage(partition));
+            if (IsPartitionDownloaded && !_admPSPage.IsVerificationPartition)
+            {
+                var path = Environment.CurrentDirectory + @"\UserData\UserName.txt";
+
+                var UserName = File.ReadAllText(path);                
+
+                Client networkingClient = new Client();
+                Central_Controller.Client DeviceClient = new Central_Controller.Client(UserName);
+                (Partition partition, CommunicationHandler handler) = networkingClient.DownloadPartition(DeviceClient);
+
+                if (handler != CommunicationHandler.Success)
+                {
+                    await DisplayAlert("Error", "An error occured", "Fix your shit!");
+                }
+                else
+                {
+                    IsPartitionDownloaded = true;
+                    await Navigation.PushAsync(new ScanPage(partition));
+                }
             }
 
+            else if(IsPartitionDownloaded && _admPSPage.IsVerificationPartition)
+            {
+                Client networkingClient = new Client();
+                Central_Controller.Client DeviceClient = new Central_Controller.Client(UserName);
+                (VerificationPartition Vpartition, CommunicationHandler handler) = networkingClient.DownloadVerificationPartition(DeviceClient);
 
-            // DependencyService.Get<IBluetoothHandler>().EnableBluetooth();
-            // Typesafety, samme som ovenstående, plus at hvis ens partition pt. ikke er uploaded, kan man ikke få en ny
+                if (handler != CommunicationHandler.Success)
+                {
+                    await DisplayAlert("Error", "An error occured", "Fix your shit!");
+                }
+                else
+                {
+                    IsPartitionDownloaded = true;
+                    await Navigation.PushAsync(new ScanPage(Vpartition));
+                }
+            }
         }
-
 
     }
 }
