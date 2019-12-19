@@ -7,39 +7,27 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace SAScanApp
-{
+namespace SAScanApp {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class AdminLoginPage : ContentPage
-    {
+    public partial class AdminLoginPage : ContentPage {
+        public AdminLoginPage() {
+            InitializeComponent();
+        }
+        public AdminLoginPage(MainPage mainPage) : this() {
+            _mainPage = mainPage;
+        }
+        public AdminLoginPage(MenuStartPage startPage) : this() {
+            _startPage = startPage;
+        }
+        public AdminLoginPage(EnterNamePage namePage) : this() {
+            _namePage = namePage;
+        }
 
         private MainPage _mainPage;
         private MenuStartPage _startPage;
         private EnterNamePage _namePage;
         public bool IsAdminLoggedIn { get; set; } = false;
 
-        public AdminLoginPage()
-        {
-            InitializeComponent();
-        }
-
-        public AdminLoginPage(MainPage mainPage)
-            : this()
-        {
-            _mainPage = mainPage;
-        }
-
-        public AdminLoginPage(MenuStartPage startPage)
-            : this()
-        {
-            _startPage = startPage;
-        }
-
-        public AdminLoginPage(EnterNamePage namePage)
-            : this()
-        {
-            _namePage = namePage;
-        }
 
         public async void Entry_Completed(object sender, EventArgs e)
         {
