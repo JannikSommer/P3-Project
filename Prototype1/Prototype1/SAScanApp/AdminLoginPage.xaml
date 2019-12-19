@@ -7,15 +7,11 @@
              mc:Ignorable="d"
              x:Class="SAScanApp.AdminLoginPage">
     <ContentPage.Content>
-
         <StackLayout BackgroundColor="White">
             <Label Text="{x:Static lang:Resources.PhoneAdminLoginStackLayoutLabelAdminLogin}" FontSize="20" HorizontalOptions="Center" TextColor="Blue" Margin="0,0,0,20"/>
             <Label Text="{x:Static lang:Resources.PhoneAdminLoginStackLayoutLabelEnterPW}" TextColor="Blue" Margin="0,0,0,20"/>
             <Entry Placeholder="{x:Static lang:Resources.PhoneAdminLoginStackLayoutEntryUserName}" x:Name="userLogin" Keyboard="Text" PlaceholderColor="#7098EE"/>
             <Entry Placeholder="{x:Static lang:Resources.PhoneAdminLoginStackLayoutLabelEnterPW}" x:Name="userPassword" PlaceholderColor="#7098EE" IsPassword="true" Completed="Entry_Completed"/>
-
-           
         </StackLayout>
-
     </ContentPage.Content>
 </ContentPage>

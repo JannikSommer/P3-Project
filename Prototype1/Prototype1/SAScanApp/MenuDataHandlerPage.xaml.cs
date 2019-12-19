@@ -14,121 +14,70 @@ using System.IO;
 namespace SAScanApp {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class MenuDataHandlerPage : ContentPage {
-        private MainPage _mPage { get; set; }
-        private AdminPartitionSelection _admPSPage { get; set; }
-        private MenuStartPage _mStartPage { get; set; }
-        public bool IsPartitionDownloaded { get; set; } = false;
-        public string UserName { get; set; }
-
-
-        public MenuDataHandlerPage()
-        {
+        public MenuDataHandlerPage(string userName) {
             InitializeComponent();
+            _userName = userName;
+        }
+        public MenuDataHandlerPage(string userName, CommunicationFlag partitionType) : this(userName) {
+            _type = partitionType;
         }
 
-        public MenuDataHandlerPage(MainPage mPage)
-            : this() 
-        {
-            _mPage = mPage;
-        }
+        private bool _hasPartitionDownloaded = false;
+        private string _userName = string.Empty;
+        private CommunicationFlag _type = CommunicationFlag.PartitionRequest;
 
-        public MenuDataHandlerPage(AdminPartitionSelection admPSPage)
-            : this()
-        {
-            _admPSPage = admPSPage;
-        }
-
-        public MenuDataHandlerPage(MenuStartPage mStartPage) 
-            : this()
-        {
-            UserName = mStartPage.UserName;
-            _mStartPage = mStartPage;
-        }
         
-        
+        [Obsolete]
         private async void UploadPartition(object sender, EventArgs e) {
 
-        if (!IsPartitionDownloaded && !_admPSPage.IsVerificationPartition)
+        if (!_hasPartitionDownloaded && _type == CommunicationFlag.PartitionUpload)
         {
             Client client = new Client();
             Partition partition = new Model.Partition();
             CommunicationHandler handler = client.UploadPartition(partition);
-            if( handler != CommunicationHandler.Success)
-            {
+            if( handler != CommunicationHandler.Success) {
                 await DisplayAlert("Error", "You have no active partition", "Okay");
-            }
-
-            else
-            {
-                IsPartitionDownloaded = false;
+            } else {
+                _hasPartitionDownloaded = false;
                 await DisplayAlert("Succes", "Partition succesfully uploaded", "Okay");
             }
-        }
-
-        else if(!IsPartitionDownloaded && _admPSPage.IsVerificationPartition == true)
+        } else if(!_hasPartitionDownloaded && _type == CommunicationFlag.VerificationUpload)
             {
-                if (IsPartitionDownloaded != true)
-                {
+                if (_hasPartitionDownloaded != true) {
                     Client client = new Client();
-                    VerificationPartition Vpartition = new Model.VerificationPartition();
+                    VerificationPartition Vpartition = new VerificationPartition();
                     CommunicationHandler handler = client.UploadVerificationPartition(Vpartition);
                     if (handler != CommunicationHandler.Success)
                     {
                         await DisplayAlert("Error", "You have no active Verification Partition", "Okay");
 
-                    }
-
-                    else
-                    {
-                        IsPartitionDownloaded = false;
+                    } else {
+                        _hasPartitionDownloaded = false;
                         await DisplayAlert("Succes", "Verification Partition succesfully uploaded", "Okay");
                     }
                 }
             }
-
-
-
-            // Der skal addes noget typesafety her, så hvis eventet fyrer igen, imens man er igang med at uploade en partition, så sker der ikke noget
-            // Ligeledes er ens partition ikke done, (mangler en location/item som slet ikke er scannet) så kan den ikke uploades (måske med overrule funktion??)
         }
 
-        private async void DownloadPartition(object sender, EventArgs e) 
-        {
-
-            if (IsPartitionDownloaded && !_admPSPage.IsVerificationPartition)
-            {
-                var path = Environment.CurrentDirectory + @"\UserData\UserName.txt";
-
-                var UserName = File.ReadAllText(path);                
-
+        private async void DownloadPartition(object sender, EventArgs e) {
+            if (!_hasPartitionDownloaded && _type == CommunicationFlag.PartitionRequest) {
                 Client networkingClient = new Client();
-                User DeviceUser = new User(UserName);
-                (Partition partition, CommunicationHandler handler) = networkingClient.DownloadPartition(DeviceUser);
+                (Partition partition, CommunicationHandler handler) = networkingClient.DownloadPartition(new User(_userName));
 
-                if (handler != CommunicationHandler.Success)
-                {
-                    await DisplayAlert("Error", "An error occured", "Fix your shit!");
-                }
-                else
-                {
-                    IsPartitionDownloaded = true;
+                if (handler != CommunicationHandler.Success) {
+                    await DisplayAlert("Error", "An error occured", "Ok");
+                } else {
+                    _hasPartitionDownloaded = true;
                     await Navigation.PushAsync(new ScanPage(partition));
                 }
-            }
-
-            else if(IsPartitionDownloaded && _admPSPage.IsVerificationPartition)
-            {
+            } else if(!_hasPartitionDownloaded && _type == CommunicationFlag.VerificationRequest) {
                 Client networkingClient = new Client();
-                User DeviceUser = new User(UserName);
-                (VerificationPartition Vpartition, CommunicationHandler handler) = networkingClient.DownloadVerificationPartition(DeviceUser);
+                (VerificationPartition Vpartition, CommunicationHandler handler) = networkingClient.DownloadVerificationPartition(new User(_userName));
 
-                if (handler != CommunicationHandler.Success)
-                {
-                    await DisplayAlert("Error", "An error occured", "Fix your shit!");
-                }
-                else
-                {
-                    IsPartitionDownloaded = true;
+                if (handler != CommunicationHandler.Success) {
+                    await DisplayAlert("Error", "An error occured", "Ok");
+                } else{
+                    _hasPartitionDownloaded = true;
                     await Navigation.PushAsync(new ScanPage(Vpartition));
                 }
             }

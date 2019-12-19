@@ -32,7 +32,7 @@
                 </Grid.ColumnDefinitions>
 
                 <Button x:Name="UploadButton"
-                    Grid.Row="0" 
+                Grid.Row="0" 
                 Margin="30, 10, 30, 10"
                 BackgroundColor="White"
                 BorderColor="Blue"
@@ -41,10 +41,11 @@
                 TextColor="Blue"
                 FontSize="20"
                 BorderRadius="40"
-                Clicked="UploadPartition"/>
+                Clicked="UploadPartition"
+                IsVisible="False"/>
 
                 <Button x:Name="DownloadButton"
-                    Grid.Row="1"
+                Grid.Row="1"
                 Margin="30,10,30,10"
                 BackgroundColor="White"
                 BorderColor="Blue"
@@ -67,10 +68,6 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
             </Grid>
-
-
-
-
         </Grid>
     </ContentPage.Content>
 </ContentPage>

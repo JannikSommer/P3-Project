@@ -16,11 +16,11 @@ namespace SAScanApp {
         }
 
         private async void ScanPage_Selected(object sender, EventArgs e) {
-            await Navigation.PushAsync(new MenuDataHandlerPage(this));
+            //await Navigation.PushAsync(new MenuDataHandlerPage(this));
         }
 
         private async void Admin_Selected(object sender, EventArgs e) {
-            await Navigation.PushAsync(new AdminLoginPage(this));
+            //await Navigation.PushAsync(new AdminLoginPage(this));
         }
 
         private async void Test_Button_Clicked(object sender, EventArgs e) {

@@ -102,7 +102,7 @@ namespace SAScanApp {
         }
 
         private async void Menu_Button_Clicked(object sender, EventArgs e) {
-            await Navigation.PushAsync(new MenuStartPage(this));
+            
         }
 
         private void ItemDisplayList_ItemTapped(object sender, ItemTappedEventArgs e) {

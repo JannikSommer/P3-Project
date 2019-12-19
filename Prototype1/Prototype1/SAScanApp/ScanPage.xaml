@@ -125,7 +125,6 @@
                               ItemTapped="DisplayList_ItemTapped">
                         <ListView.ItemTemplate>
                             <DataTemplate>
-
                                 <ViewCell>
                                     <StackLayout Orientation="Horizontal">
                                         <Label Text="{Binding IsEmpty}"/>
@@ -134,8 +133,6 @@
                                         </StackLayout>
                                     </StackLayout>
                                 </ViewCell>
-
-
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>

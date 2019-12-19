@@ -11,7 +11,7 @@
                 VerticalOptions="CenterAndExpand" 
                 HorizontalOptions="CenterAndExpand" />
 
-            <Entry x:Name="NameEntry" Text="Enter name here" Completed="Name_Entered"/>
+            <Entry x:Name="NameEntry" Text="" Completed="Name_Entered"/>
 
             <Button Margin="50, 10, 50, 10"
             BackgroundColor="White"

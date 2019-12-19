@@ -5,8 +5,7 @@ using System.Collections.ObjectModel;
 using System.Text;
 using Xamarin.Forms;
 
-namespace SAScanApp
-{
+namespace SAScanApp {
    public class BarcodeVerifier
     {
 

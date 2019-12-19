@@ -13,31 +13,26 @@ namespace SAScanApp {
     [XamlCompilation(XamlCompilationOptions.Compile)]
 
     public partial class AdminPartitionSelection : ContentPage {
-        public AdminPartitionSelection() {
+        public AdminPartitionSelection(string userName) {
             InitializeComponent();
-        }
-        public AdminPartitionSelection(AdminLoginPage admPage) : this() {
-            _admPage = admPage;
-        }
-        public AdminPartitionSelection(EnterNamePage eNamePage) : this() {
-            _eNamePage = eNamePage;
+            _userName = userName;
         }
 
-        private Partition part { get; set; }
-        private VerificationPartition Vpart { get; set; }
-        private EnterNamePage _eNamePage { get; set; }
-        private AdminLoginPage _admPage { get; set; }
+        private string _userName;
+        private Partition _partition { get; set; }
+        private VerificationPartition _verificationPartition { get; set; }
+
         public bool IsVerificationPartition { get; set; }
 
 
-        private void VerificationPartition_Selected_Button(object sender, EventArgs e) {
+        private async void VerificationPartition_Selected_Button(object sender, EventArgs e) {
             IsVerificationPartition = true;
-            new MenuDataHandlerPage(this);
+            await Navigation.PushAsync(new MenuDataHandlerPage(_userName, CommunicationFlag.VerificationRequest));
         }
 
-        private void Partition_Selected_Button(object sender, EventArgs e) {
+        private async void Partition_Selected_Button(object sender, EventArgs e) {
             IsVerificationPartition = false;
-            new MenuDataHandlerPage(this);
+            await Navigation.PushAsync(new MenuDataHandlerPage(_userName, CommunicationFlag.PartitionRequest));
         }
     }
 }

@@ -17,15 +17,6 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <Grid Grid.Row="0"
-                VerticalOptions="EndAndExpand">
-                <Label Text="Hej"
-                    FontSize="30"
-                    TextColor="Blue"
-                    HorizontalOptions="CenterAndExpand"
-                    BackgroundColor="White"
-                    Margin="0,0,0,0"/>
-            </Grid>
 
             <Grid Grid.Row="1"
             VerticalOptions="CenterAndExpand">
