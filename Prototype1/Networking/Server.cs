@@ -8,7 +8,9 @@ using Central_Controller.Central_Controller;
 namespace Networking
 {
     public class Server {
-        public Server() { }
+        public Server(Controller controller) {
+            Controller = controller;
+        }
 
         private Controller Controller { get; set; }
 

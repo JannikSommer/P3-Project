@@ -9,6 +9,8 @@ using Central_Controller.IO;
 using System.Globalization;
 using System.Windows.Data;
 using System.ComponentModel;
+using System.Threading;
+using Networking;
 
 namespace WPF_PC {
     /// <summary>
@@ -17,6 +19,11 @@ namespace WPF_PC {
     public partial class MainWindow : Window {
         public MainWindow() {
             InitializeComponent();
+            Controller = new Controller();
+            _server = new Server(Controller);
+            _networkingThread = new Thread(_server.StartServer);
+            _networkingThread.Start();
+            
             LoadIntoDataGrid();
             LoadIntoComboBox();
             UpdateAllUI();
@@ -25,7 +32,9 @@ namespace WPF_PC {
             Controller.Cycle.PropertyChanged += UpdatePercentageCountedDifference;
         }
 
-        public Controller Controller { get; set; } = new Controller();
+        public Controller Controller { get; set; }
+        private Server _server;
+        private Thread _networkingThread;
 
 
         public void UpdateAllUI() {
