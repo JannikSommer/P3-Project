@@ -2,98 +2,96 @@
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
-using Networking;
-using System.Threading;
-using Model.Log;
-using Localization;
-using Central_Controller;
+using Central_Controller.Central_Controller;
+using System.Linq;
 using Model;
 using Central_Controller.IO;
 using System.Globalization;
-using PrestaSharpAPI;
+using System.Windows.Data;
+using System.ComponentModel;
 
-
-namespace WPF_PC
-{
+namespace WPF_PC {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
-    {
-
-        private Thread NetworkingThread { get; set; }
-        private Controller Controller { get; set; } = new Controller();
-        public EditCycle EditCycleWindow;
-        private Server Server { get; set; }
-
-
-        public MainWindow()
-        {
-            EditCycleWindow = new EditCycle(Controller);
-
+    public partial class MainWindow : Window {
+        public MainWindow() {
             InitializeComponent();
-            //StartServer();
-            UpdateAllUI();
             LoadIntoDataGrid();
             LoadIntoComboBox();
-            Controller.Cycle.Log.AddMessage(new VerificationLogMessage(DateTime.Now, "Bob", "564738920", true));
-
+            UpdateAllUI();
+            Controller.PropertyChanged += UpdateActiveUser;
+            Controller.Cycle.PropertyChanged += UpdatePercentageCounted;
+            Controller.Cycle.PropertyChanged += UpdatePercentageCountedDifference;
         }
 
-        private void StartServer()
-        {
-            Server = new Server();
-            Thread NetworkingThread = new Thread(new ThreadStart(Server.StartServer));
-            NetworkingThread.Start();
-        }
+        public Controller Controller { get; set; } = new Controller();
 
-        public void UpdateAllUI()
-        {
-            UpdateMainWindow();
+
+        public void UpdateAllUI() {
             LoadIntoDataGrid();
+            UpdateStatistics();          
         }
 
         public void LoadIntoDataGrid() {
             dataGridMain.ItemsSource = Controller.Cycle.CountedItems;
         }
 
-        public void UpdateMainWindow()
-        {
-            //Active Clients:
-            acticeClients.Content = Controller.Active_Clients.Count;
 
-            //Counted Items overview:
-            double countedInt = Controller.Cycle.CountedItems.Count;
-            double totalItemsInt = Controller.TotalNumberOfItems; 
-            double percentageCounted = ((countedInt / totalItemsInt) * 100);
-            double percentageCountedRoundedDown = Math.Round(percentageCounted, 1);
+        public void UpdateActiveUser(object sender, PropertyChangedEventArgs e) {
+            acticeClients.Content = ((Controller)sender).NumberOfActiveUsers;
+        }
 
-            overviewTotalCounted.Content = (countedInt + " / " + totalItemsInt + "   (" + percentageCountedRoundedDown + "%)");
+        public void UpdatePercentageCounted(object sender, PropertyChangedEventArgs e) {
+            if(Controller.Cycle.NumberOfCountedItems != 0 && Controller.Cycle.NumberOfItems != 0) {
+                overviewTotalCounted.Content = Controller.Cycle.NumberOfCountedItems + " / " + Controller.Cycle.NumberOfItems + "   (" + Math.Round(((double)Controller.Cycle.NumberOfCountedItems / (double)Controller.Cycle.NumberOfItems) * 100, 1) + "%)";
+            }
+        }
+
+        public void UpdatePercentageCountedDifference(object sender, PropertyChangedEventArgs e) {
+            if(Controller.Cycle.NumberOfItems != 0) {
+                double countedIntWithDifference = (from item in (List<Item>)dataGridMain.ItemsSource where item.QuantityVariance != 0 select (Item)item).Count();
+                overviewTotalCountedWithDifference.Content = countedIntWithDifference + " / " + Controller.Cycle.NumberOfItems + "   (" + Math.Round(countedIntWithDifference / (double)Controller.Cycle.NumberOfItems * 100, 1) + "%)";
+            }
+        }
+        public void UpdateStatistics() {
+            double percentageCounted = 0,
+                   countedIntWithDifference = 0,
+                   percentageCountedWithDifference = 0;
+
+            //Active Users:
+            //acticeClients.Content = TheController.ActiveUsers.Count;
+
+            //Counted Items overview: 
+            if(Controller.Cycle.NumberOfCountedItems != 0 && Controller.Cycle.NumberOfItems != 0) {
+                percentageCounted = Math.Round((double)(Controller.Cycle.NumberOfCountedItems / Controller.Cycle.NumberOfItems) * 100, 1);
+            }
 
             //Counted with difference overview:
-            double countedIntWithDifference = 0;
-            double percentageCountedWithDifference = ((countedIntWithDifference / totalItemsInt) * 100);
-            double percentageCountedWithDifferenceRoundedDown = Math.Round(percentageCountedWithDifference, 1);
+            if(Controller.Cycle.NumberOfItems != 0) {
+                countedIntWithDifference = (from item in (List<Item>)dataGridMain.ItemsSource where item.QuantityVariance != 0 select (Item)item).Count();
+                percentageCountedWithDifference = Math.Round(countedIntWithDifference / Controller.Cycle.NumberOfItems * 100, 1); 
+            }
 
-            overviewTotalCountedWithDifference.Content = (countedIntWithDifference + " / " + totalItemsInt + "   (" + percentageCountedWithDifferenceRoundedDown + "%)");
+            overviewTotalCountedWithDifference.Content = (countedIntWithDifference + " / " + Controller.Cycle.NumberOfItems + "   (" + percentageCountedWithDifference + "%)");
+            overviewTotalCounted.Content = Controller.Cycle.NumberOfCountedItems + " / " + Controller.Cycle.NumberOfItems + "   (" + percentageCounted + "%)";
         }
 
         private void CreateCycleCount_Click(object sender, RoutedEventArgs e) {
-            CreateCycleWindow CreateCycle = new CreateCycleWindow(Controller);
-            CreateCycle.Show();
+            new CreateCycleWindow(Controller).Show();
         }
 
         private void EditCycle_Click(object sender, RoutedEventArgs e) {
-            EditCycle EditCycle = new EditCycle(Controller);
-            EditCycle.Show();
+            Controller.Cycle.NumberOfCountedItems++;
+            new EditCycle(Controller).Show();
         }
 
         private void ShowLog_Click(object sender, RoutedEventArgs e) {
-            LogWindow logWindow = new LogWindow(Controller.Cycle.Log);
-            logWindow.Show();
+            Controller.Cycle.NumberOfItems++;
+            new LogWindow(Controller.Cycle.Log).Show();
         }
 
-        public void LoadIntoComboBox() {
+        public void LoadIntoComboBox() { // TODO: Move to XAML
             List<string> settings = new List<string> { 
                 Localization.Resources.MainWindowComboboxCountedToday, 
                 Localization.Resources.MainWindowComboboxCountedThisCycle, 
@@ -105,37 +103,20 @@ namespace WPF_PC
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e) {
-            //Server.ShutdownServer();
-
             new IOController(Controller.Cycle.Id).Save(Controller.Cycle, Controller.Location_Comparer.ShelfHierarchy);
             Application.Current.Shutdown();
         }
 
         private void ComboBoxDataSelection_SelectionChanged(object sender, SelectionChangedEventArgs e) {
-            if(ComboBoxDataSelection.SelectedIndex == 0)
-            { //Todays Counted
+            if(ComboBoxDataSelection.SelectedIndex == 0) { //Todays Counted
                 dataGridMain.ItemsSource = Controller.Cycle.CountedItems;
-            } else if(ComboBoxDataSelection.SelectedIndex == 1) 
-            { //Counted in this cycle
+            } else if(ComboBoxDataSelection.SelectedIndex == 1) { //Counted in this cycle
                 List<Item> newList = new List<Item>(Controller.Cycle.CountedItems);
                 newList.AddRange(Controller.Cycle.VerifiedItems);
                 dataGridMain.ItemsSource = newList;
             } else if(ComboBoxDataSelection.SelectedIndex == 2) { //Counted with difference
-
+                // TODO: Missing behavior
             }
-        }
-
-        private void ChangeLanguage_Click(object sender, RoutedEventArgs e) {
-            var danishCultureInfo = new CultureInfo("da-DK", true);
-            var englishCultureInfo = new CultureInfo("en-GB", true);
-
-            if(CultureInfo.CurrentUICulture.Name == danishCultureInfo.Name) {
-                CultureInfo.CurrentUICulture = englishCultureInfo;
-            } else {
-                CultureInfo.CurrentUICulture = danishCultureInfo;
-            }
-
-            Application.Current.MainWindow.UpdateLayout();
         }
     }
 }
