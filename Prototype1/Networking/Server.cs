@@ -14,7 +14,7 @@ namespace Networking
 
         private Controller Controller { get; set; }
 
-        private string ip = "192.168.1.81";
+        private string ip = "172.17.210.59";
         private readonly int FlagMessageSize = 25;
         private readonly long MessageSize = 536870912; // 512 MB
         private Socket Handler;

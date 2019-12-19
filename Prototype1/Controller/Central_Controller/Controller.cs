@@ -15,7 +15,11 @@ namespace Central_Controller.Central_Controller {
             List<Item> items = DownloadFromServer();
             Cycle = io.LoadCycle(items);
             Location_Comparer = new LocationComparer(io.LoadShelves());
-            //InitialAddItems(Cycle.AllItems, );
+            foreach (Item item in Cycle.AllItems)
+            {
+                InitialAddItem(item, LocationListToStringList(item.Locations));
+            }
+            Console.ReadKey();
         }
 
         public Cycle Cycle { get; set; }
@@ -65,6 +69,15 @@ namespace Central_Controller.Central_Controller {
             foreach(Item item in allItems) {
                 InitialAddItem(item, locationIds);
             }
+        }
+        private List<string> LocationListToStringList(List<Location> LocationList)
+        {
+            List<string> StringList = new List<string>();
+            foreach (Location _location in LocationList)
+            {
+                StringList.Add(_location.ID);
+            }
+            return StringList;
         }
 
         public Partition NextPartition(User user)
