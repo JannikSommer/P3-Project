@@ -15,11 +15,11 @@ namespace SAScanApp {
             quantity.Text = Convert.ToString(Value);
             _counterEnabled = false;
         }
-        public LocationSelected(List<Item> itemList, Partition partition) : this() {
+        public LocationSelected(List<Item> itemList, List<Model.Location> locations) : this() {
             _itemList = new ObservableCollection<Item>(itemList);
             _itemList.CollectionChanged += _itemList_CollectionChanged;
             itemDisplayList.ItemsSource = _itemList;
-            _partition = partition;
+            _locations = locations;
         }
 
         public int Value {
@@ -29,7 +29,7 @@ namespace SAScanApp {
                 quantity.Text = Convert.ToString(Value);
             }
         }
-        public Partition _partition { get; set; }
+        private List<Model.Location> _locations;
 
         private ObservableCollection<Item> _itemList;
         private Item _prevItem;
@@ -152,11 +152,15 @@ namespace SAScanApp {
         }
 
         private void UpdateItem(string barcode) {
-            Item item = new BarcodeVerifier().GetScannedItem(_partition, barcode);
+            Item item = new BarcodeVerifier().GetScannedItem(_locations, barcode);
             if(item != null) {
                 ChangeSelectedItem(item);
                 IncrementValue();
             }  
+        }
+
+        private void ContentPage_Disappearing(object sender, EventArgs e) {
+            SaveQuantity(_prevItem);
         }
     }
 }

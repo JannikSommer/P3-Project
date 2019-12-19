@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace Model {
-    public class VerificationPartition {
+    public class VerificationPartition : Partition {
         public VerificationPartition() {
             State = PartitionState.NotCounted;
             RequsitionState = PartitionRequsitionState.Requested;
@@ -18,7 +18,7 @@ namespace Model {
         public PartitionState State { get; set; }
         public PartitionRequsitionState RequsitionState { get; set; }
         public List<Item> Items { get; private set; }
-        public List<Location> Locations { get; private set; }
+        public List<Location> Locations { get; set; }
 
 
         public void AddItem(Item item) {

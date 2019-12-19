@@ -59,6 +59,36 @@ namespace SAScanApp {
             }
         }
 
+        private async void TestDownload(object sender, EventArgs e) {
+            if(_type == CommunicationFlag.PartitionRequest) {
+                await Navigation.PushAsync(new ScanPage(
+                    new Partition(
+                        new Model.Location("000A01",
+                        new List<Item> {
+                            new Item("5701872203005"),
+                            new Item("73102601"),
+                            new Item ("8979878"),
+                            new Item ("78789"),
+                            new Item ("5709216007104")
+                        }
+                        )
+                    )));
+            } else {
+                await Navigation.PushAsync(new ScanPage(new VerificationPartition() {
+                    Locations = new List<Model.Location> {new Model.Location("000A01",
+                        new List<Item> {
+                            new Item("5701872203005"),
+                            new Item("73102601"),
+                            new Item ("8979878"),
+                            new Item ("78789"),
+                            new Item ("5709216007104")
+                        }
+                        )}
+                }));
+            }
+        }
+
+
         private async void DownloadPartition(object sender, EventArgs e) {
             if (!_hasPartitionDownloaded && _type == CommunicationFlag.PartitionRequest) {
                 Client networkingClient = new Client();

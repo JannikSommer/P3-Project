@@ -98,7 +98,12 @@ namespace SAScanApp
         }
 
         private async void DisplayList_ItemTapped(object sender, ItemTappedEventArgs e) {
-            await Navigation.PushAsync(new LocationSelected(((Model.Location)e.Item).Items, Partition));
+            if(Partition != null) {
+                await Navigation.PushAsync(new LocationSelected(((Model.Location)e.Item).Items, Partition.Locations));
+            } else {
+                await Navigation.PushAsync(new LocationSelected(((Model.Location)e.Item).Items, VerificationPartition.Locations));
+
+            }
         }
 
         private void ButtonV_Clicked(object sender, EventArgs e) {

@@ -13,7 +13,7 @@ namespace SAScanApp {
             var usrNme = userLogin.Text;
             var pssWrd = userPassword.Text;
            
-            if (usrNme == "Allan" && pssWrd == "AllansPassword") {
+            if (usrNme == "admin" && pssWrd == "password") {
                 await Navigation.PushAsync(new AdminPartitionSelection(usrNme));
             } else {
                 await DisplayAlert("Error!", "Wrong password, please try again", "Ok");

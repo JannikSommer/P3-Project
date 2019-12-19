@@ -18,8 +18,8 @@ namespace SAScanApp {
         /// <param name="partition"></param>
         /// <param name="barcode"></param>
         /// <returns></returns>
-        public Item GetScannedItem(Partition partition, string barcode) {
-            foreach(var location in partition.Locations) {
+        public Item GetScannedItem(List<Model.Location> locations, string barcode) {
+            foreach(var location in locations) {
                 foreach(var item in location.Items) {
                     if(item.ID == barcode)
                         return item;
@@ -29,7 +29,7 @@ namespace SAScanApp {
         }
 
         public bool VerifyBarcode(Partition partition, string barcode) {
-            if(GetScannedItem(partition, barcode) != null)
+            if(GetScannedItem(partition.Locations, barcode) != null)
                 return true;
             return false;
         }

@@ -5,7 +5,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:lang="clr-namespace:Localization;assembly=Localization"
              mc:Ignorable="d"
-             x:Class="SAScanApp.LocationSelected">
+             x:Class="SAScanApp.LocationSelected"
+             Disappearing="ContentPage_Disappearing">
     <ContentPage.Content>
         <StackLayout>
             <Grid>
