@@ -13,8 +13,6 @@ namespace Model
         }
 
         public string Id { get; set; }
-        public bool DataFormatted { get; set; }
-        public bool CycleState { get; set; }
 
         public List<Partition> UncountedPartitions { get; set; }
         public List<Partition> CountedPartitions { get; set; }

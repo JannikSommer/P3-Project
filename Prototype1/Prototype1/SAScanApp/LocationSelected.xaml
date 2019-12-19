@@ -5,8 +5,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:lang="clr-namespace:Localization;assembly=Localization"
              mc:Ignorable="d"
-             x:Class="SAScanApp.LocationSelected"
-             Disappearing="ContentPage_Disappearing">
+             x:Class="SAScanApp.LocationSelected">
     <ContentPage.Content>
         <StackLayout>
             <Grid>
@@ -75,7 +74,6 @@
 
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
-
                     </Grid.RowDefinitions>
 
                     <Grid.ColumnDefinitions>
@@ -84,7 +82,7 @@
                         <ColumnDefinition Width="20*"/>
                     </Grid.ColumnDefinitions>
 
-                    <Editor x:Name="ScanEditor" Text="{Binding _scanText}" TextColor="Blue" FontSize="Micro" TextChanged="ScanEditor_TextChanged" />
+                    <Editor x:Name="ScanEditor" Text="" TextColor="Blue" FontSize="Micro" TextChanged="ScanEditor_TextChanged" />
 
                     <Button x:Name="dec_item_count"
                             Text="&lt;"
@@ -115,13 +113,12 @@
                             IsEnabled="False"
                             BackgroundColor="White"/>
                     
-
                 </Grid>
 
                 <Grid x:Name="Grid2" Grid.Row="2">
                     <ListView x:Name="itemDisplayList" BackgroundColor="White"
-                              ItemTapped="itemDisplayList_ItemTapped"
-                              ItemSelected="itemDisplayList_ItemSelected">
+                              ItemTapped="ItemDisplayList_ItemTapped"
+                              ItemSelected="ItemDisplayList_ItemSelected">
 
                         <ListView.ItemTemplate>
                             <DataTemplate>
@@ -136,15 +133,8 @@
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
-
-
                 </Grid>
-
-
-
-
             </Grid>
-
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

@@ -18,7 +18,7 @@ namespace SAScanApp
         public AdminPartitionSelection admPage { get; set; }
         public VerificationPartition VerificationPartition { get; set; }
 
-        Partition _partition = new Partition(new Model.Location("000A01",
+        Partition _artition = new Partition(new Model.Location("000A01",
                                                                         new List<Item> {
                                                                             new Item("5701872203005"),
                                                                             new Item("73102601"),
@@ -49,7 +49,7 @@ namespace SAScanApp
 
         }
 
-        public ScanPage(Model.Partition partition)
+        public ScanPage(Partition partition)
         {
             Partition = partition;
 
@@ -139,7 +139,7 @@ namespace SAScanApp
 
         private async void DisplayList_ItemTapped(object sender, ItemTappedEventArgs e)
         {
-            await Navigation.PushAsync(new LocationSelected(this, ((Model.Location)e.Item).Items, Partition));
+            await Navigation.PushAsync(new LocationSelected(((Model.Location)e.Item).Items, Partition));
         }
 
         private void ButtonV_Clicked(object sender, EventArgs e) {
