@@ -3,7 +3,6 @@ using Bukimedia.PrestaSharp.Factories;
 using System.Collections.Generic;
 using Model;
 using System;
-using SQL_DB_test_Frame;
 
 
 namespace PrestaSharpAPI
@@ -20,7 +19,6 @@ namespace PrestaSharpAPI
             StockAvailableFactory stockAvailableFactory = new StockAvailableFactory(URL, APIKey, Password);
             List<stock_available> stock_Availables = stockAvailableFactory.GetAll();
             product product = ProductFactory.Get(id);
-            Sorting sorter = new Sorting();
             foreach (stock_available stock_Available in stock_Availables)
             {
                 if (stock_Available.id_product == product.id)
@@ -39,7 +37,6 @@ namespace PrestaSharpAPI
             StockAvailableFactory stockAvailableFactory = new StockAvailableFactory(URL, APIKey, Password);
             List<stock_available> stock_Availables = stockAvailableFactory.GetAll();
             List<Item> items = new List<Item>();
-            Sorting sorter = new Sorting();
             foreach (product product in products)
             {
                 foreach (stock_available stock_Available in stock_Availables)
