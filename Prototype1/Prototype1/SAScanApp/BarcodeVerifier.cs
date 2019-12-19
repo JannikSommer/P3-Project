@@ -16,18 +16,6 @@ namespace SAScanApp
         {
             barc = barcode;
 
-            /*ConsoleKeyInfo info = Console.ReadKey();
-
-            while(info.KeyChar != '\n')
-            {
-                 charList.Add(info.KeyChar);
-            }
-            
-            foreach(var element in charList)
-            {
-                 tempBc += element;
-            }*/
-
             if (barc.Length == 13)
             {
                 for (int i = 0; i < partition.Locations.Count; i++)

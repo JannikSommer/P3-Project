@@ -37,7 +37,7 @@
                         <ColumnDefinition Width="20*"/>
                         <ColumnDefinition Width="20*"/>
                     </Grid.ColumnDefinitions>
-                    <Button Text="??"
+                    <Button Text=""
                             Grid.Column="0"
                             BackgroundColor="White"
                             TextColor="Blue"
@@ -50,8 +50,8 @@
                             BorderColor="Blue"
                             BorderWidth="1"
                             Clicked="Light_Button_Clicked"/>
-                    <Button Text="V"
-                            Grid.Column="2"
+                    <Button Text=""
+                            Grid.Column="4"
                             BackgroundColor="White"
                             TextColor="Blue"
                             BorderColor="Blue"
@@ -63,7 +63,7 @@
                             BorderColor="Blue"
                             BorderWidth="1"/>
                     <Button Text="{x:Static lang:Resources.PhoneLocationSelectedButtonMenu}"
-                            Grid.Column="4"
+                            Grid.Column="2"
                             BackgroundColor="White"
                             TextColor="Blue"
                             BorderColor="Blue"
@@ -94,7 +94,8 @@
                             Clicked="dec_item_count_Clicked"
                             TextColor="Blue"
                             FontSize="70"
-                            IsEnabled="False"/>
+                            IsEnabled="False"
+                            BackgroundColor="White"/>
 
                     <Label x:Name="quantity"
                            Text="{Binding Value}"
@@ -111,8 +112,9 @@
                             Clicked="inc_item_count_Clicked"
                             TextColor="Blue"
                             FontSize="70"
-                            IsEnabled="False"/>
-
+                            IsEnabled="False"
+                            BackgroundColor="White"/>
+                    
 
                 </Grid>
 
@@ -126,7 +128,7 @@
                                 <ViewCell>
                                     <StackLayout Orientation="Horizontal">
                                         <StackLayout Orientation="Horizontal">
-                                            <Label Text="{Binding ID}" 
+                                            <Label Text="{Binding ID}, {Binding Name}, {Binding Color}, {Binding Size}" 
                                                    TextColor="Blue"/>
                                         </StackLayout>
                                     </StackLayout>

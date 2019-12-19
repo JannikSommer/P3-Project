@@ -12,10 +12,10 @@ namespace SAScanApp
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ScanPage : ContentPage
     {
-
         public ObservableCollection<Model.Location> LocationList { get; set; }
         public List<Item> ItemList { get; set; }
         public Partition Partition { get; set; }
+        public AdminPartitionSelection admPage { get; set; }
         public VerificationPartition VerificationPartition { get; set; }
 
         Partition _partition = new Partition(new Model.Location("000A01",
@@ -81,12 +81,8 @@ namespace SAScanApp
             }
 
             LocationList.CollectionChanged += LocationList_CollectionChanged;
-            displayList.ItemsSource = LocationList;
-
-            
+            displayList.ItemsSource = LocationList;          
         }
-
-            
 
         private void LocationList_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e) {
             displayList.BeginRefresh();

@@ -15,6 +15,8 @@ namespace SAScanApp
 
         private MainPage _mainPage;
         private MenuStartPage _startPage;
+        private EnterNamePage _namePage;
+        public bool IsAdminLoggedIn { get; set; } = false;
 
         public AdminLoginPage()
         {
@@ -24,29 +26,31 @@ namespace SAScanApp
         public AdminLoginPage(MainPage mainPage)
             : this()
         {
-
             _mainPage = mainPage;
         }
 
         public AdminLoginPage(MenuStartPage startPage)
             : this()
         {
-            this._startPage = startPage;
+            _startPage = startPage;
+        }
+
+        public AdminLoginPage(EnterNamePage namePage)
+            : this()
+        {
+            _namePage = namePage;
         }
 
         public async void Entry_Completed(object sender, EventArgs e)
         {
             var usrNme = userLogin.Text;
             var pssWrd = userPassword.Text;
-            bool adminLoggedIn = false;
-
-            if (usrNme == "Admin" && pssWrd == "Admin")
+           
+            if (usrNme == "Allan" && pssWrd == "AllansPassword")
             {
-                // Her skal den sætte Admin = true, og logge ind på scanpage (lav polymorphism)
-                await DisplayAlert("Admin Login Correct", "Your password was correct", "Ok,");
-                adminLoggedIn = true;
+                IsAdminLoggedIn = true;
 
-                
+                await Navigation.PushAsync(new AdminPartitionSelection(this));
             }
 
             else

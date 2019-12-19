@@ -31,7 +31,8 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <Button Grid.Row="0" 
+                <Button x:Name="UploadButton"
+                    Grid.Row="0" 
                 Margin="30, 10, 30, 10"
                 BackgroundColor="White"
                 BorderColor="Blue"
@@ -42,7 +43,8 @@
                 BorderRadius="40"
                 Clicked="UploadPartition"/>
 
-                <Button Grid.Row="1"
+                <Button x:Name="DownloadButton"
+                    Grid.Row="1"
                 Margin="30,10,30,10"
                 BackgroundColor="White"
                 BorderColor="Blue"
