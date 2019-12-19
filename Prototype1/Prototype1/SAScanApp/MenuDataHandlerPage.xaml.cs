@@ -41,6 +41,7 @@ namespace SAScanApp {
         public MenuDataHandlerPage(MenuStartPage mStartPage) 
             : this()
         {
+            UserName = mStartPage.UserName;
             _mStartPage = mStartPage;
         }
         
@@ -101,8 +102,8 @@ namespace SAScanApp {
                 var UserName = File.ReadAllText(path);                
 
                 Client networkingClient = new Client();
-                Central_Controller.Client DeviceClient = new Central_Controller.Client(UserName);
-                (Partition partition, CommunicationHandler handler) = networkingClient.DownloadPartition(DeviceClient);
+                User user = new User(UserName);
+                (Partition partition, CommunicationHandler handler) = networkingClient.DownloadPartition(user);
 
                 if (handler != CommunicationHandler.Success)
                 {
@@ -118,8 +119,8 @@ namespace SAScanApp {
             else if(IsPartitionDownloaded && _admPSPage.IsVerificationPartition)
             {
                 Client networkingClient = new Client();
-                Central_Controller.Client DeviceClient = new Central_Controller.Client(UserName);
-                (VerificationPartition Vpartition, CommunicationHandler handler) = networkingClient.DownloadVerificationPartition(DeviceClient);
+                User user = new User(UserName);
+                (VerificationPartition Vpartition, CommunicationHandler handler) = networkingClient.DownloadVerificationPartition(user);
 
                 if (handler != CommunicationHandler.Success)
                 {

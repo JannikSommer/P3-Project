@@ -14,10 +14,12 @@ namespace SAScanApp
     {
         private ScanPage _scanPage { get; set; }
         private LocationSelected _locSelPage { get; set; }
+        public string UserName { get; set; }
         public MenuStartPage(ScanPage scanPage)
         {
             InitializeComponent();
             _scanPage = scanPage;
+            UserName = scanPage.UserName;
         }
 
         public MenuStartPage(LocationSelected locSelPage)

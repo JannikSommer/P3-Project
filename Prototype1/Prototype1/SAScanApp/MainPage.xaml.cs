@@ -31,7 +31,7 @@ namespace SAScanApp
         private async void Test_Button_Clicked(object sender, EventArgs e)
         {
 
-            Partition = new Partition(new Location("000A01",
+            Partition Partition = new Partition(new Location("000A01",
                                                                         new List<Item> {
                                                                             new Item("192824442774"),
                                                                             new Item("2999008485538"),
