@@ -5,6 +5,7 @@ using Model;
 using Central_Controller.IO;
 using PrestaSharpAPI;
 using System.ComponentModel;
+using System.Threading;
 
 namespace Central_Controller.Central_Controller {
     public partial class Controller : INotifyPropertyChanged {
@@ -47,6 +48,8 @@ namespace Central_Controller.Central_Controller {
         public List<Partition> PriorityPartitions { get; private set; } = new List<Partition>();
         public List<Tuple<Item, bool[]>> PartiallyCountedItems { get; private set; } = new List<Tuple<Item, bool[]>>();
         public List<Item> VerifiedItems = new List<Item>();
+        private ProductAPI _productAPI = new ProductAPI();
+        
 
 
 
@@ -55,8 +58,7 @@ namespace Central_Controller.Central_Controller {
         }
 
         private List<Item> DownloadFromServer() {
-            return new List<Item>();
-            return new ProductAPI().GetAllItems();
+            return _productAPI.GetAllItems();
         }
 
         public void InitialAddItems(List<Item> allItems, List<string> locationIds) {
