@@ -11,7 +11,7 @@ using Xamarin.Forms.Xaml;
 namespace SAScanApp {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class EnterNamePage : ContentPage {
-
+        public string UserName { get; set; }
         private App _appPage { get; set; }
 
         public EnterNamePage() {
@@ -23,14 +23,17 @@ namespace SAScanApp {
             
         }
 
-        private void Name_Entered(object sender, EventArgs e) {
-            var path = Path.Combine(Environment.CurrentDirectory, @"\UserData\UserName.txt");
-            DirectorySecurity securityRules = new DirectorySecurity();
-            securityRules.AddAccessRule(new FileSystemAccessRule("Users", FileSystemRights.FullControl, AccessControlType.Allow));
-            DirectoryInfo newDir = Directory.CreateDirectory(path, securityRules);
+        private async void Name_Entered(object sender, EventArgs e) {
+            //var path = Path.Combine(Environment.CurrentDirectory, @"\UserData\UserName.txt");
+            //DirectorySecurity securityRules = new DirectorySecurity();
+            //securityRules.AddAccessRule(new FileSystemAccessRule("Users", FileSystemRights.FullControl, AccessControlType.Allow));
 
-            var UserName = NameEntry.Text;
-            File.WriteAllText(UserName, path);            
+            //DirectoryInfo newDir = Directory.CreateDirectory(path, securityRules);
+
+            //var UserName = NameEntry.Text;
+            //File.WriteAllText(UserName, path);
+
+            await Navigation.PushAsync(new ScanPage(this));
         }
 
         private async void AdminLogin_Button_Clicked(object sender, EventArgs e) {

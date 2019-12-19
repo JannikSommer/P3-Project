@@ -7,18 +7,11 @@ namespace SAScanApp
 {
     public partial class App : Application
     {
-        public string Path { get; set; } = Environment.CurrentDirectory + @"\UserData\Username.txt";
+        // public string Path { get; set; } = Environment.CurrentDirectory + @"\UserData\Username.txt";
         public App()
         {
             InitializeComponent();
-            if (File.Exists(Path)){
-                MainPage = new NavigationPage(new MainPage());
-            }
-
-            else
-            {
-                MainPage = new NavigationPage(new EnterNamePage(this));
-            }
+            MainPage = new NavigationPage(new EnterNamePage(this));
         }
 
         protected override void OnStart()

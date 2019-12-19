@@ -17,6 +17,7 @@ namespace SAScanApp
         public Partition Partition { get; set; }
         public AdminPartitionSelection admPage { get; set; }
         public VerificationPartition VerificationPartition { get; set; }
+        public string UserName { get; set; }
 
         Partition _artition = new Partition(new Model.Location("000A01",
                                                                         new List<Item> {
@@ -29,9 +30,10 @@ namespace SAScanApp
 
         private bool lightOn = false;
 
-        public ScanPage()
+        public ScanPage(EnterNamePage enterNamePage)
         {
             InitializeComponent();
+            UserName = enterNamePage.UserName;
             
             //DependencyService.Get<IBluetoothHandler>().EnableBluetooth();
 

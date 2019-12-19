@@ -41,6 +41,7 @@ namespace SAScanApp {
         public MenuDataHandlerPage(MenuStartPage mStartPage) 
             : this()
         {
+            UserName = mStartPage.UserName;
             _mStartPage = mStartPage;
         }
         
