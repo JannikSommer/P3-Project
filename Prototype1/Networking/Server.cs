@@ -5,6 +5,7 @@ using Model;
 using Newtonsoft.Json;
 using StatusController;
 using System.Collections.Generic;
+using Central_Controller.Central_Controller;
 
 namespace Networking
 {
@@ -73,7 +74,7 @@ namespace Networking
                     byte[] clinetBytes = new byte[1024]; //Size of a CentralController.Client
                     bytesRec = Handler.Receive(clinetBytes);
                     string Client = Encoding.UTF8.GetString(clinetBytes, 0, bytesRec);
-                    Central_Controller.Client device = JsonConvert.DeserializeObject<Central_Controller.Client>(Client, Settings);
+                    User device = JsonConvert.DeserializeObject<User>(Client, Settings);
 
                     SendPartition(device);
 
@@ -87,7 +88,7 @@ namespace Networking
                     byte[] clinetBytes = new byte[MessageSize]; 
                     bytesRec = Handler.Receive(clinetBytes);
                     string Client = Encoding.UTF8.GetString(clinetBytes, 0, bytesRec);
-                    Central_Controller.Client device = JsonConvert.DeserializeObject<Central_Controller.Client>(Client, Settings);
+                    User device = JsonConvert.DeserializeObject<User>(Client, Settings);
 
                     SendVerificationPartition(device);
                 }
@@ -130,7 +131,7 @@ namespace Networking
             Handler.Send(Encoding.UTF8.GetBytes(CommunicationFlag.ConversationCompleted.ToString()));
         }
 
-        private void SendPartition(Central_Controller.Client client)
+        private void SendPartition(User client)
         {
             Partition partition = CycleController.NextPartition(client);
             // partition.Locations.Add(new Location("001A01")); 
@@ -147,7 +148,7 @@ namespace Networking
             }
         }
 
-        private void SendVerificationPartition(Central_Controller.Client client)
+        private void SendVerificationPartition(User client)
         {
             VerificationPartition verificationPartition = CycleController.CreateVerificationPartition(client);
             // Send partition to client

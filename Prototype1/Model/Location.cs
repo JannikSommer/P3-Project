@@ -47,16 +47,6 @@ namespace Model
             }
         }
 
-
-        public int Shelf { get; set; }
-        public int Position { get; set; }
-        public char Row { get; set; }
-        public bool Visited { get; set; } = false;
-        public bool HasMultilocationItem { get; set; }
-        public string ID { get; set; }
-        public List<Item> Items { get; set; }
-
-
         private void ConvertID(string ID) {
             Shelf = Convert.ToInt32(ID.Substring(0, 3));
             Row = ID[3];

@@ -31,7 +31,7 @@ namespace StatusController
             if (File.Exists(path))
             {
                 IsInitialized = true;
-                ServerItems = ProductAPI.GetAllItems();
+                LoadApiItemsFromFile();
                 foreach (Item item in ServerItems)
                 {
                     NotCountedItems.Add(item);
@@ -53,6 +53,7 @@ namespace StatusController
             {
                 NotCountedItems.Add(item);
             }
+            SaveApiItemsToFile();
             IsInitialized = true;
         }
 
