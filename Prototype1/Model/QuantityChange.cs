@@ -1,18 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Model
-{
-    class QuantityChange
-    {
-        List<Location> _locations { get; set; }
-        int _quantity { get; set; }
-
-        public QuantityChange(List<Location> locations, int quantity)
-        {
-            this._locations = locations;
-            this._quantity = quantity;
+﻿namespace Model {
+    class QuantityChange {
+        public QuantityChange(int quantity, string user, Location location) {
+            Quantity = quantity;
+            User = user;
+            Location = location;
         }
+
+        int Quantity { get; set; }
+        string User { get; set; }
+        Location Location { get; set; }
     }
 }

@@ -1,16 +1,35 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.ComponentModel;
 
-namespace Model
-{
-    //public enum ItemSize { S = 0, Small = 0, M = 1, Medium = 1, L = 2, Large = 2, XL = 3, ExtraLarge = 3, XXL, XXXL, XXXXL, XXXXXL}
-    [Serializable]
-    public class Item : INotifyPropertyChanged
-    {
+namespace Model {
+    public class Item : INotifyPropertyChanged {
+        public Item() { } // Used for XML/JSON Deserialization.
+        public Item(string id) {
+            ID = id;
+            Locations = new List<Location>();
+        }
+        public Item(string id, string name, string color, string size) {
+            ID = id;
+            Name = name;
+            Color = color;
+            Size = size;
+            HasMultiLocation = false;
+            Locations = new List<Location>();
+        }
+        public Item(string id, string name, string color, string size, List<Location> locations): this(id, name, color, size) {
+            Locations = new List<Location>();
+            foreach(Location location in locations) {
+                AddLocation(location);
+            }
+        }
+        public Item(string id, string name, int quantity, string color, string size, List<Location> locations, string barcode) : this(id,name, color, size, locations) {
+            ServerQuantity = quantity;
+            Barcode = barcode;
+        }
+
+
         public int ServerQuantity { get; set; }
-        private int _countedQuantity = 0;
         public int CountedQuantity {
             get { return _countedQuantity; }
             set { _countedQuantity = value;
@@ -32,119 +51,59 @@ namespace Model
         public string UpcBarcode { get; set; }
         public string EanBarcode { get; set; }
         public string CheckSum { get; set; }
+        public string Barcode { get; set; }
         public List<Location> Locations { get; set; }
-
-
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public Item() { } // Used for XML/JSON Deserialization.
+        private int _countedQuantity = 0;
 
-        public Item(string id)
-        {
-            ID = id;
-            Locations = new List<Location>();
-        }
 
-        public Item(string id, string name, string color, string size)
-        {
-            ID = id;
-            Name = name;
-            Color = color;
-            Size = size;
-            HasMultiLocation = false;
-            Locations = new List<Location>();
-        }
-
-        public Item(string id, string name, string color, string size, List<Model.Location> locations)
-        {
-            ID = id;
-            Name = name;
-            Color = color;
-            Size = size;
-            Locations = new List<Location>();
-
-            foreach (Location location in locations)
-            {
-                AddLocation(location);
-            }
-        }
-        public Item(string id, string name, int quantity, string color, string size, List<Location> locations, string upcBarcode, string eanBarcode)
-        {
-            ID = id;
-            Name = name;
-            ServerQuantity = quantity;
-            Color = color;
-            Size = size;
-            UpcBarcode = upcBarcode;
-            EanBarcode = eanBarcode;
-            Locations = locations;
-
-            foreach (Location location in locations)
-            {
-                AddLocation(location);
-            }
-        }
-        public void AddLocation(Location location)
-        {
-            if(!HasLocation(location))
-            {
+        public void AddLocation(Location location) {
+            if(!HasLocation(location)) {
                 Locations.Add(location);
-                if (Locations.Count >= 2)
-                {
+                if (Locations.Count >= 2) {
                     HasMultiLocation = true;
-                    foreach (Location loc in Locations)
-                    {
+                    foreach (Location loc in Locations) {
                         loc.HasMultilocationItem = true;
                     }
                 }
             }
 
-            if (!location.HasItem(this))
-            {
+            if (!location.HasItem(this)) {
                 location.AddItem(this);
             }
         }
 
-        public bool HasLocation(Location location)
-        {
+        public bool HasLocation(Location location) {
             return Locations.Exists(x => x.ID == location.ID);
         }
 
-        public int CompareDistance(Item otherItem, LocationComparer locationComparer)
-        {
+        public int CompareDistance(Item otherItem, LocationComparer locationComparer) {
             int TotalDistance = 0;
             int ShortestDistance;
             int x;
 
-            if(Locations.Count == 0 || otherItem.Locations.Count == 0)
-            {
-                throw new Exception("Can't compare Distance of items where one or both doesn't have any assigned locations");
+            if(Locations.Count == 0 || otherItem.Locations.Count == 0) {
+                throw new Exception("Can't compare Distance of items where one or both doesn't have any assigned locations"); //TODO: is this nessesary?
             }
 
-            foreach(Location ThisItemsLocation in Locations)
-            {
+            foreach(Location ThisItemsLocation in Locations) {
                 ShortestDistance = int.MaxValue;
 
-                foreach (Location OtherItemLocation in otherItem.Locations)
-                {
+                foreach (Location OtherItemLocation in otherItem.Locations) {
                     x = ThisItemsLocation.CompareDistance(OtherItemLocation, locationComparer);
 
-                    if (x < ShortestDistance)
-                    {
+                    if (x < ShortestDistance) {
                         ShortestDistance = x;
                     }
                 }
-
                 TotalDistance += ShortestDistance;
             }
-
             return TotalDistance;
         }
-
 
         protected void OnPropertyChanged(string name) {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
-
     }
 }

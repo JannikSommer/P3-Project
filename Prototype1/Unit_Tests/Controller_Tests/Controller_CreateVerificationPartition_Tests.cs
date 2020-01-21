@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Model;
-using Central_Controller;
+using Central_Controller.Central_Controller;
 
 namespace Unit_Tests.Controller_Tests
 {
@@ -16,8 +16,8 @@ namespace Unit_Tests.Controller_Tests
             Controller TestController = new Controller();
             TestController.Location_Comparer = new LocationComparer(19);
 
-            Client TestClient = new Client();
-            TestClient.IsAdmin = true;
+            User TestUser = new User();
+            TestUser.IsAdmin = true;
 
             Item TestItem1 = new Item("001", "T-Shirt", "White", "Large");
             Item TestItem2 = new Item("002", "Pants", "Black", "Medium");
@@ -41,7 +41,7 @@ namespace Unit_Tests.Controller_Tests
             TestController.CheckCountedItem(TestItem1);
             TestController.CheckCountedItem(TestItem2);
 
-            VerificationPartition ActualVerificationPartition = TestController.CreateVerificationPartition(TestClient);
+            VerificationPartition ActualVerificationPartition = TestController.CreateVerificationPartition(TestUser);
 
             // Assert
             Assert.AreEqual(ExpectedLocationCount, ActualVerificationPartition.Locations.Count);
@@ -55,8 +55,8 @@ namespace Unit_Tests.Controller_Tests
             Controller TestController = new Controller();
             TestController.Location_Comparer = new LocationComparer(19);
 
-            Client TestClient = new Client();
-            TestClient.IsAdmin = true;
+            User TestUser = new User();
+            TestUser.IsAdmin = true;
 
             Item TestItem1 = new Item("001", "T-Shirt", "White", "Large");
             Item TestItem2 = new Item("002", "Pants", "Black", "Medium");
@@ -79,7 +79,7 @@ namespace Unit_Tests.Controller_Tests
             TestController.CheckCountedItem(TestItem1);
             TestController.CheckCountedItem(TestItem2);
 
-            VerificationPartition ActualVerificationPartition = TestController.CreateVerificationPartition(TestClient);
+            VerificationPartition ActualVerificationPartition = TestController.CreateVerificationPartition(TestUser);
 
             // Assert
             Assert.AreEqual(ExpectedVerificationPartition, ActualVerificationPartition);
@@ -92,8 +92,8 @@ namespace Unit_Tests.Controller_Tests
             Controller TestController = new Controller();
             TestController.Location_Comparer = new LocationComparer(19);
 
-            Client TestClient = new Client();
-            TestClient.IsAdmin = true;
+            User TestUser = new User();
+            TestUser.IsAdmin = true;
 
             Item TestItem1 = new Item("001", "T-Shirt", "White", "Large");
             Item TestItem2 = new Item("002", "Pants", "Black", "Medium");
@@ -117,7 +117,7 @@ namespace Unit_Tests.Controller_Tests
             TestController.CheckCountedItem(TestItem1);
             TestController.CheckCountedItem(TestItem2);
 
-            VerificationPartition ActualVerificationPartition = TestController.CreateVerificationPartition(TestClient);
+            VerificationPartition ActualVerificationPartition = TestController.CreateVerificationPartition(TestUser);
 
             // Assert
             Assert.AreEqual(ExpectedLocationCount, ActualVerificationPartition.Locations.Count);
@@ -131,8 +131,8 @@ namespace Unit_Tests.Controller_Tests
             Controller TestController = new Controller();
             TestController.Location_Comparer = new LocationComparer(19);
 
-            Client TestClient = new Client();
-            TestClient.IsAdmin = true;
+            User TestUser = new User();
+            TestUser.IsAdmin = true;
 
             Item TestItem1 = new Item("001", "T-Shirt", "White", "Large");
             Item TestItem2 = new Item("002", "Pants", "Black", "Medium");
@@ -265,7 +265,7 @@ namespace Unit_Tests.Controller_Tests
             TestController.CheckCountedItem(TestItem15);
             TestController.CheckCountedItem(TestItem16);
 
-            VerificationPartition ActualVerificationPartition = TestController.CreateVerificationPartition(TestClient);
+            VerificationPartition ActualVerificationPartition = TestController.CreateVerificationPartition(TestUser);
 
             // Assert
             Assert.AreEqual(ExpectedLocationCount, ActualVerificationPartition.Locations.Count);
@@ -279,8 +279,8 @@ namespace Unit_Tests.Controller_Tests
             Controller TestController = new Controller();
             TestController.Location_Comparer = new LocationComparer(19);
 
-            Client TestClient = new Client();
-            TestClient.IsAdmin = true;
+            User TestUser = new User();
+            TestUser.IsAdmin = true;
 
             Item TestItem1 = new Item("001", "T-Shirt", "White", "Large");
             Item TestItem2 = new Item("002", "Pants", "Black", "Medium");
@@ -447,7 +447,7 @@ namespace Unit_Tests.Controller_Tests
             TestController.CheckCountedItem(TestItem21);
             TestController.CheckCountedItem(TestItem22);
 
-            VerificationPartition ActualVerificationPartition = TestController.CreateVerificationPartition(TestClient);
+            VerificationPartition ActualVerificationPartition = TestController.CreateVerificationPartition(TestUser);
 
             // Assert
             Assert.AreEqual(ExpectedItemCount, ActualVerificationPartition.Items.Count);
@@ -461,8 +461,8 @@ namespace Unit_Tests.Controller_Tests
             Controller TestController = new Controller();
             TestController.Location_Comparer = new LocationComparer(19);
 
-            Client TestClient = new Client();
-            TestClient.IsAdmin = true;
+            User TestUser = new User();
+            TestUser.IsAdmin = true;
 
             Item TestItem1 = new Item("001", "T-Shirt", "White", "Large");
             Item TestItem2 = new Item("002", "Pants", "Black", "Medium");
@@ -630,7 +630,7 @@ namespace Unit_Tests.Controller_Tests
             TestController.CheckCountedItem(TestItem21);
             TestController.CheckCountedItem(TestItem22);
 
-            VerificationPartition ActualVerificationPartition = TestController.CreateVerificationPartition(TestClient);
+            VerificationPartition ActualVerificationPartition = TestController.CreateVerificationPartition(TestUser);
 
             // Assert
             Assert.AreEqual(ExpectedItemCount, ActualVerificationPartition.Items.Count);
@@ -644,8 +644,8 @@ namespace Unit_Tests.Controller_Tests
             Controller TestController = new Controller();
             TestController.Location_Comparer = new LocationComparer(19);
 
-            Client TestClient = new Client();
-            TestClient.IsAdmin = true;
+            User TestUser = new User();
+            TestUser.IsAdmin = true;
 
             Item TestItem1 = new Item("001", "T-Shirt", "White", "Large");
             Item TestItem2 = new Item("002", "Pants", "Black", "Medium");
@@ -814,7 +814,7 @@ namespace Unit_Tests.Controller_Tests
             TestController.CheckCountedItem(TestItem21);
             TestController.CheckCountedItem(TestItem22);
 
-            VerificationPartition ActualVerificationPartition = TestController.CreateVerificationPartition(TestClient);
+            VerificationPartition ActualVerificationPartition = TestController.CreateVerificationPartition(TestUser);
 
             // Assert
             Assert.AreEqual(ExpectedItemCount, ActualVerificationPartition.Items.Count);
@@ -828,8 +828,8 @@ namespace Unit_Tests.Controller_Tests
             Controller TestController = new Controller();
             TestController.Location_Comparer = new LocationComparer(19);
 
-            Client TestClient = new Client();
-            TestClient.IsAdmin = true;
+            User TestUser = new User();
+            TestUser.IsAdmin = true;
 
             Item TestItem1 = new Item("001", "T-Shirt", "White", "Large");
             Item TestItem2 = new Item("002", "Pants", "Black", "Medium");
@@ -997,7 +997,7 @@ namespace Unit_Tests.Controller_Tests
             TestController.CheckCountedItem(TestItem20);
             TestController.CheckCountedItem(TestItem21);
 
-            VerificationPartition ActualVerificationPartition = TestController.CreateVerificationPartition(TestClient);
+            VerificationPartition ActualVerificationPartition = TestController.CreateVerificationPartition(TestUser);
 
             // Assert
             Assert.AreEqual(ExpectedItemCount, ActualVerificationPartition.Items.Count);

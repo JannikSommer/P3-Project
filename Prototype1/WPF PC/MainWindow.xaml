@@ -43,16 +43,8 @@
         <Button x:Name="editCycle" Content="{x:Static lang:Resources.MainWindowButtonEditCycle}" Width="150" Height="35"
                 Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="2" FontSize="16" Margin="10" HorizontalAlignment="Left" VerticalAlignment="Center" Click="EditCycle_Click" />
 
-        <Button x:Name="changeLanguage" Content="{x:Static lang:Resources.MainWindowButtonSwitchLanguage}" Width="140" Height="35"
-                Grid.Column="4" Grid.Row="1" FontSize="16" Margin="10,10,130,10" HorizontalAlignment="Right" Visibility="Hidden" Click="ChangeLanguage_Click" />
-
         <!--Combobox-->
         <ComboBox x:Name="ComboBoxDataSelection" Grid.Column="1" Grid.Row="3" Width="250" Margin="10" HorizontalAlignment="Center" SelectionChanged="ComboBoxDataSelection_SelectionChanged" SelectedIndex="0" >
-            <!--
-            <ComboBoxItem Content="{x:Static lang:Resources.MainWindowComboboxCountedToday}" />
-            <ComboBoxItem Content="{x:Static lang:Resources.MainWindowComboboxCountedThisCycle}" />
-            <ComboBoxItem Content="{x:Static lang:Resources.MainWindowComboboxCountedDifference}" />
--->
             <ComboBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Vertical">
@@ -76,8 +68,8 @@
         <Label x:Name="totalCountDifference" Content="{x:Static lang:Resources.MainWindowLabelTotalCountDifference}" Grid.Column="2" Grid.Row="2" Grid.RowSpan="2"
                HorizontalAlignment="Left" VerticalAlignment="Top" Margin="80,50,10,5" />
 
-        <Label x:Name="acticeClients" Content="0" Grid.Column="2" Grid.Row="2" Grid.RowSpan="2"
-               Grid.ColumnSpan="3" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="260,10,10,10" Width="160" />
+        <Label x:Name="acticeClients" Grid.Column="2" Grid.Row="2" Grid.RowSpan="2" 
+               Grid.ColumnSpan="3" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="260,10,10,10" Width="160" Content="0"/>
 
         <Label x:Name="overviewTotalCounted" Content="0 / 0 (0%)" Grid.Column="2" Grid.Row="2" Grid.RowSpan="2"
                Grid.ColumnSpan="3" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="260,30,10,10" Width="180" />

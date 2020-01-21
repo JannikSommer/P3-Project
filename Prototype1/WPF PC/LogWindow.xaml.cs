@@ -18,14 +18,12 @@ namespace WPF_PC {
     /// Interaction logic for LogWindow.xaml
     /// </summary>
     public partial class LogWindow : Window {
-
         public LogWindow(LogFile log) {
             InitializeComponent();
             _log = log;
             PrepareWindow();
             datePickerAfter.Focus();
         }
-
         public LogWindow(string logPath) {
             InitializeComponent();
             _log = new LogReader().GetLogFromFile(logPath);
@@ -42,7 +40,6 @@ namespace WPF_PC {
             datePickerAfter.Text = _log.StartDate.ToString("yyyy/MM/dd HH:mm:ss");
             datePickerBefore.Text = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss");
         }
-
 
         private void buttonSearch_Click(object sender, RoutedEventArgs e) {
             Search();

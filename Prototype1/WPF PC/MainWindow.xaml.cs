@@ -2,57 +2,45 @@
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
-using Networking;
-using System.Threading;
-using Model.Log;
-using Localization;
-using Central_Controller;
+using Central_Controller.Central_Controller;
+using System.Linq;
 using Model;
 using Central_Controller.IO;
 using System.Globalization;
-using PrestaSharpAPI;
-using MVC_Controller;
-using StatusController;
+using System.Windows.Data;
+using System.ComponentModel;
+using System.Threading;
+using Networking;
 
-
-namespace WPF_PC
-{
+namespace WPF_PC {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
-    {
-        private Controller CycleController { get; set; } = new Controller();
-        public Status StatusController { get; set; } = new Status();
-        private Thread NetworkingThread { get; set; }
-        private Server Server { get; set; }
-
-        public EditCycle EditCycleWindow;
-
-
-        public MainWindow()
-        {
-            EditCycleWindow = new EditCycle(CycleController);
-            //MainController = new MainController(Controller);
-            ////StartServer();
+    public partial class MainWindow : Window {
+        public MainWindow() {
             InitializeComponent();
-
-
-            // MainController.StartServer();
+            Controller = new Controller();
+            _server = new Server(Controller);
+            _networkingThread = new Thread(_server.StartServer);
+            _networkingThread.Start();
+            
             LoadIntoDataGrid();
             LoadIntoComboBox();
-            CycleController.Cycle.Log.AddMessage(new VerificationLogMessage(DateTime.Now, "Bob", "564738920", true));
-            if (StatusController.IsInitialized == true)
-            {
-                initializeStatusButton.IsEnabled = false;
-                endStatusButton.IsEnabled = true;
-            }
+            UpdateAllUI();
+            Controller.PropertyChanged += UpdateActiveUser;
+            Controller.Cycle.PropertyChanged += UpdatePercentageCounted;
+            Controller.Cycle.PropertyChanged += UpdatePercentageCountedDifference;
         }
 
-        public void UpdateAllUI()
-        {
-            UpdateMainWindow();
+        public Controller Controller { get; set; }
+        public Status StatusController { get; set; } = new Status();
+        private Server _server;
+        private Thread _networkingThread;
+
+
+        public void UpdateAllUI() {
             LoadIntoDataGrid();
+            UpdateStatistics();          
         }
 
         public void LoadIntoDataGrid() 
@@ -68,68 +56,61 @@ namespace WPF_PC
         }
 
 
+        public void UpdateActiveUser(object sender, PropertyChangedEventArgs e) {
+            acticeClients.Content = ((Controller)sender).NumberOfActiveUsers;
+        }
 
-        public void UpdateMainWindow()
-        {
-            if (StatusController.IsInitialized == true)
-            {
-                //Active Clients:
-                acticeClients.Content = "N/A"; // No implementation for showing number of clients connected
-
-                //Counted Items overview:
-                double countedInt = StatusController.CountedItems.Count;
-                double totalItemsInt = StatusController.ServerItems.Count;
-                double percentageCounted = ((countedInt / totalItemsInt) * 100);
-                double percentageCountedRoundedDown = Math.Round(percentageCounted, 1);
-
-                overviewTotalCounted.Content = (countedInt + " / " + totalItemsInt + "   (" + percentageCountedRoundedDown + "%)");
-
-                //Counted with difference overview:
-                double countedIntWithDifference = 0; // Not supported for Status
-                double percentageCountedWithDifference = 0; // ((countedIntWithDifference / totalItemsInt) * 100); ---- Not supported for status
-                double percentageCountedWithDifferenceRoundedDown = 0;// Math.Round(percentageCountedWithDifference, 1); ----- not supported for status
-
-                overviewTotalCountedWithDifference.Content = 0; // (countedIntWithDifference + " / " + totalItemsInt + "   (" + percentageCountedWithDifferenceRoundedDown + "%)"); ----- not supported for status
+        public void UpdatePercentageCounted(object sender, PropertyChangedEventArgs e) {
+            if(Controller.Cycle.NumberOfCountedItems != 0 && Controller.Cycle.NumberOfItems != 0) {
+                overviewTotalCounted.Content = Controller.Cycle.NumberOfCountedItems + " / " + Controller.Cycle.NumberOfItems + "   (" + Math.Round(((double)Controller.Cycle.NumberOfCountedItems / (double)Controller.Cycle.NumberOfItems) * 100, 1) + "%)";
             }
-            else
-            {
-                //Active Clients:
-                acticeClients.Content = CycleController.Active_Clients.Count;
+        }
 
-                //Counted Items overview:
-                double countedInt = CycleController.Cycle.CountedItems.Count;
-                double totalItemsInt = CycleController.Cycle.AllItems.Count;
-                double percentageCounted = ((countedInt / totalItemsInt) * 100);
-                double percentageCountedRoundedDown = Math.Round(percentageCounted, 1);
-
-                overviewTotalCounted.Content = (countedInt + " / " + totalItemsInt + "   (" + percentageCountedRoundedDown + "%)");
-
-                //Counted with difference overview: HOW THE FUCK?
-                double countedIntWithDifference = 340; 
-                double percentageCountedWithDifference = ((countedIntWithDifference / totalItemsInt) * 100);
-                double percentageCountedWithDifferenceRoundedDown = Math.Round(percentageCountedWithDifference, 1);
-
-                overviewTotalCountedWithDifference.Content = (countedIntWithDifference + " / " + totalItemsInt + "   (" + percentageCountedWithDifferenceRoundedDown + "%)");
+        public void UpdatePercentageCountedDifference(object sender, PropertyChangedEventArgs e) {
+            if(Controller.Cycle.NumberOfItems != 0) {
+                double countedIntWithDifference = (from item in (List<Item>)dataGridMain.ItemsSource where item.QuantityVariance != 0 select (Item)item).Count();
+                overviewTotalCountedWithDifference.Content = countedIntWithDifference + " / " + Controller.Cycle.NumberOfItems + "   (" + Math.Round(countedIntWithDifference / (double)Controller.Cycle.NumberOfItems * 100, 1) + "%)";
             }
+        }
+        public void UpdateStatistics() {
+            double percentageCounted = 0,
+                   countedIntWithDifference = 0,
+                   percentageCountedWithDifference = 0;
+
+            //Active Users:
+            //acticeClients.Content = TheController.ActiveUsers.Count;
+
+            //Counted Items overview: 
+            if(Controller.Cycle.NumberOfCountedItems != 0 && Controller.Cycle.NumberOfItems != 0) {
+                percentageCounted = Math.Round((double)(Controller.Cycle.NumberOfCountedItems / Controller.Cycle.NumberOfItems) * 100, 1);
+            }
+
+            //Counted with difference overview:
+            if(Controller.Cycle.NumberOfItems != 0) {
+                countedIntWithDifference = (from item in (List<Item>)dataGridMain.ItemsSource where item.QuantityVariance != 0 select (Item)item).Count();
+                percentageCountedWithDifference = Math.Round(countedIntWithDifference / Controller.Cycle.NumberOfItems * 100, 1); 
+            }
+
+            overviewTotalCountedWithDifference.Content = (countedIntWithDifference + " / " + Controller.Cycle.NumberOfItems + "   (" + percentageCountedWithDifference + "%)");
+            overviewTotalCounted.Content = Controller.Cycle.NumberOfCountedItems + " / " + Controller.Cycle.NumberOfItems + "   (" + percentageCounted + "%)";
         }
 
         #region New windows 
         private void CreateCycleCount_Click(object sender, RoutedEventArgs e) {
-            CreateCycleWindow CreateCycle = new CreateCycleWindow(CycleController);
-            CreateCycle.Show();
+            new CreateCycleWindow(Controller).Show();
         }
 
         private void EditCycle_Click(object sender, RoutedEventArgs e) {
-            EditCycle EditCycle = new EditCycle(CycleController);
-            EditCycle.Show();
+            Controller.Cycle.NumberOfCountedItems++;
+            new EditCycle(Controller).Show();
         }
 
         private void ShowLog_Click(object sender, RoutedEventArgs e) {
-            LogWindow logWindow = new LogWindow(CycleController.Cycle.Log);
-            logWindow.Show();
+            Controller.Cycle.NumberOfItems++;
+            new LogWindow(Controller.Cycle.Log).Show();
         }
 
-        public void LoadIntoComboBox() {
+        public void LoadIntoComboBox() { // TODO: Move to XAML
             List<string> settings = new List<string> { 
                 Localization.Resources.MainWindowComboboxCountedToday, 
                 Localization.Resources.MainWindowComboboxCountedThisCycle, 
@@ -141,124 +122,21 @@ namespace WPF_PC
         }
         #endregion
 
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e) 
-        {
-            StatusController.SaveProgressToFile();
-            // MainController.ServerShutdown();
-            new IOController(CycleController.Cycle.Id).Save(CycleController.Cycle, CycleController.Location_Comparer.ShelfHierarchy);
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e) {
+            new IOController(Controller.Cycle.Id).Save(Controller.Cycle, Controller.Location_Comparer.ShelfHierarchy);
             Application.Current.Shutdown();
         }
 
-        private void ComboBoxDataSelection_SelectionChanged(object sender, SelectionChangedEventArgs e) 
-        {
-            if(ComboBoxDataSelection.SelectedIndex == 0) 
-            { //Todays Counted
-                if (StatusController.IsInitialized == true)
-                {
-
-                }
-                else
-                {
-                    dataGridMain.ItemsSource = CycleController.Cycle.CountedItems;
-                }
+        private void ComboBoxDataSelection_SelectionChanged(object sender, SelectionChangedEventArgs e) {
+            if(ComboBoxDataSelection.SelectedIndex == 0) { //Todays Counted
+                dataGridMain.ItemsSource = Controller.Cycle.CountedItems;
+            } else if(ComboBoxDataSelection.SelectedIndex == 1) { //Counted in this cycle
+                List<Item> newList = new List<Item>(Controller.Cycle.CountedItems);
+                newList.AddRange(Controller.Cycle.VerifiedItems);
+                dataGridMain.ItemsSource = newList;
+            } else if(ComboBoxDataSelection.SelectedIndex == 2) { //Counted with difference
+                // TODO: Missing behavior
             }
-            else if (ComboBoxDataSelection.SelectedIndex == 1) 
-            { //Counted in this cycle
-                if (StatusController.IsInitialized == true)
-                {
-
-                }
-                else
-                {
-                    List<Item> newList = new List<Item>(CycleController.Cycle.CountedItems);
-                    newList.AddRange(CycleController.Cycle.VerifiedItems);
-                    dataGridMain.ItemsSource = newList;
-                }
-            }
-            else if (ComboBoxDataSelection.SelectedIndex == 2) 
-            {
-                if (StatusController.IsInitialized == true)
-                {
-
-                }
-                else
-                {
-                    
-                }
-                //Counted with difference
-            }
-        }
-
-        private void ChangeLanguage_Click(object sender, RoutedEventArgs e) 
-        {
-            var danishCultureInfo = new CultureInfo("da-DK", true);
-            var englishCultureInfo = new CultureInfo("en-GB", true);
-
-            if(CultureInfo.CurrentUICulture.Name == danishCultureInfo.Name) 
-            {
-                CultureInfo.CurrentUICulture = englishCultureInfo;
-            } 
-            else 
-            {
-                CultureInfo.CurrentUICulture = danishCultureInfo;
-            }
-            Application.Current.MainWindow.UpdateLayout();
-        }
-
-        private void InitializeStatusButton_Click(object sender, RoutedEventArgs e)
-        {
-            // MainController.InitializeStatus();
-            dataGridMain.ItemsSource = StatusController.CountedItems;
-            initializeStatusButton.IsEnabled = false;
-            endStatusButton.IsEnabled = true;
-            StatusController.StartStatus();
-
-        }
-
-        private void EndStatus_Click(object sender, RoutedEventArgs e)
-        {
-            if (StatusController.NotCountedItems.Count > 0)
-            {
-                if (MessageBox.Show("Not all items has been acounted for. Are you sure every location has been scanned?", "WARNING!", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
-                {
-                    // Nothing happens.
-                }
-                else
-                {
-                    if (MessageBox.Show("This action cannot be undone. Are you sure you want to end status?", "WARNING!", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
-                    {
-                        // Nothing
-                    }
-                    else
-                    {
-                        StatusController.FinishStatus();
-                    }
-                }
-            }
-            else
-            {
-                if (MessageBox.Show("This action cannot be undone. Are you sure you want to end status?", "WARNING!", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No)
-                {
-                    // Nothing
-                }
-                else
-                {
-                    StatusController.FinishStatus();
-                }
-            }
-        }
-
-        public void StartServer()
-        {
-            Server = new Server(CycleController, StatusController);
-            NetworkingThread = new Thread(new ThreadStart(Server.StartServer));
-            NetworkingThread.Start();
-        }
-
-        public void ServerShutdown()
-        {
-            Server.ShutdownServer();
-            NetworkingThread.Abort();
         }
     }
 }

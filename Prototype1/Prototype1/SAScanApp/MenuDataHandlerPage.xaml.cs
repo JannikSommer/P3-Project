@@ -8,81 +8,110 @@ using Xamarin.Forms.Xaml;
 using Xamarin.Essentials;
 using Networking;
 using Model;
+using Central_Controller.Central_Controller;
+using System.IO;
 
 namespace SAScanApp {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class MenuDataHandlerPage : ContentPage {
-        private MainPage _mPage { get; set; }
-        private MenuStartPage _mStartPage { get; set; }
-
-        public bool IsPartitionDownloaded { get; set; } = false;
-
-        public MenuDataHandlerPage()
-        {
+        public MenuDataHandlerPage(string userName) {
             InitializeComponent();
+            _userName = userName;
+        }
+        public MenuDataHandlerPage(string userName, CommunicationFlag partitionType) : this(userName) {
+            _type = partitionType;
         }
 
-        public MenuDataHandlerPage(MainPage mPage):this() { 
+        private bool _hasPartitionDownloaded = false;
+        private string _userName = string.Empty;
+        private CommunicationFlag _type = CommunicationFlag.PartitionRequest;
+
         
-        _mPage = mPage;
-        }
+        [Obsolete]
+        private async void UploadPartition(object sender, EventArgs e) {
 
-        public MenuDataHandlerPage(MenuStartPage mStartPage):this()
-        {
-            _mStartPage = mStartPage;
-        }
-        private async void UploadPartition(object sender, EventArgs e) 
+        if (!_hasPartitionDownloaded && _type == CommunicationFlag.PartitionUpload)
         {
             Client client = new Client();
-
-            List<LocationBarcode> locationBarcodes = new List<LocationBarcode>();
-            locationBarcodes.Add(new LocationBarcode("001A02"));
-            locationBarcodes[0].AddItemBarcode("474174");
-            locationBarcodes.Add(new LocationBarcode("001B02"));
-            locationBarcodes[0].AddItemBarcode("571425");
-
-            client.UploadStatus(locationBarcodes);
-            
-            //if (IsPartitionDownloaded != true)
-            //{
-            //    Client client = new Client();
-            //    Partition partition = new Model.Partition();
-            //    CommunicationHandler handler = client.UploadPartition(partition);
-            //    if( handler != CommunicationHandler.Success)
-            //    {
-            //        await DisplayAlert("Error", "You have no active partition", "Okay");
-
-            //    }
-
-            //    else
-            //    {
-            //        IsPartitionDownloaded = false;
-            //        await DisplayAlert("Succes", "Partition succesfully uploaded", "Okay");
-            //    }
-            //}
-            // Der skal addes noget typesafety her, så hvis eventet fyrer igen, imens man er igang med at uploade en partition, så sker der ikke noget
-            // Ligeledes er ens partition ikke done, (mangler en location/item som slet ikke er scannet) så kan den ikke uploades (måske med overrule funktion??)
-        }
-
-        private void DownloadPartition(object sender, EventArgs e) 
-        {
-            Client networkingClient = new Client();
-            Central_Controller.Client DeviceClient = new Central_Controller.Client("Anders");
-            (Partition partition,  CommunicationHandler handler) = networkingClient.DownloadPartition(DeviceClient);
-
-            if (handler != CommunicationHandler.Success) {
-                DisplayAlert("Error", "An error occured", "Fix your shit!");
+            Partition partition = new Model.Partition();
+            CommunicationHandler handler = client.UploadPartition(partition);
+            if( handler != CommunicationHandler.Success) {
+                await DisplayAlert("Error", "You have no active partition", "Okay");
             } else {
-
-                IsPartitionDownloaded = true;
-                Navigation.PushAsync(new ScanPage(partition));
+                _hasPartitionDownloaded = false;
+                await DisplayAlert("Succes", "Partition succesfully uploaded", "Okay");
             }
+        } else if(!_hasPartitionDownloaded && _type == CommunicationFlag.VerificationUpload)
+            {
+                if (_hasPartitionDownloaded != true) {
+                    Client client = new Client();
+                    VerificationPartition Vpartition = new VerificationPartition();
+                    CommunicationHandler handler = client.UploadVerificationPartition(Vpartition);
+                    if (handler != CommunicationHandler.Success)
+                    {
+                        await DisplayAlert("Error", "You have no active Verification Partition", "Okay");
 
-
-            // DependencyService.Get<IBluetoothHandler>().EnableBluetooth();
-            // Typesafety, samme som ovenstående, plus at hvis ens partition pt. ikke er uploaded, kan man ikke få en ny
+                    } else {
+                        _hasPartitionDownloaded = false;
+                        await DisplayAlert("Succes", "Verification Partition succesfully uploaded", "Okay");
+                    }
+                }
+            }
         }
 
+        private async void TestDownload(object sender, EventArgs e) {
+            if(_type == CommunicationFlag.PartitionRequest) {
+                await Navigation.PushAsync(new ScanPage(
+                    new Partition(
+                        new Model.Location("000A01",
+                        new List<Item> {
+                            new Item("5701872203005"),
+                            new Item("73102601"),
+                            new Item ("8979878"),
+                            new Item ("78789"),
+                            new Item ("5709216007104")
+                        }
+                        )
+                    )));
+            } else {
+                await Navigation.PushAsync(new ScanPage(new VerificationPartition() {
+                    Locations = new List<Model.Location> {new Model.Location("000A01",
+                        new List<Item> {
+                            new Item("5701872203005"),
+                            new Item("73102601"),
+                            new Item ("8979878"),
+                            new Item ("78789"),
+                            new Item ("5709216007104")
+                        }
+                        )}
+                }));
+            }
+        }
+
+
+        private async void DownloadPartition(object sender, EventArgs e) {
+            if (!_hasPartitionDownloaded && _type == CommunicationFlag.PartitionRequest) {
+                Client networkingClient = new Client();
+                (Partition partition, CommunicationHandler handler) = networkingClient.DownloadPartition(new User(_userName));
+
+                if (handler != CommunicationHandler.Success) {
+                    await DisplayAlert("Error", "An error occured", "Ok");
+                } else {
+                    _hasPartitionDownloaded = true;
+                    await Navigation.PushAsync(new ScanPage(partition));
+                }
+            } else if(!_hasPartitionDownloaded && _type == CommunicationFlag.VerificationRequest) {
+                Client networkingClient = new Client();
+                (VerificationPartition Vpartition, CommunicationHandler handler) = networkingClient.DownloadVerificationPartition(new User(_userName));
+
+                if (handler != CommunicationHandler.Success) {
+                    await DisplayAlert("Error", "An error occured", "Ok");
+                } else{
+                    _hasPartitionDownloaded = true;
+                    await Navigation.PushAsync(new ScanPage(Vpartition));
+                }
+            }
+        }
 
     }
 }

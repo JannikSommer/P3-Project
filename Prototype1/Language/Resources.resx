@@ -163,7 +163,7 @@
     <value>Edit Cycle</value>
   </data>
   <data name="MainWindowLabelActiveClients" xml:space="preserve">
-    <value>Active clients:</value>
+    <value>Active users:</value>
   </data>
   <data name="MainWindowLabelTotalCount" xml:space="preserve">
     <value>Total counted:</value>

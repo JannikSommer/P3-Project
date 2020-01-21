@@ -1,25 +1,40 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Model;
 using Central_Controller.IO;
 using PrestaSharpAPI;
+using System.ComponentModel;
+using System.Threading;
 
-namespace Central_Controller
-{
-    public partial class Controller {
+namespace Central_Controller.Central_Controller {
+    public partial class Controller : INotifyPropertyChanged {
 
         public Controller() {
             IOController io = new IOController();
             List<Item> items = DownloadFromServer();
             Cycle = io.LoadCycle(items);
             Location_Comparer = new LocationComparer(io.LoadShelves());
-            //InitialAddItems(Cycle.AllItems, );
+            foreach (Item item in Cycle.AllItems)
+            {
+                InitialAddItem(item, LocationListToStringList(item.Locations));
+            }
+            Console.ReadKey();
         }
 
         public Cycle Cycle { get; set; }
+        public event PropertyChangedEventHandler PropertyChanged;
+        public int NumberOfActiveUsers {
+            get {
+                return _numberOfActiveUsers;
+            }
+            set {
+                _numberOfActiveUsers = value;
+                OnPropertyChanged("NumberOfActiveUsers");
+            }
+        }
+
+        private int _numberOfActiveUsers = 0;
 
         public int TotalNumberOfItems { get; private set; } = 0;
         public int NumOfItemsVerified { get; private set; } = 0;
@@ -27,8 +42,7 @@ namespace Central_Controller
         public TimeSpan TimeBeforeAFK = new TimeSpan(0, 30, 0);
         public SortedList<string, Location> UnPartitionedLocations { get; private set; } = new SortedList<string, Location>();
         private List<Location> MultiLocationsItem_Locations = new List<Location>();
-        //private List<Item> MultilocationItems = new List<Item>();
-        public List<Client> Active_Clients { get; private set; } = new List<Client>();
+        public List<User> ActiveUsers { get; private set; } = new List<User>();
         private List<Shelf> AvailebleShelfs = new List<Shelf>();
         private List<Shelf> OccopiedShelfs = new List<Shelf>();
         private List<Item> ItemsForVerification = new List<Item>();
@@ -38,43 +52,66 @@ namespace Central_Controller
         public List<Partition> PriorityPartitions { get; private set; } = new List<Partition>();
         public List<Tuple<Item, bool[]>> PartiallyCountedItems { get; private set; } = new List<Tuple<Item, bool[]>>();
         public List<Item> VerifiedItems = new List<Item>();
+        private ProductAPI _productAPI = new ProductAPI();
+        
 
 
 
-        private List<Item> DownloadFromServer() {
-            return new List<Item>();
-            return new ProductAPI().GetAllItems();
+        protected void OnPropertyChanged(string name) {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
 
-
+        private List<Item> DownloadFromServer() {
+            return _productAPI.GetAllItems();
+        }
 
         public void InitialAddItems(List<Item> allItems, List<string> locationIds) {
             foreach(Item item in allItems) {
                 InitialAddItem(item, locationIds);
             }
         }
+        private List<string> LocationListToStringList(List<Location> LocationList)
+        {
+            List<string> StringList = new List<string>();
+            foreach (Location _location in LocationList)
+            {
+                StringList.Add(_location.ID);
+            }
+            return StringList;
+        }
 
-        public Partition NextPartition(Client client)
+        public Partition NextPartition(User user)
         {
             Partition ClientsNextPartition = null;
+            User existingUser;
+
+            int userIndex = ActiveUsers.FindIndex(x => x.ID == user.ID);
+
+            if(userIndex >= 0) {
+                existingUser = ActiveUsers[userIndex];
+            } else {
+                ActiveUsers.Add(user);
+                NumberOfActiveUsers++;
+                existingUser = ActiveUsers.Last();
+            }
 
             if(PriorityPartitions.Count != 0)
             {
                 ClientsNextPartition = PriorityPartitions[0];
 
-                client.CurrentPartition = PriorityPartitions[0];
+                existingUser.CurrentPartition = PriorityPartitions[0];
 
                 PriorityPartitions.RemoveAt(0);
             }
 
             if(ClientsNextPartition == null)
             {
-                ClientsNextPartition = NextMultiLocationPartition(client);
+                ClientsNextPartition = NextMultiLocationPartition(existingUser);
             }
 
             if(ClientsNextPartition == null)
             {
-                ClientsNextPartition = NextSingleLocationPartition(client);
+                ClientsNextPartition = NextSingleLocationPartition(existingUser);
             }
 
             if(ClientsNextPartition == null && MultiLocationPartitions.Count != 0)
@@ -92,19 +129,19 @@ namespace Central_Controller
                     MultiLocationPartitions.RemoveAt(MultiLocationPartitions.Count - 1);
                 }
 
-                client.CurrentPartition = ClientsNextPartition;
+                existingUser.CurrentPartition = ClientsNextPartition;
             }
 
             return ClientsNextPartition;
         }
 
-        private Partition NextMultiLocationPartition(Client client)
+        private Partition NextMultiLocationPartition(User client)
         {
             Partition partition = null;
 
             for(int x = 0; x < MultiLocationPartitions.Count; x++)
             {
-                if(MultiLocationPartitions[x].Count <= Active_Clients.Count)
+                if(MultiLocationPartitions[x].Count <= ActiveUsers.Count)
                 {
                     partition = MultiLocationPartitions[x][0];
 
@@ -126,11 +163,11 @@ namespace Central_Controller
             return partition;
         }
 
-        private Partition NextSingleLocationPartition(Client client)
+        private Partition NextSingleLocationPartition(User client)
         {
             int ClientsIndex = IndexOfClient(client);
 
-            int ShelfsIndex = OccopiedShelfs.FindIndex(x => x.HasClient(client));
+            int ShelfsIndex = OccopiedShelfs.FindIndex(x => x.HasUsers(client));
 
             if(ShelfsIndex >= 0) //checks if client has a shelf and if its empty
             {
@@ -147,7 +184,7 @@ namespace Central_Controller
                 {
                     MoveElementFromListToOtherList<Shelf>(AvailebleShelfs, 0, OccopiedShelfs);
                     ShelfsIndex = OccopiedShelfs.Count - 1;
-                    OccopiedShelfs[OccopiedShelfs.Count - 1].AddClient(client);
+                    OccopiedShelfs[OccopiedShelfs.Count - 1].AddUser(client);
                 }
                 else //if no availeble shelfs assign the client to the shelf with the most room;
                 {
@@ -167,22 +204,22 @@ namespace Central_Controller
                         return null;
                     }
 
-                    OccopiedShelfs[ShelfsIndex].AddClient(client);
+                    OccopiedShelfs[ShelfsIndex].AddUser(client);
                 }
 
             }
 
-            return OccopiedShelfs[ShelfsIndex].ClientsNextPartition(client);
+            return OccopiedShelfs[ShelfsIndex].UsersNextPartition(client);
         }
 
-        private int IndexOfClient(Client client)
+        private int IndexOfClient(User client)
         {
-            int index = Active_Clients.FindIndex(x => x.ID == client.ID);
+            int index = ActiveUsers.FindIndex(x => x.ID == client.ID);
 
             if(index < 0)
             {
-                Active_Clients.Add(client);
-                index = Active_Clients.Count - 1;
+                ActiveUsers.Add(client);
+                index = ActiveUsers.Count - 1;
             }
 
             return index;
@@ -283,11 +320,11 @@ namespace Central_Controller
             UnPartitionedLocations.Clear();
         }
 
-        public void AddClient(Client client)
+        public void AddUser(User user)
         {
-            if (!Active_Clients.Exists(x => x.ID == client.ID))
+            if (!ActiveUsers.Exists(x => x.ID == user.ID))
             {
-                Active_Clients.Add(client);
+                ActiveUsers.Add(user);
             }
             else
             {
@@ -297,27 +334,27 @@ namespace Central_Controller
 
         public void CheckForAFKclients()
         {
-            for(int x = 0; x < Active_Clients.Count; x++)
+            for(int x = 0; x < ActiveUsers.Count; x++)
             {
-                if (Active_Clients[x].IsAFK(TimeBeforeAFK))
+                if (ActiveUsers[x].IsAFK(TimeBeforeAFK))
                 {
-                    RemoveClient(x);
+                    RemoveUser(x);
                 }
             }
         }
 
-        public void RemoveClient(int UsersIndex)
+        public void RemoveUser(int UsersIndex)
         {
-            if (Active_Clients[UsersIndex].CurrentPartition != null)
+            if (ActiveUsers[UsersIndex].CurrentPartition != null)
             {
                 bool ClientFoundOnActiveShelf = false;
 
                 for (int x = 0; x < OccopiedShelfs.Count; x++)
                 {
-                    if (OccopiedShelfs[x].HasClient(Active_Clients[UsersIndex]))
+                    if (OccopiedShelfs[x].HasUsers(ActiveUsers[UsersIndex]))
                     {
                         ClientFoundOnActiveShelf = true;
-                        OccopiedShelfs[x].RemoveInactiveClients(Active_Clients[UsersIndex]);
+                        OccopiedShelfs[x].RemoveInactiveUsers(ActiveUsers[UsersIndex]);
 
                         if (OccopiedShelfs[x].NumberOfClients == 0)
                         {
@@ -330,16 +367,17 @@ namespace Central_Controller
 
                 if (!ClientFoundOnActiveShelf)
                 {
-                    CheckPartition(Active_Clients[UsersIndex].CurrentPartition);
+                    CheckPartition(ActiveUsers[UsersIndex].CurrentPartition);
                 }
             }
 
-            if(!(Active_Clients[UsersIndex].CurrentVerificationPartition == null))
+            if(!(ActiveUsers[UsersIndex].CurrentVerificationPartition == null))
             {
-                CheckVerificationPartition(Active_Clients[UsersIndex].CurrentVerificationPartition);
+                CheckVerificationPartition(ActiveUsers[UsersIndex].CurrentVerificationPartition);
             }
 
-            Active_Clients.RemoveAt(UsersIndex);
+            ActiveUsers.RemoveAt(UsersIndex);
+            NumberOfActiveUsers--;
         }
 
         private void MoveElementFromListToOtherList<T>(List<T> MoveFromList, int Index, List<T> MoveToList) where T : IComparable
@@ -945,7 +983,7 @@ namespace Central_Controller
             }
         }
 
-        public VerificationPartition CreateVerificationPartition(Client client)
+        public VerificationPartition CreateVerificationPartition(User client)
         {
             VerificationPartition verificationPartition = new VerificationPartition();
             int Distance;

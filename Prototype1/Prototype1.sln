@@ -29,8 +29,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Controller", "Controller", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "View", "View", "{C7D89269-85F3-425A-BD4F-5EA085C771E4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MVC_Controller", "MVC_Controller\MVC_Controller.csproj", "{02EFE0E2-DB96-4CA3-8E47-18D17E331ED1}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "temp", "temp", "{136CF715-99D9-4D84-89E4-AB664F13C750}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StatusController", "StatusController\StatusController.csproj", "{85CC7882-F086-4653-AEA8-ABF73279861C}"

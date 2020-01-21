@@ -1,60 +1,23 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace SAScanApp
-{
+namespace SAScanApp {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class AdminLoginPage : ContentPage
-    {
-
-        private MainPage _mainPage;
-        private MenuStartPage _startPage;
-
-        public AdminLoginPage()
-        {
+    public partial class AdminLoginPage : ContentPage {
+        public AdminLoginPage() {
             InitializeComponent();
         }
 
-        public AdminLoginPage(MainPage mainPage)
-            : this()
-        {
-
-            _mainPage = mainPage;
-        }
-
-        public AdminLoginPage(MenuStartPage startPage)
-            : this()
-        {
-            this._startPage = startPage;
-        }
-
-        public async void Entry_Completed(object sender, EventArgs e)
-        {
+        public async void Entry_Completed(object sender, EventArgs e) {
             var usrNme = userLogin.Text;
             var pssWrd = userPassword.Text;
-            bool adminLoggedIn = false;
-
-            if (usrNme == "Admin" && pssWrd == "Admin")
-            {
-                // Her skal den sætte Admin = true, og logge ind på scanpage (lav polymorphism)
-                await DisplayAlert("Admin Login Correct", "Your password was correct", "Ok,");
-                adminLoggedIn = true;
-
-                
-            }
-
-            else
-            {
+           
+            if (usrNme == "admin" && pssWrd == "password") {
+                await Navigation.PushAsync(new AdminPartitionSelection(usrNme));
+            } else {
                 await DisplayAlert("Error!", "Wrong password, please try again", "Ok");
             }
-
         }    
-
     }
 }

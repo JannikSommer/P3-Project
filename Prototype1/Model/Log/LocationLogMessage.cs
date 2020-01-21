@@ -4,7 +4,6 @@ using System.Text;
 
 namespace Model.Log {
     public class LocationLogMessage : LogMessage {
-
         public LocationLogMessage(DateTime time, string userId, Location location) : this(time, userId, location.ID) {
             Items = new List<(string itemId, string countedQuantity)>();
             foreach(var item in location.Items) {
@@ -12,12 +11,10 @@ namespace Model.Log {
             }
             Message = GetMessageString();
         }
-
         public LocationLogMessage(DateTime time, string userId, string locationId, List<(string itemId, string countedQuantity)> items) : this(time, userId, locationId) {
             Items = items;
             Message = GetMessageString();
         }
-
         private LocationLogMessage(DateTime time, string userId, string locationId) {
             Time = time;
             UserId = userId;
@@ -56,7 +53,6 @@ namespace Model.Log {
 
         private string _userId;
         private string _locationId;
-
 
 
         // TODO: Add language options
@@ -111,7 +107,7 @@ namespace Model.Log {
         public override string GetMessageString() {
             StringBuilder stringBuilder = new StringBuilder();
 
-           stringBuilder.AppendLine(UserId + " started counting location " + LocationId);
+            stringBuilder.AppendLine(UserId + " started counting location " + LocationId);
 
             // Add each counted item
             foreach(var (itemId, countedQuantity) in Items) {

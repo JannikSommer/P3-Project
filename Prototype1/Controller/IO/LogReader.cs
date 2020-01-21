@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 
-
 namespace Model.Log {
     public class LogReader {
-
         public LogReader() {}
 
         private readonly char _seperator = '|';
@@ -18,6 +16,7 @@ namespace Model.Log {
             return result;
         }
 
+        [Obsolete]
         private string GetName(string path) {
             int start = -1;
 

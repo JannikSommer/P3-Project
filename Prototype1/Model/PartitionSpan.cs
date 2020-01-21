@@ -4,15 +4,13 @@ using System.Text;
 
 namespace Model
 {
-    public struct PartitionSpan
-    {
-        public int Shelf;
-        public int Position;
-
-        public PartitionSpan(int shelf, int position)
-        {
+    public struct PartitionSpan {
+        public PartitionSpan(int shelf, int position) {
             Shelf = shelf;
             Position = position;
         }
+
+        public int Shelf;
+        public int Position;
     }
 }

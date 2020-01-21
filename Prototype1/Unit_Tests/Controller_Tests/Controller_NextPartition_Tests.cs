@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Model;
-using Central_Controller;
+using Central_Controller.Central_Controller;
 
 namespace Unit_Tests.Controller_Tests
 {
@@ -31,8 +31,8 @@ namespace Unit_Tests.Controller_Tests
             Item TestItem5 = new Item("005", "Shoe", "Black", "43");
             List<string> TestItem5_Locations = new List<string> { "001E05" };
 
-            Client TestClient1 = new Client("1");
-            Client TestClient2 = new Client("2");
+            User TestUser1 = new User("1");
+            User TestUser2 = new User("2");
 
             //Expected
             string ExpectedItem1ID = "004";
@@ -53,13 +53,13 @@ namespace Unit_Tests.Controller_Tests
 
             TestController.InitialPartitioningOfLocations();
 
-            TestController.AddClient(TestClient1);
-            TestController.AddClient(TestClient2);
+            TestController.AddUser(TestUser1);
+            TestController.AddUser(TestUser2);
 
-            Partition DumpPartition = TestController.NextPartition(TestClient1);
-            DumpPartition = TestController.NextPartition(TestClient2);
+            Partition DumpPartition = TestController.NextPartition(TestUser1);
+            DumpPartition = TestController.NextPartition(TestUser2);
 
-            Partition ActualPartition = TestController.NextPartition(TestClient2);
+            Partition ActualPartition = TestController.NextPartition(TestUser2);
 
             // Assert
             Assert.AreEqual(ExpectedPartitionSize, ActualPartition.Locations.Count);
@@ -100,8 +100,8 @@ namespace Unit_Tests.Controller_Tests
             Item TestItem7 = new Item("007", "Skjorte", "Grey", "XXL");
             List<string> TestItem7_Locations = new List<string> { "001G07" };
 
-            Client TestClient1 = new Client("1");
-            Client TestClient2 = new Client("2");
+            User TestUser1 = new User("1");
+            User TestUser2 = new User("2");
 
             //Expected
             Partition ExpectedPartition = null;
@@ -117,18 +117,18 @@ namespace Unit_Tests.Controller_Tests
 
             TestController.InitialPartitioningOfLocations();
 
-            TestController.AddClient(TestClient1);
-            TestController.AddClient(TestClient2);
+            TestController.AddUser(TestUser1);
+            TestController.AddUser(TestUser2);
 
-            Partition DumpPartition = TestController.NextPartition(TestClient1);
-            DumpPartition = TestController.NextPartition(TestClient2);
-            DumpPartition = TestController.NextPartition(TestClient2);
-            DumpPartition = TestController.NextPartition(TestClient2);
-            DumpPartition = TestController.NextPartition(TestClient2);
-            DumpPartition = TestController.NextPartition(TestClient2);
-            DumpPartition = TestController.NextPartition(TestClient2);
+            Partition DumpPartition = TestController.NextPartition(TestUser1);
+            DumpPartition = TestController.NextPartition(TestUser2);
+            DumpPartition = TestController.NextPartition(TestUser2);
+            DumpPartition = TestController.NextPartition(TestUser2);
+            DumpPartition = TestController.NextPartition(TestUser2);
+            DumpPartition = TestController.NextPartition(TestUser2);
+            DumpPartition = TestController.NextPartition(TestUser2);
 
-            Partition ActualPartition = TestController.NextPartition(TestClient2);
+            Partition ActualPartition = TestController.NextPartition(TestUser2);
 
             // Assert
             Assert.AreEqual(ExpectedPartition, ActualPartition);
@@ -162,9 +162,9 @@ namespace Unit_Tests.Controller_Tests
             Item TestItem7 = new Item("007", "Skjorte", "Grey", "XXL");
             List<string> TestItem7_Locations = new List<string> { "001G07" };
 
-            Client TestClient1 = new Client("1");
-            Client TestClient2 = new Client("2");
-            Client TestClient3 = new Client("3");
+            User TestUser1 = new User("1");
+            User TestUser2 = new User("2");
+            User TestUser3 = new User("3");
 
             //Expected
             Partition ExpectedPartition = null;
@@ -180,19 +180,19 @@ namespace Unit_Tests.Controller_Tests
 
             TestController.InitialPartitioningOfLocations();
 
-            TestController.AddClient(TestClient1);
-            TestController.AddClient(TestClient2);
-            TestController.AddClient(TestClient3);
+            TestController.AddUser(TestUser1);
+            TestController.AddUser(TestUser2);
+            TestController.AddUser(TestUser3);
 
-            Partition DumpPartition = TestController.NextPartition(TestClient1);
-            DumpPartition = TestController.NextPartition(TestClient2);
-            DumpPartition = TestController.NextPartition(TestClient2);
-            DumpPartition = TestController.NextPartition(TestClient2);
-            DumpPartition = TestController.NextPartition(TestClient2);
-            DumpPartition = TestController.NextPartition(TestClient2);
-            DumpPartition = TestController.NextPartition(TestClient2);
+            Partition DumpPartition = TestController.NextPartition(TestUser1);
+            DumpPartition = TestController.NextPartition(TestUser2);
+            DumpPartition = TestController.NextPartition(TestUser2);
+            DumpPartition = TestController.NextPartition(TestUser2);
+            DumpPartition = TestController.NextPartition(TestUser2);
+            DumpPartition = TestController.NextPartition(TestUser2);
+            DumpPartition = TestController.NextPartition(TestUser2);
 
-            Partition ActualPartition = TestController.NextPartition(TestClient3);
+            Partition ActualPartition = TestController.NextPartition(TestUser3);
 
             // Assert
             Assert.AreEqual(ExpectedPartition, ActualPartition);

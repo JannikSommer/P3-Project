@@ -1,10 +1,7 @@
-﻿using System;
-using System.Net.Sockets;
+﻿using System.Net.Sockets;
 using System.Net;
 using System.Text;
 using Model;
-using Central_Controller;
-using System.IO;
 using Newtonsoft.Json;
 using StatusController;
 using System.Collections.Generic;
@@ -115,13 +112,11 @@ namespace Networking
             Handler.Send(Encoding.UTF8.GetBytes(CommunicationFlag.ConversationCompleted.ToString()));
         }
 
-        private void CommunicationError()
-        {
+        private void CommunicationError() {
             Handler.Send(Encoding.ASCII.GetBytes(CommunicationHandler.Error.ToString()));
         }
 
-        private void AcceptPartitionUpload()
-        {
+        private void AcceptPartitionUpload() {
             // Send permision to upload
             Handler.Send(Encoding.UTF8.GetBytes(CommunicationHandler.Accept.ToString()));
             byte[] bytes = new byte[MessageSize];
@@ -144,13 +139,11 @@ namespace Networking
             Handler.Send(Encoding.UTF8.GetBytes(json));
 
             // Recieve callback
-            string data = null;
             byte[] bytes = new byte[FlagMessageSize];
             int bytesRec = Handler.Receive(bytes);
-            data = Encoding.UTF8.GetString(bytes, 0, bytesRec);
-            if (!(data == CommunicationFlag.ConversationCompleted.ToString()))
-            {
-                // DO NOT MARK PARTITION AS InProgress
+            string data = Encoding.UTF8.GetString(bytes, 0, bytesRec);
+            if (!(data == CommunicationFlag.ConversationCompleted.ToString())) {
+                // TODO: DO NOT MARK PARTITION AS InProgress
             }
         }
 
@@ -165,14 +158,12 @@ namespace Networking
             byte[] bytes = new byte[FlagMessageSize];
             int bytesRec = Handler.Receive(bytes);
             string data = Encoding.UTF8.GetString(bytes, 0, bytesRec);
-            if (data != CommunicationFlag.ConversationCompleted.ToString())
-            {
+            if (data != CommunicationFlag.ConversationCompleted.ToString()) {
                 // DO NOT MARK PARTITION AS InProgress
             }
         }
 
-        private void AcceptVerificationPartitionUpload()
-        {
+        private void AcceptVerificationPartitionUpload() {
             // Send permision to upload
             Handler.Send(Encoding.UTF8.GetBytes(CommunicationHandler.Accept.ToString()));
             byte[] bytes = new byte[MessageSize];
@@ -187,8 +178,7 @@ namespace Networking
             Handler.Send(Encoding.UTF8.GetBytes(CommunicationFlag.ConversationCompleted.ToString()));
         }
 
-        public void ShutdownServer()
-        {
+        public void ShutdownServer() {
             Handler.Shutdown(SocketShutdown.Both);
             Handler.Close();
         }

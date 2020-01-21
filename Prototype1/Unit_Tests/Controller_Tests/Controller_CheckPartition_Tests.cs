@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Model;
-using Central_Controller;
+using Central_Controller.Central_Controller;
 using System.Collections.Generic;
 
 namespace Unit_Tests.Controller_Tests
@@ -321,7 +321,7 @@ namespace Unit_Tests.Controller_Tests
         public void CheckPartition_Test10__MultiLocationItemTest_NotCounted()
         {
             // Arrange
-            Client TestClient1 = new Client("01");
+            User TestUser1 = new User("01");
 
             Controller TestController = new Controller();
             TestController.Location_Comparer = new LocationComparer(19);
@@ -343,7 +343,7 @@ namespace Unit_Tests.Controller_Tests
 
             //Expected
             int Expected_Partition2Size = 6;
-            int Expected_ActiveClientCount = 1;
+            int Expected_ActiveUserCount = 1;
 
             string Expected_Partition_Location1 = "001A01";
             string Expected_Partition_Location3 = "001C01";
@@ -357,15 +357,15 @@ namespace Unit_Tests.Controller_Tests
 
             TestController.InitialPartitioningOfLocations();
 
-            TestController.AddClient(TestClient1);
-            Partition DumbPartition = TestController.NextPartition(TestClient1);
+            TestController.AddUser(TestUser1);
+            Partition DumbPartition = TestController.NextPartition(TestUser1);
 
             TestController.CheckPartition(DumbPartition);
-            Partition Actual_Partition = TestController.NextPartition(TestClient1);
+            Partition Actual_Partition = TestController.NextPartition(TestUser1);
 
             // Assert
             Assert.AreEqual(Expected_Partition2Size, Actual_Partition.Locations.Count);
-            Assert.AreEqual(Expected_ActiveClientCount, TestController.Active_Clients.Count);
+            Assert.AreEqual(Expected_ActiveUserCount, TestController.ActiveUsers.Count);
 
             Assert.AreEqual(Expected_Partition_Location1, Actual_Partition.Locations[0].ID);
             Assert.AreEqual(Expected_Partition_Location3, Actual_Partition.Locations[2].ID);
@@ -375,7 +375,7 @@ namespace Unit_Tests.Controller_Tests
         public void CheckPartition_Test11_MultiLocationItemTest_NotCounted()
         {
             // Arrange
-            Client TestClient1 = new Client("01");
+            User TestUser1 = new User("01");
 
             Controller TestController = new Controller();
             TestController.Location_Comparer = new LocationComparer(19);
