@@ -34,7 +34,7 @@ namespace WPF_PC
         {
             EditCycleWindow = new EditCycle(CycleController);
             //MainController = new MainController(Controller);
-            StartServer();
+            ////StartServer();
             InitializeComponent();
 
 
@@ -47,7 +47,6 @@ namespace WPF_PC
                 initializeStatusButton.IsEnabled = false;
                 endStatusButton.IsEnabled = true;
             }
-
         }
 
         public void UpdateAllUI()

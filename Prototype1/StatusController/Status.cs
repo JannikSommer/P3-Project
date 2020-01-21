@@ -179,5 +179,20 @@ namespace StatusController
             string json = File.ReadAllText(path);
             CountedLocations = JsonConvert.DeserializeObject<List<LocationBarcode>>(json, Settings);
         }
+
+        private void SaveApiItemsToFile()
+        {
+            string json = JsonConvert.SerializeObject(ServerItems, Settings);
+            var path = Environment.CurrentDirectory + @"\SaveData\APIData.txt";
+            // var path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "//StatusData.txt";
+            System.IO.File.WriteAllText(path, json);
+        }
+
+        private void LoadApiItemsFromFile()
+        {
+            var path = Environment.CurrentDirectory + @"\SaveData\APIData.txt";
+            string json = File.ReadAllText(path);
+            ServerItems = JsonConvert.DeserializeObject<List<Item>>(json, Settings);
+        }
     }
 }
