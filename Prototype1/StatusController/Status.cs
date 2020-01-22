@@ -35,7 +35,7 @@ namespace StatusController
                 LoadApiItemsFromFile();
                 foreach (Item item in ServerItems)
                 {
-                    Hashtable.Add(item.Barcode, item.CountedQuantity);
+                    Hashtable.Add(item.ID, 0);
                 }
                 LoadProgressFromFile();
                 GetItemsFromCountedLocations();
@@ -48,7 +48,10 @@ namespace StatusController
 
         public void StartStatus()
         {
-            CountedLocations = new List<LocationBarcode>();
+            foreach (Item item in ServerItems)
+            {
+                Hashtable.Add(item.ID, (int) 0);
+            }
             ServerItems = ProductAPI.GetAllItems();
             SaveApiItemsToFile();
             IsInitialized = true;
@@ -62,30 +65,40 @@ namespace StatusController
             string json = JsonConvert.SerializeObject(CountedItems, Settings);
             foreach (DictionaryEntry de in Hashtable)
             {
-                foreach (Item item in CountedItems)
+                foreach (Item item in ServerItems)
                 {
-                    if (Hashtable.ContainsKey(item.Barcode))
+                    if (Hashtable.ContainsKey(item.ID))
                     {
-                        item.CountedQuantity = (int) de.Value; // Updates the quantity in the list CountedItems.
+                        item.CountedQuantity = (int) de.Value; // Updates the quantity in the list serverItems
                     }
                 }
             }
             System.IO.File.WriteAllText(path, json);
             DeleteStatusProgress();
-            // ProductAPI.UpdateItemsThroughAPI(CountedItems); Currently not eligble for updating through Streetammo.dk/api
+            // ProductAPI.UpdateItemsThroughAPI(); Currently not eligble for updating through Streetammo.dk/api
         }
 
         public bool CheckForUncountedItems()
         {
-            foreach (Item countedItem in CountedItems)
+            foreach (Item serverItem in ServerItems)
             {
-                if (!(ServerItems.Exists(x => x.ID == countedItem.ID)))
+                if (!ContainsItem(CountedItems, serverItem))
                 {
-                    // If the server items has an item which is not in CountedItems there are remaining items which are not counted
                     return false;
                 }
             }
             return true;
+        }
+        private bool ContainsItem(List<Item> itemList, Item target)
+        {
+            foreach (Item item in itemList)
+            {
+                if (item.ID == target.ID)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         public void UpdateCountedLocations(List<LocationBarcode> locationBarcodes)
@@ -108,7 +121,7 @@ namespace StatusController
                     {
                         // Don't know if this works :/
                         int count = (int) Hashtable[itemBarcode];
-                        count++;
+                        count+= itemBarcode.Quantity;
                         Hashtable[itemBarcode] = count;
                     }
                 }
@@ -188,7 +201,7 @@ namespace StatusController
             File.Delete(path);
         }
 
-        public void SaveProgressToFile()
+        private void SaveProgressToFile()
         {
             string json = JsonConvert.SerializeObject(CountedLocations, Settings);
             var path = Environment.CurrentDirectory + @"\SaveData\StatusData.txt";
@@ -196,7 +209,7 @@ namespace StatusController
             System.IO.File.WriteAllText(path, json);
         }
 
-        public void LoadProgressFromFile()
+        private void LoadProgressFromFile()
         {
             var path = Environment.CurrentDirectory + @"\SaveData\StatusData.txt";
             // var path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "//StatusData.txt";

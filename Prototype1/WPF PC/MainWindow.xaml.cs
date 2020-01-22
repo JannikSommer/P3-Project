@@ -21,18 +21,28 @@ namespace WPF_PC {
     public partial class MainWindow : Window {
         public MainWindow() {
             InitializeComponent();
-            // CycleController = new Controller();
+            CycleController = new Controller();
             StatusController = new Status();
             _server = new Server(CycleController, StatusController);
             //_networkingThread = new Thread(_server.StartServer);
             //_networkingThread.Start();
-            
-            //LoadIntoDataGrid();
-            //LoadIntoComboBox();
-            //UpdateAllUI();
-            //CycleController.PropertyChanged += UpdateActiveUser;
-            //CycleController.Cycle.PropertyChanged += UpdatePercentageCounted;
-            //CycleController.Cycle.PropertyChanged += UpdatePercentageCountedDifference;
+            if (StatusController.IsInitialized)
+            {
+                initializeStatusButton.IsEnabled = false;
+                endStatusButton.IsEnabled = true;
+            }
+            else
+            {
+                initializeStatusButton.IsEnabled = true;
+                endStatusButton.IsEnabled = false;
+            }
+
+            LoadIntoDataGrid();
+            LoadIntoComboBox();
+            UpdateAllUI();
+            CycleController.PropertyChanged += UpdateActiveUser;
+            CycleController.Cycle.PropertyChanged += UpdatePercentageCounted;
+            CycleController.Cycle.PropertyChanged += UpdatePercentageCountedDifference;
         }
 
         public Controller CycleController { get; set; }
@@ -144,9 +154,9 @@ namespace WPF_PC {
 
         private void InitializeStatus_Click(object sender, RoutedEventArgs e)
         {
-            StatusController = new Status();
             StatusController.StartStatus();
-            
+            initializeStatusButton.IsEnabled = false;
+            endStatusButton.IsEnabled = true;
         }
 
         private void EndStatus_Click(object sender, RoutedEventArgs e)

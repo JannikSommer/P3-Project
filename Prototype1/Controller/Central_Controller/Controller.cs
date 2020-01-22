@@ -19,7 +19,6 @@ namespace Central_Controller.Central_Controller {
             {
                 InitialAddItem(item, LocationListToStringList(item.Locations));
             }
-            Console.ReadKey();
         }
 
         public Cycle Cycle { get; set; }

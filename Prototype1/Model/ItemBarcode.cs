@@ -7,6 +7,7 @@ namespace Model
     public class ItemBarcode
     {
         public string Barcode { get; set; }
+        public int Quantity { get; set; }
 
         public ItemBarcode(string barcode)
         {
