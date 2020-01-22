@@ -109,6 +109,7 @@
     <Compile Include="Partition_Tests.cs" />
     <Compile Include="LocationComparer_Tests.cs" />
     <Compile Include="IOController_Tests\Save_Tests.cs" />
+    <Compile Include="StatusTest.cs" />
     <Compile Include="UnitTest_Skarbelon.cs" />
     <Compile Include="VerificationPartition_Tests.cs" />
   </ItemGroup>
@@ -120,6 +121,14 @@
     <ProjectReference Include="..\Model\Model.csproj">
       <Project>{486dfbc0-2b7d-4c56-940c-150e673f643a}</Project>
       <Name>Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Networking\Networking.csproj">
+      <Project>{26cbc6b3-3005-40d1-9d2a-3a31129578ea}</Project>
+      <Name>Networking</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\StatusController\StatusController.csproj">
+      <Project>{85cc7882-f086-4653-aea8-abf73279861c}</Project>
+      <Name>StatusController</Name>
     </ProjectReference>
     <ProjectReference Include="..\WPF PC\WPF PC.csproj">
       <Project>{2e37ada4-7348-48e4-b8e1-d4c72492c4df}</Project>

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using PrestaSharpAPI;
 using Newtonsoft.Json;
+using System.Collections;
 
 namespace StatusController
 {
@@ -14,6 +15,7 @@ namespace StatusController
         public List<Item> ServerItems { get; set; } = new List<Item>();
         public List<LocationBarcode> CountedLocations { get; set; }
         public bool IsInitialized { get; set; }
+        public Hashtable Hashtable = new Hashtable();
 
         private ProductAPI ProductAPI = new ProductAPI();
 
@@ -34,6 +36,7 @@ namespace StatusController
                 LoadApiItemsFromFile();
                 foreach (Item item in ServerItems)
                 {
+                    Hashtable.Add(item.Barcode, item.CountedQuantity);
                     NotCountedItems.Add(item);
                 }
                 LoadProgressFromFile();
@@ -97,67 +100,83 @@ namespace StatusController
             {
                 foreach (ItemBarcode itemBarcode in locationBarcode.ItemBarcodes)
                 {
-                    foreach (Item item in CountedItems) // All currently counted items 
+                    if (Hashtable.ContainsKey(itemBarcode.Barcode))
                     {
-                        if ((item.UpcBarcode == itemBarcode.Barcode) || (item.EanBarcode == itemBarcode.Barcode))
-                        {
-                            // If the item already exists in the counted items, the quantity gets summed and the new location is added
-                            item.CountedQuantity += 1;
-                            // Add the new location to the counted item.
-                            //item.Locations.Add(location);
-                        }
-                        else
-                        {
-                            foreach (Item serverItem in ServerItems)
-                            {
-                                if ((item.UpcBarcode == itemBarcode.Barcode) || (item.EanBarcode == itemBarcode.Barcode))
-                                {
-                                    // If the item is the first of the a barcode, the Item form the API gets added a location. To make sure that CountedItems has all item information. 
-                                    // Then that item gets added to the list of counted items and removed from uncounted items.
-                                    // serverItem.AddLocation(location);
-                                    serverItem.CountedQuantity = 1; // Count is 1 after the barcode has been found once. 
-                                    CountedItems.Add(serverItem);
-                                    NotCountedItems.Remove(serverItem); // might not work. 
-                                    break;
-                                }
-                            }
-                        }
+                        // Dont know if this works :/
+                        int count = (int) Hashtable[itemBarcode];
+                        count++;
+                        Hashtable[itemBarcode] = count;
                     }
                 }
             }
-
-            //// Transforms the Location structure into Item to enable easy updating of the products through API.
-            //foreach (Location location in CountedLocations) // Every currently counted locations
-            //{
-            //    foreach (Item locationItem in location.Items) // All the items currently counted in a counted location
-            //    {
-            //        foreach (Item item in CountedItems) // All currently counted items 
-            //        {
-            //            if ((item.UpcBarcode == locationItem.UpcBarcode) || (item.EanBarcode == locationItem.EanBarcode)) 
-            //            {
-            //                // If the item already exists in the counted items, the quantity gets summed and the new location is added
-            //                item.CountedQuantity += locationItem.CountedQuantity; 
-            //                item.Locations.Add(location); 
-            //            }
-            //            else
-            //            {
-            //                foreach (Item serverItem in ServerItems)
-            //                {
-            //                    if ((item.UpcBarcode == locationItem.UpcBarcode) || (item.EanBarcode == locationItem.EanBarcode))
-            //                    {
-            //                        // If the item is the first of the a barcode, the Item form the API gets added a location. To make sure that CountedItems has all item information. 
-            //                        // Then that item gets added to the list of counted items and removed from uncounted items.
-            //                        serverItem.AddLocation(location); 
-            //                        CountedItems.Add(serverItem);
-            //                        NotCountedItems.Remove(serverItem); // might not work. 
-            //                        break;
-            //                    }
-            //                }
-            //            }
-            //        }
-            //    }
-            //}
         }
+
+        //public void GetItemsFromCountedLocations()
+        //{
+        //    foreach (LocationBarcode locationBarcode in CountedLocations)
+        //    {
+        //        foreach (ItemBarcode itemBarcode in locationBarcode.ItemBarcodes)
+        //        {
+        //            foreach (Item item in CountedItems) // All currently counted items 
+        //            {
+        //                if ((item.UpcBarcode == itemBarcode.Barcode) || (item.EanBarcode == itemBarcode.Barcode))
+        //                {
+        //                    // If the item already exists in the counted items, the quantity gets summed and the new location is added
+        //                    item.CountedQuantity += 1;
+        //                    // Add the new location to the counted item.
+        //                    //item.Locations.Add(location);
+        //                }
+        //                else
+        //                {
+        //                    foreach (Item serverItem in ServerItems)
+        //                    {
+        //                        if ((item.UpcBarcode == itemBarcode.Barcode) || (item.EanBarcode == itemBarcode.Barcode))
+        //                        {
+        //                            // If the item is the first of the a barcode, the Item form the API gets added a location. To make sure that CountedItems has all item information. 
+        //                            // Then that item gets added to the list of counted items and removed from uncounted items.
+        //                            // serverItem.AddLocation(location);
+        //                            serverItem.CountedQuantity = 1; // Count is 1 after the barcode has been found once. 
+        //                            CountedItems.Add(serverItem);
+        //                            NotCountedItems.Remove(serverItem); // might not work. 
+        //                            break;
+        //                        }
+        //                    }
+        //                }
+        //            }
+        //        }
+        //    }
+
+        //// Transforms the Location structure into Item to enable easy updating of the products through API.
+        //foreach (Location location in CountedLocations) // Every currently counted locations
+        //{
+        //    foreach (Item locationItem in location.Items) // All the items currently counted in a counted location
+        //    {
+        //        foreach (Item item in CountedItems) // All currently counted items 
+        //        {
+        //            if ((item.UpcBarcode == locationItem.UpcBarcode) || (item.EanBarcode == locationItem.EanBarcode)) 
+        //            {
+        //                // If the item already exists in the counted items, the quantity gets summed and the new location is added
+        //                item.CountedQuantity += locationItem.CountedQuantity; 
+        //                item.Locations.Add(location); 
+        //            }
+        //            else
+        //            {
+        //                foreach (Item serverItem in ServerItems)
+        //                {
+        //                    if ((item.UpcBarcode == locationItem.UpcBarcode) || (item.EanBarcode == locationItem.EanBarcode))
+        //                    {
+        //                        // If the item is the first of the a barcode, the Item form the API gets added a location. To make sure that CountedItems has all item information. 
+        //                        // Then that item gets added to the list of counted items and removed from uncounted items.
+        //                        serverItem.AddLocation(location); 
+        //                        CountedItems.Add(serverItem);
+        //                        NotCountedItems.Remove(serverItem); // might not work. 
+        //                        break;
+        //                    }
+        //                }
+        //            }
+        //        }
+        //    }
+        //}
 
         private void DeleteStatusProgress() // Used to erase the status progress file when the status is completed. 
         {
