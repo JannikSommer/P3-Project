@@ -11,12 +11,12 @@ namespace StatusController
     public class Status
     {
         public List<Item> CountedItems { get; set; } = new List<Item>();
-        public List<Item> NotCountedItems { get; set; } = new List<Item>();
+        public List<Item> NotCountedItems { get; set; } = new List<Item>(); // Obsolete??
         public List<Item> ServerItems { get; set; } = new List<Item>();
-        public List<LocationBarcode> CountedLocations { get; set; }
+        public List<LocationBarcode> CountedLocations { get; set; } = new List<LocationBarcode>();
         public bool IsInitialized { get; set; }
-        public Hashtable Hashtable = new Hashtable();
 
+        public Hashtable Hashtable = new Hashtable();
         private ProductAPI ProductAPI = new ProductAPI();
 
         private readonly JsonSerializerSettings Settings = new JsonSerializerSettings

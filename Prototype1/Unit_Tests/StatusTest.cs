@@ -45,7 +45,9 @@ namespace Unit_Tests
             status.UpdateCountedLocations(locationBarcodes);
 
             // Assert
-            Assert.IsFalse(status.CheckForUncountedItems());
+            var expected = 5;
+            var actual = status.CountedLocations.Count;
+            Assert.AreEqual(expected, actual);
         }
     }
 }
