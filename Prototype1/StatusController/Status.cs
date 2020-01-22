@@ -11,12 +11,11 @@ namespace StatusController
     public class Status
     {
         public List<Item> CountedItems { get; set; } = new List<Item>();
-        public List<Item> NotCountedItems { get; set; } = new List<Item>(); // Obsolete??
         public List<Item> ServerItems { get; set; } = new List<Item>();
         public List<LocationBarcode> CountedLocations { get; set; } = new List<LocationBarcode>();
         public bool IsInitialized { get; set; }
 
-        public Hashtable Hashtable = new Hashtable();
+        public Hashtable Hashtable { get; set; } = new Hashtable();
         private ProductAPI ProductAPI = new ProductAPI();
 
         private readonly JsonSerializerSettings Settings = new JsonSerializerSettings
@@ -37,7 +36,6 @@ namespace StatusController
                 foreach (Item item in ServerItems)
                 {
                     Hashtable.Add(item.Barcode, item.CountedQuantity);
-                    NotCountedItems.Add(item);
                 }
                 LoadProgressFromFile();
                 GetItemsFromCountedLocations();
@@ -52,10 +50,6 @@ namespace StatusController
         {
             CountedLocations = new List<LocationBarcode>();
             ServerItems = ProductAPI.GetAllItems();
-            foreach (Item item in ServerItems)
-            {
-                NotCountedItems.Add(item);
-            }
             SaveApiItemsToFile();
             IsInitialized = true;
         }
@@ -66,9 +60,19 @@ namespace StatusController
             IsInitialized = false;
             var path = Environment.CurrentDirectory + @"\SaveData\CompletedStatus---" + DateTime.Now.ToString("M-d-yyyy") + ".txt";
             string json = JsonConvert.SerializeObject(CountedItems, Settings);
+            foreach (DictionaryEntry de in Hashtable)
+            {
+                foreach (Item item in CountedItems)
+                {
+                    if (Hashtable.ContainsKey(item.Barcode))
+                    {
+                        item.CountedQuantity = (int) de.Value; // Updates the quantity in the list CountedItems.
+                    }
+                }
+            }
             System.IO.File.WriteAllText(path, json);
             DeleteStatusProgress();
-            // ProductAPI.UpdateItemsThroughAPI(Items); Currently not eligble for updating through Streetammo.dk/api
+            // ProductAPI.UpdateItemsThroughAPI(CountedItems); Currently not eligble for updating through Streetammo.dk/api
         }
 
         public bool CheckForUncountedItems()
@@ -102,7 +106,7 @@ namespace StatusController
                 {
                     if (Hashtable.ContainsKey(itemBarcode.Barcode))
                     {
-                        // Dont know if this works :/
+                        // Don't know if this works :/
                         int count = (int) Hashtable[itemBarcode];
                         count++;
                         Hashtable[itemBarcode] = count;

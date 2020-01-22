@@ -21,17 +21,18 @@ namespace WPF_PC {
     public partial class MainWindow : Window {
         public MainWindow() {
             InitializeComponent();
-            CycleController = new Controller();
+            // CycleController = new Controller();
+            StatusController = new Status();
             _server = new Server(CycleController, StatusController);
             //_networkingThread = new Thread(_server.StartServer);
             //_networkingThread.Start();
             
-            LoadIntoDataGrid();
-            LoadIntoComboBox();
-            UpdateAllUI();
-            CycleController.PropertyChanged += UpdateActiveUser;
-            CycleController.Cycle.PropertyChanged += UpdatePercentageCounted;
-            CycleController.Cycle.PropertyChanged += UpdatePercentageCountedDifference;
+            //LoadIntoDataGrid();
+            //LoadIntoComboBox();
+            //UpdateAllUI();
+            //CycleController.PropertyChanged += UpdateActiveUser;
+            //CycleController.Cycle.PropertyChanged += UpdatePercentageCounted;
+            //CycleController.Cycle.PropertyChanged += UpdatePercentageCountedDifference;
         }
 
         public Controller CycleController { get; set; }
@@ -150,7 +151,32 @@ namespace WPF_PC {
 
         private void EndStatus_Click(object sender, RoutedEventArgs e)
         {
-            StatusController.FinishStatus();
+            if (StatusController.CheckForUncountedItems())
+            {
+                if (MessageBox.Show("Every item has been acounted for. Are you sure you want " +
+                                    "to end the status and upload data to database?", "WARNING", 
+                                    MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+                {
+                    StatusController.FinishStatus();
+                    MessageBox.Show("The status is completed and database updated.");
+                }
+                else
+                {
+                    MessageBox.Show("Data is still stored locally and the database is NOT updated.");
+                }
+            }
+            else
+            {
+                if (MessageBox.Show("Not every item has been acounted for. Are you sure you want to end the status anyway?", "WARNING",
+                                    MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+                {
+                    MessageBox.Show("Items that was accounted for has been updated in the database.");
+                }
+                else
+                {
+                    MessageBox.Show("Data is still stored locally and the database is NOT updated.");
+                }
+            }
         }
     }
 }
