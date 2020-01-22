@@ -5,7 +5,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:lang="clr-namespace:Localization;assembly=Localization"
              mc:Ignorable="d"
-             x:Class="SAScanApp.ScanPage">
+             x:Class="SAScanApp.ScanPage"
+             Appearing="ContentPage_Appearing">
     <ContentPage.Content>
         <StackLayout>
             <Grid>
@@ -36,13 +37,9 @@
                         <ColumnDefinition Width="20*"/>
                         <ColumnDefinition Width="20*"/>
                     </Grid.ColumnDefinitions>
-                    <Button Text=""
-                            Grid.Column="0"
-                            Margin="-1,0,0,0"
-                            BackgroundColor="White"
-                            TextColor="Blue"
-                            BorderColor="Blue"
-                            BorderWidth="1"/>
+                    <Frame BorderColor="Blue" Margin="0, 0, -1, 0" Grid.Column="0">
+                        <Editor x:Name="ScanEditor" IsVisible="False" Text="" TextColor="Blue" FontSize="Micro" TextChanged="ScanEditor_TextChanged" />
+                    </Frame>
 
                     <Button Text="{x:Static lang:Resources.PhoneLocationSelelectButtonLight}"
                             Grid.Column="1"
@@ -50,31 +47,31 @@
                             BackgroundColor="White"
                             TextColor="Blue"
                             BorderColor="Blue"
-                            BorderWidth="1"
+                            BorderWidth="1.5"
                             Clicked="Light_Button_Clicked"/>
                     <Button Text=""
                             Grid.Column="4"
                             BackgroundColor="White"
                             TextColor="Blue"
                             BorderColor="Blue"
-                            BorderWidth="1"
+                            BorderWidth="1.5"
                             Clicked="ButtonV_Clicked"
-                            Margin="-1,0,0,0"/>
-                    <Button Text="#1"
+                            Margin="-2,0,1,0"/>
+                    <Button Text="Upload"
                             Margin="-1,0,0,0"
                             Grid.Column="3"
                             BackgroundColor="White"
                             TextColor="Blue"
                             BorderColor="Blue"
-                            BorderWidth="1"/>
+                            BorderWidth="1.5"
+                            Clicked="UploadButtonClicked"/>
                     <Button Text="Menu"
-                            Margin="-1,0,0,1"
+                            Margin="-1,0,0,0"
                             Grid.Column="2"
                             BackgroundColor="White"
                             TextColor="Blue"
                             BorderColor="Blue"
-                            BorderWidth="1"
-                            Clicked="Menu_Button_Clicked"/>
+                            BorderWidth="1.5"/>
                 </Grid>
 
                 <Grid Grid.Row="1" BackgroundColor="White">
@@ -127,10 +124,7 @@
                             <DataTemplate>
                                 <ViewCell>
                                     <StackLayout Orientation="Horizontal">
-                                        <Label Text="{Binding IsEmpty}"/>
-                                        <StackLayout Orientation="Horizontal">
-                                            <Label Text="{Binding ID}" TextColor="Blue"/>
-                                        </StackLayout>
+                                        <Label Text="{Binding Barcode}" TextColor="Blue"/>
                                     </StackLayout>
                                 </ViewCell>
                             </DataTemplate>

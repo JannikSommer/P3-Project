@@ -11,24 +11,17 @@ using Xamarin.Forms.Xaml;
 namespace SAScanApp {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class EnterNamePage : ContentPage {
-        private string _userName { get; set; }
-        private App _appPage { get; set; }
 
         public EnterNamePage() {
             InitializeComponent();
         }
 
-        public EnterNamePage(App appPage) : this() {
-            _appPage = appPage;
-        }
-
         private async void Name_Entered(object sender, EventArgs e) {
-            _userName = NameEntry.Text;
-            await Navigation.PushAsync(new MenuDataHandlerPage(_userName));
+            await Navigation.PushAsync(new ScanPage(NameEntry.Text));
         }
 
-        private async void AdminLogin_Button_Clicked(object sender, EventArgs e) {
-            await Navigation.PushAsync(new AdminLoginPage());
+        private async void Continue_Button_Clicked(object sender, EventArgs e) {
+            await Navigation.PushAsync(new ScanPage(NameEntry.Text));
         }
     }
 }

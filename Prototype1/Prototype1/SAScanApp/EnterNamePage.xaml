@@ -17,12 +17,12 @@
             BackgroundColor="White"
             BorderColor="Blue"
             BorderWidth="2"
-            Text="AdminLogin"
+            Text="Continue"
             TextColor="Blue"
             FontSize="20"
             BorderRadius="40"
             Grid.Row="1"
-            Clicked="AdminLogin_Button_Clicked"
+            Clicked="Continue_Button_Clicked"
             VerticalOptions="Center"
             HorizontalOptions="FillAndExpand"/>
 

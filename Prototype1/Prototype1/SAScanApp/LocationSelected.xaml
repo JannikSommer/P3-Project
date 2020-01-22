@@ -37,38 +37,37 @@
                         <ColumnDefinition Width="20*"/>
                         <ColumnDefinition Width="20*"/>
                     </Grid.ColumnDefinitions>
-                    <Button Text=""
-                            Grid.Column="0"
-                            BackgroundColor="White"
-                            TextColor="Blue"
-                            BorderColor="Blue"
-                            BorderWidth="1"/>
+                    <Frame BorderColor="Blue" Margin="0, 0, -2, 0" Grid.Column="0">
+                        <Editor x:Name="ScanEditor" IsVisible="False" Text="" TextColor="Blue" FontSize="Micro" TextChanged="ScanEditor_TextChanged" />
+                    </Frame>
                     <Button Text="{x:Static lang:Resources.PhoneLocationSelelectButtonLight}"
                             Grid.Column="1"
                             BackgroundColor="White"
                             TextColor="Blue"
                             BorderColor="Blue"
-                            BorderWidth="1"
+                            BorderWidth="1.5"
                             Clicked="Light_Button_Clicked"/>
                     <Button Text=""
                             Grid.Column="4"
                             BackgroundColor="White"
                             TextColor="Blue"
                             BorderColor="Blue"
-                            BorderWidth="1"/>
+                            BorderWidth="1.5"
+                            Margin="-1, 0, 1, 0"/>
                     <Button Text="#1"
                             Grid.Column="3"
                             BackgroundColor="White"
                             TextColor="Blue"
                             BorderColor="Blue"
-                            BorderWidth="1"/>
+                            BorderWidth="1.5"
+                            Margin="-1, 0, 0, 0"/>
                     <Button Text="{x:Static lang:Resources.PhoneLocationSelectedButtonMenu}"
                             Grid.Column="2"
                             BackgroundColor="White"
                             TextColor="Blue"
                             BorderColor="Blue"
-                            BorderWidth="1"
-                            Clicked="Menu_Button_Clicked"/>
+                            BorderWidth="1.5"
+                            Margin="-1, 0, 0, 0"/>
                 </Grid>
 
                 <Grid Grid.Row="1" BackgroundColor="White">
@@ -82,9 +81,6 @@
                         <ColumnDefinition Width="60*"/>
                         <ColumnDefinition Width="20*"/>
                     </Grid.ColumnDefinitions>
-
-                    <Editor x:Name="ScanEditor" Text="" TextColor="Blue" FontSize="Micro" TextChanged="ScanEditor_TextChanged" />
-
                     <Button x:Name="dec_item_count"
                             Text="&lt;"
                             Grid.Column="0"
@@ -125,10 +121,7 @@
                             <DataTemplate>
                                 <ViewCell>
                                     <StackLayout Orientation="Horizontal">
-                                        <StackLayout Orientation="Horizontal">
-                                            <Label Text="{Binding ID}, {Binding Name}, {Binding Color}, {Binding Size}" 
-                                                   TextColor="Blue"/>
-                                        </StackLayout>
+                                        <Label Text="{Binding Barcode}" TextColor="Blue"/>
                                     </StackLayout>
                                 </ViewCell>
                             </DataTemplate>

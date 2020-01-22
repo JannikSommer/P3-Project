@@ -11,7 +11,7 @@ namespace SAScanApp
         public App()
         {
             InitializeComponent();
-            MainPage = new NavigationPage(new EnterNamePage(this));
+            MainPage = new NavigationPage(new EnterNamePage());
         }
 
         protected override void OnStart()

@@ -210,10 +210,6 @@
       <Project>{486dfbc0-2b7d-4c56-940c-150e673f643a}</Project>
       <Name>Model</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MVC_Controller\MVC_Controller.csproj">
-      <Project>{02efe0e2-db96-4ca3-8e47-18d17e331ed1}</Project>
-      <Name>MVC_Controller</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Networking\Networking.csproj">
       <Project>{26cbc6b3-3005-40d1-9d2a-3a31129578ea}</Project>
       <Name>Networking</Name>

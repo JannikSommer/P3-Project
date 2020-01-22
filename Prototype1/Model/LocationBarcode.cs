@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.ComponentModel;
 
 namespace Model
 {
@@ -11,11 +12,11 @@ namespace Model
 /// Each item barcode is then enumerated at the server, to increase the quantity of an item. 
 /// </summary> 
 
-    public class LocationBarcode
-    {
+    public class LocationBarcode : INotifyPropertyChanged {
         public string Barcode { get; set; }
         public List<ItemBarcode> ItemBarcodes { get; set; }
-        
+        public event PropertyChangedEventHandler PropertyChanged;
+
         public LocationBarcode(string barcode)
         {
             Barcode = barcode;
@@ -25,6 +26,10 @@ namespace Model
         public void AddItemBarcode(string barcode)
         {
             ItemBarcodes.Add(new ItemBarcode(barcode));
+        }
+
+        protected void OnPropertyChanged(string name) {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
     }
 }

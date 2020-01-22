@@ -5,57 +5,52 @@ using Xamarin.Forms.Xaml;
 using Xamarin.Essentials;
 using System.Collections.ObjectModel;
 using Model;
+using Networking;
+using System.Threading.Tasks;
+
+//TODO: FAILSAFE if user returns or quits without uploading.
 
 namespace SAScanApp
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class ScanPage : ContentPage
-    {
-        public ObservableCollection<Model.Location> LocationList { get; set; }
-        public List<Item> ItemList { get; set; }
-        public Partition Partition { get; set; }
-        public VerificationPartition VerificationPartition { get; set; }
+    public partial class ScanPage : ContentPage {
+        private ObservableCollection<LocationBarcode> LocationList { get; set; }
         private string _userName { get; set; }
-
+        private RefString ScannedLocation; // Property. Validation.
         private bool lightOn = false;
 
-        public ScanPage(Partition partition) {
-            Partition = partition;
+        public ScanPage(string username) {
+            EnableBackButtonOverride = true;
+            ScannedLocation = new RefString(string.Empty);
             InitializeComponent();
-            LocationList = new ObservableCollection<Model.Location>();
-
-            for (int i = 0; i < partition.Locations.Count; i++) {
-                LocationList.Add(partition.Locations[i]);
-            }
-
+            LocationList = new ObservableCollection<LocationBarcode>();
             LocationList.CollectionChanged += LocationList_CollectionChanged;
             displayList.ItemsSource = LocationList;
-        }
 
-        public ScanPage(VerificationPartition VPartition) {
-            VerificationPartition = VPartition;
-            InitializeComponent();
-            LocationList = new ObservableCollection<Model.Location>();          
 
-            for(int i = 0; i < VerificationPartition.Locations.Count; i++) {
-                LocationList.Add(VerificationPartition.Locations[i]);
+            if(EnableBackButtonOverride) {
+                CustomBackButtonAction = async () => {
+                    if(LocationList.Count != 0) {
+                        var result = await DisplayAlert("Unsaved data",
+                        "Some data has not been uploaded. Are you sure you want to exit?",
+                        "Exit", "Cancel");
+
+                        if(result) {
+                            await Navigation.PopAsync(true);
+                        }
+                    } else {
+                        await Navigation.PopAsync(true);
+                    }
+                };
             }
 
-            LocationList.CollectionChanged += LocationList_CollectionChanged;
-            displayList.ItemsSource = LocationList;          
+
         }
+
 
         private void LocationList_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e) {
             displayList.BeginRefresh();
             displayList.EndRefresh();
-        }
-
-        private async void Menu_Button_Clicked(object sender, EventArgs e) {
-            if(Partition != null) {
-                await Navigation.PushAsync(new MenuStartPage(Partition));
-            } else {
-                await Navigation.PushAsync(new MenuStartPage(VerificationPartition));
-            }
         }
 
         private async void Light_Button_Clicked(object sender, EventArgs e) {
@@ -88,26 +83,95 @@ namespace SAScanApp
             }
         }
 
-        private void MenuItem_Clicked(object sender, EventArgs e) {
-            // Add a Observable Collection List that pops down with the paired devices recieved
-            //DependencyService.Get<IBluetoothHandler>().GetPairedDevices();
-        }
-
         private void DisplayList_ItemSelected(object sender, SelectedItemChangedEventArgs e) {
             displayList.SelectedItem = null;
         }
 
         private async void DisplayList_ItemTapped(object sender, ItemTappedEventArgs e) {
-            if(Partition != null) {
-                await Navigation.PushAsync(new LocationSelected(((Model.Location)e.Item).Items, Partition.Locations));
-            } else {
-                await Navigation.PushAsync(new LocationSelected(((Model.Location)e.Item).Items, VerificationPartition.Locations));
-
-            }
+            await Navigation.PushAsync(new LocationSelected((LocationBarcode)e.Item, ScannedLocation));
         }
 
         private void ButtonV_Clicked(object sender, EventArgs e) {
 
         }
+
+        public void ScanEditorFocus() {
+            if(!ScanEditor.IsFocused) {
+                ScanEditor.Focus();
+            }
+        }
+
+        private async void ScanEditor_TextChanged(object sender, TextChangedEventArgs e) {
+            if(ScanEditor.Text != null && ScanEditor.Text != string.Empty && ScanEditor.Text[ScanEditor.Text.Length - 1] == '\n') {
+                string barcode = ScanEditor.Text.Substring(0, ScanEditor.Text.Length - 1);
+                ScanEditor.Text = string.Empty;
+                if(new BarcodeVerifier().IsLocation(barcode)) {
+                    LocationBarcode loc = new BarcodeVerifier().GetScannedLocationBarcode(LocationList, barcode);
+                    if(loc == null) {
+                        loc = new LocationBarcode(barcode);
+                    }
+                    LocationList.Add(loc);
+                    await Navigation.PushAsync(new LocationSelected(loc, ScannedLocation));
+                } else {
+                    //TODO: Item scanned. Add a popup?
+                }
+            }
+        }
+
+        private async void ContentPage_Appearing(object sender, EventArgs e) {
+            if(ScannedLocation.Text != string.Empty) {
+                if(new BarcodeVerifier().IsLocation(ScannedLocation.Text)) {
+                    LocationBarcode loc = new BarcodeVerifier().GetScannedLocationBarcode(LocationList, ScannedLocation.Text);
+                    if(loc == null) {
+                        loc = new LocationBarcode(ScannedLocation.Text);
+                    }
+                    LocationList.Add(loc);
+                    await Navigation.PushAsync(new LocationSelected(loc, ScannedLocation));
+                }
+            } else {
+                ScanEditorFocus();
+            }
+        }
+
+
+        private async void UploadButtonClicked(object sender, EventArgs e) {
+            List<LocationBarcode> data = new List<LocationBarcode>();
+            foreach(var item in LocationList) {
+                data.Add(item);
+            }
+            LocationList.Clear();
+            await Navigation.PushAsync(new UploadPage(data));
+        }
+
+
+        /// <summary>
+        /// Gets or Sets the Back button click overriden custom action
+        /// </summary>
+        public Action CustomBackButtonAction { get; set; }
+
+        public static readonly BindableProperty EnableBackButtonOverrideProperty =
+               BindableProperty.Create(
+               nameof(EnableBackButtonOverride),
+               typeof(bool),
+               typeof(ScanPage),
+               false);
+
+        /// <summary>
+        /// Gets or Sets Custom Back button overriding state
+        /// </summary>
+        public bool EnableBackButtonOverride {
+            get {
+                return (bool)GetValue(EnableBackButtonOverrideProperty);
+            }
+            set {
+                SetValue(EnableBackButtonOverrideProperty, value);
+            }
+        }
+
+
     }
 }
+
+
+
+

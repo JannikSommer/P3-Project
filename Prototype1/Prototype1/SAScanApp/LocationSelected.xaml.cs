@@ -10,16 +10,20 @@ using Model;
 namespace SAScanApp {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class LocationSelected : ContentPage {
-        public LocationSelected() {
+        private LocationSelected() {
             InitializeComponent();
             quantity.Text = Convert.ToString(Value);
             _counterEnabled = false;
-        }
-        public LocationSelected(List<Item> itemList, List<Model.Location> locations) : this() {
-            _itemList = new ObservableCollection<Item>(itemList);
+            ScanEditorFocus();
+            }
+
+            public LocationSelected(LocationBarcode locationBarcode, RefString scannedLocation) : this() {
+            scannedLocation.Text = string.Empty;
+            _locationBarcode = locationBarcode;
+            _scannedLocation= scannedLocation;
+            _itemList = new ObservableCollection<ItemBarcode>(_locationBarcode.ItemBarcodes);
             _itemList.CollectionChanged += _itemList_CollectionChanged;
             itemDisplayList.ItemsSource = _itemList;
-            _locations = locations;
         }
 
         public int Value {
@@ -29,13 +33,14 @@ namespace SAScanApp {
                 quantity.Text = Convert.ToString(Value);
             }
         }
-        private List<Model.Location> _locations;
 
-        private ObservableCollection<Item> _itemList;
-        private Item _prevItem;
+        private RefString _scannedLocation;
+        private LocationBarcode _locationBarcode;
+        private ObservableCollection<ItemBarcode> _itemList;
+        private ItemBarcode _prevItem;
         private bool _counterEnabled;
         private bool lightOn = false;
-        private int _value;
+        private int _value = 0;
 
 
         public void ScanEditorFocus() {
@@ -101,12 +106,9 @@ namespace SAScanApp {
 
         }
 
-        private async void Menu_Button_Clicked(object sender, EventArgs e) {
-            
-        }
 
         private void ItemDisplayList_ItemTapped(object sender, ItemTappedEventArgs e) {
-            if(_prevItem == ((Item)e.Item)) {
+            if(_prevItem == ((ItemBarcode)e.Item)) {
                 // Deselect item
                 itemDisplayList.SelectedItem = null;
                 _counterEnabled = false;
@@ -114,16 +116,16 @@ namespace SAScanApp {
                 dec_item_count.IsEnabled = false;
                 _prevItem = null;
             } else {
-                ChangeSelectedItem((Item)e.Item);
+                ChangeSelectedItem((ItemBarcode)e.Item);
             }
             ScanEditorFocus();
         }
 
-        private void ChangeSelectedItem(Item item) {
+        private void ChangeSelectedItem(ItemBarcode item) {
             SaveQuantity(_prevItem);
             _prevItem = item;
             itemDisplayList.SelectedItem = item;
-            Value = ((Item)itemDisplayList.SelectedItem).CountedQuantity;
+            Value = ((ItemBarcode)itemDisplayList.SelectedItem).Quantity;
             ScanEditorFocus();
         }
 
@@ -136,9 +138,9 @@ namespace SAScanApp {
             ScanEditorFocus();
         }
 
-        private void SaveQuantity(Item item) {
+        private void SaveQuantity(ItemBarcode item) {
             if(item != null) {
-                item.CountedQuantity = Value;
+                item.Quantity = Value;
             }
         }
 
@@ -146,21 +148,35 @@ namespace SAScanApp {
             if(ScanEditor.Text != null && ScanEditor.Text != string.Empty && ScanEditor.Text[ScanEditor.Text.Length - 1] == '\n') {
                 string barcode = ScanEditor.Text.Substring(0, ScanEditor.Text.Length - 1);
                 ScanEditor.Text = string.Empty;
-                UpdateItem(barcode);
-                ScanEditorFocus();
+                if(new BarcodeVerifier().IsLocation(barcode)) {
+                    _scannedLocation.Text = barcode;
+                    Navigation.PopAsync();
+                } else {
+                    UpdateItem(barcode);
+                    ScanEditorFocus();
+                }
             }
         }
 
         private void UpdateItem(string barcode) {
-            Item item = new BarcodeVerifier().GetScannedItem(_locations, barcode);
-            if(item != null) {
-                ChangeSelectedItem(item);
-                IncrementValue();
-            }  
+            ItemBarcode item = new BarcodeVerifier().GetScannedItemBarcode(_itemList, barcode);
+            if(item == null) { // Item is not in list yet. Add it.
+                item = new ItemBarcode(barcode);
+            }
+            _itemList.Add(item);
+
+            ChangeSelectedItem(item);
+            IncrementValue();
         }
 
         private void ContentPage_Disappearing(object sender, EventArgs e) {
             SaveQuantity(_prevItem);
+            List<ItemBarcode> result = new List<ItemBarcode>();
+            foreach(var item in _itemList) {
+                result.Add(item);
+            }
+            _locationBarcode.ItemBarcodes = result;
         }
+
     }
 }
