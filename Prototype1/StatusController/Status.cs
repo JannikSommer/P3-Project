@@ -5,15 +5,39 @@ using System.IO;
 using PrestaSharpAPI;
 using Newtonsoft.Json;
 using System.Collections;
+using System.ComponentModel;
 
 namespace StatusController
 {
-    public class Status
-    {
+    public class Status : INotifyPropertyChanged {
         public List<Item> CountedItems { get; set; } = new List<Item>();
         public List<Item> ServerItems { get; set; } = new List<Item>();
         public List<LocationBarcode> CountedLocations { get; set; } = new List<LocationBarcode>();
         public bool IsInitialized { get; set; }
+
+
+        public int NumberOfCountedItems {
+            get {
+                return _numberOfCountedItems;
+            }
+            set {
+                _numberOfCountedItems = value;
+                OnPropertyChanged("NumberOfCountedItems");
+            }
+        }
+
+
+        public int NumberOfServerItems {
+            get {
+                return _numberOfServerItems;
+            }
+            set {
+                _numberOfServerItems = value;
+                OnPropertyChanged("NumberOfServerItems");
+            }
+        }
+        private int _numberOfCountedItems = 0;
+        private int _numberOfServerItems = 0;
 
         public Hashtable Hashtable { get; set; } = new Hashtable();
         private ProductAPI ProductAPI = new ProductAPI();
@@ -25,6 +49,7 @@ namespace StatusController
             ReferenceLoopHandling = ReferenceLoopHandling.Ignore
         };
 
+        public event PropertyChangedEventHandler PropertyChanged;
 
         public Status()
         {
@@ -55,6 +80,7 @@ namespace StatusController
         public void StartStatus()
         {
             ServerItems = ProductAPI.GetAllItems();
+            NumberOfServerItems = ServerItems.Count;
             foreach (Item item in ServerItems)
             {
                 foreach (Location locataion in item.Locations)
@@ -81,6 +107,7 @@ namespace StatusController
                     {
                         item.CountedQuantity = (int) de.Value; // Updates the quantity in the list serverItems
                         CountedItems.Add(item);
+                        NumberOfCountedItems++;
                     }
                 }
             }
@@ -167,6 +194,7 @@ namespace StatusController
                                     {
                                         serverItem.CountedQuantity = (int)Hashtable[itemBarcode.Barcode];
                                         CountedItems.Add(serverItem);
+                                        NumberOfCountedItems++;
                                         break;
                                     }
                                 }
@@ -212,6 +240,11 @@ namespace StatusController
             var path = Environment.CurrentDirectory + @"\SaveData\APIData.txt";
             string json = File.ReadAllText(path);
             ServerItems = JsonConvert.DeserializeObject<List<Item>>(json, Settings);
+            NumberOfServerItems = ServerItems.Count;
+        }
+
+        protected void OnPropertyChanged(string name) {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
     }
 }

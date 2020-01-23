@@ -40,9 +40,9 @@ namespace WPF_PC {
             LoadIntoComboBox();
             UpdateAllUI();
             
-            //CycleController.PropertyChanged += UpdateActiveUser;
-            //CycleController.Cycle.PropertyChanged += UpdatePercentageCounted;
-            //CycleController.Cycle.PropertyChanged += UpdatePercentageCountedDifference;
+            
+            StatusController.PropertyChanged += UpdatePercentageCounted;
+            StatusController.PropertyChanged += UpdatePercentageCountedDifference;
         }
 
         public Controller CycleController { get; set; }
