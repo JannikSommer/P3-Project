@@ -115,7 +115,7 @@ namespace StatusController
                 {
                     if (Hashtable.ContainsKey(item.Barcode))
                     {
-                        item.CountedQuantity = (int) de.Value; // Updates the quantity in the list serverItems
+                        item.CountedQuantity = (int) de.Value; // Updates the quantity in the list ServerItems
                         CountedItems.Add(item);
                         NumberOfCountedItems++;
                     }

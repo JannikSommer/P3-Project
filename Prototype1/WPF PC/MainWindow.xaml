@@ -6,7 +6,7 @@
         xmlns:lang="clr-namespace:Localization;assembly=Localization"
         xmlns:conv="clr-namespace:WPF_PC.Converters"
         mc:Ignorable="d" FontSize="16" FontFamily="Segoe UI Light"
-        Title="Controller" Height="550" Width="960" Icon="Assets\count-icon-26.ico.ico"
+        Title="Status" Height="550" Width="960" Icon="Assets\count-icon-26.ico.ico"
         WindowStartupLocation="CenterScreen" MinWidth="960" MinHeight="550" Closing="Window_Closing">
 
     <Window.Resources>
@@ -34,48 +34,20 @@
         </Grid.RowDefinitions>
 
         <!--Buttons-->
-        <Button x:Name="createCycleCount" Content="{x:Static lang:Resources.MainWindowButtonCreateCycle}" Width="250" Height="35"
-                Grid.Column="1" Grid.Row="1" FontSize="16" Margin="10" HorizontalAlignment="Center" Click="CreateCycleCount_Click" />
-
-        <Button x:Name="showLog" Content="{x:Static lang:Resources.MainWindowButtonShowLog}" Width="100" Height="35"
-                Grid.Column="4" Grid.Row="1" FontSize="16" Margin="10" HorizontalAlignment="Right" Click="ShowLog_Click" />
-
-        <Button x:Name="editCycle" Content="{x:Static lang:Resources.MainWindowButtonEditCycle}" Width="150" Height="35"
-                Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="2" FontSize="16" Margin="10" HorizontalAlignment="Left" VerticalAlignment="Center" Click="EditCycle_Click" />
 
         <!--Combobox-->
-        <ComboBox x:Name="ComboBoxDataSelection" Grid.Column="1" Grid.Row="3" Width="250" Margin="10" HorizontalAlignment="Center" SelectionChanged="ComboBoxDataSelection_SelectionChanged" SelectedIndex="0" >
-            <ComboBox.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel Orientation="Vertical">
-                        <TextBlock Text="{Binding}" />
-                    </StackPanel>
-                </DataTemplate>
-            </ComboBox.ItemTemplate>
-        </ComboBox>
 
         <!--Error Labels-->
         <Label x:Name="labelWarning" Content="{x:Static lang:Resources.MainWindowLabelWarning}" Grid.Column="1" Grid.Row="2" Grid.RowSpan="2"
                  HorizontalAlignment="Center" FontSize="12" Height="28" Margin="0,0,0,5" Foreground="Red" Visibility="Hidden" />
 
         <!--Overview Numbers and their text labels.-->
-        <Label x:Name="activeClients" Content="{x:Static lang:Resources.MainWindowLabelActiveClients}" Grid.Column="2" Grid.Row="2" Grid.RowSpan="2"
-               HorizontalAlignment="Left" VerticalAlignment="Top" Margin="80,10,10,10" />
 
-        <Label x:Name="totalCount" Content="{x:Static lang:Resources.MainWindowLabelTotalCount}" Grid.Column="2" Grid.Row="2" Grid.RowSpan="2"
-               HorizontalAlignment="Left" VerticalAlignment="Top" Margin="80,30,10,10" />
+        <Label x:Name="totalCount" Content="{x:Static lang:Resources.MainWindowLabelTotalCount}" Grid.Column="4" Grid.Row="1"
+               HorizontalAlignment="Left" VerticalAlignment="Top" Margin="360,23,0,0" />
 
-        <Label x:Name="totalCountDifference" Content="{x:Static lang:Resources.MainWindowLabelTotalCountDifference}" Grid.Column="2" Grid.Row="2" Grid.RowSpan="2"
-               HorizontalAlignment="Left" VerticalAlignment="Top" Margin="80,50,10,5" />
-
-        <Label x:Name="acticeClients" Grid.Column="2" Grid.Row="2" Grid.RowSpan="2" 
-               Grid.ColumnSpan="3" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="260,10,10,10" Width="160" Content="0"/>
-
-        <Label x:Name="overviewTotalCounted" Content="0 / 0 (0%)" Grid.Column="2" Grid.Row="2" Grid.RowSpan="2"
-               Grid.ColumnSpan="3" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="260,30,10,10" Width="180" />
-
-        <Label x:Name="overviewTotalCountedWithDifference" Content="0 / 0 (0%)" Grid.Column="2" Grid.Row="2" Grid.RowSpan="2"
-               Grid.ColumnSpan="3" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="260,50,10,5" Width="180" />
+        <Label x:Name="overviewTotalCounted" Content="0 / 0 (0%)" Grid.Column="2" Grid.Row="1"
+               Grid.ColumnSpan="3" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="469,24,0,0" Width="180" />
 
         <!--Datagrid, Where items is shown-->
         <DataGrid x:Name="dataGridMain" Grid.Column="1" AutoGenerateColumns="False" Grid.Row="4" Grid.ColumnSpan="4" IsReadOnly="True" Margin="10,0,10,0" FontSize="14" CanUserReorderColumns="False" CanUserResizeColumns="False" >
@@ -98,7 +70,7 @@
                 <DataGridTextColumn Header="{x:Static lang:Resources.MainWindowHeaderCountVariance}" Binding="{Binding QuantityVariance}" Width="80" CanUserResize="False" />
             </DataGrid.Columns>
         </DataGrid>
-        <Button x:Name="initializeStatusButton" Content="Initialize status" Grid.Column="4" HorizontalAlignment="Left" Margin="0,10,0,0" Grid.Row="1" VerticalAlignment="Top" Width="120" Height="35" Click="InitializeStatus_Click"/>
-        <Button x:Name="endStatusButton" IsEnabled="False" Content="End status" Grid.Column="4" HorizontalAlignment="Left" Margin="133,15,0,0" Grid.Row="1" VerticalAlignment="Top" Width="75" Click="EndStatus_Click"/>
+        <Button x:Name="initializeStatusButton" Content="Initialize status" Grid.Column="1" HorizontalAlignment="Left" Margin="10,10,0,0" Grid.Row="1" VerticalAlignment="Top" Width="174" Height="45" Click="InitializeStatus_Click"/>
+        <Button x:Name="endStatusButton" IsEnabled="False" Content="End status" Grid.Column="2" HorizontalAlignment="Left" Margin="80,10,0,0" Grid.Row="1" VerticalAlignment="Top" Width="174" Click="EndStatus_Click" Height="45" Grid.ColumnSpan="3"/>
     </Grid>
 </Window>

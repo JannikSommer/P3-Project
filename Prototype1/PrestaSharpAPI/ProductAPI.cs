@@ -64,10 +64,12 @@ namespace PrestaSharpAPI
                 if (stock_Available.id_product == Convert.ToInt64(item.ID))
                 {
                     stock_Available.quantity = item.CountedQuantity;
-                    stock_Available.location = item.ToString(); //Returns all the locations for an item in a string format.
+                    stock_Available.location = item.ToString(); // Returns all the locations for an item in a string format.
                     stockAvailableFactory.Update(stock_Available);
                 }
             }
+            // kinda obsolete... The products does not need at current time need quantity update. 
+            // However, they could also have the data on locations and quantity to make later status' easier...
             product product = productFactory.Get(Convert.ToInt64(item.ID));
             product.quantity = item.CountedQuantity;
             productFactory.Update(product);

@@ -40,13 +40,10 @@ namespace WPF_PC {
                 endStatusButton.IsEnabled = false;
             }
 
-            LoadIntoDataGrid();
-            LoadIntoComboBox();
             UpdateAllUI();
             
-            
+          
             StatusController.PropertyChanged += UpdatePercentageCounted;
-            StatusController.PropertyChanged += UpdatePercentageCountedDifference;
         }
 
         public Controller CycleController { get; set; }
@@ -56,18 +53,13 @@ namespace WPF_PC {
 
 
         public void UpdateAllUI() {
-            // LoadIntoDataGrid();
+            LoadIntoDataGrid();
             UpdateStatistics();          
         }
 
         public void LoadIntoDataGrid() 
         {
             dataGridMain.ItemsSource = StatusController.CountedItems;
-        }
-
-
-        public void UpdateActiveUser(object sender, PropertyChangedEventArgs e) {
-            acticeClients.Content = ((Controller)sender).NumberOfActiveUsers;
         }
 
         public void UpdatePercentageCounted(object sender, PropertyChangedEventArgs e) {
@@ -81,33 +73,7 @@ namespace WPF_PC {
             }
         }
 
-        public void UpdatePercentageCountedDifference(object sender, PropertyChangedEventArgs e) {
-            //overviewTotalCountedWithDifference.Content = "N/A";
-            //if(CycleController.Cycle.NumberOfItems != 0) {
-            //    double countedIntWithDifference = (from item in (List<Item>)dataGridMain.ItemsSource where item.QuantityVariance != 0 select (Item)item).Count();
-            //    overviewTotalCountedWithDifference.Content = countedIntWithDifference + " / " + CycleController.Cycle.NumberOfItems + "   (" + Math.Round(countedIntWithDifference / (double)CycleController.Cycle.NumberOfItems * 100, 1) + "%)";
-            //}
-        }
         public void UpdateStatistics() {
-            //double percentageCounted = 0,
-            //       countedIntWithDifference = 0,
-            //       percentageCountedWithDifference = 0;
-
-            ////Active Users:
-            ////acticeClients.Content = TheController.ActiveUsers.Count;
-
-            ////Counted Items overview: 
-            //if(CycleController.Cycle.NumberOfCountedItems != 0 && CycleController.Cycle.NumberOfItems != 0) {
-            //    percentageCounted = Math.Round((double)(CycleController.Cycle.NumberOfCountedItems / CycleController.Cycle.NumberOfItems) * 100, 1);
-            //}
-
-            ////Counted with difference overview:
-            //if(CycleController.Cycle.NumberOfItems != 0) {
-            //    countedIntWithDifference = (from item in (List<Item>)dataGridMain.ItemsSource where item.QuantityVariance != 0 select (Item)item).Count();
-            //    percentageCountedWithDifference = Math.Round(countedIntWithDifference / CycleController.Cycle.NumberOfItems * 100, 1); 
-            //}
-
-            //overviewTotalCountedWithDifference.Content = (countedIntWithDifference + " / " + CycleController.Cycle.NumberOfItems + "   (" + percentageCountedWithDifference + "%)");
             if (StatusController.CountedItems.Count != 0 && StatusController.CountedItems != null)
             {
                 int itemNum = StatusController.ServerItems.Count;
@@ -135,36 +101,11 @@ namespace WPF_PC {
             new LogWindow(CycleController.Cycle.Log).Show();
         }
 
-        public void LoadIntoComboBox() { // TODO: Move to XAML
-            List<string> settings = new List<string> { 
-                Localization.Resources.MainWindowComboboxCountedToday, 
-                Localization.Resources.MainWindowComboboxCountedThisCycle, 
-                Localization.Resources.MainWindowComboboxCountedDifference
-            };
-           
-            ComboBoxDataSelection.ItemsSource = settings;
-            ComboBoxDataSelection.SelectedIndex = 0;
-        }
         #endregion
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e) {
-            // new IOController(CycleController.Cycle.Id).Save(CycleController.Cycle, CycleController.Location_Comparer.ShelfHierarchy);
-            _server.ShutdownServer();
-            Application.Current.Shutdown();
-        }
-
-        private void ComboBoxDataSelection_SelectionChanged(object sender, SelectionChangedEventArgs e) {
-
-
-            //if(ComboBoxDataSelection.SelectedIndex == 0) { //Todays Counted
-            //    dataGridMain.ItemsSource = CycleController.Cycle.CountedItems;
-            //} else if(ComboBoxDataSelection.SelectedIndex == 1) { //Counted in this cycle
-            //    List<Item> newList = new List<Item>(CycleController.Cycle.CountedItems);
-            //    newList.AddRange(CycleController.Cycle.VerifiedItems);
-            //    dataGridMain.ItemsSource = newList;
-            //} else if(ComboBoxDataSelection.SelectedIndex == 2) { //Counted with difference
-            //    // TODO: Missing behavior
-            //}
+            _networkingThread.Abort();
+            //Application.Current.Shutdown();
         }
 
         private void InitializeStatus_Click(object sender, RoutedEventArgs e)
@@ -185,6 +126,8 @@ namespace WPF_PC {
                 {
                     StatusController.FinishStatus();
                     MessageBox.Show("The status is completed and database updated.");
+                    initializeStatusButton.IsEnabled = true;
+                    endStatusButton.IsEnabled = false;
                 }
                 else
                 {
@@ -198,6 +141,8 @@ namespace WPF_PC {
                 {
                     MessageBox.Show("Items that was accounted for has been updated in the database.");
                     StatusController.FinishStatus();
+                    initializeStatusButton.IsEnabled = true;
+                    endStatusButton.IsEnabled = false;
                 }
                 else
                 {
