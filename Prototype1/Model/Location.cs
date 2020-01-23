@@ -47,9 +47,19 @@ namespace Model
 
 
         private void ConvertID(string ID) {
-            Shelf = Convert.ToInt32(ID.Substring(0, 3));
-            Row = ID[3];
-            Position = Convert.ToInt32(ID.Substring(4, 2));
+            try
+            {
+                Shelf = Convert.ToInt32(ID.Substring(0, 3));
+                Row = ID[3];
+                Position = Convert.ToInt32(ID.Substring(4, 2));
+            }
+            catch (Exception e)
+            {
+                Shelf = 0;
+                Row = 'y';
+                Position = 2;
+
+            }
         }
 
         public bool HasItem(Item item) {
