@@ -23,8 +23,12 @@ namespace WPF_PC {
             InitializeComponent();
             StatusController = new Status();
             _server = new Server(CycleController, StatusController);
-            //_networkingThread = new Thread(_server.StartServer);
-            //_networkingThread.Start();
+            this.Dispatcher.Invoke(() =>
+            {
+                _networkingThread = new Thread(_server.StartServer);
+                _networkingThread.Start();
+            });
+            
             if (StatusController.IsInitialized)
             {
                 initializeStatusButton.IsEnabled = false;
@@ -52,7 +56,7 @@ namespace WPF_PC {
 
 
         public void UpdateAllUI() {
-            LoadIntoDataGrid();
+            // LoadIntoDataGrid();
             UpdateStatistics();          
         }
 
@@ -73,11 +77,12 @@ namespace WPF_PC {
                 int itemCounted = StatusController.CountedItems.Count;
                 double percentage = (itemCounted / itemNum) * 100;
                 overviewTotalCounted.Content = Math.Round(percentage);
+                LoadIntoDataGrid();
             }
         }
 
         public void UpdatePercentageCountedDifference(object sender, PropertyChangedEventArgs e) {
-            overviewTotalCountedWithDifference.Content = "N/A";
+            //overviewTotalCountedWithDifference.Content = "N/A";
             //if(CycleController.Cycle.NumberOfItems != 0) {
             //    double countedIntWithDifference = (from item in (List<Item>)dataGridMain.ItemsSource where item.QuantityVariance != 0 select (Item)item).Count();
             //    overviewTotalCountedWithDifference.Content = countedIntWithDifference + " / " + CycleController.Cycle.NumberOfItems + "   (" + Math.Round(countedIntWithDifference / (double)CycleController.Cycle.NumberOfItems * 100, 1) + "%)";
@@ -144,7 +149,7 @@ namespace WPF_PC {
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e) {
             // new IOController(CycleController.Cycle.Id).Save(CycleController.Cycle, CycleController.Location_Comparer.ShelfHierarchy);
-            _networkingThread.Abort();
+            _server.ShutdownServer();
             Application.Current.Shutdown();
         }
 

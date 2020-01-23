@@ -79,7 +79,17 @@ namespace StatusController
 
         public void StartStatus()
         {
-            ServerItems = ProductAPI.GetAllItems();
+            List<Item> tempItems = ProductAPI.GetAllItems();
+            foreach (Item item in tempItems)
+            {
+                foreach (Location location in item.Locations)
+                {
+                    if (location.ID != "999Z99")
+                    {
+                        ServerItems.Add(item);
+                    }
+                }
+            }
             NumberOfServerItems = ServerItems.Count;
             foreach (Item item in ServerItems)
             {
@@ -150,24 +160,30 @@ namespace StatusController
 
         public void UpdateCountedLocations(List<LocationBarcode> locationBarcodes)
         {
-            foreach (LocationBarcode locationBarcode in locationBarcodes)
+            List<LocationBarcode> temp = new List<LocationBarcode>();
+            if (CountedLocations.Count != 0)
             {
-                if (CountedLocations.Count == 0)
-                {
-                    CountedLocations.Add(locationBarcode);
-                }
-                else
+                foreach (LocationBarcode locationBarcode in locationBarcodes)
                 {
                     foreach (LocationBarcode countedLocationBarcode in CountedLocations)
                     {
                         if (!(locationBarcode.Barcode == countedLocationBarcode.Barcode))
                         {
-                            // The locations are the same and should not be added more than once.
-                            CountedLocations.Add(locationBarcode);
+                            // The locations are the same and should not be added more than once
+                            temp.Add(locationBarcode);
                         }
                     }
                 }
             }
+            else
+            {
+                temp.Add(locationBarcodes[0]);
+            }
+            foreach (LocationBarcode locBar in temp)
+            {
+                CountedLocations.Add(locBar);
+            }
+
             GetItemsFromCountedLocations(); // Updates the implemented model
             SaveProgressToFile(); // Saves data each time the data gets updated
         }
@@ -193,8 +209,11 @@ namespace StatusController
                                     if (location.ID == locationBarcode.Barcode)
                                     {
                                         serverItem.CountedQuantity = (int)Hashtable[itemBarcode.Barcode];
-                                        CountedItems.Add(serverItem);
-                                        NumberOfCountedItems++;
+                                        if (!CountedItems.Contains(serverItem))
+                                        {
+                                            CountedItems.Add(serverItem);
+                                            NumberOfCountedItems++;
+                                        }
                                         break;
                                     }
                                 }
