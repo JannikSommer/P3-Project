@@ -89,7 +89,7 @@ namespace SAScanApp
                 if(new BarcodeVerifier().IsLocation(barcode)) {
                     LocationBarcode loc = new BarcodeVerifier().GetScannedLocationBarcode(LocationList, barcode);
                     if(loc == null) {
-                        loc = new LocationBarcode(barcode);
+                        loc = new LocationBarcode(barcode, _userName);
                     }
                     LocationList.Add(loc);
                     await Navigation.PushAsync(new LocationSelected(loc, ScannedLocation));
@@ -104,7 +104,7 @@ namespace SAScanApp
                 if(new BarcodeVerifier().IsLocation(ScannedLocation.Text)) {
                     LocationBarcode loc = new BarcodeVerifier().GetScannedLocationBarcode(LocationList, ScannedLocation.Text);
                     if(loc == null) {
-                        loc = new LocationBarcode(ScannedLocation.Text);
+                        loc = new LocationBarcode(ScannedLocation.Text, _userName);
                     }
                     LocationList.Add(loc);
                     await Navigation.PushAsync(new LocationSelected(loc, ScannedLocation));
