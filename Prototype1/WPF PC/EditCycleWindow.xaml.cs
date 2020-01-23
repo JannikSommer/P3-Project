@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Model;
+using Central_Controller.IO;
 using System.IO;
 using Central_Controller;
 using System.Text.RegularExpressions;
@@ -26,7 +27,6 @@ namespace WPF_PC {
             InitializeComponent();
             _controller = controller;
             comboBoxChooseEdit.ItemsSource = _controller.ActiveUsers;
-            _shelfArray = controller.Location_Comparer.ShelfHierarchy;
             //listBoxShelfPriority.ItemsSource = _shelfArray;
             LoadSortPriority();
         }
@@ -77,48 +77,6 @@ namespace WPF_PC {
             }
         }
 
-        [Obsolete]
-        public void SaveSortPriority() {
-            //Get sorting priority and load into list.
-            int index;
-            List<string> sortPriority = new List<string>();
-
-            for (index = 0; index < listBoxShelfPriority.Items.Count; index++) {
-                sortPriority.Add(((ListViewItem)listBoxShelfPriority.Items.GetItemAt(index)).Content.ToString());
-            }
-
-            //load into text file.
-            string filepath = Environment.CurrentDirectory + @"\SortPriority.txt";
-            StringBuilder priority = new StringBuilder();
-            index = 0;
-
-            foreach(string shelf in sortPriority) {
-                if(index < listBoxShelfPriority.Items.Count - 1) {
-                    priority.Append(shelf + ",");
-                } else if(index == listBoxShelfPriority.Items.Count - 1) {
-                    priority.Append(shelf);
-                }
-                index++;
-            }
-
-            File.WriteAllText(filepath, priority.ToString());
-        }
-
-        [Obsolete]
-        public int[] RetrieveSortingPriorityFromFile() {
-            int[] priority = new int[0];
-            string filePath = Environment.CurrentDirectory + @"\SortPriority.txt";
-            if (File.Exists(filePath)) {
-                List<string> lines = File.ReadAllLines(filePath).ToList();
-                foreach (string line in lines) {
-                    priority = Array.ConvertAll(line.Split(','), int.Parse);
-                }
-                return priority;
-            } else {
-                return priority;
-            }
-        }
-
         private void DeleteUserButton_Click(object sender, RoutedEventArgs e) {
             if(comboBoxChooseEdit.SelectedIndex == -1) {
                 labelWarningNoUserSelected.Visibility = Visibility.Visible;
@@ -129,27 +87,30 @@ namespace WPF_PC {
             }
         }
 
-        [Obsolete]
-        private void DeleteCycleCountButton_Click(object sender, RoutedEventArgs e) {
-            if(MessageBox.Show("ER DU SIKKER?", "Slet Cyklus'en?", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No) {
-                //do no stuff
-            } else {
-                //do yes stuff
-                Close();
-            }
-        }
-
         private void LoadSortPriority() {
-            ListViewItem item;
-            for(int x = 0; x < _shelfArray.Length; x++) {
-                item = new ListViewItem {
-                    Content = _shelfArray[x].ToString()
-                };
-                listBoxShelfPriority.Items.Add(item);
+            _shelfArray = new IOController().LoadShelves();
+            if(_shelfArray != null)
+            {
+                ListViewItem item;
+                for (int x = 0; x < _shelfArray.Length; x++)
+                {
+                    item = new ListViewItem
+                    {
+                        Content = _shelfArray[x].ToString()
+                    };
+                    listBoxShelfPriority.Items.Add(item);
+                }
             }
         }
 
         private void ConfirmEdit_Click(object sender, RoutedEventArgs e) {
+            _shelfArray = new int[listBoxShelfPriority.Items.Count];
+            for(int i = 0; i < _shelfArray.Length; i++) {
+                _shelfArray[i] = int.Parse(((ListViewItem)listBoxShelfPriority.Items[i]).Content.ToString());
+            }
+
+            new IOController().SaveSortpriority(_shelfArray);
+            _controller.Location_Comparer.ShelfHierarchy = _shelfArray;
             Close();
         }
 
@@ -161,24 +122,31 @@ namespace WPF_PC {
             ChangeNumberOfShelves();
         }
 
-        public void ChangeNumberOfShelves() {
-            ListBoxItem item;
-            int numberOfShelfs = Int32.Parse(TextBoxNumberofShelfs.Text);
-
-            listBoxShelfPriority.Items.Clear();
-
-            for(int index = 0; index < numberOfShelfs; index++) {
-                item = new ListViewItem();
-                item.Content = index.ToString();
-                listBoxShelfPriority.Items.Add(item);
+        //press enter to confirm function
+        private void TextBoxNumberofShelfs_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                ChangeNumberOfShelves();
             }
-
-            _controller.Location_Comparer = new LocationComparer(numberOfShelfs);
         }
 
-        private void TextBoxNumberofShelfs_KeyUp(object sender, KeyEventArgs e) {
-            if(e.Key == Key.Enter) {
-                ChangeNumberOfShelves();
+        public void ChangeNumberOfShelves() {
+            if(TextBoxNumberofShelfs.Text != "")
+            {
+                ListBoxItem item;
+                int numberOfShelfs = Int32.Parse(TextBoxNumberofShelfs.Text);
+
+                listBoxShelfPriority.Items.Clear();
+
+                for (int index = 0; index < numberOfShelfs; index++)
+                {
+                    item = new ListViewItem();
+                    item.Content = index.ToString();
+                    listBoxShelfPriority.Items.Add(item);
+                }
+
+                _controller.Location_Comparer = new LocationComparer(numberOfShelfs);
             }
         }
 
@@ -214,5 +182,62 @@ namespace WPF_PC {
         }
 
         #endregion
+
+        #region Obsolete
+        [Obsolete]
+        private void DeleteCycleCountButton_Click(object sender, RoutedEventArgs e) {
+            if(MessageBox.Show("ER DU SIKKER?", "Slet Cyklus'en?", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No) {
+                //do no stuff
+            } else {
+                //do yes stuff
+                Close();
+            }
+        }
+
+        [Obsolete]
+        public int[] RetrieveSortingPriorityFromFile() {
+            int[] priority = new int[0];
+            string filePath = Environment.CurrentDirectory + @"\SortPriority.txt";
+            if(File.Exists(filePath)) {
+                List<string> lines = File.ReadAllLines(filePath).ToList();
+                foreach(string line in lines) {
+                    priority = Array.ConvertAll(line.Split(','), int.Parse);
+                }
+                return priority;
+            } else {
+                return priority;
+            }
+        }
+
+        [Obsolete]
+        public void SaveSortPriority() {
+            //Get sorting priority and load into list.
+            int index;
+            List<string> sortPriority = new List<string>();
+
+            for(index = 0; index < listBoxShelfPriority.Items.Count; index++) {
+                sortPriority.Add(((ListViewItem)listBoxShelfPriority.Items.GetItemAt(index)).Content.ToString());
+            }
+
+            //load into text file.
+            string filepath = Environment.CurrentDirectory + @"\SortPriority.txt";
+            StringBuilder priority = new StringBuilder();
+            index = 0;
+
+            foreach(string shelf in sortPriority) {
+                if(index < listBoxShelfPriority.Items.Count - 1) {
+                    priority.Append(shelf + ",");
+                } else if(index == listBoxShelfPriority.Items.Count - 1) {
+                    priority.Append(shelf);
+                }
+                index++;
+            }
+
+            File.WriteAllText(filepath, priority.ToString());
+        }
+
+
+        #endregion
+
     }
 }
