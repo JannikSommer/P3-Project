@@ -9,6 +9,7 @@ namespace Model
         public string Barcode { get; set; }
         public int Quantity { get; set; }
         public event PropertyChangedEventHandler PropertyChanged;
+        public ItemBarcode() { }
 
         public ItemBarcode(string barcode) : this(barcode, 0) {}
         public ItemBarcode(string barcode, int quantity) {

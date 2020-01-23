@@ -21,7 +21,6 @@ namespace WPF_PC {
     public partial class MainWindow : Window {
         public MainWindow() {
             InitializeComponent();
-            CycleController = new Controller();
             StatusController = new Status();
             _server = new Server(CycleController, StatusController);
             //_networkingThread = new Thread(_server.StartServer);
@@ -41,9 +40,9 @@ namespace WPF_PC {
             LoadIntoComboBox();
             UpdateAllUI();
             
-            CycleController.PropertyChanged += UpdateActiveUser;
-            CycleController.Cycle.PropertyChanged += UpdatePercentageCounted;
-            CycleController.Cycle.PropertyChanged += UpdatePercentageCountedDifference;
+            //CycleController.PropertyChanged += UpdateActiveUser;
+            //CycleController.Cycle.PropertyChanged += UpdatePercentageCounted;
+            //CycleController.Cycle.PropertyChanged += UpdatePercentageCountedDifference;
         }
 
         public Controller CycleController { get; set; }
@@ -59,14 +58,7 @@ namespace WPF_PC {
 
         public void LoadIntoDataGrid() 
         {
-            if (StatusController.IsInitialized == true)
-            {
-                dataGridMain.ItemsSource = StatusController.CountedItems;
-            }
-            else
-            {
-                dataGridMain.ItemsSource = CycleController.Cycle.CountedItems;
-            }
+            dataGridMain.ItemsSource = StatusController.CountedItems;
         }
 
 
@@ -75,38 +67,52 @@ namespace WPF_PC {
         }
 
         public void UpdatePercentageCounted(object sender, PropertyChangedEventArgs e) {
-            if(CycleController.Cycle.NumberOfCountedItems != 0 && CycleController.Cycle.NumberOfItems != 0) {
-                overviewTotalCounted.Content = CycleController.Cycle.NumberOfCountedItems + " / " + CycleController.Cycle.NumberOfItems + "   (" + Math.Round(((double)CycleController.Cycle.NumberOfCountedItems / (double)CycleController.Cycle.NumberOfItems) * 100, 1) + "%)";
+            if (StatusController.CountedItems.Count == 0)
+            {
+                int itemNum = StatusController.ServerItems.Count;
+                int itemCounted = StatusController.CountedItems.Count;
+                double percentage = (itemCounted / itemNum) * 100;
+                overviewTotalCounted.Content = Math.Round(percentage);
             }
         }
 
         public void UpdatePercentageCountedDifference(object sender, PropertyChangedEventArgs e) {
-            if(CycleController.Cycle.NumberOfItems != 0) {
-                double countedIntWithDifference = (from item in (List<Item>)dataGridMain.ItemsSource where item.QuantityVariance != 0 select (Item)item).Count();
-                overviewTotalCountedWithDifference.Content = countedIntWithDifference + " / " + CycleController.Cycle.NumberOfItems + "   (" + Math.Round(countedIntWithDifference / (double)CycleController.Cycle.NumberOfItems * 100, 1) + "%)";
-            }
+            overviewTotalCountedWithDifference.Content = "N/A";
+            //if(CycleController.Cycle.NumberOfItems != 0) {
+            //    double countedIntWithDifference = (from item in (List<Item>)dataGridMain.ItemsSource where item.QuantityVariance != 0 select (Item)item).Count();
+            //    overviewTotalCountedWithDifference.Content = countedIntWithDifference + " / " + CycleController.Cycle.NumberOfItems + "   (" + Math.Round(countedIntWithDifference / (double)CycleController.Cycle.NumberOfItems * 100, 1) + "%)";
+            //}
         }
         public void UpdateStatistics() {
-            double percentageCounted = 0,
-                   countedIntWithDifference = 0,
-                   percentageCountedWithDifference = 0;
+            //double percentageCounted = 0,
+            //       countedIntWithDifference = 0,
+            //       percentageCountedWithDifference = 0;
 
-            //Active Users:
-            //acticeClients.Content = TheController.ActiveUsers.Count;
+            ////Active Users:
+            ////acticeClients.Content = TheController.ActiveUsers.Count;
 
-            //Counted Items overview: 
-            if(CycleController.Cycle.NumberOfCountedItems != 0 && CycleController.Cycle.NumberOfItems != 0) {
-                percentageCounted = Math.Round((double)(CycleController.Cycle.NumberOfCountedItems / CycleController.Cycle.NumberOfItems) * 100, 1);
+            ////Counted Items overview: 
+            //if(CycleController.Cycle.NumberOfCountedItems != 0 && CycleController.Cycle.NumberOfItems != 0) {
+            //    percentageCounted = Math.Round((double)(CycleController.Cycle.NumberOfCountedItems / CycleController.Cycle.NumberOfItems) * 100, 1);
+            //}
+
+            ////Counted with difference overview:
+            //if(CycleController.Cycle.NumberOfItems != 0) {
+            //    countedIntWithDifference = (from item in (List<Item>)dataGridMain.ItemsSource where item.QuantityVariance != 0 select (Item)item).Count();
+            //    percentageCountedWithDifference = Math.Round(countedIntWithDifference / CycleController.Cycle.NumberOfItems * 100, 1); 
+            //}
+
+            //overviewTotalCountedWithDifference.Content = (countedIntWithDifference + " / " + CycleController.Cycle.NumberOfItems + "   (" + percentageCountedWithDifference + "%)");
+            if (StatusController.CountedItems.Count != 0 && StatusController.CountedItems != null)
+            {
+                int itemNum = StatusController.ServerItems.Count;
+                int itemCounted = StatusController.CountedItems.Count;
+                double percentage = (itemCounted / itemNum) * 100;
+                overviewTotalCounted.Content = StatusController.CountedItems.Count + " / " + StatusController.ServerItems.Count + "   (" + percentage + "%)";
             }
+            else
+                overviewTotalCounted.Content = "0" + " / " + StatusController.ServerItems.Count;
 
-            //Counted with difference overview:
-            if(CycleController.Cycle.NumberOfItems != 0) {
-                countedIntWithDifference = (from item in (List<Item>)dataGridMain.ItemsSource where item.QuantityVariance != 0 select (Item)item).Count();
-                percentageCountedWithDifference = Math.Round(countedIntWithDifference / CycleController.Cycle.NumberOfItems * 100, 1); 
-            }
-
-            overviewTotalCountedWithDifference.Content = (countedIntWithDifference + " / " + CycleController.Cycle.NumberOfItems + "   (" + percentageCountedWithDifference + "%)");
-            overviewTotalCounted.Content = CycleController.Cycle.NumberOfCountedItems + " / " + CycleController.Cycle.NumberOfItems + "   (" + percentageCounted + "%)";
         }
 
         #region New windows 
@@ -142,15 +148,17 @@ namespace WPF_PC {
         }
 
         private void ComboBoxDataSelection_SelectionChanged(object sender, SelectionChangedEventArgs e) {
-            if(ComboBoxDataSelection.SelectedIndex == 0) { //Todays Counted
-                dataGridMain.ItemsSource = CycleController.Cycle.CountedItems;
-            } else if(ComboBoxDataSelection.SelectedIndex == 1) { //Counted in this cycle
-                List<Item> newList = new List<Item>(CycleController.Cycle.CountedItems);
-                newList.AddRange(CycleController.Cycle.VerifiedItems);
-                dataGridMain.ItemsSource = newList;
-            } else if(ComboBoxDataSelection.SelectedIndex == 2) { //Counted with difference
-                // TODO: Missing behavior
-            }
+
+
+            //if(ComboBoxDataSelection.SelectedIndex == 0) { //Todays Counted
+            //    dataGridMain.ItemsSource = CycleController.Cycle.CountedItems;
+            //} else if(ComboBoxDataSelection.SelectedIndex == 1) { //Counted in this cycle
+            //    List<Item> newList = new List<Item>(CycleController.Cycle.CountedItems);
+            //    newList.AddRange(CycleController.Cycle.VerifiedItems);
+            //    dataGridMain.ItemsSource = newList;
+            //} else if(ComboBoxDataSelection.SelectedIndex == 2) { //Counted with difference
+            //    // TODO: Missing behavior
+            //}
         }
 
         private void InitializeStatus_Click(object sender, RoutedEventArgs e)
@@ -158,6 +166,7 @@ namespace WPF_PC {
             StatusController.StartStatus();
             initializeStatusButton.IsEnabled = false;
             endStatusButton.IsEnabled = true;
+            UpdateStatistics();
         }
 
         private void EndStatus_Click(object sender, RoutedEventArgs e)

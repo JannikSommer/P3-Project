@@ -18,6 +18,8 @@ namespace Model
         public List<ItemBarcode> ItemBarcodes { get; set; }
         public event PropertyChangedEventHandler PropertyChanged;
 
+        public LocationBarcode() { }
+
         public LocationBarcode(string barcode, string username)
         {
             Barcode = barcode;
