@@ -19,23 +19,22 @@ namespace SAScanApp {
         }
 
         private void Name_Entered(object sender, EventArgs e) {
-            if(NameEntry.Text != string.Empty || NameEntry.Text != null) {
+            if(NameEntry.Text != string.Empty && NameEntry.Text != null && Char.IsLetterOrDigit(NameEntry.Text.First())) {
                 Continue(); 
             }
         }
 
         private void Continue_Button_Clicked(object sender, EventArgs e) {
-            if(NameEntry.Text != string.Empty || NameEntry.Text != null) {
+            if(NameEntry.Text != string.Empty && NameEntry.Text != null && Char.IsLetterOrDigit(NameEntry.Text.First())) {
                 Continue(); 
             }
         }
 
         private async void Continue() {
-            if(_scanPage == null) {
-                await Navigation.PushAsync(new ScanPage(NameEntry.Text));
-            } else {
+            if(_scanPage == null || _scanPage.Username != NameEntry.Text) {
+                _scanPage = new ScanPage(NameEntry.Text);
+            } 
                 await Navigation.PushAsync(_scanPage);
-            }
         }
 
     }

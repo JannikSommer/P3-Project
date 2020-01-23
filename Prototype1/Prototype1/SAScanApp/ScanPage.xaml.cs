@@ -116,12 +116,7 @@ namespace SAScanApp
 
 
         private async void UploadButtonClicked(object sender, EventArgs e) {
-            List<LocationBarcode> data = new List<LocationBarcode>();
-            foreach(var item in LocationList) {
-                data.Add(item);
-            }
-            LocationList.Clear();
-            await Navigation.PushAsync(new UploadPage(data));
+            await Navigation.PushAsync(new UploadPage(LocationList));
         }
 
     }
