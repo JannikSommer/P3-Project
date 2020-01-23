@@ -53,8 +53,6 @@ namespace Central_Controller.Central_Controller {
         public List<Tuple<Item, bool[]>> PartiallyCountedItems { get; private set; } = new List<Tuple<Item, bool[]>>();
         public List<Item> VerifiedItems = new List<Item>();
         private ProductAPI _productAPI = new ProductAPI();
-        public List<LocationLogMessage> LocationLogMessages { get; private set; } = new List<LocationLogMessage>();
-        public List<VerificationLogMessage> VerificationLogMessages { get; private set; } = new List<VerificationLogMessage>();
 
 
 
