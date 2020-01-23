@@ -23,8 +23,8 @@ namespace WPF_PC {
             InitializeComponent();
             StatusController = new Status();
             _server = new Server(CycleController, StatusController);
-            _networkingThread = new Thread(_server.StartServer);
-            _networkingThread.Start();
+            //_networkingThread = new Thread(_server.StartServer);
+            //_networkingThread.Start();
             if (StatusController.IsInitialized)
             {
                 initializeStatusButton.IsEnabled = false;
