@@ -103,12 +103,14 @@
     <Compile Include="Controller_Tests\Controller_CheckPartition_Tests.cs" />
     <Compile Include="Controller_Tests\Controller_CheckForAFKclients_Tests.cs" />
     <Compile Include="Controller_Tests\Controller_CheckVerificationPartition_Tests.cs" />
+    <Compile Include="IOController_Tests\Log_Tests.cs" />
+    <Compile Include="IOController_Tests\SaveLogMessages_Tests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Item_Tests.cs" />
     <Compile Include="Location_Tests.cs" />
     <Compile Include="Partition_Tests.cs" />
     <Compile Include="LocationComparer_Tests.cs" />
-    <Compile Include="IOController_Tests\Save_Tests.cs" />
+    <Compile Include="IOController_Tests\SaveShelfHierarchy_Tests.cs" />
     <Compile Include="UnitTest_Skarbelon.cs" />
     <Compile Include="VerificationPartition_Tests.cs" />
   </ItemGroup>

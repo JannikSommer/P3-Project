@@ -8,7 +8,7 @@ using System.Collections.Generic;
 namespace Unit_Tests.IOController_Tests
 {
     [TestClass]
-    public class Save_Tests
+    public class SaveShelfHierarchy_Tests
     {
         [TestMethod]
         public void Save_Test1()

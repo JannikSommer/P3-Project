@@ -19,6 +19,7 @@ namespace Model {
         public PartitionRequsitionState RequsitionState { get; set; }
         public List<Item> Items { get; private set; }
         public List<Location> Locations { get; set; }
+        public string AssignedUser = "none";
 
 
         public void AddItem(Item item) {

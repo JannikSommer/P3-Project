@@ -22,7 +22,7 @@ namespace Central_Controller.Central_Controller {
             }
         }
 
-        public Cycle Cycle { get; set; }
+        public Cycle Cycle { get; set; } = new Cycle();
         public event PropertyChangedEventHandler PropertyChanged;
         public int NumberOfActiveUsers {
             get {
@@ -130,6 +130,11 @@ namespace Central_Controller.Central_Controller {
                 }
 
                 existingUser.CurrentPartition = ClientsNextPartition;
+            }
+
+            if(ClientsNextPartition != null)
+            {
+                ClientsNextPartition.AssignedUser = user.ID;
             }
 
             return ClientsNextPartition;
@@ -367,13 +372,13 @@ namespace Central_Controller.Central_Controller {
 
                 if (!ClientFoundOnActiveShelf)
                 {
-                    CheckPartition(ActiveUsers[UsersIndex].CurrentPartition, ActiveUsers[UsersIndex]);
+                    CheckPartition(ActiveUsers[UsersIndex].CurrentPartition);
                 }
             }
 
             if(!(ActiveUsers[UsersIndex].CurrentVerificationPartition == null))
             {
-                CheckVerificationPartition(ActiveUsers[UsersIndex].CurrentVerificationPartition, ActiveUsers[UsersIndex]);
+                CheckVerificationPartition(ActiveUsers[UsersIndex].CurrentVerificationPartition);
             }
 
             ActiveUsers.RemoveAt(UsersIndex);
@@ -389,11 +394,11 @@ namespace Central_Controller.Central_Controller {
             MoveFromList.RemoveAt(Index);
         }
 
-        public void CheckVerificationPartition(VerificationPartition verificationPartition, User user)
+        public void CheckVerificationPartition(VerificationPartition verificationPartition)
         {
             foreach(Item item in verificationPartition.Items)
             {
-                Cycle.Log.AddMessage(new VerificationLogMessage(user.ID, item.ID, true));
+                Cycle.Log.AddMessage(new VerificationLogMessage(verificationPartition.AssignedUser, item.ID, true));
                 
                 if(item.CountedQuantity < 0)
                 {
@@ -411,11 +416,11 @@ namespace Central_Controller.Central_Controller {
             }
         }
 
-        public void CheckPartition(Partition partition, User user)
+        public void CheckPartition(Partition partition)
         {
             foreach(Location location in partition.Locations)
             {
-                Cycle.Log.AddMessage(new LocationLogMessage(DateTime.Now, user.ID, location.ID, ItemPlusCountList(location)));
+                Cycle.Log.AddMessage(new LocationLogMessage(DateTime.Now, partition.AssignedUser, location.ID, ItemPlusCountList(location)));
             }
             
             if (partition.IsMultiLocationItemPartition)
@@ -1089,6 +1094,11 @@ namespace Central_Controller.Central_Controller {
             verificationPartition.Locations.Sort(Location_Comparer);
 
             client.CurrentVerificationPartition = verificationPartition;
+
+            if (verificationPartition != null)
+            {
+                verificationPartition.AssignedUser = client.ID;
+            }
 
             return verificationPartition;
         }

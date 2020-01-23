@@ -31,6 +31,7 @@ namespace Model {
         public PartitionRequsitionState RequsitionState { get; private set; }
         public List<Location> Locations { get; private set; }
         public PartitionSpan Span { get; private set; } = new PartitionSpan(-1, -1);
+        public string AssignedUser = "none";
 
 
         public void AddLocation(Location _Location) {
@@ -52,7 +53,6 @@ namespace Model {
                     Locations.Add(_Location);
                 }
             }
-            
         }
 
         public int CompareTo(object obj) {
