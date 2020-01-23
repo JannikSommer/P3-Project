@@ -31,7 +31,7 @@ namespace Unit_Tests.Controller_Tests
             int ExpectedVerifiedItems = 1;
 
             // Act
-            TestController.CheckPartition(TestPartition);
+            TestController.CheckPartition(TestPartition, new User("1"));
 
             // Assert
             Assert.AreEqual(ExpectedVerifiedItems, TestController.NumOfItemsVerified);
@@ -58,7 +58,7 @@ namespace Unit_Tests.Controller_Tests
             int ExpectedVerifiedItems = 0;
 
             // Act
-            TestController.CheckPartition(TestPartition);
+            TestController.CheckPartition(TestPartition, new User("1"));
 
             // Assert
             Assert.AreEqual(ExpectedVerifiedItems, TestController.NumOfItemsVerified);
@@ -85,7 +85,7 @@ namespace Unit_Tests.Controller_Tests
             int ExpectedVerifiedItems = 0;
 
             // Act
-            TestController.CheckPartition(TestPartition);
+            TestController.CheckPartition(TestPartition, new User("1"));
 
             // Assert
             Assert.AreEqual(ExpectedVerifiedItems, TestController.NumOfItemsVerified);
@@ -117,7 +117,7 @@ namespace Unit_Tests.Controller_Tests
             int Expected_PartitallyCountedItemsCount = 1;
 
             // Act
-            TestController.CheckPartition(TestPartition);
+            TestController.CheckPartition(TestPartition, new User("1"));
 
             // Assert
             Assert.AreEqual(Expected_VerifiedItems, TestController.NumOfItemsVerified);
@@ -151,7 +151,7 @@ namespace Unit_Tests.Controller_Tests
             int Expected_PartitallyCountedItemsCount = 1;
 
             // Act
-            TestController.CheckPartition(TestPartition);
+            TestController.CheckPartition(TestPartition, new User("1"));
 
             // Assert
             Assert.AreEqual(Expected_VerifiedItems, TestController.NumOfItemsVerified);
@@ -186,7 +186,7 @@ namespace Unit_Tests.Controller_Tests
             int Expected_PartitallyCountedItemsCount = 0;
 
             // Act
-            TestController.CheckPartition(TestPartition);
+            TestController.CheckPartition(TestPartition, new User("1"));
 
             // Assert
             Assert.AreEqual(Expected_VerifiedItems, TestController.NumOfItemsVerified);
@@ -221,7 +221,7 @@ namespace Unit_Tests.Controller_Tests
             int Expected_MultiLocationPartitions = 1;
 
             // Act
-            TestController.CheckPartition(TestPartition);
+            TestController.CheckPartition(TestPartition, new User("1"));
 
             // Assert
             Assert.AreEqual(Expected_VerifiedItems, TestController.NumOfItemsVerified);
@@ -257,7 +257,7 @@ namespace Unit_Tests.Controller_Tests
             int Expected_PriorityPartionsCount = 1;
 
             // Act
-            TestController.CheckPartition(TestPartition);
+            TestController.CheckPartition(TestPartition, new User("1"));
 
             // Assert
             Assert.AreEqual(Expected_VerifiedItems, TestController.NumOfItemsVerified);
@@ -309,7 +309,7 @@ namespace Unit_Tests.Controller_Tests
             int Expected_PriorityPartionsCount = 1;
 
             // Act
-            TestController.CheckPartition(TestPartition1);
+            TestController.CheckPartition(TestPartition1, new User("1"));
 
             // Assert
             Assert.AreEqual(Expected_VerifiedItems, TestController.NumOfItemsVerified);
@@ -360,7 +360,7 @@ namespace Unit_Tests.Controller_Tests
             TestController.AddUser(TestUser1);
             Partition DumbPartition = TestController.NextPartition(TestUser1);
 
-            TestController.CheckPartition(DumbPartition);
+            TestController.CheckPartition(DumbPartition, new User("1"));
             Partition Actual_Partition = TestController.NextPartition(TestUser1);
 
             // Assert
@@ -401,7 +401,7 @@ namespace Unit_Tests.Controller_Tests
             TestLocation1.Visited = true;
             TestItem1.CountedQuantity = 6;
 
-            TestController.CheckPartition(DumpPartition);
+            TestController.CheckPartition(DumpPartition, new User("1"));
 
             TestLocation1.Items.Clear();
             TestLocation2.Items.Clear();
@@ -414,7 +414,7 @@ namespace Unit_Tests.Controller_Tests
             TestLocation2.Visited = true;
             TestItem2.CountedQuantity = 4;
 
-            TestController.CheckPartition(DumpPartition);
+            TestController.CheckPartition(DumpPartition, new User("1"));
 
             // Assert
             Assert.AreEqual(Expected_VerifiedItemsCount, TestController.NumOfItemsVerified);
