@@ -6,6 +6,7 @@ using Central_Controller.IO;
 using PrestaSharpAPI;
 using System.ComponentModel;
 using System.Threading;
+using Model.Log;
 
 namespace Central_Controller.Central_Controller {
     public partial class Controller : INotifyPropertyChanged {
@@ -52,7 +53,8 @@ namespace Central_Controller.Central_Controller {
         public List<Tuple<Item, bool[]>> PartiallyCountedItems { get; private set; } = new List<Tuple<Item, bool[]>>();
         public List<Item> VerifiedItems = new List<Item>();
         private ProductAPI _productAPI = new ProductAPI();
-        
+        public List<LocationLogMessage> LocationLogMessages { get; private set; } = new List<LocationLogMessage>();
+        public List<VerificationLogMessage> VerificationLogMessages { get; private set; } = new List<VerificationLogMessage>();
 
 
 
@@ -366,13 +368,13 @@ namespace Central_Controller.Central_Controller {
 
                 if (!ClientFoundOnActiveShelf)
                 {
-                    CheckPartition(ActiveUsers[UsersIndex].CurrentPartition);
+                    CheckPartition(ActiveUsers[UsersIndex].CurrentPartition, ActiveUsers[UsersIndex]);
                 }
             }
 
             if(!(ActiveUsers[UsersIndex].CurrentVerificationPartition == null))
             {
-                CheckVerificationPartition(ActiveUsers[UsersIndex].CurrentVerificationPartition);
+                CheckVerificationPartition(ActiveUsers[UsersIndex].CurrentVerificationPartition, ActiveUsers[UsersIndex]);
             }
 
             ActiveUsers.RemoveAt(UsersIndex);
@@ -388,10 +390,12 @@ namespace Central_Controller.Central_Controller {
             MoveFromList.RemoveAt(Index);
         }
 
-        public void CheckVerificationPartition(VerificationPartition verificationPartition)
+        public void CheckVerificationPartition(VerificationPartition verificationPartition, User user)
         {
             foreach(Item item in verificationPartition.Items)
             {
+                Cycle.Log.AddMessage(new VerificationLogMessage(user.ID, item.ID, true));
+                
                 if(item.CountedQuantity < 0)
                 {
                     ItemsForVerification.Add(item);
@@ -408,8 +412,13 @@ namespace Central_Controller.Central_Controller {
             }
         }
 
-        public void CheckPartition(Partition partition)
+        public void CheckPartition(Partition partition, User user)
         {
+            foreach(Location location in partition.Locations)
+            {
+                Cycle.Log.AddMessage(new LocationLogMessage(DateTime.Now, user.ID, location.ID, ItemPlusCountList(location)));
+            }
+            
             if (partition.IsMultiLocationItemPartition)
             {
                 CheckMultiLocationPartition(partition);
@@ -418,6 +427,18 @@ namespace Central_Controller.Central_Controller {
             {
                 CheckSingleLocationPartition(partition);
             }
+        }
+
+        private List<(string itemId, string countedQuantity)> ItemPlusCountList(Location location)
+        {
+            List<(string itemId, string countedQuantity)> ItemPlusCountList = new List<(string itemId, string countedQuantity)>();
+
+            foreach(Item item in location.Items)
+            {
+                ItemPlusCountList.Add((item.ID, item.CountedQuantity.ToString()));
+            }
+
+            return ItemPlusCountList;
         }
 
         private void CheckMultiLocationPartition(Partition partition)
