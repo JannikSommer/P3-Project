@@ -7,23 +7,38 @@
              x:Class="SAScanApp.EnterNamePage">
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="Please enter your name:"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-
-            <Entry x:Name="NameEntry" Text="" Completed="Name_Entered"/>
+            
+            <Entry x:Name="NameEntry"
+                   Margin="0,200,0,0"
+                   Text="Please enter your name"
+                   HorizontalTextAlignment="Center"
+                   Completed="Save_Name_Clicked"
+                   HorizontalOptions="FillAndExpand"/>
 
             <Button Margin="50, 10, 50, 10"
             BackgroundColor="White"
             BorderColor="Blue"
             BorderWidth="2"
-            Text="AdminLogin"
+            Text="Save name"
             TextColor="Blue"
             FontSize="20"
             BorderRadius="40"
             Grid.Row="1"
-            Clicked="AdminLogin_Button_Clicked"
+            Clicked="Save_Name_Clicked"
             VerticalOptions="Center"
+            HorizontalOptions="FillAndExpand"/>
+             
+            <Button Margin="50, 10, 50, 50"
+            BackgroundColor="White"
+            BorderColor="Blue"
+            BorderWidth="2"
+            Text="Admin Login"
+            TextColor="Blue"
+            FontSize="20"
+            BorderRadius="40"
+            Grid.Row="2"
+            Clicked="AdminLogin_Button_Clicked"
+            VerticalOptions="EndAndExpand"
             HorizontalOptions="FillAndExpand"/>
 
         </StackLayout>

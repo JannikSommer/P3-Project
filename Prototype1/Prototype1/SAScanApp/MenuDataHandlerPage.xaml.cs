@@ -14,20 +14,42 @@ using System.IO;
 namespace SAScanApp {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class MenuDataHandlerPage : ContentPage {
-        public MenuDataHandlerPage(string userName) {
-            InitializeComponent();
-            _userName = userName;
-        }
-        public MenuDataHandlerPage(string userName, CommunicationFlag partitionType) : this(userName) {
-            _type = partitionType;
-        }
 
         private bool _hasPartitionDownloaded = false;
         private string _userName = string.Empty;
         private CommunicationFlag _type = CommunicationFlag.PartitionRequest;
+        private App _appPage { get; set; }
+        private EnterNamePage _enterNamePage { get; set; }
 
-        
-        [Obsolete]
+        public MenuDataHandlerPage()
+        {
+            InitializeComponent();
+
+            if (_hasPartitionDownloaded == true)
+            {
+                UploadButton.IsVisible = true;
+            }
+
+            else
+            {
+                DownloadButton.IsVisible = true;
+            }
+        }
+
+        public MenuDataHandlerPage(string userName, App appPage) : this() {
+            _appPage = appPage;
+            _userName = userName;
+        }
+
+        public MenuDataHandlerPage(string userName, EnterNamePage namePage) : this ()
+        {
+            _enterNamePage = namePage;
+            _userName = userName;
+        }
+        public MenuDataHandlerPage(string userName, CommunicationFlag partitionType) : this() {
+            _type = partitionType;
+        }              
+       
         private async void UploadPartition(object sender, EventArgs e) {
 
         if (!_hasPartitionDownloaded && _type == CommunicationFlag.PartitionUpload)
@@ -58,37 +80,6 @@ namespace SAScanApp {
                 }
             }
         }
-
-        private async void TestDownload(object sender, EventArgs e) {
-            if(_type == CommunicationFlag.PartitionRequest) {
-                await Navigation.PushAsync(new ScanPage(
-                    new Partition(
-                        new Model.Location("000A01",
-                        new List<Item> {
-                            new Item("5701872203005"),
-                            new Item("73102601"),
-                            new Item ("8979878"),
-                            new Item ("78789"),
-                            new Item ("5709216007104")
-                        }
-                        )
-                    )));
-            } else {
-                await Navigation.PushAsync(new ScanPage(new VerificationPartition() {
-                    Locations = new List<Model.Location> {new Model.Location("000A01",
-                        new List<Item> {
-                            new Item("5701872203005"),
-                            new Item("73102601"),
-                            new Item ("8979878"),
-                            new Item ("78789"),
-                            new Item ("5709216007104")
-                        }
-                        )}
-                }));
-            }
-        }
-
-
         private async void DownloadPartition(object sender, EventArgs e) {
             if (!_hasPartitionDownloaded && _type == CommunicationFlag.PartitionRequest) {
                 Client networkingClient = new Client();
@@ -113,5 +104,40 @@ namespace SAScanApp {
             }
         }
 
+        private async void CreateTestPartition_Clicked(object sender, EventArgs e)
+        {
+           
+            if (_type == CommunicationFlag.PartitionRequest)
+            {
+                await Navigation.PushAsync(new ScanPage(
+                    new Partition(
+                        new Model.Location("000A01",
+                        new List<Item> {
+                        new Item("5701872203005"),
+                        new Item("73102601"),
+                        new Item ("8979878"),
+                        new Item ("78789"),
+                        new Item ("5709216007104")
+                        })
+                    )));
+            }
+            else
+            {
+                await Navigation.PushAsync(new ScanPage(new VerificationPartition()
+                {
+                    Locations = new List<Model.Location> {
+                    new Model.Location("000A01",
+                    new List<Item> {
+                        new Item("5701872203005"),
+                        new Item("73102601"),
+                        new Item ("8979878"),
+                        new Item ("78789"),
+                        new Item ("5709216007104")
+                    }
+                    )}
+                }));
+            }
+            
+        }
     }
 }
