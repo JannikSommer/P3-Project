@@ -7,14 +7,15 @@
         xmlns:local="clr-namespace:WPF_PC"
         mc:Ignorable="d" FontFamily="Segoe UI Light"
         FontSize="16" WindowStartupLocation="CenterScreen" Icon="Assets\count-icon-26.ico.ico"
-        Title="{x:Static lang:Resources.EditCycleWindowTitle}" Height="660" Width="700" MinWidth="700" MinHeight="660">
+        Title="{x:Static lang:Resources.EditCycleWindowTitle}" Height="660" Width="700" MinWidth="700" MinHeight="660" WindowStyle="ToolWindow">
     <Grid>
 
         <!--Grid Definition-->
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20" />
             <ColumnDefinition Width="auto" />
-            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="24.984" />
+            <ColumnDefinition Width="344.016"/>
             <ColumnDefinition Width="20" />
         </Grid.ColumnDefinitions>
 
@@ -29,61 +30,61 @@
 
         <!--Labels-->
         <Label x:Name="chooseHowToEditCycle" Content="{x:Static lang:Resources.EditCycleWindowLabelEditType}" Grid.Column="1" Grid.Row="1"
-               HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,10,10,0" FontSize="18" Grid.ColumnSpan="2" />
+               HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,10,0,0" FontSize="18" />
 
         <Label x:Name="chooseUsers" Content="{x:Static lang:Resources.EditCycleWindowLabelChooseUsers}" Grid.Column="1" Grid.Row="2"
-               HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,40,10,10" FontSize="16" />
+               HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,40,0,0" FontSize="16" />
 
         <Label x:Name="chooseToDeleteTheWholeCycle" Content="{x:Static lang:Resources.EditCycleWindowLabelDeleteCycle}" Grid.Column="1" Grid.Row="4"
-               HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,40,10,10" FontSize="16" Visibility="Hidden" />
+               HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,40,0,0" FontSize="16" Visibility="Hidden" />
 
-        <Label x:Name="chooseThePriority" Content="{x:Static lang:Resources.EditCycleWindowLabelPriority}" Grid.Column="2" Grid.Row="1"
-               HorizontalAlignment="Left" VerticalAlignment="Top" Margin="100,10,10,0" FontSize="16" />
+        <Label x:Name="chooseThePriority" Content="{x:Static lang:Resources.EditCycleWindowLabelPriority}" Grid.Column="3" Grid.Row="1"
+               HorizontalAlignment="Left" VerticalAlignment="Top" Margin="75.016,10,0,0" FontSize="16" />
 
-        <Label x:Name="inputShelfNumber" Content="Input number of shelfs:" Grid.Column="2" Grid.Row="2"
-               HorizontalAlignment="Left" VerticalAlignment="Top" Margin="205,0,0,0" FontSize="16" />
+        <Label x:Name="inputShelfNumber" Content="Input number of shelfs:" Grid.Column="3" Grid.Row="2"
+               HorizontalAlignment="Left" VerticalAlignment="Top" Margin="180.016,0,0,0" FontSize="16" />
 
-        <Label x:Name="editShelfNumber" Content="Edit shelf number:" Grid.Column="2" Grid.Row="4"
-               HorizontalAlignment="Left" VerticalAlignment="Top" Margin="205,20,0,0" FontSize="16" />
+        <Label x:Name="editShelfNumber" Content="Edit shelf number:" Grid.Column="3" Grid.Row="4"
+               HorizontalAlignment="Left" VerticalAlignment="Top" Margin="180.016,20,0,0" FontSize="16" />
 
         <!--Buttons-->
         <Button x:Name="DeleteCycleCountButton" Content="{x:Static lang:Resources.EditCycleWindowButtonDeleteCycle}" Width="110" Height="35"
-                Grid.Column="1" Grid.Row="4" Margin="10,70,10,10" HorizontalAlignment="Left" VerticalAlignment="Top" Click="DeleteCycleCountButton_Click" Visibility="Hidden"/>
+                Grid.Column="1" Grid.Row="4" Margin="10,70,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Click="DeleteCycleCountButton_Click" Visibility="Hidden"/>
 
         <Button x:Name="CancelEdit" Content="{x:Static lang:Resources.EditCycleWindowButtonCancel}" Width="110" Height="35"
-                Grid.Column="2" Grid.Row="4" Margin="80,10,10,10" HorizontalAlignment="Right" VerticalAlignment="Bottom" Click="CancelEdit_Click" />
+                Grid.Column="3" Grid.Row="4" Margin="0,0,10,10" HorizontalAlignment="Right" VerticalAlignment="Bottom" Click="CancelEdit_Click" />
 
         <Button x:Name="ConfirmEdit" Content="{x:Static lang:Resources.EditCycleWindowButtonConfirm}" Width="110" Height="35"
-                Grid.Column="2" Grid.Row="4" Margin="10,10,140,10" HorizontalAlignment="Right" VerticalAlignment="Bottom" Click="ConfirmEdit_Click" />
+                Grid.Column="3" Grid.Row="4" Margin="0,0,140,10" HorizontalAlignment="Right" VerticalAlignment="Bottom" Click="ConfirmEdit_Click" />
 
         <Button x:Name="DeleteUserButton" Content="{x:Static lang:Resources.EditCycleWindowButtonDeleteUser}" Width="160" Height="35"
-                Grid.Column="1" Grid.Row="3" Margin="10,0,10,10" HorizontalAlignment="Left" VerticalAlignment="Top" Click="DeleteUserButton_Click" />
+                Grid.Column="1" Grid.Row="3" Margin="10,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Click="DeleteUserButton_Click" />
 
         <Button x:Name="ConfirmNumberOfShelfs" Content="Confirm" Width="100" Height="35"
-                Grid.Column="2" Grid.Row="2" Margin="210,70,10,10" HorizontalAlignment="Left" VerticalAlignment="Top" Click="ConfirmNumberOfShelfs_Click" />
+                Grid.Column="3" Grid.Row="2" Margin="185.016,70,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Click="ConfirmNumberOfShelfs_Click" />
 
         <Button x:Name="MoveUpButton" Content="{x:Static lang:Resources.EditCycleWindowButtonMoveUp}" Width="100" Height="35"
-                Grid.Column="2" Grid.Row="3" Margin="210,20,10,10" HorizontalAlignment="Left" VerticalAlignment="Top" Click="MoveUpButton_Click" />
+                Grid.Column="3" Grid.Row="3" Margin="185.016,20,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Click="MoveUpButton_Click" />
 
         <Button x:Name="MoveDownButton" Content="{x:Static lang:Resources.EditCycleWindowButtonMoveDown}" Width="100" Height="35"
-                Grid.Column="2" Grid.Row="3" Margin="210,65,10,10" HorizontalAlignment="Left" VerticalAlignment="Top" Click="MoveDownButton_Click" />
+                Grid.Column="3" Grid.Row="3" Margin="185.016,65,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Click="MoveDownButton_Click" />
 
         <Button x:Name="EditContentButton" Content="{x:Static lang:Resources.EditCycleWindowButtonContentEdit}" Width="100" Height="35"
-                Grid.Column="2" Grid.Row="4" Margin="210,50,10,10" HorizontalAlignment="Left" VerticalAlignment="Top" Click="EditContentButton_Click"  />
+                Grid.Column="3" Grid.Row="4" Margin="185.016,50,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Click="EditContentButton_Click"  />
 
         <!--TextBoxes-->
-        <TextBox x:Name="TextBoxNumberofShelfs" Grid.Row="2" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Top" Width="70" Height="28" Margin="210,30,10,0"
+        <TextBox x:Name="TextBoxNumberofShelfs" Grid.Row="2" Grid.Column="3" HorizontalAlignment="Left" VerticalAlignment="Top" Width="70" Height="28" Margin="185.016,30,0,0"
                  KeyUp="TextBoxNumberofShelfs_KeyUp" PreviewTextInput="NumberValidationTextBox" />
 
-        <TextBox x:Name="TextBoxEditShelfNumber" Grid.Row="4" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Top" Width="70" Height="28" 
-                 Margin="210,95,10,0"  PreviewTextInput="NumberValidationTextBox" KeyUp="TextBoxEditShelfNumber_KeyUp" />
+        <TextBox x:Name="TextBoxEditShelfNumber" Grid.Row="4" Grid.Column="3" HorizontalAlignment="Left" VerticalAlignment="Top" Width="70" Height="28" 
+                 Margin="185.016,95,0,0"  PreviewTextInput="NumberValidationTextBox" KeyUp="TextBoxEditShelfNumber_KeyUp" />
 
         <!--Error Labels-->
         <Label x:Name="labelWarningNoUserSelected" Content="{x:Static lang:Resources.EditCycleWindowLabelWarning}" Grid.Column="1" Grid.Row="2"
-                 HorizontalAlignment="Left" FontSize="12" Height="28" Margin="10,60,10,10" Foreground="Red" VerticalAlignment="Top" Visibility="Hidden" />
+                 HorizontalAlignment="Left" FontSize="12" Height="28" Margin="10,60,0,0" Foreground="Red" VerticalAlignment="Top" Visibility="Hidden" />
 
         <!--Combobox-->
-        <ComboBox x:Name="comboBoxChooseEdit" Grid.Column="1" Grid.Row="2" Width="250" Margin="10,80,10,10" Height="28" HorizontalAlignment="Left" VerticalAlignment="Top" SelectedIndex="0">
+        <ComboBox x:Name="comboBoxChooseEdit" Grid.Column="1" Grid.Row="2" Width="250" Margin="10,80,0,0" Height="28" HorizontalAlignment="Left" VerticalAlignment="Top" SelectedIndex="0">
             <ComboBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Vertical">
@@ -94,6 +95,6 @@
         </ComboBox>
 
         <!--ListBox-->
-        <ListBox x:Name="listBoxShelfPriority" Width="100" Grid.Row="2" Grid.Column="2" Grid.RowSpan="3" Margin="100,10,10,10" FontSize="14" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Height="470" VerticalAlignment="Top" />
+        <ListBox x:Name="listBoxShelfPriority" Width="100" Grid.Row="2" Grid.Column="3" Grid.RowSpan="3" Margin="75.016,10,0,0" FontSize="14" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Height="470" VerticalAlignment="Top" />
     </Grid>
 </Window>
