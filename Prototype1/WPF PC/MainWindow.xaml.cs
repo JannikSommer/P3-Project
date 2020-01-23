@@ -26,7 +26,6 @@ namespace WPF_PC {
             
             LoadIntoDataGrid();
             LoadIntoComboBox();
-            UpdateAllUI();
             Controller.PropertyChanged += UpdateActiveUser;
             Controller.Cycle.PropertyChanged += UpdatePercentageCounted;
             Controller.Cycle.PropertyChanged += UpdatePercentageCountedDifference;
@@ -36,69 +35,109 @@ namespace WPF_PC {
         private Server _server;
         private Thread _networkingThread;
 
-
-        public void UpdateAllUI() {
-            LoadIntoDataGrid();
-            UpdateStatistics();          
-        }
-
         public void LoadIntoDataGrid() {
             dataGridMain.ItemsSource = Controller.Cycle.CountedItems;
         }
 
+        #region Statistics
 
-        public void UpdateActiveUser(object sender, PropertyChangedEventArgs e) {
+        public void UpdateActiveUser(object sender, PropertyChangedEventArgs e)
+        {
             acticeClients.Content = ((Controller)sender).NumberOfActiveUsers;
         }
 
-        public void UpdatePercentageCounted(object sender, PropertyChangedEventArgs e) {
-            if(Controller.Cycle.NumberOfCountedItems != 0 && Controller.Cycle.NumberOfItems != 0) {
+        public void UpdatePercentageCounted(object sender, PropertyChangedEventArgs e)
+        {
+            if (Controller.Cycle.NumberOfCountedItems != 0 && Controller.Cycle.NumberOfItems != 0)
+            {
                 overviewTotalCounted.Content = Controller.Cycle.NumberOfCountedItems + " / " + Controller.Cycle.NumberOfItems + "   (" + Math.Round(((double)Controller.Cycle.NumberOfCountedItems / (double)Controller.Cycle.NumberOfItems) * 100, 1) + "%)";
             }
         }
 
-        public void UpdatePercentageCountedDifference(object sender, PropertyChangedEventArgs e) {
-            if(Controller.Cycle.NumberOfItems != 0) {
+        public void UpdatePercentageCountedDifference(object sender, PropertyChangedEventArgs e)
+        {
+            if (Controller.Cycle.NumberOfItems != 0)
+            {
                 double countedIntWithDifference = (from item in (List<Item>)dataGridMain.ItemsSource where item.QuantityVariance != 0 select (Item)item).Count();
                 overviewTotalCountedWithDifference.Content = countedIntWithDifference + " / " + Controller.Cycle.NumberOfItems + "   (" + Math.Round(countedIntWithDifference / (double)Controller.Cycle.NumberOfItems * 100, 1) + "%)";
             }
         }
-        public void UpdateStatistics() {
-            double percentageCounted = 0,
-                   countedIntWithDifference = 0,
-                   percentageCountedWithDifference = 0;
 
-            //Active Users:
-            //acticeClients.Content = TheController.ActiveUsers.Count;
+        #endregion
 
-            //Counted Items overview: 
-            if(Controller.Cycle.NumberOfCountedItems != 0 && Controller.Cycle.NumberOfItems != 0) {
-                percentageCounted = Math.Round((double)(Controller.Cycle.NumberOfCountedItems / Controller.Cycle.NumberOfItems) * 100, 1);
+        #region Open New Windows
+
+
+        //Makes sure that only one window is opened, if not open a new.
+        private void CreateCycleCount_Click(object sender, RoutedEventArgs e)
+        {
+
+            bool isItOpened = false;
+
+            foreach (Window openedWindows in Application.Current.Windows)
+            {
+                if (openedWindows.Name == "CreateCycle")
+                {
+                    isItOpened = true;
+                    openedWindows.Activate();
+                    break;
+                }
             }
 
-            //Counted with difference overview:
-            if(Controller.Cycle.NumberOfItems != 0) {
-                countedIntWithDifference = (from item in (List<Item>)dataGridMain.ItemsSource where item.QuantityVariance != 0 select (Item)item).Count();
-                percentageCountedWithDifference = Math.Round(countedIntWithDifference / Controller.Cycle.NumberOfItems * 100, 1); 
+            if (isItOpened == false)
+            {
+                CreateCycleWindow createCycle = new CreateCycleWindow(Controller);
+                createCycle.Show();
+            }
+        }
+
+        //Makes sure that only one window is opened, if not open a new.
+        private void EditCycle_Click(object sender, RoutedEventArgs e)
+        {
+
+            bool isItOpened = false;
+
+            foreach (Window openedWindows in Application.Current.Windows)
+            {
+                if (openedWindows.Name == "EditCycle1")
+                {
+                    isItOpened = true;
+                    openedWindows.Activate();
+                    break;
+                }
             }
 
-            overviewTotalCountedWithDifference.Content = (countedIntWithDifference + " / " + Controller.Cycle.NumberOfItems + "   (" + percentageCountedWithDifference + "%)");
-            overviewTotalCounted.Content = Controller.Cycle.NumberOfCountedItems + " / " + Controller.Cycle.NumberOfItems + "   (" + percentageCounted + "%)";
+            if (isItOpened == false)
+            {
+                EditCycle editCycleWindow = new EditCycle(Controller);
+                editCycleWindow.Show();
+            }
         }
 
-        private void CreateCycleCount_Click(object sender, RoutedEventArgs e) {
-            new CreateCycleWindow(Controller).Show();
+        //Makes sure that only one window is opened, if not open a new.
+        private void ShowLog_Click(object sender, RoutedEventArgs e)
+        {
+
+            bool isItOpened = false;
+
+            foreach (Window openedWindows in Application.Current.Windows)
+            {
+                if (openedWindows.Name == "LogWindow1")
+                {
+                    isItOpened = true;
+                    openedWindows.Activate();
+                    break;
+                }
+            }
+
+            if (isItOpened == false)
+            {
+                LogWindow logWindow1 = new LogWindow(Controller.Cycle.Log);
+                logWindow1.Show();
+            }
         }
 
-        private void EditCycle_Click(object sender, RoutedEventArgs e) {
-            Controller.Cycle.NumberOfCountedItems++;
-            new EditCycle(Controller).Show();
-        }
-
-        private void ShowLog_Click(object sender, RoutedEventArgs e) {
-            Controller.Cycle.NumberOfItems++;
-            new LogWindow(Controller.Cycle.Log).Show();
-        }
+        #endregion
 
         public void LoadIntoComboBox() { // TODO: Move to XAML
             List<string> settings = new List<string> { 
@@ -127,5 +166,36 @@ namespace WPF_PC {
                 // TODO: Missing behavior
             }
         }
+
+        #region Obsolete
+
+        public void UpdateStatistics()
+        {
+            double percentageCounted = 0,
+                   countedIntWithDifference = 0,
+                   percentageCountedWithDifference = 0;
+
+            //Active Users:
+            //acticeClients.Content = TheController.ActiveUsers.Count;
+
+            //Counted Items overview: 
+            if (Controller.Cycle.NumberOfCountedItems != 0 && Controller.Cycle.NumberOfItems != 0)
+            {
+                percentageCounted = Math.Round((double)(Controller.Cycle.NumberOfCountedItems / Controller.Cycle.NumberOfItems) * 100, 1);
+            }
+
+            //Counted with difference overview:
+            if (Controller.Cycle.NumberOfItems != 0)
+            {
+                countedIntWithDifference = (from item in (List<Item>)dataGridMain.ItemsSource where item.QuantityVariance != 0 select (Item)item).Count();
+                percentageCountedWithDifference = Math.Round(countedIntWithDifference / Controller.Cycle.NumberOfItems * 100, 1);
+            }
+
+            overviewTotalCountedWithDifference.Content = (countedIntWithDifference + " / " + Controller.Cycle.NumberOfItems + "   (" + percentageCountedWithDifference + "%)");
+            overviewTotalCounted.Content = Controller.Cycle.NumberOfCountedItems + " / " + Controller.Cycle.NumberOfItems + "   (" + percentageCounted + "%)";
+        }
+
+        #endregion
+
     }
 }

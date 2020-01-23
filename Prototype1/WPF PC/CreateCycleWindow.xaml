@@ -7,7 +7,7 @@
         xmlns:local="clr-namespace:WPF_PC"
         mc:Ignorable="d"
         Title="{x:Static lang:Resources.CreateCycleWindowTitle}" Height="220" Width="530" FontFamily="Segoe UI Light"
-        FontSize="16" WindowStartupLocation="CenterScreen" MinWidth="530" MinHeight="220" Icon="Assets\count-icon-26.ico.ico" >
+        FontSize="16" WindowStartupLocation="CenterScreen" MinWidth="530" MinHeight="220" Icon="Assets\count-icon-26.ico.ico" WindowStyle="ToolWindow" >
     <Grid HorizontalAlignment="Left">
 
         <!--Grid Definition-->
