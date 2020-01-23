@@ -12,16 +12,31 @@ namespace SAScanApp {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class EnterNamePage : ContentPage {
 
+        private ScanPage _scanPage;
+
         public EnterNamePage() {
             InitializeComponent();
         }
 
-        private async void Name_Entered(object sender, EventArgs e) {
-            await Navigation.PushAsync(new ScanPage(NameEntry.Text));
+        private void Name_Entered(object sender, EventArgs e) {
+            if(NameEntry.Text != string.Empty || NameEntry.Text != null) {
+                Continue(); 
+            }
         }
 
-        private async void Continue_Button_Clicked(object sender, EventArgs e) {
-            await Navigation.PushAsync(new ScanPage(NameEntry.Text));
+        private void Continue_Button_Clicked(object sender, EventArgs e) {
+            if(NameEntry.Text != string.Empty || NameEntry.Text != null) {
+                Continue(); 
+            }
         }
+
+        private async void Continue() {
+            if(_scanPage == null) {
+                await Navigation.PushAsync(new ScanPage(NameEntry.Text));
+            } else {
+                await Navigation.PushAsync(_scanPage);
+            }
+        }
+
     }
 }

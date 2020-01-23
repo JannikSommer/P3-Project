@@ -20,31 +20,12 @@ namespace SAScanApp
         private bool lightOn = false;
 
         public ScanPage(string username) {
-            EnableBackButtonOverride = true;
+            _userName = username;
             ScannedLocation = new RefString(string.Empty);
             InitializeComponent();
             LocationList = new ObservableCollection<LocationBarcode>();
             LocationList.CollectionChanged += LocationList_CollectionChanged;
             displayList.ItemsSource = LocationList;
-
-
-            if(EnableBackButtonOverride) {
-                CustomBackButtonAction = async () => {
-                    if(LocationList.Count != 0) {
-                        var result = await DisplayAlert("Unsaved data",
-                        "Some data has not been uploaded. Are you sure you want to exit?",
-                        "Exit", "Cancel");
-
-                        if(result) {
-                            await Navigation.PopAsync(true);
-                        }
-                    } else {
-                        await Navigation.PopAsync(true);
-                    }
-                };
-            }
-
-
         }
 
 
@@ -108,7 +89,7 @@ namespace SAScanApp
                 if(new BarcodeVerifier().IsLocation(barcode)) {
                     LocationBarcode loc = new BarcodeVerifier().GetScannedLocationBarcode(LocationList, barcode);
                     if(loc == null) {
-                        loc = new LocationBarcode(barcode);
+                        loc = new LocationBarcode(barcode, _userName);
                     }
                     LocationList.Add(loc);
                     await Navigation.PushAsync(new LocationSelected(loc, ScannedLocation));
@@ -123,7 +104,7 @@ namespace SAScanApp
                 if(new BarcodeVerifier().IsLocation(ScannedLocation.Text)) {
                     LocationBarcode loc = new BarcodeVerifier().GetScannedLocationBarcode(LocationList, ScannedLocation.Text);
                     if(loc == null) {
-                        loc = new LocationBarcode(ScannedLocation.Text);
+                        loc = new LocationBarcode(ScannedLocation.Text, _userName);
                     }
                     LocationList.Add(loc);
                     await Navigation.PushAsync(new LocationSelected(loc, ScannedLocation));
@@ -142,32 +123,6 @@ namespace SAScanApp
             LocationList.Clear();
             await Navigation.PushAsync(new UploadPage(data));
         }
-
-
-        /// <summary>
-        /// Gets or Sets the Back button click overriden custom action
-        /// </summary>
-        public Action CustomBackButtonAction { get; set; }
-
-        public static readonly BindableProperty EnableBackButtonOverrideProperty =
-               BindableProperty.Create(
-               nameof(EnableBackButtonOverride),
-               typeof(bool),
-               typeof(ScanPage),
-               false);
-
-        /// <summary>
-        /// Gets or Sets Custom Back button overriding state
-        /// </summary>
-        public bool EnableBackButtonOverride {
-            get {
-                return (bool)GetValue(EnableBackButtonOverrideProperty);
-            }
-            set {
-                SetValue(EnableBackButtonOverrideProperty, value);
-            }
-        }
-
 
     }
 }
