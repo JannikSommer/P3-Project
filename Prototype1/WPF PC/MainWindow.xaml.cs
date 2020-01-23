@@ -24,8 +24,8 @@ namespace WPF_PC {
             CycleController = new Controller();
             StatusController = new Status();
             _server = new Server(CycleController, StatusController);
-            //_networkingThread = new Thread(_server.StartServer);
-            //_networkingThread.Start();
+            _networkingThread = new Thread(_server.StartServer);
+            _networkingThread.Start();
             if (StatusController.IsInitialized)
             {
                 initializeStatusButton.IsEnabled = false;
@@ -40,6 +40,7 @@ namespace WPF_PC {
             LoadIntoDataGrid();
             LoadIntoComboBox();
             UpdateAllUI();
+            
             CycleController.PropertyChanged += UpdateActiveUser;
             CycleController.Cycle.PropertyChanged += UpdatePercentageCounted;
             CycleController.Cycle.PropertyChanged += UpdatePercentageCountedDifference;
