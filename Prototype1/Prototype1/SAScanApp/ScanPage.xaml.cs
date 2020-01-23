@@ -90,8 +90,8 @@ namespace SAScanApp
                     LocationBarcode loc = new BarcodeVerifier().GetScannedLocationBarcode(LocationList, barcode);
                     if(loc == null) {
                         loc = new LocationBarcode(barcode, Username);
+                        LocationList.Add(loc);
                     }
-                    LocationList.Add(loc);
                     await Navigation.PushAsync(new LocationSelected(loc, ScannedLocation));
                 } else {
                     //TODO: Item scanned. Add a popup?

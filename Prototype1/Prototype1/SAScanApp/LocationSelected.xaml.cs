@@ -162,8 +162,8 @@ namespace SAScanApp {
             ItemBarcode item = new BarcodeVerifier().GetScannedItemBarcode(_itemList, barcode);
             if(item == null) { // Item is not in list yet. Add it.
                 item = new ItemBarcode(barcode);
+                _itemList.Add(item);
             }
-            _itemList.Add(item);
 
             ChangeSelectedItem(item);
             IncrementValue();

@@ -16,12 +16,12 @@ namespace SAScanApp {
         private ObservableCollection<LocationBarcode> _realdata;
 
         public UploadPage(ObservableCollection<LocationBarcode> data) {
+            InitializeComponent();
             _realdata = data;
             _data = new List<LocationBarcode>();
             foreach(var item in data) {
                 _data.Add(item);
             }
-            InitializeComponent();
         }
 
         private async void ContentPage_Appearing(object sender, EventArgs e) {
