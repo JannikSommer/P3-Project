@@ -7,11 +7,28 @@ namespace SAScanApp
 {
     public partial class App : Application
     {
-        // public string Path { get; set; } = Environment.CurrentDirectory + @"\UserData\Username.txt";
+        public string Path { get; set; } = Environment.CurrentDirectory + @"\UserData\username.txt";
+        private string _userName { get; set; }
         public App()
         {
             InitializeComponent();
-            MainPage = new NavigationPage(new EnterNamePage(this));
+
+            
+
+            
+
+            if (!Environment.CurrentDirectory.Contains(Path))
+            {
+                MainPage = new NavigationPage(new EnterNamePage(this));
+            }
+
+            else
+            {
+                _userName = File.ReadAllText(Path);
+                MainPage = new NavigationPage(new MenuDataHandlerPage(_userName, this));
+            }
+
+            
         }
 
         protected override void OnStart()
@@ -21,12 +38,10 @@ namespace SAScanApp
 
         protected override void OnSleep()
         {
-            // Handle when your app sleeps
         }
 
         protected override void OnResume()
         {
-            // Handle when your app resumes
         }
     }
 }
