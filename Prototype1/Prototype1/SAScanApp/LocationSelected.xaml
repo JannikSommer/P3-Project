@@ -126,7 +126,7 @@
                                 <ViewCell>
                                     <StackLayout Orientation="Horizontal">
                                         <StackLayout Orientation="Horizontal">
-                                            <Label Text="{Binding ID}, {Binding Name}, {Binding Color}, {Binding Size}" 
+                                            <Label Text="{Binding ID}" 
                                                    TextColor="Blue"/>
                                         </StackLayout>
                                     </StackLayout>

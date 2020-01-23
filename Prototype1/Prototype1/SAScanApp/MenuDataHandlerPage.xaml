@@ -45,7 +45,7 @@
                 IsVisible="False"/>
 
                 <Button x:Name="DownloadButton"
-                Grid.Row="1"
+                Grid.Row="0"
                 Margin="30,10,30,10"
                 BackgroundColor="White"
                 BorderColor="Blue"
@@ -55,10 +55,21 @@
                 FontSize="20"
                 BorderRadius="40"
                 Clicked="DownloadPartition"/>
+
+                <Button x:Name="CreateTestPartition"
+                Grid.Row="2"
+                Margin="30,10,30,10"
+                BackgroundColor="White"
+                BorderColor="Blue"
+                BorderWidth="2"
+                Text="Test Partition"
+                TextColor="Blue"
+                FontSize="20"
+                BorderRadius="40"
+                Clicked="CreateTestPartition_Clicked"/>
             </Grid>
 
             <Grid Grid.Row="2">
-
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
