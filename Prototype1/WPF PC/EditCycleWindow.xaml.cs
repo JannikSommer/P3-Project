@@ -77,48 +77,6 @@ namespace WPF_PC {
             }
         }
 
-        [Obsolete]
-        public void SaveSortPriority() {
-            //Get sorting priority and load into list.
-            int index;
-            List<string> sortPriority = new List<string>();
-
-            for (index = 0; index < listBoxShelfPriority.Items.Count; index++) {
-                sortPriority.Add(((ListViewItem)listBoxShelfPriority.Items.GetItemAt(index)).Content.ToString());
-            }
-
-            //load into text file.
-            string filepath = Environment.CurrentDirectory + @"\SortPriority.txt";
-            StringBuilder priority = new StringBuilder();
-            index = 0;
-
-            foreach(string shelf in sortPriority) {
-                if(index < listBoxShelfPriority.Items.Count - 1) {
-                    priority.Append(shelf + ",");
-                } else if(index == listBoxShelfPriority.Items.Count - 1) {
-                    priority.Append(shelf);
-                }
-                index++;
-            }
-
-            File.WriteAllText(filepath, priority.ToString());
-        }
-
-        [Obsolete]
-        public int[] RetrieveSortingPriorityFromFile() {
-            int[] priority = new int[0];
-            string filePath = Environment.CurrentDirectory + @"\SortPriority.txt";
-            if (File.Exists(filePath)) {
-                List<string> lines = File.ReadAllLines(filePath).ToList();
-                foreach (string line in lines) {
-                    priority = Array.ConvertAll(line.Split(','), int.Parse);
-                }
-                return priority;
-            } else {
-                return priority;
-            }
-        }
-
         private void DeleteUserButton_Click(object sender, RoutedEventArgs e) {
             if(comboBoxChooseEdit.SelectedIndex == -1) {
                 labelWarningNoUserSelected.Visibility = Visibility.Visible;
@@ -126,16 +84,6 @@ namespace WPF_PC {
                 labelWarningNoUserSelected.Visibility = Visibility.Hidden;
                 string userChosen = comboBoxChooseEdit.SelectedItem.ToString();
                 // TODO: Undo this users changes or something
-            }
-        }
-
-        [Obsolete]
-        private void DeleteCycleCountButton_Click(object sender, RoutedEventArgs e) {
-            if(MessageBox.Show("ER DU SIKKER?", "Slet Cyklus'en?", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No) {
-                //do no stuff
-            } else {
-                //do yes stuff
-                Close();
             }
         }
 
@@ -234,5 +182,62 @@ namespace WPF_PC {
         }
 
         #endregion
+
+        #region Obsolete
+        [Obsolete]
+        private void DeleteCycleCountButton_Click(object sender, RoutedEventArgs e) {
+            if(MessageBox.Show("ER DU SIKKER?", "Slet Cyklus'en?", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.No) {
+                //do no stuff
+            } else {
+                //do yes stuff
+                Close();
+            }
+        }
+
+        [Obsolete]
+        public int[] RetrieveSortingPriorityFromFile() {
+            int[] priority = new int[0];
+            string filePath = Environment.CurrentDirectory + @"\SortPriority.txt";
+            if(File.Exists(filePath)) {
+                List<string> lines = File.ReadAllLines(filePath).ToList();
+                foreach(string line in lines) {
+                    priority = Array.ConvertAll(line.Split(','), int.Parse);
+                }
+                return priority;
+            } else {
+                return priority;
+            }
+        }
+
+        [Obsolete]
+        public void SaveSortPriority() {
+            //Get sorting priority and load into list.
+            int index;
+            List<string> sortPriority = new List<string>();
+
+            for(index = 0; index < listBoxShelfPriority.Items.Count; index++) {
+                sortPriority.Add(((ListViewItem)listBoxShelfPriority.Items.GetItemAt(index)).Content.ToString());
+            }
+
+            //load into text file.
+            string filepath = Environment.CurrentDirectory + @"\SortPriority.txt";
+            StringBuilder priority = new StringBuilder();
+            index = 0;
+
+            foreach(string shelf in sortPriority) {
+                if(index < listBoxShelfPriority.Items.Count - 1) {
+                    priority.Append(shelf + ",");
+                } else if(index == listBoxShelfPriority.Items.Count - 1) {
+                    priority.Append(shelf);
+                }
+                index++;
+            }
+
+            File.WriteAllText(filepath, priority.ToString());
+        }
+
+
+        #endregion
+
     }
 }
