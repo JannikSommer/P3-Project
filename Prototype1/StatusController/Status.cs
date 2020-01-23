@@ -35,7 +35,13 @@ namespace StatusController
                 LoadApiItemsFromFile();
                 foreach (Item item in ServerItems)
                 {
-                    Hashtable.Add(item.ID, 0);
+                    foreach (Location locataion in item.Locations)
+                    {
+                        if (locataion.ID != "999Z99" && !(Hashtable.ContainsKey(item.Barcode)))
+                        {
+                            Hashtable.Add(item.Barcode, 0);
+                        }
+                    }
                 }
                 LoadProgressFromFile();
                 GetItemsFromCountedLocations();
@@ -48,11 +54,17 @@ namespace StatusController
 
         public void StartStatus()
         {
+            ServerItems = ProductAPI.GetAllItems();
             foreach (Item item in ServerItems)
             {
-                Hashtable.Add(item.ID, (int) 0);
+                foreach (Location locataion in item.Locations)
+                {
+                    if (locataion.ID != "999Z99" && !(Hashtable.ContainsKey(item.Barcode)))
+                    {
+                        Hashtable.Add(item.Barcode, 0);
+                    }
+                }
             }
-            ServerItems = ProductAPI.GetAllItems();
             SaveApiItemsToFile();
             IsInitialized = true;
         }
@@ -61,21 +73,29 @@ namespace StatusController
         {
             // GetItemsFromCountedLocations();
             IsInitialized = false;
-            var path = Environment.CurrentDirectory + @"\SaveData\CompletedStatus---" + DateTime.Now.ToString("M-d-yyyy") + ".txt";
-            string json = JsonConvert.SerializeObject(CountedItems, Settings);
             foreach (DictionaryEntry de in Hashtable)
             {
                 foreach (Item item in ServerItems)
                 {
-                    if (Hashtable.ContainsKey(item.ID))
+                    if (Hashtable.ContainsKey(item.Barcode))
                     {
                         item.CountedQuantity = (int) de.Value; // Updates the quantity in the list serverItems
+                        CountedItems.Add(item);
                     }
                 }
             }
+            var path = Environment.CurrentDirectory + @"\SaveData\CompletedStatus---" + DateTime.Now.ToString("M-d-yyyy") + ".txt";
+            string json = JsonConvert.SerializeObject(CountedItems, Settings);
             System.IO.File.WriteAllText(path, json);
             DeleteStatusProgress();
+            DeleteApiItemsFile();
             // ProductAPI.UpdateItemsThroughAPI(); Currently not eligble for updating through Streetammo.dk/api
+        }
+
+        private void DeleteApiItemsFile()
+        {
+            var path = Environment.CurrentDirectory + @"\SaveData\APIData.txt";
+            File.Delete(path);
         }
 
         public bool CheckForUncountedItems()
@@ -105,7 +125,21 @@ namespace StatusController
         {
             foreach (LocationBarcode locationBarcode in locationBarcodes)
             {
-                CountedLocations.Add(locationBarcode);
+                if (CountedLocations.Count == 0)
+                {
+                    CountedLocations.Add(locationBarcode);
+                }
+                else
+                {
+                    foreach (LocationBarcode countedLocationBarcode in CountedLocations)
+                    {
+                        if (!(locationBarcode.Barcode == countedLocationBarcode.Barcode))
+                        {
+                            // The locations are the same and should not be added more than once.
+                            CountedLocations.Add(locationBarcode);
+                        }
+                    }
+                }
             }
             GetItemsFromCountedLocations(); // Updates the implemented model
             SaveProgressToFile(); // Saves data each time the data gets updated
@@ -120,9 +154,24 @@ namespace StatusController
                     if (Hashtable.ContainsKey(itemBarcode.Barcode))
                     {
                         // Don't know if this works :/
-                        int count = (int) Hashtable[itemBarcode];
-                        count+= itemBarcode.Quantity;
-                        Hashtable[itemBarcode] = count;
+                        int count = (int) Hashtable[itemBarcode.Barcode];
+                        count += itemBarcode.Quantity;
+                        Hashtable[itemBarcode.Barcode] = count;
+                        foreach (Item serverItem in ServerItems)
+                        {
+                            if (serverItem.Barcode == itemBarcode.Barcode)
+                            {
+                                foreach (Location location in serverItem.Locations)
+                                {
+                                    if (location.ID == locationBarcode.Barcode)
+                                    {
+                                        serverItem.CountedQuantity = (int)Hashtable[itemBarcode.Barcode];
+                                        CountedItems.Add(serverItem);
+                                        break;
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }

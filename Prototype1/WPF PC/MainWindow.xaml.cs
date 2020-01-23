@@ -143,7 +143,8 @@ namespace WPF_PC {
         #endregion
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e) {
-            new IOController(CycleController.Cycle.Id).Save(CycleController.Cycle, CycleController.Location_Comparer.ShelfHierarchy);
+            // new IOController(CycleController.Cycle.Id).Save(CycleController.Cycle, CycleController.Location_Comparer.ShelfHierarchy);
+            _networkingThread.Abort();
             Application.Current.Shutdown();
         }
 
@@ -191,6 +192,7 @@ namespace WPF_PC {
                                     MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
                 {
                     MessageBox.Show("Items that was accounted for has been updated in the database.");
+                    StatusController.FinishStatus();
                 }
                 else
                 {
