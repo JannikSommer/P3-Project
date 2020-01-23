@@ -15,12 +15,12 @@ namespace SAScanApp
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ScanPage : ContentPage {
         private ObservableCollection<LocationBarcode> LocationList { get; set; }
-        private string _userName { get; set; }
+        public string Username { get; set; }
         private RefString ScannedLocation; // Property. Validation.
         private bool lightOn = false;
 
         public ScanPage(string username) {
-            _userName = username;
+            Username = username;
             ScannedLocation = new RefString(string.Empty);
             InitializeComponent();
             LocationList = new ObservableCollection<LocationBarcode>();
@@ -89,7 +89,7 @@ namespace SAScanApp
                 if(new BarcodeVerifier().IsLocation(barcode)) {
                     LocationBarcode loc = new BarcodeVerifier().GetScannedLocationBarcode(LocationList, barcode);
                     if(loc == null) {
-                        loc = new LocationBarcode(barcode, _userName);
+                        loc = new LocationBarcode(barcode, Username);
                     }
                     LocationList.Add(loc);
                     await Navigation.PushAsync(new LocationSelected(loc, ScannedLocation));
@@ -104,7 +104,7 @@ namespace SAScanApp
                 if(new BarcodeVerifier().IsLocation(ScannedLocation.Text)) {
                     LocationBarcode loc = new BarcodeVerifier().GetScannedLocationBarcode(LocationList, ScannedLocation.Text);
                     if(loc == null) {
-                        loc = new LocationBarcode(ScannedLocation.Text, _userName);
+                        loc = new LocationBarcode(ScannedLocation.Text, Username);
                     }
                     LocationList.Add(loc);
                     await Navigation.PushAsync(new LocationSelected(loc, ScannedLocation));

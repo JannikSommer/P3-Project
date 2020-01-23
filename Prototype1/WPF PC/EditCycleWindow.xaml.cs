@@ -35,6 +35,8 @@ namespace WPF_PC {
         private Controller _controller;
 
 
+
+
         private void MoveUpButton_Click(object sender, RoutedEventArgs e) {
             int selectedindex = listBoxShelfPriority.SelectedIndex;
 
