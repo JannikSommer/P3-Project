@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Model;
+using Central_Controller.IO;
 using System.IO;
 using Central_Controller;
 using System.Text.RegularExpressions;
@@ -140,16 +141,23 @@ namespace WPF_PC {
         }
 
         private void LoadSortPriority() {
-            ListViewItem item;
-            for(int x = 0; x < _shelfArray.Length; x++) {
-                item = new ListViewItem {
-                    Content = _shelfArray[x].ToString()
-                };
-                listBoxShelfPriority.Items.Add(item);
+
+            if(new IOController().LoadShelves() != null)
+            {
+                ListViewItem item;
+                for (int x = 0; x < _shelfArray.Length; x++)
+                {
+                    item = new ListViewItem
+                    {
+                        Content = _shelfArray[x].ToString()
+                    };
+                    listBoxShelfPriority.Items.Add(item);
+                }
             }
         }
 
         private void ConfirmEdit_Click(object sender, RoutedEventArgs e) {
+            new IOController().SaveSortpriority(_shelfArray);
             Close();
         }
 
@@ -161,24 +169,31 @@ namespace WPF_PC {
             ChangeNumberOfShelves();
         }
 
-        public void ChangeNumberOfShelves() {
-            ListBoxItem item;
-            int numberOfShelfs = Int32.Parse(TextBoxNumberofShelfs.Text);
-
-            listBoxShelfPriority.Items.Clear();
-
-            for(int index = 0; index < numberOfShelfs; index++) {
-                item = new ListViewItem();
-                item.Content = index.ToString();
-                listBoxShelfPriority.Items.Add(item);
+        //press enter to confirm function
+        private void TextBoxNumberofShelfs_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                ChangeNumberOfShelves();
             }
-
-            _controller.Location_Comparer = new LocationComparer(numberOfShelfs);
         }
 
-        private void TextBoxNumberofShelfs_KeyUp(object sender, KeyEventArgs e) {
-            if(e.Key == Key.Enter) {
-                ChangeNumberOfShelves();
+        public void ChangeNumberOfShelves() {
+            if(TextBoxNumberofShelfs.Text != "")
+            {
+                ListBoxItem item;
+                int numberOfShelfs = Int32.Parse(TextBoxNumberofShelfs.Text);
+
+                listBoxShelfPriority.Items.Clear();
+
+                for (int index = 0; index < numberOfShelfs; index++)
+                {
+                    item = new ListViewItem();
+                    item.Content = index.ToString();
+                    listBoxShelfPriority.Items.Add(item);
+                }
+
+                _controller.Location_Comparer = new LocationComparer(numberOfShelfs);
             }
         }
 

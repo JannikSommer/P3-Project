@@ -15,7 +15,7 @@ namespace Model {
             ConvertHierachyList(ShelfHierachyList);
         }
 
-        public int[] ShelfHierarchy { get; private set; }
+        public int[] ShelfHierarchy { get; set; }
 
         private int HighestValueShelf;
 
