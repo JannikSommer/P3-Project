@@ -16,6 +16,7 @@ namespace SAScanApp {
 
         public EnterNamePage() {
             InitializeComponent();
+            NameEntry.Focus();
         }
 
         private void Name_Entered(object sender, EventArgs e) {
