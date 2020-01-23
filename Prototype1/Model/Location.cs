@@ -54,7 +54,7 @@ namespace Model
                 Row = ID[3];
                 Position = Convert.ToInt32(ID.Substring(4, 2));
             }
-            catch (Exception e)
+            catch (Exception e) // bruh
             {
                 Shelf = 000;
                 Row = 'X';

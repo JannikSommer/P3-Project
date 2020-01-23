@@ -14,6 +14,7 @@ namespace Model
 
     public class LocationBarcode : INotifyPropertyChanged {
         public string Barcode { get; set; }
+        public string Username { get; set; }
         public List<ItemBarcode> ItemBarcodes { get; set; }
         public event PropertyChangedEventHandler PropertyChanged;
 
