@@ -126,7 +126,7 @@ namespace StatusController
             System.IO.File.WriteAllText(path, json);
             DeleteStatusProgress();
             DeleteApiItemsFile();
-            // ProductAPI.UpdateItemsThroughAPI(); Currently not eligble for updating through Streetammo.dk/api
+            // ProductAPI.UpdateItemsThroughAPI(CountedItems); Currently not eligble for updating through Streetammo.dk/api
         }
 
         private void DeleteApiItemsFile()
