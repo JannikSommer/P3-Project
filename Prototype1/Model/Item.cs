@@ -105,5 +105,15 @@ namespace Model {
         protected void OnPropertyChanged(string name) {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
+
+        public override string ToString()
+        {
+            string append = "";
+            foreach (Location location in Locations)
+            {
+                append += location.ID + ";";
+            }
+            return append;
+        }
     }
 }

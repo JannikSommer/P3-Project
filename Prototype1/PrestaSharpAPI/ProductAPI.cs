@@ -57,6 +57,17 @@ namespace PrestaSharpAPI
         public void UpdateItemThroughAPI(Item item)
         {
             ProductFactory productFactory = new ProductFactory(URL, APIKey, Password);
+            StockAvailableFactory stockAvailableFactory = new StockAvailableFactory(URL, APIKey, Password);
+            List<stock_available> stock_Availables = stockAvailableFactory.GetAll();
+            foreach (stock_available stock_Available in stock_Availables)
+            {
+                if (stock_Available.id_product == Convert.ToInt64(item.ID))
+                {
+                    stock_Available.quantity = item.CountedQuantity;
+                    stock_Available.location = item.ToString(); //Returns all the locations for an item in a string format.
+                    stockAvailableFactory.Update(stock_Available);
+                }
+            }
             product product = productFactory.Get(Convert.ToInt64(item.ID));
             product.quantity = item.CountedQuantity;
             productFactory.Update(product);
