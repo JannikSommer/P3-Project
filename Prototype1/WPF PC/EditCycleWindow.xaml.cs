@@ -27,7 +27,6 @@ namespace WPF_PC {
             InitializeComponent();
             _controller = controller;
             comboBoxChooseEdit.ItemsSource = _controller.ActiveUsers;
-            _shelfArray = controller.Location_Comparer.ShelfHierarchy;
             //listBoxShelfPriority.ItemsSource = _shelfArray;
             LoadSortPriority();
         }
@@ -141,8 +140,8 @@ namespace WPF_PC {
         }
 
         private void LoadSortPriority() {
-
-            if(new IOController().LoadShelves() != null)
+            _shelfArray = new IOController().LoadShelves();
+            if(_shelfArray != null)
             {
                 ListViewItem item;
                 for (int x = 0; x < _shelfArray.Length; x++)
@@ -157,7 +156,13 @@ namespace WPF_PC {
         }
 
         private void ConfirmEdit_Click(object sender, RoutedEventArgs e) {
+            _shelfArray = new int[listBoxShelfPriority.Items.Count];
+            for(int i = 0; i < _shelfArray.Length; i++) {
+                _shelfArray[i] = int.Parse(((ListViewItem)listBoxShelfPriority.Items[i]).Content.ToString());
+            }
+
             new IOController().SaveSortpriority(_shelfArray);
+            _controller.Location_Comparer.ShelfHierarchy = _shelfArray;
             Close();
         }
 

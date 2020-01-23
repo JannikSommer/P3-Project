@@ -89,6 +89,7 @@ namespace Central_Controller.IO {
             if(!File.Exists(_logPath)) { logWriter.CreateNewFile();  } 
             else { logWriter.SaveNewMessages(); }
             File.WriteAllLines(_countedItemsPath, from item in cycle.VerifiedItems select item.ID);
+            SaveSortpriority(shelves);
         }
         public void SaveSortpriority(int[] shelves)
         {
