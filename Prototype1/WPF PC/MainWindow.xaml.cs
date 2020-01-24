@@ -44,7 +44,7 @@ namespace WPF_PC {
             
           
             StatusController.PropertyChanged += UpdatePercentageCounted;
-            StatusController.PropertyChanged += RefreshDataGrid;
+            //StatusController.PropertyChanged += RefreshDataGrid;
 
         }
 
@@ -55,9 +55,9 @@ namespace WPF_PC {
 
 
 
-        private void RefreshDataGrid(object sender, EventArgs e) {
-            dataGridMain.Items.Refresh();
-        }
+        //private void RefreshDataGrid(object sender, EventArgs e) {
+        //    dataGridMain.Items.Refresh();
+        //}
 
         public void UpdateAllUI() {
             LoadIntoDataGrid();

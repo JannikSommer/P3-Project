@@ -218,13 +218,12 @@ namespace StatusController
                                 {
                                     if (location.ID == locationBarcode.Barcode)
                                     {
-                                        serverItem.CountedQuantity = (int)Hashtable[itemBarcode.Barcode];
-                                        if (!CountedItems.Contains(serverItem))
+                                        serverItem.CountedQuantity = (int) Hashtable[itemBarcode.Barcode];
+                                        if (!(ContainsItem(CountedItems, serverItem)))
                                         {
                                             CountedItems.Add(serverItem);
                                             NumberOfCountedItems++;
                                         }
-                                        break;
                                     }
                                 }
                             }
