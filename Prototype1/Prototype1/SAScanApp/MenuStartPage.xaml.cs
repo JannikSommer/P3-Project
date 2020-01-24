@@ -7,6 +7,7 @@ using Networking;
 using Model;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using System.IO;
 
 namespace SAScanApp
 {
@@ -27,7 +28,7 @@ namespace SAScanApp
 
 
         private async void AdminLogin_Button_Clicked(object sender, EventArgs e) {
-            await Navigation.PushAsync(new AdminLoginPage());
+            await Navigation.PushAsync(new AdminLoginPage(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "username.txt")));
         }
 
         private async void GetData_Button_Clicked(object sender, EventArgs e) {
