@@ -188,7 +188,7 @@ namespace StatusController
                     {
                         if (item.Barcode == itemBar.Barcode)
                         {
-                            item.Locations.Add(new Location(itemBar.Barcode));
+                            item.Locations.Add(new Location(locBar.Barcode));
                         }
                     }
                 }
