@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading;
 using Android.App;
 using Android.Content.PM;
 using Android.Runtime;
@@ -29,6 +30,7 @@ namespace SAScanApp.Droid
 			Android.Support.V7.Widget.Toolbar toolbar
 				= this.FindViewById<Android.Support.V7.Widget.Toolbar>(Resource.Id.toolbar);
 			SetSupportActionBar(toolbar);
+            
 		}
 
 

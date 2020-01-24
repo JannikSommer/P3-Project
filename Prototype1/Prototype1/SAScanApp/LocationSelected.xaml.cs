@@ -10,18 +10,18 @@ using Model;
 namespace SAScanApp {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class LocationSelected : ContentPage {
-        private LocationSelected() {
+        private LocationSelected(LocationBarcode loc) {
+            LocationBarcode = loc;
             InitializeComponent();
             quantity.Text = Convert.ToString(Value);
             _counterEnabled = false;
             ScanEditorFocus();
             }
 
-            public LocationSelected(LocationBarcode locationBarcode, RefString scannedLocation) : this() {
+            public LocationSelected(LocationBarcode locationBarcode, RefString scannedLocation) : this(locationBarcode) {
             scannedLocation.Text = string.Empty;
-            _locationBarcode = locationBarcode;
             _scannedLocation= scannedLocation;
-            _itemList = new ObservableCollection<ItemBarcode>(_locationBarcode.ItemBarcodes);
+            _itemList = new ObservableCollection<ItemBarcode>(LocationBarcode.ItemBarcodes);
             _itemList.CollectionChanged += _itemList_CollectionChanged;
             itemDisplayList.ItemsSource = _itemList;
         }
@@ -35,7 +35,7 @@ namespace SAScanApp {
         }
 
         private RefString _scannedLocation;
-        private LocationBarcode _locationBarcode;
+        public LocationBarcode LocationBarcode { get; set; }
         private ObservableCollection<ItemBarcode> _itemList;
         private ItemBarcode _prevItem;
         private bool _counterEnabled;
@@ -175,7 +175,7 @@ namespace SAScanApp {
             foreach(var item in _itemList) {
                 result.Add(item);
             }
-            _locationBarcode.ItemBarcodes = result;
+            LocationBarcode.ItemBarcodes = result;
         }
 
     }
