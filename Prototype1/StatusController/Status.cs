@@ -75,6 +75,9 @@ namespace StatusController
             {
                 IsInitialized = false;
             }
+
+            UpdateCountedLocations(CountedLocations);
+
         }
 
         public void StartStatus()
