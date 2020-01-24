@@ -150,7 +150,7 @@ namespace StatusController
         {
             foreach (Item item in itemList)
             {
-                if (item.ID == target.ID)
+                if (item.Barcode == target.Barcode)
                 {
                     return true;
                 }
@@ -210,6 +210,7 @@ namespace StatusController
                         int count = (int) Hashtable[itemBarcode.Barcode];
                         count += itemBarcode.Quantity;
                         Hashtable[itemBarcode.Barcode] = count;
+
                         foreach (Item serverItem in ServerItems)
                         {
                             if (serverItem.Barcode == itemBarcode.Barcode)
