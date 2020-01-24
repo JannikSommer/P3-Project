@@ -12,8 +12,8 @@
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="10*"/>
-                    <RowDefinition Height="35*"/>
-                    <RowDefinition Height="50*"/>
+                    <RowDefinition Height="10*"/>
+                    <RowDefinition Height="80*"/>
                 </Grid.RowDefinitions>
 
                 <Grid.ColumnDefinitions>
@@ -37,12 +37,12 @@
                         <ColumnDefinition Width="20*"/>
                         <ColumnDefinition Width="20*"/>
                     </Grid.ColumnDefinitions>
-                    <Frame BorderColor="Blue" Margin="0, 0, -1, 0" Grid.Column="0">
+                    <Frame BorderColor="Blue" Margin="-1, 0, -1, 0" Grid.Column="1">
                         <Editor x:Name="ScanEditor" IsVisible="False" Text="" TextColor="Blue" FontSize="Micro" TextChanged="ScanEditor_TextChanged" />
                     </Frame>
 
                     <Button Text="{x:Static lang:Resources.PhoneLocationSelelectButtonLight}"
-                            Grid.Column="1"
+                            Grid.Column="0"
                             Margin="-1,0,0,0"
                             BackgroundColor="White"
                             TextColor="Blue"
@@ -50,7 +50,7 @@
                             BorderWidth="1.5"
                             Clicked="Light_Button_Clicked"/>
                     <Button Text=""
-                            Grid.Column="4"
+                            Grid.Column="3"
                             BackgroundColor="White"
                             TextColor="Blue"
                             BorderColor="Blue"
@@ -59,7 +59,7 @@
                             Margin="-2,0,1,0"/>
                     <Button Text="Upload"
                             Margin="-1,0,0,0"
-                            Grid.Column="3"
+                            Grid.Column="4"
                             BackgroundColor="White"
                             TextColor="Blue"
                             BorderColor="Blue"
@@ -74,47 +74,7 @@
                             BorderWidth="1.5"/>
                 </Grid>
 
-                <Grid Grid.Row="1" BackgroundColor="White">
-
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-
-                    </Grid.RowDefinitions>
-
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="20*"/>
-                        <ColumnDefinition Width="60*"/>
-                        <ColumnDefinition Width="20*"/>
-                    </Grid.ColumnDefinitions>
-
-                    <Button x:Name="dec_item_count"
-                            Text="&lt;"
-                            Grid.Column="0"
-                            VerticalOptions="Center"
-                            Margin="20,0,0,0"
-                            TextColor="Gray"
-                            FontSize="70"
-                            BackgroundColor="White"/>
-
-                    <Label Text="00"
-                           FontSize="150"
-                           HorizontalOptions="Center"
-                           VerticalOptions="Center"
-                           Grid.Column="1"
-                           TextColor="Gray"
-                           BackgroundColor="White"/>
-
-                    <Button x:Name="inc_item_count"
-                            VerticalOptions="Center"
-                            Text="&gt;"
-                            Grid.Column="2"
-                            Margin="0,0,20,0"
-                            TextColor="Gray"
-                            FontSize="70"
-                            BackgroundColor="White"/>
-
-
-                </Grid>
+                <Label Grid.Row="1" HorizontalTextAlignment="Start" FontSize="Large">Locations</Label>
 
                 <Grid x:Name="Grid2" Grid.Row="2">
                     <ListView x:Name="displayList" BackgroundColor="White"
