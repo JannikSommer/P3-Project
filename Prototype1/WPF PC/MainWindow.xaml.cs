@@ -157,5 +157,9 @@ namespace WPF_PC {
                 }
             }
         }
+
+        private void refreshButton_Click(object sender, RoutedEventArgs e) {
+            dataGridMain.Items.Refresh();
+        }
     }
 }
