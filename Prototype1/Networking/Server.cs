@@ -12,7 +12,7 @@ namespace Networking
     public class Server
     {
         private Socket Handler;
-        private string ip = "192.168.0.23";
+        private string ip = "192.168.1.3";
         private Controller CycleController { get; set; }
         private Status StatusController { get; set; }
         private readonly int FlagMessageSize = 25;

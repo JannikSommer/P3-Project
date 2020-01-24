@@ -182,6 +182,16 @@ namespace StatusController
             foreach (LocationBarcode locBar in temp)
             {
                 CountedLocations.Add(locBar);
+                foreach (ItemBarcode itemBar in locBar.ItemBarcodes)
+                {
+                    foreach (Item item in CountedItems)
+                    {
+                        if (item.Barcode == itemBar.Barcode)
+                        {
+                            item.Locations.Add(new Location(itemBar.Barcode));
+                        }
+                    }
+                }
             }
 
             GetItemsFromCountedLocations(); // Updates the implemented model
