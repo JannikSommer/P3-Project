@@ -22,7 +22,11 @@ namespace SAScanApp {
         }
 
         public async void Entry_Completed(object sender, EventArgs e) {
-            if (userPassword.Text == "password") {
+            if(userLogin.Text == "" || userLogin.Text == " " || userLogin.Text == "text" || userLogin.Text == "Text")
+            {
+                await DisplayAlert("Error!", "Please enter your username", "Ok");
+            }
+            else if (userPassword.Text == "password") {
                 File.WriteAllText(_fileName, "*ADMIN " + userLogin.Text);
                 await Navigation.PushAsync(new AdminPartitionSelection(userLogin.Text));
             } else {

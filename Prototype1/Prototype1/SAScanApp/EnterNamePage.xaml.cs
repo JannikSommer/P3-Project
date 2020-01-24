@@ -25,7 +25,7 @@ namespace SAScanApp {
                     NameEntry.Text = _userName;
                     LoadNextPage(true);
                 }
-                else
+                else if(System.IO.File.ReadAllText(_fileName) != "*ADMIN ")
                 {
                     _userName = System.IO.File.ReadAllText(_fileName);
                     NameEntry.Text = _userName;
@@ -51,9 +51,16 @@ namespace SAScanApp {
         }
 
         private async void Save_Name_Clicked(object sender, EventArgs e) {
-            _userName = NameEntry.Text;
-            File.WriteAllText(_fileName, _userName);
-            await Navigation.PushAsync(new MenuDataHandlerPage(_userName, this));
+            if(NameEntry.Text == "Please enter your name" || NameEntry.Text == "")
+            {
+                await DisplayAlert("Error!", "Please enter a your name", "Ok");
+            }
+            else
+            {
+                _userName = NameEntry.Text;
+                File.WriteAllText(_fileName, _userName);
+                await Navigation.PushAsync(new MenuDataHandlerPage(_userName, this));
+            }
         }
 
         private async void AdminLogin_Button_Clicked(object sender, EventArgs e) {
