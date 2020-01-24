@@ -217,14 +217,11 @@ namespace StatusController
                             {
                                 foreach (Location location in serverItem.Locations)
                                 {
-                                    if (location.ID == locationBarcode.Barcode)
+                                    serverItem.CountedQuantity = (int) Hashtable[itemBarcode.Barcode];
+                                    if (!(ContainsItem(CountedItems, serverItem)))
                                     {
-                                        serverItem.CountedQuantity = (int) Hashtable[itemBarcode.Barcode];
-                                        if (!(ContainsItem(CountedItems, serverItem)))
-                                        {
-                                            CountedItems.Add(serverItem);
-                                            NumberOfCountedItems++;
-                                        }
+                                        CountedItems.Add(serverItem);
+                                        NumberOfCountedItems++;
                                     }
                                 }
                             }
