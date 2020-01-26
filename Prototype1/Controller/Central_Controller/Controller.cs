@@ -70,6 +70,7 @@ namespace Central_Controller.Central_Controller {
                 InitialAddItem(item, locationIds);
             }
         }
+        
         private List<string> LocationListToStringList(List<Location> LocationList)
         {
             List<string> StringList = new List<string>();
@@ -275,18 +276,18 @@ namespace Central_Controller.Central_Controller {
         {
             SortMultiLocationItem_Locations();
 
-            InitialPartitioningOfSingleLocations();
+            InitialPartitioningOfSingleLocationItems();
 
-            InitialPartitioningOf_MultilocationItemLocations();
+            InitialPartitioningOfMultiLocationItems();
         }
 
-        private void InitialPartitioningOfSingleLocations()
+        private void InitialPartitioningOfSingleLocationItems()
         {
             int FormerShelf = -1;
             int FormerPosition = -1;
             List<Location> Locations = UnPartitionedLocations.Values.ToList();
 
-            Locations.Sort(Location_Comparer); //The initial AddItem doesn't need to use a sorted list anymore, because compareing the strings isn't good enough anymore
+            Locations.Sort(Location_Comparer); //Needs to sort incase the shelf hieraky isn't following regular numeric sorting.
 
             if (AvailebleShelfs.Count != 0)
             {
@@ -294,7 +295,7 @@ namespace Central_Controller.Central_Controller {
             }
 
 
-            foreach(Location location in Locations)
+            foreach(Location location in Locations) //Sorts the locations into Seperate shelves, with partitions representing a collum on said shelf
             {
                 if(FormerShelf == location.Shelf)
                 {
@@ -400,15 +401,15 @@ namespace Central_Controller.Central_Controller {
             {
                 Cycle.Log.AddMessage(new VerificationLogMessage(verificationPartition.AssignedUser, item.ID, true));
                 
-                if(item.CountedQuantity < 0)
+                if(item.CountedQuantity < 0) //less then 0 means i was never counted, thus is not considered verified.
                 {
                     ItemsForVerification.Add(item);
                 }
-                else if(item.CountedQuantity == item.ServerQuantity)
+                else if(item.CountedQuantity == item.ServerQuantity) //if verified quantity matched server quantity
                 {
                     NumOfItemsVerified++;
                 }
-                else
+                else //if verified quantity didn't match server quantity, the item is saved to later be represented in the UI.
                 {
                     VerifiedItems.Add(item);
                     NumOfItemsVerified++;
@@ -435,6 +436,8 @@ namespace Central_Controller.Central_Controller {
 
         private List<(string itemId, string countedQuantity)> ItemPlusCountList(Location location)
         {
+            //Used for creating log messages. Take all items in a location, and turns them into a list of items ID's and their counted quantity
+
             List<(string itemId, string countedQuantity)> ItemPlusCountList = new List<(string itemId, string countedQuantity)>();
 
             foreach(Item item in location.Items)
@@ -461,7 +464,7 @@ namespace Central_Controller.Central_Controller {
                         {
                             ItemIDsSeen.Add(item.ID);
 
-                            if (item.AllLocationsVisited && IsEverythingTrue(WhichItemLocationsVisitedInPartition(item, partition))) //checks if all locations has been visited, in partition
+                            if (item.AllLocationsVisited && IsEverythingTrue(WhichItemLocationsVisitedInPartition(item, partition))) //checks if all locations has been visited, in current partition
                             {
                                 if (item.ServerQuantity == item.CountedQuantity)
                                 {
@@ -475,15 +478,15 @@ namespace Central_Controller.Central_Controller {
                             else //if all locations wasn't visited
                             {
                                 bool[] LocationsVisitedInPartition = WhichItemLocationsVisitedInPartition(item, partition);
-                                int PartiallyCountedItemIndex = PartiallyCountedItems.FindIndex(x => x.Item1.ID == item.ID);
+                                int PartiallyCountedItemIndex = PartiallyCountedItems.FindIndex(x => x.Item1.ID == item.ID); //checks if current location has an entry in PartiallyCountedItems
 
-                                if (PartiallyCountedItemIndex >= 0) //If item already exsisted in Partially counted items
+                                if (PartiallyCountedItemIndex >= 0) //If item did exist in Partially counted items
                                 {
                                     LocationsVisitedInPartition = CombineBoolArray(LocationsVisitedInPartition, PartiallyCountedItems[PartiallyCountedItemIndex].Item2);
                                     item.CountedQuantity += PartiallyCountedItems[PartiallyCountedItemIndex].Item1.CountedQuantity;
                                     PartiallyCountedItems.RemoveAt(PartiallyCountedItemIndex);
 
-                                    if (IsEverythingTrue(LocationsVisitedInPartition))
+                                    if (IsEverythingTrue(LocationsVisitedInPartition)) //checks if all items locations has been visited now, after combineing with its matching counter part in PartiallyCountedItems
                                     {
                                         if (item.CountedQuantity == item.ServerQuantity)
                                         {
@@ -494,7 +497,7 @@ namespace Central_Controller.Central_Controller {
                                             ItemsForVerification.Add(item);
                                         }
                                     }
-                                    else
+                                    else //if the items still hasn't had all its locations visited
                                     {
                                         PartiallyCountedItems.Add(new Tuple<Item, bool[]>(item, LocationsVisitedInPartition));
                                     }
@@ -517,7 +520,7 @@ namespace Central_Controller.Central_Controller {
             {
                 bool AllLocationsVisited = true;
 
-                foreach (Location location in UncountedLocations) //tests if all the items-locations is contained withing List<Location> UncountedLocations
+                foreach (Location location in UncountedLocations) //tests if all the items-locations is contained withing List<Location> UncountedLocations, and sets bool for later referance
                 {
                     foreach (Item item in location.Items)
                     {
@@ -624,7 +627,7 @@ namespace Central_Controller.Central_Controller {
             List<Location> UncountedLocations = new List<Location>();
             Partition NewPartition;
 
-            foreach (Location location in partition.Locations)
+            foreach (Location location in partition.Locations) //sorts into Correctly counted, in need of verification and unvisited locations
             {
                 if (location.Visited)
                 {
@@ -646,7 +649,7 @@ namespace Central_Controller.Central_Controller {
                 }
             }
 
-            if (UncountedLocations.Count != 0)
+            if (UncountedLocations.Count != 0) //unvisited locations is put into a new partition and added to appopriate shelf
             {
                 NewPartition = new Partition(false);
 
@@ -659,7 +662,7 @@ namespace Central_Controller.Central_Controller {
             }
         }
 
-        private bool[] WhichItemLocationsVisitedInPartition(Item item, Partition partition)
+        private bool[] WhichItemLocationsVisitedInPartition(Item item, Partition partition) //checks if a multilocation item has had its locations visited.
         {
             bool[] LocationsVisited = new bool[item.Locations.Count];
 
@@ -671,26 +674,35 @@ namespace Central_Controller.Central_Controller {
             return LocationsVisited;
         }
 
-        private void AddPartitionToShelfs(Partition partition)
+        private void AddPartitionToShelfs(Partition partition) //adds partition to appopriate shelf
         {
             int Index = -1;
+            bool WasAdded = false;
 
             Index = AvailebleShelfs.FindIndex(x => x.ShelfIndex == partition.Span.Shelf);
 
             if(Index >= 0)
             {
                 AvailebleShelfs[Index].AddPartition(partition);
+                WasAdded = true;
             }
 
-            Index = OccopiedShelfs.FindIndex(x => x.ShelfIndex == partition.Span.Shelf);
-
-            if(Index >= 0)
+            if (!WasAdded)
             {
-                OccopiedShelfs[Index].AddPartition(partition);
+                Index = OccopiedShelfs.FindIndex(x => x.ShelfIndex == partition.Span.Shelf);
+
+                if (Index >= 0)
+                {
+                    OccopiedShelfs[Index].AddPartition(partition);
+                    WasAdded = true;
+                }
             }
 
-            AvailebleShelfs.Add(new Shelf(partition.Span.Shelf));
-            AvailebleShelfs.Sort();
+            if (!WasAdded)
+            {
+                AvailebleShelfs.Add(new Shelf(partition.Span.Shelf));
+                AvailebleShelfs.Sort();
+            }
         }
 
         /*
@@ -855,7 +867,7 @@ namespace Central_Controller.Central_Controller {
         }
         */
 
-        private bool IsEverythingTrue(bool[] BoolArray)
+        private bool IsEverythingTrue(bool[] BoolArray) //checks if all statements in a bool array is true
         {
             bool IsAllPosistionsTrue = true;
 
@@ -870,7 +882,7 @@ namespace Central_Controller.Central_Controller {
             return IsAllPosistionsTrue;
         }
 
-        private bool[] CombineBoolArray(bool[] BoolArrayA, bool[] BoolArrayB)
+        private bool[] CombineBoolArray(bool[] BoolArrayA, bool[] BoolArrayB) //combines two bool arrays with and "OR" statement
         {
             if(BoolArrayA.Length == BoolArrayB.Length)
             {
@@ -1021,7 +1033,8 @@ namespace Central_Controller.Central_Controller {
                 throw new Exception("Client requesting a verification partition isn't an admin");
             }
 
-            if (MultiLocationItemsForVerification.Count != 0)
+            //adds the first item to the new verification partition, prioritizing multi location items.
+            if (MultiLocationItemsForVerification.Count != 0) 
             {
                 verificationPartition.AddItem(MultiLocationItemsForVerification[0]);
 
@@ -1039,11 +1052,12 @@ namespace Central_Controller.Central_Controller {
             }
 
             while(verificationPartition.Locations.Count < MaxSizeForPartitions && (MultiLocationItemsForVerification.Count != 0 || ItemsForVerification.Count != 0))
+            //Continues to add items until the partition exceeds the size dictated by MaxSizeForPartitions, or there isn't anymore items in need of verification
             {
                 ShortestMultiLocDistance = int.MaxValue;
                 IndexOfMultiLoc = -1;
 
-                for(int x = 0; x < MultiLocationItemsForVerification.Count; x++)
+                for(int x = 0; x < MultiLocationItemsForVerification.Count; x++) //compares distance between multilocation items and the locations in the verification partition
                 {
                     Distance = verificationPartition.CompareDistance(MultiLocationItemsForVerification[x], Location_Comparer);
 
@@ -1054,7 +1068,7 @@ namespace Central_Controller.Central_Controller {
                     }
                 }
 
-                if(ShortestMultiLocDistance < 1000) //if a MultiLocation item can be checked without Visiting new Shelfs, its given priority over single Location items
+                if(ShortestMultiLocDistance < 1000) //if a MultiLocation item can be checked without Visiting new Shelfs, its given priority over single Location items, and added immidiatly
                 {
                     verificationPartition.AddItem(MultiLocationItemsForVerification[IndexOfMultiLoc]);
 
@@ -1066,7 +1080,7 @@ namespace Central_Controller.Central_Controller {
                 ShortestSingleLocDistance = int.MaxValue;
                 IndexOfSingleLoc = -1;
 
-                for (int x = 0; x < ItemsForVerification.Count; x++)
+                for (int x = 0; x < ItemsForVerification.Count; x++) //finds distance between a single location item and the locations in the verification partition.
                 {
                     Distance = verificationPartition.CompareDistance(ItemsForVerification[x], Location_Comparer);
 
@@ -1077,7 +1091,9 @@ namespace Central_Controller.Central_Controller {
                     }
                 }
 
-                if(ShortestMultiLocDistance / 1000 < ShortestSingleLocDistance / 1000) //if a multilocation item is the same nr of shelfs away as a single location item, its prioritized
+                if(ShortestMultiLocDistance / 1000 <= ShortestSingleLocDistance / 1000)
+                //compares the distances to the nearest single location or multilocaiton item.
+                //devideing by 1000 means that, moves between columns is ignored, only the amount of shelf needed to move is considered.
                 {
                     verificationPartition.AddItem(MultiLocationItemsForVerification[IndexOfMultiLoc]);
 
@@ -1116,7 +1132,7 @@ namespace Central_Controller.Central_Controller {
             return aHieraky.CompareTo(bHieraky);
         }
 
-        private void InitialPartitioningOf_MultilocationItemLocations() //Creates Multilocation item Locations
+        private void InitialPartitioningOfMultiLocationItems() //Creates Multilocation item Locations
         {
             List<List<List<Location>>> Paths = new List<List<List<Location>>>();
             List<Location> NewList;
