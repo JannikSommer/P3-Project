@@ -113,11 +113,11 @@ namespace SAScanApp {
                     new Partition(
                         new Model.Location("000A01",
                         new List<Item> {
-                        new Item("5701872203005"),
-                        new Item("73102601"),
-                        new Item ("8979878"),
-                        new Item ("78789"),
-                        new Item ("5709216007104")
+                        new Item("192824442774", "Carhartt Hoodie Sweat", "Green", "XL"),
+                        new Item ("192824442774", "Nike Pants", "Blue", "32/32"),
+                        new Item ("192824442774", "Nike T-Shirt", "Red", "L"),
+                        new Item ("192824442774", "Volcom Skateboard", "-", "One size"),
+                        new Item ("192824442774", "Carhartt Cargo Pants", "Khaki", "34/32")
                         })
                     )));
             }
@@ -126,13 +126,13 @@ namespace SAScanApp {
                 await Navigation.PushAsync(new ScanPage(new VerificationPartition()
                 {
                     Locations = new List<Model.Location> {
-                    new Model.Location("000A01",
+                    new Model.Location("000A04",
                     new List<Item> {
-                        new Item("5701872203005"),
-                        new Item("73102601"),
-                        new Item ("8979878"),
-                        new Item ("78789"),
-                        new Item ("5709216007104")
+                        new Item("192824442774", "Carhartt Hoodie Sweat", "Green", "XL"),
+                        new Item ("192824442774", "Nike Pants", "Blue", "32/32"),
+                        new Item ("192824442774", "Nike T-Shirt", "Red", "L"),
+                        new Item ("192824442774", "Volcom Skateboard", "-", "One size"),
+                        new Item ("192824442774", "Carhartt Cargo Pants", "Khaki", "34/32")
                     }
                     )}
                 }));

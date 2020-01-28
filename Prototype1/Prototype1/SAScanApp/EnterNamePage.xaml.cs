@@ -11,7 +11,7 @@ using Xamarin.Forms.Xaml;
 namespace SAScanApp {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class EnterNamePage : ContentPage {
-        private string _userName { get; set; }
+        public string _userName { get; set; }
         private string _fileName { get; } = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "username.txt");
         private App _appPage { get; set; }
 

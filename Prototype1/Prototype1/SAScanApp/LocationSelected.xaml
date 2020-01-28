@@ -13,6 +13,7 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="10*"/>
                     <RowDefinition Height="35*"/>
+                    <RowDefinition Height="5*"/>
                     <RowDefinition Height="50*"/>
                 </Grid.RowDefinitions>
 
@@ -83,7 +84,11 @@
                         <ColumnDefinition Width="20*"/>
                     </Grid.ColumnDefinitions>
 
-                    <Editor x:Name="ScanEditor" Text="" TextColor="Blue" FontSize="Micro" TextChanged="ScanEditor_TextChanged" />
+                    <Editor x:Name="ScanEditor" 
+                            Text="" 
+                            TextColor="Blue" 
+                            FontSize="Micro" 
+                            TextChanged="ScanEditor_TextChanged" />
 
                     <Button x:Name="dec_item_count"
                             Text="&lt;"
@@ -116,7 +121,14 @@
                     
                 </Grid>
 
-                <Grid x:Name="Grid2" Grid.Row="2">
+                <Grid Grid.Row="2">
+                    <Label Text="LOCATIONS"
+                           TextColor="Blue"
+                           HorizontalOptions="Center"
+                           VerticalOptions="Center"
+                           FontSize="20"/>
+                </Grid>
+                <Grid x:Name="Grid2" Grid.Row="3">
                     <ListView x:Name="itemDisplayList" BackgroundColor="White"
                               ItemTapped="ItemDisplayList_ItemTapped"
                               ItemSelected="ItemDisplayList_ItemSelected">
