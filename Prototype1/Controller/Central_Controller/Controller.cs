@@ -7,6 +7,8 @@ using PrestaSharpAPI;
 using System.ComponentModel;
 using System.Threading;
 using Model.Log;
+using Newtonsoft.Json;
+using System.IO;
 
 namespace Central_Controller.Central_Controller {
     public partial class Controller : INotifyPropertyChanged {
@@ -53,15 +55,21 @@ namespace Central_Controller.Central_Controller {
         public List<Tuple<Item, bool[]>> PartiallyCountedItems { get; private set; } = new List<Tuple<Item, bool[]>>();
         public List<Item> VerifiedItems = new List<Item>();
         private ProductAPI _productAPI = new ProductAPI();
-
-
+        private readonly JsonSerializerSettings Settings = new JsonSerializerSettings
+        {
+            Formatting = Formatting.Indented,
+            PreserveReferencesHandling = PreserveReferencesHandling.Objects,
+            ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+        };
 
         protected void OnPropertyChanged(string name) {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
 
         private List<Item> DownloadFromServer() {
-            return new List<Item>();
+            var path = Environment.CurrentDirectory + @"\SaveData\APIData.txt";
+            string json = File.ReadAllText(path);
+            return JsonConvert.DeserializeObject<List<Item>>(json, Settings);
             return _productAPI.GetAllItems();
         }
 
