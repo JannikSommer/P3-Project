@@ -4,6 +4,7 @@ using System.Text;
 using Model;
 using Newtonsoft.Json;
 using Central_Controller.Central_Controller;
+using System.Collections.Generic;
 
 namespace Networking
 {
@@ -14,7 +15,7 @@ namespace Networking
 
         private Controller Controller { get; set; }
 
-        private string ip = "172.17.210.59";
+        private string ip = "192.168.1.2";
         private readonly int FlagMessageSize = 25;
         private readonly long MessageSize = 536870912; // 512 MB
         private Socket Handler;
@@ -100,9 +101,26 @@ namespace Networking
             // Signal OK to client and shutdown socket
             Handler.Send(Encoding.UTF8.GetBytes(CommunicationFlag.ConversationCompleted.ToString()));
         }
+        /* new Model.Location("000A01",
+                        new List<Item> {
+                        new Item("1734200392427", "Carhartt Pants", "Blue", "32"),
+                        new Item("2734200392426", "Nike Air", "Red", "42"),
+                        new Item ("3734200392425", "Volcom Skateboard", "-", "One Size"),
+                        new Item ("4734200392424", "Adidas Hoodie", "Black", "L"),
+                        new Item ("5734200392423", "Adidas Cargo Pants", "Khaki", "30")*/
 
         private void SendPartition(User user) {
-            Partition partition = Controller.NextPartition(user);
+            // Partition partition = Controller.NextPartition(user);
+            List<Location> Locations = new List<Model.Location> {
+                    new Model.Location("000A01",
+                    new List<Item> {
+                        new Item("1734200392427", "Carhartt Pants", "Blue", "32"),
+                        new Item("2734200392426", "Nike Air", "Red", "42"),
+                        new Item ("3734200392425", "Volcom Skateboard", "-", "One Size"),
+                        new Item ("4734200392424", "Adidas Hoodie", "Black", "L"),
+                        new Item ("5734200392423", "Adidas Cargo Pants", "Khaki", "30") }) };
+            Partition partition = new Partition();
+            partition.Locations = Locations;
             // TODO: partition.Locations.Add(new Location("001A01")); 
             // Send partition to client
             string json = JsonConvert.SerializeObject(partition, settings);

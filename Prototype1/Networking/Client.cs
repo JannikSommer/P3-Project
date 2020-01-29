@@ -10,7 +10,7 @@ using Central_Controller.Central_Controller;
 
 namespace Networking {
     public class Client {
-        private string ip = "172.17.210.59";
+        private string ip = "192.168.1.2";
         private readonly int FlagMessageSize = 25;
         private readonly int HandlerSize = 15;
         private readonly long MessageSize = 536870912; // 512 MB

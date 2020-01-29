@@ -26,11 +26,11 @@ namespace Model {
         }
 
         public PartitionState State { get; set; }
-        public int ItemsCounted { get; private set; }
-        public bool IsMultiLocationItemPartition { get; private set; } = false;
-        public PartitionRequsitionState RequsitionState { get; private set; }
-        public List<Location> Locations { get; private set; }
-        public PartitionSpan Span { get; private set; } = new PartitionSpan(-1, -1);
+        public int ItemsCounted { get; set; }
+        public bool IsMultiLocationItemPartition { get; set; } = false;
+        public PartitionRequsitionState RequsitionState { get; set; }
+        public List<Location> Locations { get; set; }
+        public PartitionSpan Span { get; set; } = new PartitionSpan(-1, -1);
         public string AssignedUser = "none";
 
 

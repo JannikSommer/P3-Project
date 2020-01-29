@@ -21,14 +21,14 @@ namespace WPF_PC {
             InitializeComponent();
             Controller = new Controller();
             _server = new Server(Controller);
-            //_networkingThread = new Thread(_server.StartServer);
-            //_networkingThread.Start();
+            _networkingThread = new Thread(_server.StartServer);
+            _networkingThread.Start();
             
             LoadIntoDataGrid();
             LoadIntoComboBox();
-            Controller.PropertyChanged += UpdateActiveUser;
-            Controller.Cycle.PropertyChanged += UpdatePercentageCounted;
-            Controller.Cycle.PropertyChanged += UpdatePercentageCountedDifference;
+            // Controller.PropertyChanged += UpdateActiveUser;
+            // Controller.Cycle.PropertyChanged += UpdatePercentageCounted;
+            // Controller.Cycle.PropertyChanged += UpdatePercentageCountedDifference;
         }
 
         public Controller Controller { get; set; }
@@ -36,7 +36,7 @@ namespace WPF_PC {
         private Thread _networkingThread;
 
         public void LoadIntoDataGrid() {
-            dataGridMain.ItemsSource = Controller.Cycle.CountedItems;
+            // dataGridMain.ItemsSource = Controller.Cycle.CountedItems;
         }
 
         #region Statistics
