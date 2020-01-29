@@ -17,14 +17,7 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Label Text="HANDLE DATA"
-                       HorizontalOptions="Center"
-                       VerticalOptions="Start"
-                       TextColor="Blue"
-                       FontSize="30"
-                       Margin="0, 50, 0, 0"
-                       Grid.Row="0"/>
-            
+
             <Grid Grid.Row="1"
               VerticalOptions="Center">
 
@@ -37,8 +30,6 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-
-                
 
                 <Button x:Name="UploadButton"
                 Grid.Row="0" 
@@ -76,11 +67,18 @@
                 FontSize="20"
                 BorderRadius="40"
                 Clicked="CreateTestPartition_Clicked"/>
-
-                
             </Grid>
 
-            
+            <Grid Grid.Row="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+            </Grid>
         </Grid>
     </ContentPage.Content>
 </ContentPage>

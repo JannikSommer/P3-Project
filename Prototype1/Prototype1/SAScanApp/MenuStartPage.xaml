@@ -21,12 +21,12 @@
 
             <Grid Grid.Row="0"
                   VerticalOptions="EndAndExpand">
-                <Label Text="MENU"
-                       VerticalOptions="Start"
-                       HorizontalOptions="Center"
+                <Label Text="{x:Static lang:Resources.PhoneStartPageLabelMenu}"
                        FontSize="30"
                        TextColor="Blue"
-                       Margin="0, 50, 0, 0"/>
+                       HorizontalOptions="CenterAndExpand"
+                       BackgroundColor="White"
+                       Margin="0,0,0,0"/>
             </Grid>
 
             <Grid Grid.Row="1"
@@ -48,7 +48,7 @@
                 BackgroundColor="White"
                 BorderColor="Blue"
                 BorderWidth="2"
-                Text="HANDLE DATA"
+                Text="{x:Static lang:Resources.PhoneStartPageButtonUpload}"
                 TextColor="Blue"
                 FontSize="20"
                 BorderRadius="40"
@@ -71,7 +71,19 @@
                 VerticalOptions="Center"
                 HorizontalOptions="FillAndExpand"/>
 
-               
+                <Button 
+                Margin="50, 10, 50, 10"
+                BackgroundColor="White"
+                BorderColor="Red"
+                BorderWidth="2"
+                Text="{x:Static lang:Resources.PhoneStartPageButtonTerminate}"
+                TextColor="Red"
+                FontSize="20"
+                BorderRadius="40"
+                Grid.Row="2"
+                Clicked="Terminate_Button_Clicked"
+                VerticalOptions="Center"
+                HorizontalOptions="FillAndExpand"/>
 
 
 

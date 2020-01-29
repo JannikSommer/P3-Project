@@ -7,16 +7,9 @@
              x:Class="SAScanApp.EnterNamePage">
     <ContentPage.Content>
         <StackLayout>
-
-            <Label Text="LOGIN"
-                   HorizontalOptions="Center"
-                   VerticalOptions="Start"
-                   FontSize="30"
-                   TextColor="Blue"
-                   Margin="0, 50, 0, 0"/>
-
+            
             <Entry x:Name="NameEntry"
-                   Margin="0, 150, 0, 0"
+                   Margin="0,200,0,0"
                    Text="Please enter your name"
                    HorizontalTextAlignment="Center"
                    Completed="Save_Name_Clicked"

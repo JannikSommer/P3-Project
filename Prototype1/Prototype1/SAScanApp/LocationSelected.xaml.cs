@@ -29,8 +29,8 @@ namespace SAScanApp {
                 quantity.Text = Convert.ToString(Value);
             }
         }
-        
         private List<Model.Location> _locations;
+
         private ObservableCollection<Item> _itemList;
         private Item _prevItem;
         private bool _counterEnabled;
